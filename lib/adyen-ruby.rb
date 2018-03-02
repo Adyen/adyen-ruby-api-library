@@ -1,23 +1,35 @@
-# require "adyen/client"
+require "./adyen/client.rb"
 
-module Adyen
+class Adyen
 
-	@env = "live"
+	attr_accessor :user, :password, :checkout_api_key, :env, :client
 
-	class << self
-		attr_accessor :ws_user, :ws_pass, :env, :merchant_account
+	def initialize(user=nil, password=nil, checkout_api_key=nil, env=:live)
+		@user = user
+		@password = password
+		@checkout_api_key = checkout_api_key
+		@env = env
+		@client = Adyen::Client.new
 	end
 
-	def self.payment_url_base
-		"https://pal-%s.adyen.com/pal/servlet/Payment/" % @env
+	def env=(value)
+		if [:live, :test].include? value
+			@env = value
+		else
+			raise ArgumentError, "Invalid value for Adyen.env: '#{value}' - must be one of [:live, :test]"
+		end
 	end
 
-	def self.recurring_url_base
-		"https://pal-%s.adyen.com/pal/servlet/Recurring/" % @env
+	def payment_url_base
+		"https://pal-#{@env}.adyen.com/pal/servlet/Payment/"
 	end
 
-	def self.checkout_url_base
-		"https://checkout-%s.adyen.com/services/PaymentSetupAndVerification/" % @env
+	def recurring_url_base
+		"https://pal-#{@env}.adyen.com/pal/servlet/Recurring/"
+	end
+
+	def checkout_url_base
+		"https://checkout-#{@env}.adyen.com/services/PaymentSetupAndVerification/"
 	end
 
 end
