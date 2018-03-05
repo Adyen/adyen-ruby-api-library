@@ -27,9 +27,9 @@ adyen.Checkout.payments({
   :merchantReference => "your_unqiue_ref",
   :merchantAccount => "YourMerchantAccount",
   :card => {
-    "number" => 4111111111111111,
-    "expiryMonth" => 08,
-    "expiryYear" => 09,
-    "holderName" => "John Doe"
+    :number => 4111111111111111,
+    :expiryMonth => 08,
+    :expiryYear => 09,
+    :holderName => "John Doe"
   }
 })
