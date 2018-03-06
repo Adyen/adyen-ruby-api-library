@@ -12,7 +12,7 @@ Ruby 2.0>=
 ```ruby
 require 'adyen'
 
-adyen = Adyen::Adyen.new
+adyen = Adyen::Client.new
 adyen.api_key = 'AF5XXXXXXXXXXXXXXXXXXXX'
 ```
 
@@ -33,3 +33,11 @@ adyen.Checkout.payments({
     :holderName => "John Doe"
   }
 })
+```
+
+## Developmnet and Testing
+
+Install requirements with ```bundle install```
+
+After adding your code, add and adjust test accordingle in `/spec/adyen_spec.rb`. 
+To run the test, run ```bundle exec rake spec```
