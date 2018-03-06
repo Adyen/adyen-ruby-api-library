@@ -35,9 +35,9 @@ adyen.Checkout.payments({
 })
 ```
 
-## Developmnet and Testing
+## Development and Testing
 
 Install requirements with ```bundle install```
 
-After adding your code, add and adjust test accordingle in `/spec/adyen_spec.rb`. 
+After adding your code, add and adjust test accordingly in `/spec/adyen_spec.rb`. 
 To run the test, run ```bundle exec rake spec```
