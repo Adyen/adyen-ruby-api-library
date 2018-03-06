@@ -24,4 +24,6 @@ RSpec.describe Adyen do
     puts @shared_values[:client].inspect
     expect(@shared_values[:client].checkout.payments.detail({})).not_to be nil
   end
+
+  
 end

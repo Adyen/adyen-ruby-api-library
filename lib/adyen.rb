@@ -1,3 +1,6 @@
 require_relative "adyen/version"
 require_relative "adyen/client"
 require_relative "adyen/services/checkout"
+require_relative "adyen/services/payments"
+require_relative "adyen/services/payouts"
+require_relative "adyen/services/recurring"
