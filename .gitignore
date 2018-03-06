@@ -1,2 +1,6 @@
 design.txt
 /Gemfile.lock
+
+# VSCode
+.vs
+*.code-workspace
