@@ -27,7 +27,7 @@ module Adyen
 		end
 
 		def call_adyen_api(service, action, request)
-			url = service_url_base(service, endpoint)
+			url = service_url_base(service, action)
 			url
     end
 
