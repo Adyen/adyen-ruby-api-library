@@ -22,11 +22,11 @@ module Adyen
 			end
 		end
 
-		def service_url_base(service, endpoint)
+		def service_url_base(service, action)
 			"https://pal-#{@env}.adyen.com/pal/servlet/#{service}/#{endpoint}"
 		end
 
-		def call_adyen_api(service, endpoint, request)
+		def call_adyen_api(service, action, request)
 			url = service_url_base(service, endpoint)
 			url
     end
