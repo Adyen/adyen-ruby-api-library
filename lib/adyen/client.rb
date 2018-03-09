@@ -28,8 +28,7 @@ module Adyen
 
 		def call_adyen_api(service, action, request)
 			url = service_url_base(service, action)
-			url
-    end
+    	end
 
 		def checkout
 			@checkout ||= Adyen::Checkout.new(self)
