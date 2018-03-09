@@ -2,11 +2,11 @@ module Adyen
   class Checkout
     def initialize(client)
       @client = client
-      @service = 'Checkout'
+      @service = 'PaymentSetupAndVerification'
     end
 
     def payments(request)
-      action = 'Payments'
+      action = 'payments'
       @client.call_adyen_api(@service, action, request)
     end
 
@@ -16,18 +16,13 @@ module Adyen
       when 0
         Adyen::CheckoutDetail.new(@client)
       when 1
-        action = 'Payments'
+        action = 'payments'
         @client.call_adyen_api(@service, action, args[0])
       end
     end
 
     def paymentMethods(request)
-      action = 'PaymentMethods'
-      @client.call_adyen_api(@service, action, request)
-    end
-
-    def paymentDetail(request)
-      action = 'Payments/detail'
+      action = 'paymentMethods'
       @client.call_adyen_api(@service, action, request)
     end
 
@@ -45,10 +40,10 @@ module Adyen
   class CheckoutDetail
     def initialize(client)
       @client = client
-      @service = 'Checkout'
+      @service = 'PaymentSetupAndVerification'
     end
     def detail(request)
-      action = 'Payments/detail'
+      action = 'payments/detail'
       @client.call_adyen_api(@service, action, request)
     end
   end
