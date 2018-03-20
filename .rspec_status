@@ -1,6 +1,6 @@
 example_id                | status | run_time        |
 ------------------------- | ------ | --------------- |
-./spec/adyen_spec.rb[1:1] | passed | 0.00052 seconds |
-./spec/adyen_spec.rb[1:2] | passed | 0.00019 seconds |
-./spec/adyen_spec.rb[1:3] | passed | 0.00017 seconds |
-./spec/adyen_spec.rb[1:4] | passed | 0.00018 seconds |
+./spec/adyen_spec.rb[1:1] | passed | 0.0006 seconds  |
+./spec/adyen_spec.rb[1:2] | passed | 0.00012 seconds |
+./spec/adyen_spec.rb[1:3] | passed | 0.00104 seconds |
+./spec/adyen_spec.rb[1:4] | passed | 0.00147 seconds |

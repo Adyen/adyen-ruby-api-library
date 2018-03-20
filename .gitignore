@@ -4,3 +4,6 @@ design.txt
 # VSCode
 .vs
 *.code-workspace
+
+.rspec
+.rspec_status

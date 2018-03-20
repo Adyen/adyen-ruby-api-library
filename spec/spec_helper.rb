@@ -1,5 +1,5 @@
-require "bundler/setup"
-require "adyen"
+# require "bundler/setup"
+require_relative "../lib/adyen"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

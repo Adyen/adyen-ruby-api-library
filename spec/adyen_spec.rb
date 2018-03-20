@@ -1,4 +1,4 @@
-# require_relative "../lib/adyen"
+require "spec_helper"
 
 RSpec.describe Adyen do
   before(:all) do
@@ -15,15 +15,13 @@ RSpec.describe Adyen do
     puts @shared_values[:client].inspect
   end
 
-  it "executed Checkout.payments()" do
-    puts @shared_values[:client].inspect
-    expect(@shared_values[:client].checkout.payments({})).not_to be nil
+  it "fails checkout calls without API key" do
+    expect{@shared_values[:client].checkout.paymentMethods("{}")}.to raise_error(ArgumentError)
   end
 
-  it "executed Checkout.payments.details()" do
-    puts @shared_values[:client].inspect
-    expect(@shared_values[:client].checkout.payments.detail({})).not_to be nil
+  it "sets API key" do
+    @shared_values[:client].api_key = "api_key"
+    expect(@shared_values[:client].api_key).to eq("api_key")
   end
 
-  
 end
