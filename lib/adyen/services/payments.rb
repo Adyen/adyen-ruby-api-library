@@ -2,7 +2,7 @@ module Adyen
     class Payments
         def initialize(client)
             @client = client
-            @service = 'Payments'
+            @service = 'Payment'
         end
 
         def authorise(request)

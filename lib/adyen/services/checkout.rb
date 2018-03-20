@@ -1,10 +1,10 @@
 module Adyen
+  
   class Checkout
     def initialize(client)
       @client = client
       @service = 'PaymentSetupAndVerification'
     end
-
     def payments(*args)
       # This arguement length checker is to enable payments() and payments.detail()
       case args.size
@@ -15,17 +15,14 @@ module Adyen
         @client.call_adyen_api(@service, action, args[0])
       end
     end
-
     def paymentMethods(request)
       action = 'paymentMethods'
       @client.call_adyen_api(@service, action, request)
     end
-
     def setup(request)
       action = 'setup'
       @client.call_adyen_api(@service, action, request)
     end
-
     def verify(request)
       action = 'verify'
       @client.call_adyen_api(@service, action, request)
@@ -37,7 +34,6 @@ module Adyen
       @client = client
       @service = 'PaymentSetupAndVerification'
     end
-    
     def details(request)
       action = 'payments/detail'
       @client.call_adyen_api(@service, action, request)
