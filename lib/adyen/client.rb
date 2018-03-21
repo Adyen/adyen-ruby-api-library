@@ -65,9 +65,9 @@ module Adyen
 				req.body = request_data
 			end
 
-    	end
+		end
 
-    	# services
+		# services
 		def checkout
 			@checkout ||= Adyen::Checkout.new(self)
 		end
