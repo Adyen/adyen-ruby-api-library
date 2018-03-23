@@ -1,5 +1,5 @@
 
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path("lib", __DIR__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "adyen/version"
 
@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Adyen"]
   spec.email         = [""]
 
-  spec.summary       = %q{API Library for Adyen APIs}
-  spec.description   = %q{Simplify Adyen API Integration by providing library.}
+  spec.summary       = "API Library for Adyen APIs"
+  spec.description   = "Simplify Adyen API Integration by providing a library"
   spec.homepage      = "https://www.adyen.com"
   spec.license       = "MIT"
 

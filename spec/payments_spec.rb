@@ -1,4 +1,5 @@
 require "spec_helper"
+require_relative "../lib/adyen/errors"
 
 RSpec.describe Adyen::Payments, service: "payments" do
   before(:all) do
@@ -12,9 +13,9 @@ RSpec.describe Adyen::Payments, service: "payments" do
 
   context "payments API" do
     it "fails payments call without WS user and password" do
-      expect{ @shared_values[:client].payments.authorise("{}") }.to raise_error(ArgumentError)
+      expect{ @shared_values[:client].payments.authorise("{}") }.to raise_error(Adyen::AuthenticationError)
       @shared_values[:client].ws_user = "user"
-      expect{ @shared_values[:client].payments.authorise("{}") }.to raise_error(ArgumentError)
+      expect{ @shared_values[:client].payments.authorise("{}") }.to raise_error(Adyen::AuthenticationError)
     end
 
     it "sets webservice user and password" do

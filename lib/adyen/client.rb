@@ -1,5 +1,7 @@
 require "faraday"
 
+require_relative "./errors"
+
 module Adyen
   class Client
     attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
@@ -35,10 +37,10 @@ module Adyen
       # make sure right authentication has been provided
       case service
       when "PaymentSetupAndVerification"
-        raise ArgumentError, "Checkout API-key not set" if @api_key.nil?
-        auth_type = "x-api-key"
+        raise Adyen::PermissionError.new("Checkout API-key not set", request_data), "Checkout API-key not set" if @api_key.nil?
+        auth_type = "api-key"
       when "Payment", "Recurring", "Payout"
-        raise ArgumentError, "Client.user and client.password must be set" if @password.nil? || @user.nil?
+        raise Adyen::AuthenticationError.new("Client.user and client.password must be set", request_data), "Client.user and client.password must be set" if @password.nil? || @user.nil?
         auth_type = "basic"
       end
 
@@ -51,22 +53,31 @@ module Adyen
         case auth_type
         when "basic"
           faraday.basic_auth(@user, @password)
-        when "x-api-key"
+        when "api-key"
           faraday.headers["x-api-key"] = @api_key
         end
       end
 
       # post request to Adyen
       begin
-        conn.post do |req|
+        response = conn.post do |req|
           req.body = request_data
         end
 
-      # handle API errors
+      # handle client errors
       rescue Faraday::ConnectionFailed => connection_error
-        puts connection_error
-        puts "Please confirm that Client.env is set to the right value (:live or :test)"
+        raise connection_error, "Please confirm that Client.env is set to the right value (:live or :test)"
       end
+
+      # check for API errors
+      case response.status
+      when 401
+        raise Adyen::AuthenticationError("Invalid webservice username / password", request_data)
+      when 403
+        raise Adyen::PermissionError.new("Invalid Checkout API key", request_data)
+      end
+
+      response
     end
 
     # services
