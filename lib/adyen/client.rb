@@ -64,7 +64,8 @@ module Adyen
 
       # handle API errors
       rescue Faraday::ConnectionFailed => connection_error
-        puts "ConnectionFailed - #{connection_error}"
+        puts connection_error
+        puts "Please confirm that Client.env is set to the right value (:live or :test)"
       end
     end
 
