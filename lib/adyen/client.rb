@@ -13,26 +13,38 @@ module Adyen
       @api_key = api_key
       @env = env
       @adapter = adapter || Faraday.default_adapter
+
+      @mock_port = 8765
     end
 
     # make sure that env can only be live or test
     def env=(value)
-      raise ArgumentError, "Invalid value for Client.env: '#{value}'' - must be one of [:live, :test]" unless [:live, :test].include? value
+      raise ArgumentError, "Invalid value for Client.env: '#{value}'' - must be one of [:live, :test, :mock]" unless [:live, :test, :mock].include? value
       @env = value
     end
 
-    # construct full URL from service and endpoint
-    def service_url_base(service, action)
-      if service == "PaymentSetupAndVerification"
-        "https://checkout-#{@env}.adyen.com/services/#{service}/#{action}"
+    # base URL for API given service and @env
+    def service_url_base(service)
+      if @env == :mock then
+        "http://localhost:#{@mock_port}"
       else
-        "https://pal-#{@env}.adyen.com/pal/servlet/#{service}/#{action}"
+        case service
+        when "PaymentSetupAndVerification"
+          "https://checkout-#{@env}.adyen.com/services"
+        else
+          "https://pal-#{@env}.adyen.com/pal/servlet"
+        end
       end
+    end
+
+    # construct full URL from service and endpoint
+    def service_url(service, action)
+      "#{service_url_base(service)}/#{service}/#{action}"
     end
 
     # send request to adyen API
     def call_adyen_api(service, action, request_data)
-      url = service_url_base(service, action)
+      url = service_url(service, action)
 
       # make sure right authentication has been provided
       case service
