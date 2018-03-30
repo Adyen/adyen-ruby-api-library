@@ -1,4 +1,8 @@
 require "faraday"
+require "json"
+require "active_support"
+require "active_support/core_ext"
+require "rexml/document"
 
 require_relative "./errors"
 
@@ -7,14 +11,23 @@ module Adyen
     attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
     attr_reader :env
 
-    def initialize(user = nil, password = nil, api_key = nil, env = :live, adapter = nil)
+    REQUIRED_FIELDS = {
+      PaymentSetupAndVerification: {
+        payments: [:amount, :merchantAccount, :paymentMethod, :reference, :returnUrl],
+        paymentMethods: [:merchantAccount],
+        "payments/details".to_sym => [:details, :paymentData],
+        setup: [:amount, :channel, :countryCode, :merchantAccount, :reference, :returnUrl],
+        verify: [:payload]
+      }
+    }.freeze
+
+    def initialize(user = nil, password = nil, api_key = nil, env = :live, adapter = nil, mock_port = 3001)
       @user = user
       @password = password
       @api_key = api_key
       @env = env
       @adapter = adapter || Faraday.default_adapter
-
-      @mock_port = 8765
+      @mock_port = mock_port
     end
 
     # make sure that env can only be live or test
@@ -25,7 +38,7 @@ module Adyen
 
     # base URL for API given service and @env
     def service_url_base(service)
-      if @env == :mock then
+      if @env == :mock
         "http://localhost:#{@mock_port}"
       else
         case service
@@ -42,8 +55,43 @@ module Adyen
       "#{service_url_base(service)}/#{service}/#{action}"
     end
 
+    # validate string to be sent to API
+    def check_request_validity(service, action, request)
+      # create error for use later
+      error_message = "Request data must be a json-parsable string"
+      error_object = Adyen::ValidationError.new(error_message, request)
+
+      # type checking (not really rubinic)
+      raise error_object, error_message if !request.is_a?(String)
+      begin
+        # attempt to parse request string
+        mappable_request = JSON.parse(request)
+      rescue JSON::ParserError
+        raise error_object, error_message
+      end
+
+      # make sure all required fields are present
+      missing_fields = []
+      REQUIRED_FIELDS[service.to_sym][action.to_sym].map do |required_field|
+        key_present = false
+        mappable_request.keys.map do |json_key|
+          if json_key.to_sym == required_field
+            key_present = true
+            break
+          end
+        end
+        if !key_present
+          missing_fields << required_field
+        end
+      end
+
+      # raise an error if a field is missing
+      raise Adyen::ValidationError.new("Missing required field(s) #{missing_fields} in request", request), "Missing required field(s) #{missing_fields} in request" unless missing_fields.empty?
+    end
+
     # send request to adyen API
     def call_adyen_api(service, action, request_data)
+      # get URL for requested endpoint
       url = service_url(service, action)
 
       # make sure right authentication has been provided
@@ -55,6 +103,9 @@ module Adyen
         raise Adyen::AuthenticationError.new("Client.user and client.password must be set", request_data), "Client.user and client.password must be set" if @password.nil? || @user.nil?
         auth_type = "basic"
       end
+
+      # validate request
+      check_request_validity(service, action, request_data)
 
       # initialize Faraday connection object
       conn = Faraday.new(url: url) do |faraday|
@@ -84,7 +135,7 @@ module Adyen
       # check for API errors
       case response.status
       when 401
-        raise Adyen::AuthenticationError("Invalid webservice username / password", request_data)
+        raise Adyen::AuthenticationError.new("Invalid webservice username / password", request_data)
       when 403
         raise Adyen::PermissionError.new("Invalid Checkout API key", request_data)
       end

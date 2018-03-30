@@ -55,6 +55,15 @@ module Adyen
     end
   end
 
+  class ValidationError < AdyenError
+    def initialize(msg, request)
+      @code = nil
+      @response = nil
+      @request = request
+      @msg = msg
+    end
+  end
+
   # catchall for errors which don't have more specific classes
   class APIError < AdyenError
     def initialize(msg, request, response, code)

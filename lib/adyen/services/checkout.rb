@@ -39,7 +39,7 @@ module Adyen
     end
 
     def details(request)
-      action = 'payments/detail'
+      action = 'payments/details'
       @client.call_adyen_api(@service, action, request)
     end
   end
