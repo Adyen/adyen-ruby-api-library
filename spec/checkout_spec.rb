@@ -27,12 +27,19 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
 
   context "checkout API" do
     it "fails checkout call without API key" do
-      expect{ @shared_values[:client].checkout.payment_methods("{}") }.to raise_error(Adyen::PermissionError)
+      expect{ @shared_values[:client].checkout.payment_methods("{}") }.
+        to raise_error(Adyen::PermissionError)
     end
 
     it "sets API key" do
       @shared_values[:client].api_key = @shared_values[:test_api_key]
       expect(@shared_values[:client].api_key).to eq(@shared_values[:test_api_key])
+    end
+
+    it "rejects a request which is missing required parameters" do
+      request_body = "{}"
+      expect{ @shared_values[:client].checkout.payment_methods(request_body) }.
+        to raise_error(Adyen::ValidationError)
     end
 
     it "returns a JSON object from a payment_methods call" do
@@ -46,7 +53,8 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         ]
       }'
 
-      WebMock.stub_request(:post, @shared_values[:client].service_url(@shared_values[:service], "paymentMethods")).
+      url = @shared_values[:client].service_url(@shared_values[:service], "paymentMethods")
+      WebMock.stub_request(:post, url).
         with(
           body: request_body,
           headers: { "x-api-key" => @shared_values[:test_api_key] }
@@ -56,9 +64,12 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         )
       response = @shared_values[:client].checkout.payment_methods(request_body)
 
-      expect(response.status).to eq(200)
-      expect(JSON.parse(response.body).class).to be Hash
-      expect(response.body).to eq(response_body)
+      expect(response.status).
+        to eq(200)
+      expect(JSON.parse(response.body).class).
+        to be Hash
+      expect(response.body).
+        to eq(response_body)
     end
 
     it "submits a test payment" do
@@ -84,7 +95,23 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         "resultCode": "Authorised"
       }'
 
-      # response = @shared_values[:client].checkout.payments(request_body)
+      url = @shared_values[:client].service_url(@shared_values[:service], "payments")
+      WebMock.stub_request(:post, url).
+        with(
+          body: request_body,
+          headers: { "x-api-key" => @shared_values[:test_api_key] }
+        ).
+        to_return(
+          body: response_body
+        )
+      response = @shared_values[:client].checkout.payments(request_body)
+
+      expect(response.status).
+        to eq(200)
+      expect(JSON.parse(response.body).class).
+        to be Hash
+      expect(response.body).
+        to eq(response_body)
     end
 
     it "completes a setup call successfully" do
@@ -99,7 +126,30 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         \"reference\": \"Ruby SDK test transaction\",
         \"merchantAccount\": \"#{@shared_values[:test_merchant_account]}\"
       }"
-      # response = @shared_values[:client].checkout.setup(request_body)
+
+      response_body = '{
+        "disableRecurringDetailUrl": "someURL",
+        "generationTime": "2018-04-03T22:52:19Z",
+        "html": "<body></body>"
+      }'
+
+      url = @shared_values[:client].service_url(@shared_values[:service], "setup")
+      WebMock.stub_request(:post, url).
+        with(
+          body: request_body,
+          headers: { "x-api-key" => @shared_values[:test_api_key] }
+        ).
+        to_return(
+          body: response_body
+        )
+      response = @shared_values[:client].checkout.setup(request_body)
+
+      expect(response.status).
+        to eq(200)
+      expect(JSON.parse(response.body).class).
+        to be Hash
+      expect(response.body).
+        to eq(response_body)
     end
   end
 end
