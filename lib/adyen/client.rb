@@ -44,8 +44,12 @@ module Adyen
         case service
         when "PaymentSetupAndVerification"
           "https://checkout-#{@env}.adyen.com/services"
-        else
+        when "Account", "Fund", "Notification"
+          "https://cal-#{@env}.adyen.com/cal/services"
+        when "Recurring", "Payment"
           "https://pal-#{@env}.adyen.com/pal/servlet"
+        else
+          raise ArgumentError, "Invalid service specified"
         end
       end
     end
@@ -158,6 +162,10 @@ module Adyen
 
     def recurring
       @recurring ||= Adyen::Recurring.new(self)
+    end
+
+    def marketpay
+      @marketpay ||= Adyen::Marketpay::Marketpay.new(self)
     end
   end
 end
