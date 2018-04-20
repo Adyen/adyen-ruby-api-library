@@ -55,8 +55,8 @@ module Adyen
     end
 
     # construct full URL from service and endpoint
-    def service_url(service, action)
-      "#{service_url_base(service)}/#{service}/#{action}"
+    def service_url(service, action, version)
+      "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
     end
 
     # validate string to be sent to API
@@ -94,9 +94,9 @@ module Adyen
     end
 
     # send request to adyen API
-    def call_adyen_api(service, action, request_data)
+    def call_adyen_api(service, action, request_data, version)
       # get URL for requested endpoint
-      url = service_url(service, action)
+      url = service_url(service, action, version)
 
       # make sure right authentication has been provided
       case service
