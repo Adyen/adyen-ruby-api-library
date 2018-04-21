@@ -11,7 +11,8 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       test_merchant_account: "TestMerchant",
       test_api_key: "test_api_key",
       test_payment_currency: "EUR",
-      service: "PaymentSetupAndVerification"
+      service: "PaymentSetupAndVerification",
+      version: 32
     }
   end
 
@@ -53,7 +54,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         ]
       }'
 
-      url = @shared_values[:client].service_url(@shared_values[:service], "paymentMethods")
+      url = @shared_values[:client].service_url(@shared_values[:service], "paymentMethods", @shared_values[:version])
       WebMock.stub_request(:post, url).
         with(
           body: request_body,
@@ -95,7 +96,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         "resultCode": "Authorised"
       }'
 
-      url = @shared_values[:client].service_url(@shared_values[:service], "payments")
+      url = @shared_values[:client].service_url(@shared_values[:service], "payments", @shared_values[:version])
       WebMock.stub_request(:post, url).
         with(
           body: request_body,
@@ -133,7 +134,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         "html": "<body></body>"
       }'
 
-      url = @shared_values[:client].service_url(@shared_values[:service], "setup")
+      url = @shared_values[:client].service_url(@shared_values[:service], "setup", @shared_values[:version])
       WebMock.stub_request(:post, url).
         with(
           body: request_body,
