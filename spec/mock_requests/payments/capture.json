@@ -1,0 +1,8 @@
+{
+  "merchantAccount": "TestMerchant",
+  "originalReference": "8123456789012345",
+  "modificationAmount": {
+    "value": 2000,
+    "currency": "EUR"
+  }
+}

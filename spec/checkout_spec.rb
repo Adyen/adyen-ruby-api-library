@@ -1,6 +1,7 @@
 require "spec_helper"
 require "json"
 require_relative "../lib/adyen/errors"
+require_relative "../lib/adyen/validation"
 
 # rubocop:disable Metrics/BlockLength
 
@@ -44,15 +45,8 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     end
 
     it "returns a JSON object from a payment_methods call" do
-      request_body = "{
-        \"merchantAccount\": \"#{@shared_values[:test_merchant_account]}\"
-      }"
-      response_body = '{
-        "paymentMethods": [
-          { "name": "Method1", "type": "Method1" },
-          { "name": "Method2", "type": "Method2" }
-        ]
-      }'
+      request_body = json_from_file("mock_requests/checkout/payment-methods.json")
+      response_body = json_from_file("mock_responses/checkout/payment-methods.json")
 
       url = @shared_values[:client].service_url(@shared_values[:service], "paymentMethods", @shared_values[:version])
       WebMock.stub_request(:post, url).
@@ -67,10 +61,12 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
 
       expect(response.status).
         to eq(200)
-      expect(JSON.parse(response.body).class).
-        to be Hash
       expect(response.body).
         to eq(response_body)
+      expect((parsed_body = JSON.parse(response.body)).class).
+        to be Hash
+      expect(parsed_body["paymentMethods"].class).
+        to be Array
     end
 
     it "submits a test payment" do

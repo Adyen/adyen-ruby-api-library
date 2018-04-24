@@ -1,0 +1,66 @@
+{
+    "paymentMethods": [
+        {
+            "details": [
+                {
+                    "key": "additionalData.card.encrypted.json",
+                    "type": "cardToken"
+                }
+            ],
+            "name": "Credit Card",
+            "type": "scheme"
+        },
+        {
+            "details": [
+                {
+                    "items": [
+                        {
+                            "id": "0721",
+                            "name": "ING"
+                        },
+                        {
+                            "id": "0511",
+                            "name": "Triodos Bank"
+                        },
+                        {
+                            "id": "0761",
+                            "name": "ASN Bank"
+                        },
+                        {
+                            "id": "0751",
+                            "name": "SNS Bank"
+                        },
+                        {
+                            "id": "0771",
+                            "name": "RegioBank"
+                        },
+                        {
+                            "id": "0031",
+                            "name": "ABN Amro"
+                        },
+                        {
+                            "id": "0021",
+                            "name": "Rabobank"
+                        },
+                        {
+                            "id": "0161",
+                            "name": "Van Lanschot Bankiers"
+                        },
+                        {
+                            "id": "0802",
+                            "name": "bunq"
+                        },
+                        {
+                            "id": "0801",
+                            "name": "Knab"
+                        }
+                    ],
+                    "key": "idealIssuer",
+                    "type": "select"
+                }
+            ],
+            "name": "iDEAL",
+            "type": "ideal"
+        }
+    ]
+}

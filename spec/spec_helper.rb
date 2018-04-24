@@ -15,3 +15,8 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+# prepends file directory onto filepath
+def json_from_file(filepath)
+  File.read("#{File.dirname(__FILE__)}/#{filepath}")
+end

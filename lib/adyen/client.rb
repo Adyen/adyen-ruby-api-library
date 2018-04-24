@@ -5,21 +5,12 @@ require "active_support/core_ext"
 require "rexml/document"
 
 require_relative "./errors"
+require_relative "./validation"
 
 module Adyen
   class Client
     attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
     attr_reader :env
-
-    REQUIRED_FIELDS = {
-      PaymentSetupAndVerification: {
-        payments: [:amount, :merchantAccount, :paymentMethod, :reference, :returnUrl],
-        paymentMethods: [:merchantAccount],
-        "payments/details".to_sym => [:details, :paymentData],
-        setup: [:amount, :channel, :countryCode, :merchantAccount, :reference, :returnUrl],
-        verify: [:payload]
-      }
-    }.freeze
 
     def initialize(user = nil, password = nil, api_key = nil, env = :live, adapter = nil, mock_port = 3001)
       @user = user
@@ -76,7 +67,7 @@ module Adyen
 
       # make sure all required fields are present
       missing_fields = []
-      REQUIRED_FIELDS[service.to_sym][action.to_sym].map do |required_field|
+      Adyen::Validation::REQUIRED_FIELDS[service.to_sym][action.to_sym].map do |required_field|
         key_present = false
         mappable_request.keys.map do |json_key|
           if json_key.to_sym == required_field

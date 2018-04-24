@@ -1,0 +1,12 @@
+{
+    "merchantAccount" : "TestMerchant",
+    "modificationAmount" : {
+        "currency" : "EUR",
+        "value" : 1500
+    },
+    "originalReference" : "8123456789012345",
+    "reference" : "Adjust Authorisation",
+    "additionalData" : {
+        "industryUsage" : "DelayedCharge"
+    }
+}

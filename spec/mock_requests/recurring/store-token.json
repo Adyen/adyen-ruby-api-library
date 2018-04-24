@@ -1,0 +1,15 @@
+{
+  "card": {
+    "number": "4111111111111111",
+    "expiryMonth": "8",
+    "expiryYear": "2018",
+    "cvc": "737",
+    "holderName": "John Smith"
+  },
+  "reference": "Merchant Reference",
+  "merchantAccount": "TestMerchant",
+  "shopperReference": "shopperReference",
+  "recurring": {
+    "contract": "RECURRING"
+  }
+}

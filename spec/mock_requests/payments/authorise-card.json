@@ -1,0 +1,28 @@
+{
+  "card": {
+    "number": "4111111111111111",
+    "expiryMonth": "08",
+    "expiryYear": "2018",
+    "holderName": "Test Person",
+    "cvc": "737"
+  },
+  "amount": {
+    "value": 1500,
+    "currency": "EUR"
+  },
+  "billingAddress" : {
+    "country" : "US",
+    "city" : "Cupertino",
+    "street" : "Infinite Loop",
+    "houseNumberOrName" : "1",
+    "stateOrProvince" : "CA",
+    "postalCode" : "95014"
+  },
+  "channel": "Web",
+  "countryCode": "US",
+  "returnUrl": "www.example.com",
+  "shopperLocale": "en_GB",
+  "shopperCountry": "US",
+  "reference": "Merchant Reference",
+  "merchantAccount": "TestMerchant"
+}

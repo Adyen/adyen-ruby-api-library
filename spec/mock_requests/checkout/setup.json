@@ -1,0 +1,15 @@
+{
+  "amount": {
+    "value": 1500,
+    "currency": "EUR"
+  },
+  "channel": "Web",
+  "countryCode": "US",
+  "html": true,
+  "origin": "www.example.com",
+  "returnUrl": "www.example.com",
+  "shopperLocale": "en_GB",
+  "shopperCountry": "US",
+  "reference": "Merchant Reference",
+  "merchantAccount": "TestMerchant"
+}
