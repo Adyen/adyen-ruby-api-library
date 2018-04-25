@@ -45,58 +45,21 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     end
 
     it "returns a JSON object from a payment_methods call" do
-      request_body = json_from_file("mock_requests/checkout/payment-methods.json")
-      response_body = json_from_file("mock_responses/checkout/payment-methods.json")
-
-      url = @shared_values[:client].service_url(@shared_values[:service], "paymentMethods", @shared_values[:version])
-      WebMock.stub_request(:post, url).
-        with(
-          body: request_body,
-          headers: { "x-api-key" => @shared_values[:test_api_key] }
-        ).
-        to_return(
-          body: response_body
-        )
-      response = @shared_values[:client].checkout.payment_methods(request_body)
-
-      expect(response.status).
-        to eq(200)
-      expect(response.body).
-        to eq(response_body)
-      expect((parsed_body = JSON.parse(response.body)).class).
-        to be Hash
+      parsed_body = create_test(@shared_values, "payment_methods", @shared_values[:client].checkout)
       expect(parsed_body["paymentMethods"].class).
         to be Array
     end
 
     it "submits a test payment" do
-      request_body = json_from_file("mock_requests/checkout/authorise-card.json")
-      response_body = json_from_file("mock_responses/authorise-success.json")
-
-      url = @shared_values[:client].service_url(@shared_values[:service], "payments", @shared_values[:version])
-      WebMock.stub_request(:post, url).
-        with(
-          body: request_body,
-          headers: { "x-api-key" => @shared_values[:test_api_key] }
-        ).
-        to_return(
-          body: response_body
-        )
-      response = @shared_values[:client].checkout.payments(request_body)
-
-      expect(response.status).
-        to eq(200)
-      expect(response.body).
-        to eq(response_body)
-      expect((parsed_body = JSON.parse(response.body)).class).
-        to be Hash
+      parsed_body = create_test(@shared_values, "payments", @shared_values[:client].checkout)
       expect(parsed_body["resultCode"]).
         to eq("Authorised")
     end
 
+    # must be created manually due to payments/details format
     it "makes a payments/details call" do
-      request_body = json_from_file("mock_requests/checkout/payment-details.json")
-      response_body = json_from_file("mock_responses/checkout/payment-details.json")
+      request_body = json_from_file("mocks/requests/PaymentSetupAndVerification/payment-details.json")
+      response_body = json_from_file("mocks/responses/PaymentSetupAndVerification/payment-details.json")
 
       url = @shared_values[:client].service_url(@shared_values[:service], "payments/details", @shared_values[:version])
       WebMock.stub_request(:post, url).
