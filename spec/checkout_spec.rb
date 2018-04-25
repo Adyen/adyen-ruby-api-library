@@ -50,6 +50,18 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         to be Array
     end
 
+    it "makes a setup call" do
+      parsed_body = create_test(@shared_values, "setup", @shared_values[:client].checkout)
+      expect(parsed_body["paymentMethods"].class).
+        to be Array
+    end
+
+    it "makes a verify call" do
+      parsed_body = create_test(@shared_values, "verify", @shared_values[:client].checkout)
+      expect(parsed_body["authResponse"]).
+        to eq("Authorised")
+    end
+
     it "submits a test payment" do
       parsed_body = create_test(@shared_values, "payments", @shared_values[:client].checkout)
       expect(parsed_body["resultCode"]).

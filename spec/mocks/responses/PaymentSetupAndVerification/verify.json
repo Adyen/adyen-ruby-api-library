@@ -1,0 +1,121 @@
+{
+    "additionalData": {
+        "fraudResultType": "GREEN",
+        "authCode": "4798",
+        "avsResult": "4 AVS not supported for this card type",
+        "riskProfile": "ColinRood",
+        "fraudManualReview": "false",
+        "refusalReasonRaw": "AUTHORISED",
+        "cvcResult": "1 Matches",
+        "aliasType": "Default",
+        "avsResultRaw": "4",
+        "alias": "H167852639363479",
+        "cvcResultRaw": "1",
+        "acquirerCode": "TestPmmAcquirer",
+        "acquirerReference": "7F5HKVQO5PN"
+    },
+    "fraudResult": {
+        "accountScore": 73,
+        "results": [
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            },
+            {
+                "FraudCheckResult": {
+                    "accountScore": 0,
+                    "checkId": 0
+                }
+            }
+        ]
+    },
+    "pspReference": "8835169145993935",
+    "authResponse": "Authorised",
+    "merchantReference": "Localhost checkout"
+}

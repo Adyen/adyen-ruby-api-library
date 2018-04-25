@@ -1,0 +1,572 @@
+{
+    "disableRecurringDetailUrl": "https://checkoutshopper-test.adyen.com/checkoutshopper/services/PaymentInitiation/v1/disableRecurringDetail",
+    "generationtime": "2018-04-25T18:16:24Z",
+    "html": "\n\n\n\n\n\n<div class=\"chckt-sdk\" id=\"co-1524680184593-525\" data-payment-container>\n\n    <div class=\"chckt-mustache-templates\">\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"textFieldType\">\n        <label class=\"chckt-form-label chckt-form-label--full-width\" data-enrich=\"{{key}}\" >\n    <span class=\"chckt-form-label__text\">{{{translateHelper key}}}:</span>\n    {{! Returnfieldtype will create a js variable from the key and attach it to the class of the field }}\n    <input class=\"chckt-input-field {{{returnFieldTypeHelper key}}}\" name=\"{{key}}\" placeholder=\"{{placeholder}}\" data-shopper-locale=\"{{h_shopperLocale}}\" type=\"text\" size=\"20\"\n           onkeyup=\"{{returnTextFieldTypeFnyHelper key}}\"\n           {{#if @root.addExtraTextEvents}}\n           onkeypress=\"{{returnTextFieldKeyPressFnyHelper key}}\"\n           oninput=\"{{returnTextFieldInputFnyHelper key}}\"\n           onfocus=\"return chckt.textFieldSetFocus(this, true)\"\n           onblur=\"return chckt.textFieldSetFocus(this, false)\"\n           {{/if}}\n           />\n</label>\n\n\n\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"checkboxFieldType\">\n        <label class=\"chckt-form-label chckt-form-label--full-width\">\n    <input class=\"chckt-checkbox\" checked type=\"checkbox\" name=\"{{key}}\" value=\"true\"/>{{!-- NOTE: value=\\\"true\\\" here ensures that the checkbox, if checked, sends storeDetails:\\\"true\\\" in the paymentDetails object of the payment initiation request. Without it we send storeDetails:\\\"on\\\" which the backend doesn't recognise --}}\n    <span class=\"chckt-form-label__text\">\n        {{label}}{{#unless label}}{{translateHelper key}}{{/unless}}\n    </span>\n</label>\n\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"selectFieldType\">\n        \n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"issuerListFieldType\">\n        {{#if items}}\n    <label class=\"chckt-form-label chckt-form-label--full-width\">\n        <span class=\"chckt-form-label__text\">{{translateHelper \"idealIssuer.selectField.title\"}}:</span>\n        <select class=\"chckt-select-box js-chckt-issuer-select-box\" onchange=\"chckt.selectIssuer(this)\" name=\"{{key}}\"\n                {{#if @root.addExtraTextEvents}}\n                onfocus=\"return chckt.selectFieldSetFocus(this, true)\"\n                onblur=\"return chckt.selectFieldSetFocus(this, false)\"\n                {{/if}}\n        >\n            <option value=\"placeholder\">{{translateHelper \"idealIssuer.selectField.placeholder\"}}</option>\n            {{#items}}\n            <option value=\"{{id}}\" name=\"{{../key}}\" data-issuer-image=\"{{imageUrl}}\">{{name}}</option>\n            {{/items}}\n        </select>\n    </label>\n{{/if}}\n\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"paymentMethods\">\n        {{#if @root.SDKVersion}}\n    <div class=\"js-chckt-pm__pm-holder chckt-pm__pm-holder\">\n{{else}}\n    <form>\n{{/if}}\n\n    <input type=\"hidden\" name=\"txvariant\" value=\"{{type}}\" />\n    {{#if inputDetails}}\n        <div class=\"chckt-pm__details js-chckt-pm__details\">\n            {{#each inputDetails}}\n                {{#if @first}}\n                    <div class=\"chckt-form chckt-form--max-width\">\n                {{/if}}\n            {{/each}}\n    {{/if}}\n\n    {{#inputDetailHelper inputDetails}}\n        {{! POPULATED DYNAMICALLY VIA 'inputDetailHelper'}}\n    {{/inputDetailHelper}}\n    {{#if inputDetails}}\n        {{#each inputDetails}}\n            {{#if @first}}\n                </div>\n            {{/if}}\n        {{/each}}\n        </div>\n    {{/if}}\n\n{{#if @root.SDKVersion}}\n    </div>\n{{else}}\n    </form>\n{{/if}}\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"selectPaymentMethod\">\n        <div class=\"chckt-pm-list js-chckt-pm-list\">\n    {{^paymentMethods}}\n    <div class=\"chckt-pm-list--empty\">There are no payment methods for your combination of currency and country.</div>\n    {{/paymentMethods}}\n\n\n    {{#paymentMethods}}\n\n    {{! If recurringdetails are there... load them from the recurring object and replace the name with them... }}\n    <div class=\"chckt-pm chckt-pm-{{type}} js-chckt-pm\"  {{#inputDetailsMandatoryHelper inputDetails}} {{! Will assess inputDetails objects to see if the data-additional-required flag is needed }} {{/inputDetailsMandatoryHelper}} data-pm=\"{{type}}\">\n        <div class=\"chckt-pm__header js-chckt-pm__header\" onclick=\"return chckt.selectPaymentMethod(this, '{{type}}')\">\n            <input class=\"chckt-pm__radio-button js-chckt-pm-radio-button\" type=\"radio\" name=\"payment-method\" id=\"{{type}}\" data-chckt-submit-link=\"{{hppUrl}}\">\n            <span class=\"chckt-pm__name js-chckt-pm__name\">{{{name}}}</span>\n            <span class=\"chckt-pm__image\">\n                <img width=\"40\" src=\"{{@root.logoBaseUrl}}{{#pmImageHelper type}}{{/pmImageHelper}}@2x.png\" alt=\"{{label}}\" />\n                <span class=\"chckt-pm__image-border\"></span>\n            </span>\n        </div>\n        {{>paymentMethods shopperLocale=@root.payment.shopperLocale}}\n    </div>\n    {{/paymentMethods}}\n\n\n    {{#if paymentMethods}}\n    <div class=\"chckt-button-container js-chckt-button-container\">\n        <a class=\"chckt-pm-list__button chckt-more-pm-button js-chckt-extra-pms-button\" data-pm=\"extra-pms-button\" target=\"_blank\" onclick=\"return chckt.toggleExcessPaymentMethods(this, 'js-chckt-extra-pms-button')\">\n            <span class=\"chckt-more-pm-button__icon\">+</span><span class=\"chckt-more-pm-button__text\">{{{translateHelper \"paymentMethods.moreMethodsButton\"}}}</span>\n        </a>\n\n        {{#buttonActionHelper}}\n            {{! POPULATED DYNAMICALLY VIA 'buttonActionHelper' which places either the 'payButton' or the 'reviewButton' template here}}\n        {{/buttonActionHelper}}\n    </div>\n    {{/if}}\n\n</div>\n\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"payment\">\n        <div class=\"chckt-preloader-container\">\n    <div class=\"chckt-preloader__bar chckt-preloader__bar--loading\"></div>\n</div>\n{{>selectPaymentMethod}}\n\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"pending\">\n        <div class=\"chckt-pm__pending-message js-chckt-pending-details\">\n    {{translateHelper \"payment.processing\"}}\n</div>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"redirect-complete\">\n        <div class=\"co-charge-redirect\">\n    <div class=\"co-loader-bar\"></div>\n    Your payment is being processed.\n\n    <form method=\"get\" action=\"{{response.url}}\">\n        <input type=\"hidden\" name=\"payload\" value=\"{{response.payload}}\" />\n        <input type=\"button\" value=\"Continue\" />\n    </form>\n</div>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"redirect-details\">\n        <div class=\"chckt-pm__pending-message js-chckt-redirect\">\n    <span class=\"chckt-pm__pending-details\">{{translateHelper \"payment.redirecting\"}}</span>\n</div>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"giropay\">\n        <input type=\"hidden\" id=\"js-chckt-giropay-bic\" name=\"giropay.bic\">\n<label class=\"chckt-form-label chckt-form-label--full-width\">\n    <span class=\"chckt-form-label__text\">{{translateHelper \"giropay.searchField.placeholder\"}}:</span>\n    <input type=\"text\" autocomplete=\"false\" class=\"chckt-input-field\" id=\"js-chckt-giropay-input-field\" placeholder=\"{{translateHelper 'giropay.minimumLength'}}\" onkeyup=\"chckt.giroPayLookup(event, this, '{{@root.originKey}}', '{{giroPayIssuersUrl}}')\"/>\n</label>\n<label class=\"chckt-form-label chckt-form-label--full-width\">\n    <span class=\"chckt-form-label__text\">{{translateHelper \"giropay.searchField.placeholder\"}}:</span>\n    <select class=\"chckt-pm__giropay-suggestions\" size=\"4\" id=\"js-chckt-giropay-suggestion-list\">\n        <option disabled class=\"chckt-form-label__helper\">\n            Deutsche Bank PGK Berlin 10883 Berlin (10070024 / DEUTDEDBBER)\n        </option>\n    </select>\n</label>\n\n\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"cardFieldTypeRecurring\">\n        <div class=\"chckt-pm__recurring-details\">\n    <label class=\"chckt-form-label chckt-form-label--exp-date\">\n        <span class=\"chckt-form-label__text\">{{{translateHelper \"creditCard.expiryDateField.title\"}}}:</span>\n        <span class=\"chckt-input-field chckt-input-field--recurring\" data-cse=\"{{key}}\">{{recurring.expiryMonth}}/{{recurring.expiryYear}}</span>\n    </label>\n    <label class=\"chckt-form-label chckt-form-label--cvc\">\n        <span class=\"chckt-form-label__text js-chckt-cvc-field-label\">{{translateHelper \"creditCard.cvcField.title\"}}:</span>\n        <span class=\"chckt-input-field chckt-input-field--cvc js-chckt-hosted-input-field\" data-hosted-id=\"hostedSecurityCodeField\" data-cse=\"{{key}}\" data-optional=\"{{optional}}\"></span>\n        <span class=\"chckt-form-label__error-text\">{{translateHelper \"creditCard.oneClickVerification.invalidInput.title\"}}</span>\n    </label>\n\n    {{!--<label class=\"chckt-form-label chckt-form--labelholder\">\n        <span class=\"chckt-form-label__text js-chckt-holder-field-label\">{{{translateHelper \"cardholder_name\"}}}:</span>\n        <span class=\"chckt-input-field js-chckt-hosted-input-field\" data-hosted-id=\"hostedHolderField\" data-cse=\"{{key}}\"></span>\n        <span class=\"chckt-form-label__error-text\"></span>\n    </label>--}}\n</div>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"error\">\n        <div class=\"chckt-pm__pending-message chckt-pm__error-message js-chckt-error\">\n    {{translateHelper \"error.subtitle.payment\"}}: {{message}}\n</div>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"payButton\">\n        <button type=\"button\" class=\"chckt-button chckt-pm-list__button chckt-button--submit js-chckt-button--submit\" onclick=\"chckt.submitPaymentForm(true, event)\">\n    <span class=\"chckt-button__text-content\">\n        {{#if payment.amount.value}}\n        <span class=\"chckt-button__text\">{{translateHelper \"payButton\"}}</span>\n        <span class=\"chckt-button__amount\">{{getLocalisedAmountHelper @root.payment.amount.value @root.payment.shopperLocale @root.payment.amount.currency}}</span>\n        {{else}}\n        <span class=\"chckt-button__text\">{{translateHelper \"payButton\"}}</span>\n        {{/if}}\n    </span>\n    <span class=\"chckt-button__loading-icon\">\n        <div class=\"circle1\"></div>\n        <div class=\"circle2\"></div>\n        <div class=\"circle3\"></div>\n    </span>\n</button>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"reviewButton\">\n        <button type=\"button\" class=\"chckt-button chckt-pm-list__button chckt-button--submit js-chckt-button--submit\" onclick=\"chckt.submitPaymentForm(false, event)\">\n    <span class=\"chckt-button__text\">Review order</span>\n    <span class=\"chckt-button__loading-icon\">\n        <div class=\"circle1\"></div>\n        <div class=\"circle2\"></div>\n        <div class=\"circle3\"></div>\n    </span>\n</button>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"cardFieldCardNumber\">\n        <label class=\"chckt-form-label chckt-form-label--full-width\">\n    <span class=\"chckt-form-label__text js-chckt-card-label\" onclick=\"chckt.setFocusOnField(this, true)\">{{translateHelper \"creditCard.numberField.title\"}}:</span>\n    <span class=\"chckt-input-field js-chckt-hosted-input-field\" data-hosted-id=\"hostedCardNumberField\" data-cse=\"{{key}}\"></span>\n    <span class=\"chckt-form-label__error-text\">{{translateHelper \"creditCard.numberField.invalid\"}}</span>\n</label>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"cardFieldExpiryDate\">\n        <label class=\"chckt-form-label chckt-form-label--exp-date\">\n    <span class=\"chckt-form-label__text\" onclick=\"chckt.setFocusOnField(this, true)\">{{translateHelper \"creditCard.expiryDateField.title\"}}:</span>\n    <span class=\"chckt-input-field js-chckt-hosted-input-field\" data-hosted-id=\"hostedExpiryDateField\" data-cse=\"{{key}}\"></span>\n    <span class=\"chckt-form-label__error-text\">{{translateHelper \"creditCard.expiryDateField.invalid\"}}</span>\n</label>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"cardFieldExpiryMonth\">\n        <label class=\"chckt-form-label chckt-form-label--exp-month\">\n    <span class=\"chckt-form-label__text\" onclick=\"chckt.setFocusOnField(this, true)\">{{translateHelper \"creditCard.expiryDateField.month\"}}:</span>\n    <span class=\"chckt-input-field js-chckt-hosted-input-field\" data-hosted-id=\"hostedExpiryMonthField\" data-cse=\"{{key}}\" name=\"{{key}}\"></span>\n    <span class=\"chckt-form-label__error-text\">{{translateHelper \"creditCard.expiryDateField.invalid\"}}</span>\n</label>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"cardFieldExpiryYear\">\n        <label class=\"chckt-form-label chckt-form-label--exp-year\">\n    <span class=\"chckt-form-label__text\" onclick=\"chckt.setFocusOnField(this, true)\">{{translateHelper \"creditCard.expiryDateField.year\"}}:</span>\n    <span class=\"chckt-input-field js-chckt-hosted-input-field\" data-hosted-id=\"hostedExpiryYearField\" data-cse=\"{{key}}\"></span>\n    <span class=\"chckt-form-label__error-text\">{{translateHelper \"creditCard.expiryDateField.invalid\"}}</span>\n</label>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"cardFieldSecurityCode\">\n        <label class=\"chckt-form-label chckt-form-label--cvc\">\n    <span class=\"chckt-form-label__text js-chckt-cvc-field-label\" onclick=\"chckt.setFocusOnField(this, true)\">{{translateHelper \"creditCard.cvcField.title\"}}:</span>\n    <span class=\"chckt-input-field chckt-input-field--cvc js-chckt-hosted-input-field\" data-hosted-id=\"hostedSecurityCodeField\" data-cse=\"{{key}}\" data-optional=\"{{optional}}\"></span>\n    <span class=\"chckt-form-label__error-text\">{{translateHelper \"creditCard.oneClickVerification.invalidInput.message\"}}</span>\n</label>\n        </script>\n\n        \n        \n        <script type=\"text/template+mustache\" data-template=\"applepay\">\n        <label class=\"chckt-form-label chckt-form-label--full-width\">\n    <input class=\"chckt-applepay\" type=\"button\" name=\"{{key}}\" onclick=\"chckt.applePayButtonClicked('{{h_merchantIdentifier}}')\" />\n</label>\n\n        </script>\n\n                <noscript id=\"co-1524680184593-525-ssr\">\n        Template 'payment' not found.\n        </noscript>\n    </div>\n</div>\n\n\n\n\n\n",
+    "initiationUrl": "https://checkoutshopper-test.adyen.com/checkoutshopper/services/PaymentInitiation/v1/initiate?token=pub.v2.8115054323780109.aHR0cDovL3d3dy50ZXN0LW1lcmNoYW50LmNvbQ.wWmY6dgOP0L3lZkc-B8w1tWPls75lROTGX0RbWfgV0Y",
+    "logoBaseUrl": "https://checkoutshopper-test.adyen.com/checkoutshopper/img/pm/",
+    "origin": "http://www.test-merchant.com",
+    "originKey": "pub.v2.8115054323780109.aHR0cDovL3d3dy50ZXN0LW1lcmNoYW50LmNvbQ.wWmY6dgOP0L3lZkc-B8w1tWPls75lROTGX0RbWfgV0Y",
+    "payment": {
+        "amount": {
+            "currency": "EUR",
+            "value": 1500
+        },
+        "countryCode": "US",
+        "reference": "PM Checkout setup",
+        "sessionValidity": "2018-04-25T19:16:24Z",
+        "shopperLocale": "en_GB",
+        "shopperReference": "crrood"
+    },
+    "paymentData": "Ab02b4c0!BQABAgBeQ2V810FwD+2qzp00UscdKjkbM3C2LayIt0I3X3+UVJXpviG3nZRvpyznXA3qeNqfi/sfkMgvwgSu5nGt0CfwydFRDpJZHGbbd+q4c1BziBIHQI/MhRZe/EF62iiBqoYFc6tTyJ2prj3Aylubo+sYphGU1haB6XGB19IbBadUByS3LIzYf0qPGN7Y7cQWqq+yG/Y7ZlfpObT3fum85nyoSX0rlJ0mu1hYTn47F37qO6L7b2/wpczUvWSgQHEgqM0l4eJP4oQQR7JrK3WrwxXhdg6fbCPqVtiurqTiZb929GKP8uA1HoCQR1ZEhhdkAgZPTUDQ1ICAmtwEJwilyFC864sPiisBKaE1nHBG7DmQTZ7xKNUx3fflqu5BOf2h85Ghu3kXMw91AYoLDenn8lwy6YmyjTe3JPkWCn7/NkVbWK5VWlwRQ5kSktAEHFEC6mUCm7XBlWoStyGAsQIkMbIMiW69dh/4PBjlfmwcnZB3R8z419A2MXMXG+4cUpQnVm4G9qBp9/NCwVlVkCMdWqqcwv6tkXsU7Voukv9TpxwF2JQHz3sdvqJbEjnHpSJzdHR6EZtKoqe3pZNBY6K1WV4a7w5iT30gQbapHFjWYc/4A6PPxJXK/cfFYhim1W/KERaP2ORNQDQoU7t5+J52UfXyw+m9z2Th7BSvn2uqcBSqDxDTosWFSicp57AtR3weDGqEAEp7ImtleSI6IkFGMEFBQTEwM0NBNTM3RUFFRDg3QzI0REQ1MzkwOUI4MEE3OEE5MjNFMzgyM0Q2OERBQ0M5NEI5RkY4MzA1REMifSnGc0T0lS8hMzfQR2saTlUI2l9uVK9uRQy5jITxqznPhgdbRci0QeOsXRu8qI6vWKoB4Yplba+jDBJT9Ly4leEiG13xWqDUX4gUpd3FGvYSW7UQI/phxmmPOBNunQdVPhBr+Nh+5QEvI2/Fpkv36Nk16OZXnTqYPPiLVbvX2j/ARu/jIN7Qh6gy+4ofc7UVxxacWADOtPy9H9Nk8+pAcf9zjRxyJR8mflDXjTVBmBtIgGqfbLOtKs1lDQT3TpH7l/SDjqPuA/DGEWJp7azGov8DEkIQ5X/nDGkun86Ww1ojTULoal+eluwZEhB8fb3H2T9NUqdbueajtB+vwiVx8cNFRv9+XAM9F0xOtPFObXSKgvxSyFvRjEWhqb+fYRfdLVQ5vePFs+yt5jdSFuPjXacpsGOvTZDFv95uXZF/GRVa8XlfSJ+cyL6AwX+I/sAw9JqvU/qZ4f8sDD98/SfJmnmW/WnYxcQgYucVrvOp1UpL7MwtYP/RGfZxWtuVQoToo04aW3f9nY5gZzsT9CdgkcRx1i3RYNQJRUlHSLjp9k1uAFhyXLpwWWrf0WpXVfIwNMGODFacYZDqGMoOMJdjbnQPQc11gBmj4UqO9q5QY3Y9dY96nCJHsv9n8+P1ACdc8wEWC5JhN7DcSK3cY0cwP/OCv/YEKbbfyRIY4xOS31avVAulsnPgQYhbfyb3laQq2PHCdF7oOgr+j++nw56k9UMQMGnkPh/R9vo+HlG4/ICm/n1ot1lP1PwhnSsSyQgOmFaXu5Oxwwlca1I3oBRxPsWMteDXSPmJSV+fR6yjaMtWnacsiz5wTZtUeT6Gggi47SsBIF5iXZ0r59gBDIJYC6k2fGs7Lhndrtflh+3PKj+Yf8lVp7fXnqVBhb0JAO3z0I2ZMpD24mfjYLKy0DkPQvoolBftK2YLXMx1w5VH+cXFwS8bSEyOTSZWVRpgXUoUGBgdjWxEv+QUtUDypR3N7TRR5DCVHsYs8Mc6ziIerunok0SX8hXF9zTHJiK+iRVXTZfoOKfxsw+1iG5+k9+wos88QLZbks3nWSZMVdCmQMaNHCLwxRbWruQvs1fLXUmT+APkCyaQmcFYc+S3/oAEUkCW33twCQ==",
+    "paymentMethods": [
+        {
+            "group": {
+                "name": "Credit Card",
+                "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXNjaGVtZQ==",
+                "type": "card"
+            },
+            "inputDetails": [
+                {
+                    "key": "encryptedCardNumber",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedSecurityCode",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryMonth",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryYear",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "holderName",
+                    "optional": "true",
+                    "type": "text"
+                },
+                {
+                    "key": "storeDetails",
+                    "optional": "true",
+                    "type": "boolean"
+                },
+                {
+                    "inputDetails": [
+                        {
+                            "key": "street",
+                            "type": "text"
+                        },
+                        {
+                            "key": "houseNumberOrName",
+                            "type": "text"
+                        },
+                        {
+                            "key": "city",
+                            "type": "text"
+                        },
+                        {
+                            "key": "postalCode",
+                            "type": "text"
+                        },
+                        {
+                            "key": "stateOrProvince",
+                            "optional": "true",
+                            "type": "text"
+                        },
+                        {
+                            "key": "country",
+                            "type": "text"
+                        }
+                    ],
+                    "key": "billingAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "American Express",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPWFtZXg=",
+            "type": "amex"
+        },
+        {
+            "group": {
+                "name": "Credit Card",
+                "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXNjaGVtZQ==",
+                "type": "card"
+            },
+            "inputDetails": [
+                {
+                    "key": "encryptedCardNumber",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedSecurityCode",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryMonth",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryYear",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "holderName",
+                    "optional": "true",
+                    "type": "text"
+                },
+                {
+                    "key": "storeDetails",
+                    "optional": "true",
+                    "type": "boolean"
+                },
+                {
+                    "inputDetails": [
+                        {
+                            "key": "street",
+                            "type": "text"
+                        },
+                        {
+                            "key": "houseNumberOrName",
+                            "type": "text"
+                        },
+                        {
+                            "key": "city",
+                            "type": "text"
+                        },
+                        {
+                            "key": "postalCode",
+                            "type": "text"
+                        },
+                        {
+                            "key": "stateOrProvince",
+                            "optional": "true",
+                            "type": "text"
+                        },
+                        {
+                            "key": "country",
+                            "type": "text"
+                        }
+                    ],
+                    "key": "billingAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "ExpressPay",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPWN1cA==",
+            "type": "cup"
+        },
+        {
+            "group": {
+                "name": "Credit Card",
+                "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXNjaGVtZQ==",
+                "type": "card"
+            },
+            "inputDetails": [
+                {
+                    "key": "encryptedCardNumber",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedSecurityCode",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryMonth",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryYear",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "holderName",
+                    "optional": "true",
+                    "type": "text"
+                },
+                {
+                    "key": "storeDetails",
+                    "optional": "true",
+                    "type": "boolean"
+                },
+                {
+                    "inputDetails": [
+                        {
+                            "key": "street",
+                            "type": "text"
+                        },
+                        {
+                            "key": "houseNumberOrName",
+                            "type": "text"
+                        },
+                        {
+                            "key": "city",
+                            "type": "text"
+                        },
+                        {
+                            "key": "postalCode",
+                            "type": "text"
+                        },
+                        {
+                            "key": "stateOrProvince",
+                            "optional": "true",
+                            "type": "text"
+                        },
+                        {
+                            "key": "country",
+                            "type": "text"
+                        }
+                    ],
+                    "key": "billingAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "Diners Club",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPWRpbmVycw==",
+            "type": "diners"
+        },
+        {
+            "group": {
+                "name": "Credit Card",
+                "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXNjaGVtZQ==",
+                "type": "card"
+            },
+            "inputDetails": [
+                {
+                    "key": "encryptedCardNumber",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedSecurityCode",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryMonth",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryYear",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "holderName",
+                    "optional": "true",
+                    "type": "text"
+                },
+                {
+                    "key": "storeDetails",
+                    "optional": "true",
+                    "type": "boolean"
+                },
+                {
+                    "inputDetails": [
+                        {
+                            "key": "street",
+                            "type": "text"
+                        },
+                        {
+                            "key": "houseNumberOrName",
+                            "type": "text"
+                        },
+                        {
+                            "key": "city",
+                            "type": "text"
+                        },
+                        {
+                            "key": "postalCode",
+                            "type": "text"
+                        },
+                        {
+                            "key": "stateOrProvince",
+                            "optional": "true",
+                            "type": "text"
+                        },
+                        {
+                            "key": "country",
+                            "type": "text"
+                        }
+                    ],
+                    "key": "billingAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "Discover",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPWRpc2NvdmVy",
+            "type": "discover"
+        },
+        {
+            "name": "DOKU wallet",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPWRva3Vfd2FsbGV0",
+            "type": "doku_wallet"
+        },
+        {
+            "name": "Givex",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPWdpdmV4",
+            "type": "givex"
+        },
+        {
+            "group": {
+                "name": "Credit Card",
+                "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXNjaGVtZQ==",
+                "type": "card"
+            },
+            "inputDetails": [
+                {
+                    "key": "encryptedCardNumber",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedSecurityCode",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryMonth",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryYear",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "holderName",
+                    "optional": "true",
+                    "type": "text"
+                },
+                {
+                    "key": "storeDetails",
+                    "optional": "true",
+                    "type": "boolean"
+                },
+                {
+                    "inputDetails": [
+                        {
+                            "key": "street",
+                            "type": "text"
+                        },
+                        {
+                            "key": "houseNumberOrName",
+                            "type": "text"
+                        },
+                        {
+                            "key": "city",
+                            "type": "text"
+                        },
+                        {
+                            "key": "postalCode",
+                            "type": "text"
+                        },
+                        {
+                            "key": "stateOrProvince",
+                            "optional": "true",
+                            "type": "text"
+                        },
+                        {
+                            "key": "country",
+                            "type": "text"
+                        }
+                    ],
+                    "key": "billingAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "JCB",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPWpjYg==",
+            "type": "jcb"
+        },
+        {
+            "group": {
+                "name": "Credit Card",
+                "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXNjaGVtZQ==",
+                "type": "card"
+            },
+            "inputDetails": [
+                {
+                    "key": "encryptedCardNumber",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedSecurityCode",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryMonth",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryYear",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "holderName",
+                    "optional": "true",
+                    "type": "text"
+                },
+                {
+                    "key": "storeDetails",
+                    "optional": "true",
+                    "type": "boolean"
+                },
+                {
+                    "inputDetails": [
+                        {
+                            "key": "street",
+                            "type": "text"
+                        },
+                        {
+                            "key": "houseNumberOrName",
+                            "type": "text"
+                        },
+                        {
+                            "key": "city",
+                            "type": "text"
+                        },
+                        {
+                            "key": "postalCode",
+                            "type": "text"
+                        },
+                        {
+                            "key": "stateOrProvince",
+                            "optional": "true",
+                            "type": "text"
+                        },
+                        {
+                            "key": "country",
+                            "type": "text"
+                        }
+                    ],
+                    "key": "billingAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "MasterCard",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPW1j",
+            "type": "mc"
+        },
+        {
+            "name": "Moneybookers",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPW1vbmV5Ym9va2Vycw==",
+            "type": "moneybookers"
+        },
+        {
+            "name": "NETELLER",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPW5ldGVsbGVy",
+            "type": "neteller"
+        },
+        {
+            "name": "PayPal",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXBheXBhbA==",
+            "type": "paypal"
+        },
+        {
+            "name": "Paysafecard",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXBheXNhZmVjYXJk",
+            "type": "paysafecard"
+        },
+        {
+            "name": "Qiwi Wallet",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXFpd2l3YWxsZXQ=",
+            "type": "qiwiwallet"
+        },
+        {
+            "name": "UnionPay",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXVuaW9ucGF5",
+            "type": "unionpay"
+        },
+        {
+            "group": {
+                "name": "Credit Card",
+                "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXNjaGVtZQ==",
+                "type": "card"
+            },
+            "inputDetails": [
+                {
+                    "key": "encryptedCardNumber",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedSecurityCode",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryMonth",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "encryptedExpiryYear",
+                    "type": "cardToken"
+                },
+                {
+                    "key": "holderName",
+                    "optional": "true",
+                    "type": "text"
+                },
+                {
+                    "key": "storeDetails",
+                    "optional": "true",
+                    "type": "boolean"
+                },
+                {
+                    "inputDetails": [
+                        {
+                            "key": "street",
+                            "type": "text"
+                        },
+                        {
+                            "key": "houseNumberOrName",
+                            "type": "text"
+                        },
+                        {
+                            "key": "city",
+                            "type": "text"
+                        },
+                        {
+                            "key": "postalCode",
+                            "type": "text"
+                        },
+                        {
+                            "key": "stateOrProvince",
+                            "optional": "true",
+                            "type": "text"
+                        },
+                        {
+                            "key": "country",
+                            "type": "text"
+                        }
+                    ],
+                    "key": "billingAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "VISA",
+            "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXZpc2E=",
+            "type": "visa"
+        }
+    ],
+    "publicKey": "10001|DAAA84F903B74D76E2E452201F49998FAF18743AF5BBE880E169752F3C60B8C5C601E99CBF66C4DAE57B818ECA837FD0A53A70FFC7515796E0CB4D4A07B15A1D0496B3E2D41A8099A25E055E5224E15AF203F8EDFBDA9FCCF6A5793AA3C620CB62D81F9103BF5EF362531D8742B84B597F46D2B29ABFE680DB09F1AE6B9D4ED3CBEDA22E3CC4D388BAC76A39116E0CA787483419B941F24FFD9EB2DC158EA20CA5A84D1DB1E3B5FEE2B8AB5512EAF7DE572366B10D5C57C09F3002CF0FD0AE557887C4078DE00EB48CDD6763BD976C969D91200C5DB11B2C3B002B4C31EC5BBFB27B00791813757C21D631DCC1E9B74610BCA05F5CFA4DE0662C0F561CF616BB",
+    "publicKeyToken": "8115054323780109",
+    "recurringDetails": [
+        {
+            "group": {
+                "name": "Credit Card",
+                "paymentMethodData": "Cf62f1e3!YnJhbmRDb2RlPXNjaGVtZQ==",
+                "type": "card"
+            },
+            "inputDetails": [
+                {
+                    "key": "encryptedSecurityCode",
+                    "type": "cardToken"
+                }
+            ],
+            "name": "VISA",
+            "paymentMethodData": "Ab02b4c0!BQABAgAJcc0Mfmnb5uvJeS00zHNqol1QGDJJp5fHM7GH69oHibX74WnkRMJbIAJk8Ip07jX1XfCbWBzaPzezgqaA4dZtkvSzwhl2dQPTUtEKpbpY2ydxfjvl+1X8d8A4YEDHwTZ9702BtCGWjzUw+IxEpVlWG1DaW8eWrJXq7UMzDcSNZFI0veKoL9aC3x/AmzdHaYOxDMrqt9tcY4myi5K83EbV9Yl52wlm8iNGg5QjRCzVMXATmh6KD9ZTOj39AqdiUfqmnRqhCTsdI3WUiqRTuoo6In9xB/0n1jzvVOXaUxC+6OoxtRXIdmoaQ4VkjDc9XeJFWKdC4AVyB963yaqVzgWqCZ2YNFIMZOjmdTxzo7lO5XqhE7G+HhYoInN8nNIDqX+irWSyQ7PmcfLPXCzvOQDDo3mITiKovo59SUhvn93R7TXqgB3HyAY5k4racn2yyl0zHJm5XOhSMD4XKJUe08jNy17BVcB4MTvCzRXC3UsVV4QdwcEL7VZu8rZf7yRV5+F2F8KOnkV70zw26Ve7rWw+CflXHTWvFpAttsURZRrMtIC72yez/WoXyvgBtbUNXXWO8t/7VsGODpIFRm/lXOzXnzNTOFOrn9ElqhO0+KzAFriNO+nGAho88JCO+zOJ/RafAIYFCv6L96N1GYKpqgyhSYlMEyLzmXVwDc/IkySLLRDwTn/GSZxnmK6sZ+LVtt3PAEp7ImtleSI6IkFGMEFBQTEwM0NBNTM3RUFFRDg3QzI0REQ1MzkwOUI4MEE3OEE5MjNFMzgyM0Q2OERBQ0M5NEI5RkY4MzA1REMifeMx8P5L/zG+OhnSWCLZiJ7yvFA+KSqaePRbANuhevlbcPrJy/dtbbWh/dljfZLUIZueSBVK9Us+Do/7I/sGenHCHrdTw8m1oyQq2rycsbr3aRANjd99zqd5hmvR",
+            "type": "visa",
+            "card": {
+                "expiryMonth": "8",
+                "expiryYear": "2018",
+                "holderName": "Test Person",
+                "number": "1111"
+            }
+        }
+    ]
+}
