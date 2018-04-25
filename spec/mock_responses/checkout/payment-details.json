@@ -1,0 +1,14 @@
+{
+    "resultCode": "RedirectShopper",
+    "details": [
+        {
+            "key": "returnUrlQueryString",
+            "type": "text"
+        }
+    ],
+    "paymentData": "Ab02b4c0!BQABAgCZ5wU8Xzylbj3tQI9zZtbOmutq5gON3jF0JOVL9VXTcQ70LkB8UzJZ2EuJiURbwNSpyfMnNNR9ecDBq0Ai+Cu97eUP6/wc51Gh2VClWKILA3fpetixy8rcEd1dHVT9Exa77zg0LuY6qXz/5GIIH62y9CnmKJH4a4KZVQwFu9VYtPnsC8p6Bby2BuByD/VSa3noZDBVuapvWL7+8P6QaPgkFgoWYnzT8uzdoCio+gTNEYivlxhuQj5qa+eyQCrzZDXAvl+1a1z7O3BOOC7yPT0VDd8zNnyxKk9lyax75FUCRYl1BNCP1CGGDzHfvsS8C4FhXPixhZ4Lb1pYajLpKXNqfiRqU4DXn6bAkdnoQ5X8TvD3HqgHos4OLY93qq7j3ai+zeS/hWkZrd0SM+br3G+kCPmzMcBYdIqJLecJcVUUWHUNfdYIl6tmzNDbeedqSXVkyX+w7R/bM3hHppQyFpy2UM6BHalSaIc2oqR2wLQeObOlV9VML2yAvUzIK6OsFdnCtjK+aQsYwBvKMHkgsukvJiEvfwkLzrwxJQWRvYQtVV7ITcSz98tKZmxUFdke8Hca+ySTbqq9OvjGCK+T7FLhaKYGSECcwwKCCKMneTW7S/8Y+qpw2WRBx2Bhho8ZfIwsnq2Nll+QbaOJEiC0PG3NokYhcrKVhXiFFkYYnzNI9hAnjkefE+5rR5dWWWM8Q8h7AEp7ImtleSI6IkFGMEFBQTEwM0NBNTM3RUFFRDg3QzI0REQ1MzkwOUI4MEE3OEE5MjNFMzgyM0Q2OERBQ0M5NEI5RkY4MzA1REMifbA560uFihRRe//z0I3kVj3lZxHTKJZgPZUDraWMQfkMjM7KKXPwyCXyThFp1bFYMmebpxYvbqErFky66og24VCmvNKiZnf1uPJi5OsK9t6QJU1vhC0/QzeCu1TQLUEyUWrelX0V+iO+933RFUzSv78BLNO/bt5JMFIKQoLP6J4CW+bHk+fWrBn4PhbZ5z/ezu23OHoDvg6Pvk1kjxps8FAbHoSB35b+HvOUDtph/usiBWBCgLQVtkbR7C2ImDd4HRh3QvkgjXgbRGGIBBc+jPM9TMYytNlAhB32jktviPASz9+v073N417onB0pcS0Bp2iFTpmsMjWcSbctbj65JTiBIwY6egGrD9ona/oEb+/oppiz4KzS2sJKvtOPg+Jxn2UNssc0dg8gZhV1dxfSqDNonsfxl0vwKoeG99FjyrfgFQvYNlqjn3/WNacjFtCOrBafIQJk95TnkBdpzuqtvqQyIZeq7PbRuTNIb1AQBTmKNmuZMd+gO95sIvhbE1XgO2InIQKCpw0q0Hbw9Nzowm6w1gbSKnabGZhb8SOM+lJ37dNTsNIB/5Eo36kijladqVt5RYGMHLkQa6vxjhfuYPfHYzO5MX4i0ml8rstB5D5sfLqvY3Igzc6RnDhpX5kxVIFAhuPxkTeKFTpCXmnHJwilCY9pZTzVlJp6kOWnk1JlalrzmI3iU6Zhz3ICLNQ+Ub/HEnombi31lZWHnUmhwGKxKg==",
+    "redirect": {
+        "method": "GET",
+        "url": "https://test.adyen.com/hpp/redirectIdeal.shtml?brandCode=ideal&currencyCode=USD&merchantAccount=ColinRood&merchantReference=PM+Checkout+Payment&merchantSig=MKOR8NMs6190maY8sPDCMgOHNIscN356EIhUxSnpDsw%3D&paymentAmount=1000&resURL=https%3A%2F%2Fcheckoutshopper-test.adyen.com%2Fcheckoutshopper%2Fservices%2FPaymentIncomingRedirect%2Fv1%2FlocalPaymentMethod%3FreturnURL%3D&sessionValidity=2018-03-02T18%3A05%3A42Z&skinCode=pub.v2.8115054323780109.7FDNnCDyDJG8hRqbIjU3AQHvyBRuRoNFYHQWgmX4lAU"
+    }
+}

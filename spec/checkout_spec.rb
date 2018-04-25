@@ -70,27 +70,8 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     end
 
     it "submits a test payment" do
-      request_body = "{
-        \"amount\": {
-          \"currency\": \"#{@shared_values[:test_payment_currency]}\",
-          \"value\": 1000
-        },
-        \"reference\": \"Ruby SDK test transaction\",
-        \"paymentMethod\": {
-          \"type\": \"scheme\",
-          \"number\": \"4111111111111111\",
-          \"expiryMonth\": \"08\",
-          \"expiryYear\": \"2018\",
-          \"holderName\": \"John Smith\",
-          \"cvc\": \"737\"
-        },
-        \"returnUrl\": \"\",
-        \"merchantAccount\": \"#{@shared_values[:test_merchant_account]}\"
-      }"
-      response_body = '{
-        "pspReference": "8525224486862747",
-        "resultCode": "Authorised"
-      }'
+      request_body = json_from_file("mock_requests/checkout/authorise-card.json")
+      response_body = json_from_file("mock_responses/authorise-success.json")
 
       url = @shared_values[:client].service_url(@shared_values[:service], "payments", @shared_values[:version])
       WebMock.stub_request(:post, url).
@@ -105,32 +86,19 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
 
       expect(response.status).
         to eq(200)
-      expect(JSON.parse(response.body).class).
-        to be Hash
       expect(response.body).
         to eq(response_body)
+      expect((parsed_body = JSON.parse(response.body)).class).
+        to be Hash
+      expect(parsed_body["resultCode"]).
+        to eq("Authorised")
     end
 
-    it "completes a setup call successfully" do
-      request_body = "{
-        \"amount\": {
-          \"value\": 1500,
-          \"currency\": \"#{@shared_values[:test_payment_currency]}\"
-        },
-        \"channel\": \"Web\",
-        \"returnUrl\": \"www.example.com\",
-        \"countryCode\": \"US\",
-        \"reference\": \"Ruby SDK test transaction\",
-        \"merchantAccount\": \"#{@shared_values[:test_merchant_account]}\"
-      }"
+    it "makes a payments/details call" do
+      request_body = json_from_file("mock_requests/checkout/payment-details.json")
+      response_body = json_from_file("mock_responses/checkout/payment-details.json")
 
-      response_body = '{
-        "disableRecurringDetailUrl": "someURL",
-        "generationTime": "2018-04-03T22:52:19Z",
-        "html": "<body></body>"
-      }'
-
-      url = @shared_values[:client].service_url(@shared_values[:service], "setup", @shared_values[:version])
+      url = @shared_values[:client].service_url(@shared_values[:service], "payments/details", @shared_values[:version])
       WebMock.stub_request(:post, url).
         with(
           body: request_body,
@@ -139,14 +107,16 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         to_return(
           body: response_body
         )
-      response = @shared_values[:client].checkout.setup(request_body)
+      response = @shared_values[:client].checkout.payments.details(request_body)
 
       expect(response.status).
         to eq(200)
-      expect(JSON.parse(response.body).class).
-        to be Hash
       expect(response.body).
         to eq(response_body)
+      expect((parsed_body = JSON.parse(response.body)).class).
+        to be Hash
+      expect(parsed_body["resultCode"]).
+        to eq("RedirectShopper")
     end
   end
 end

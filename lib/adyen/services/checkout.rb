@@ -7,13 +7,13 @@ module Adyen
 
     def initialize(client, version = DEFAULT_VERSION)
       service = 'PaymentSetupAndVerification'
-      method_action_pairs = [
-        [:payment_methods, :paymentMethods],
-        [:setup, :setup],
-        [:verify, :verify]
+      method_names = [
+        :payment_methods,
+        :setup,
+        :verify
       ]
 
-      super(client, version, service, method_action_pairs)
+      super(client, version, service, method_names)
     end
 
     # This method can't be dynamically defined because
@@ -34,12 +34,14 @@ module Adyen
 
   class CheckoutDetail < Service
     def initialize(client, version = DEFAULT_VERSION)
-      service = 'PaymentSetupAndVerification'
-      method_action_pairs = [
-        [:details, :"payments/details"]
-      ]
+      @service = 'PaymentSetupAndVerification'
+      @client = client
+      @version = version
+    end
 
-      super(client, version, service, method_action_pairs)
+    def details(request)
+      action = "payments/details"
+      @client.call_adyen_api(@service, action, request, @version)
     end
   end
 end
