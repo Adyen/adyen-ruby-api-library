@@ -1,7 +1,6 @@
 require "spec_helper"
 require "json"
 require_relative "../lib/adyen/errors"
-require_relative "../lib/adyen/validation"
 
 # rubocop:disable Metrics/BlockLength
 
@@ -9,9 +8,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   before(:all) do
     @shared_values = {
       client: nil,
-      test_merchant_account: "TestMerchant",
-      test_api_key: "test_api_key",
-      test_payment_currency: "EUR",
+      foobar: "foobar",
       service: "PaymentSetupAndVerification",
       version: 32
     }
@@ -19,12 +16,20 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
 
   it "creates Adyen client" do
     @shared_values[:client] = Adyen::Client.new
-    expect(@shared_values[:client]).not_to be nil
+    expect(@shared_values[:client]).
+      not_to be nil
   end
 
   it "sets env to :mock" do
-    @shared_values[:client].env = :mock
-    expect(@shared_values[:client].env).to eq(:mock)
+    @shared_values[:client].env = :test
+    expect(@shared_values[:client].env).
+      to eq(:test)
+  end
+
+  it "sets the version number" do
+    @shared_values[:client].checkout.version = @shared_values[:version]
+    expect(@shared_values[:client].checkout.version).
+      to eq(@shared_values[:version])
   end
 
   context "checkout API" do
@@ -34,8 +39,9 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     end
 
     it "sets API key" do
-      @shared_values[:client].api_key = @shared_values[:test_api_key]
-      expect(@shared_values[:client].api_key).to eq(@shared_values[:test_api_key])
+      @shared_values[:client].api_key = @shared_values[:foobar]
+      expect(@shared_values[:client].api_key).
+        to eq(@shared_values[:foobar])
     end
 
     it "rejects a request which is missing required parameters" do
@@ -44,7 +50,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         to raise_error(Adyen::ValidationError)
     end
 
-    it "returns a JSON object from a payment_methods call" do
+    it "makes a payment_methods call" do
       parsed_body = create_test(@shared_values, "payment_methods", @shared_values[:client].checkout)
       expect(parsed_body["paymentMethods"].class).
         to be Array
@@ -62,7 +68,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         to eq("Authorised")
     end
 
-    it "submits a test payment" do
+    it "makes a payments call" do
       parsed_body = create_test(@shared_values, "payments", @shared_values[:client].checkout)
       expect(parsed_body["resultCode"]).
         to eq("Authorised")
@@ -77,7 +83,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       WebMock.stub_request(:post, url).
         with(
           body: request_body,
-          headers: { "x-api-key" => @shared_values[:test_api_key] }
+          headers: { "x-api-key" => @shared_values[:foobar] }
         ).
         to_return(
           body: response_body

@@ -1,46 +1,23 @@
+require_relative 'service'
+
 module Adyen
-  class Payments
+  class Payments < Service
     attr_accessor :version
+    DEFAULT_VERSION = 32
 
-    def initialize(client, version = 32)
-      @client = client
-      @version = version
-      @service = 'Payment'
-    end
+    def initialize(client, version = DEFAULT_VERSION)
+      service = 'Payment'
+      method_names = [
+        :authorise,
+        :authorise3d,
+        :capture,
+        :cancel,
+        :refund,
+        :cancel_or_refund,
+        :adjust_authorisation
+      ]
 
-    def authorise(request)
-      action = 'authorise'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def authorise3d(request)
-      action = 'authorise3d'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def capture(request)
-      action = 'capture'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def cancel(request)
-      action = 'cancel'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def refund(request)
-      action = 'refund'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def cancel_or_refund(request)
-      action = 'cancelOrRefund'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def adjust_authorisation(request)
-      action = 'adjustAuthorisation'
-      @client.call_adyen_api(@service, action, request, @version)
+      super(client, version, service, method_names)
     end
   end
 end

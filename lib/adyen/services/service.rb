@@ -1,6 +1,6 @@
 module Adyen
   class Service
-    attr_accessor :service
+    attr_accessor :service, :version
 
     def initialize(client, version, service, method_names)
       @client = client

@@ -12,9 +12,9 @@ module Adyen
     attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
     attr_reader :env
 
-    def initialize(user = nil, password = nil, api_key = nil, env = :live, adapter = nil, mock_port = 3001)
-      @user = user
-      @password = password
+    def initialize(ws_user = nil, ws_password = nil, api_key = nil, env = :live, adapter = nil, mock_port = 3001)
+      @ws_user = ws_user
+      @ws_password = ws_password
       @api_key = api_key
       @env = env
       @adapter = adapter || Faraday.default_adapter
@@ -75,6 +75,8 @@ module Adyen
             break
           end
         end
+
+        # make a list of missing fields to report to user
         if !key_present
           missing_fields << required_field
         end
@@ -95,7 +97,7 @@ module Adyen
         raise Adyen::PermissionError.new("Checkout API-key not set", request_data), "Checkout API-key not set" if @api_key.nil?
         auth_type = "api-key"
       when "Payment", "Recurring", "Payout"
-        raise Adyen::AuthenticationError.new("Client.user and client.password must be set", request_data), "Client.user and client.password must be set" if @password.nil? || @user.nil?
+        raise Adyen::AuthenticationError.new("Client.ws_user and client.ws_password must be set", request_data), "Client.ws_user and client.ws_password must be set" if @ws_password.nil? || @ws_user.nil?
         auth_type = "basic"
       end
 
@@ -110,7 +112,7 @@ module Adyen
         # set auth type based on service
         case auth_type
         when "basic"
-          faraday.basic_auth(@user, @password)
+          faraday.basic_auth(@ws_user, @ws_password)
         when "api-key"
           faraday.headers["x-api-key"] = @api_key
         end
