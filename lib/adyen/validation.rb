@@ -4,18 +4,18 @@ module Adyen
       PaymentSetupAndVerification: {
         payments: [:amount, :merchantAccount, :paymentMethod, :reference, :returnUrl],
         paymentMethods: [:merchantAccount],
-        'payments/details': [:details, :paymentData],
+        'payments/details':[:details, :paymentData],
         setup: [:amount, :channel, :countryCode, :merchantAccount, :reference, :returnUrl],
         verify: [:payload]
       },
       Payment: {
         authorise: [:amount, :merchantAccount, :reference],
-        authorise3d: [:amount, :merchantAccount, :reference, :md, :paResponse],
+        authorise3d: [:merchantAccount, :shopperIP, :md, :paResponse],
         capture: [:merchantAccount, :originalReference],
         cancel: [:merchantAccount, :originalReference],
         refund: [:merchantAccount, :originalReference, :modificationAmount],
-        cancel_or_refund: [:merchantAccount, :originalReference],
-        adjust_authorisation: [:merchantAccount, :originalReference, :modificationAmount]
+        cancelOrRefund: [:merchantAccount, :originalReference],
+        adjustAuthorisation: [:merchantAccount, :originalReference, :modificationAmount]
       },
       Payout: {
         confirm_third_party: [:merchantAccount, :originalReference],
