@@ -1,6 +1,5 @@
 require "spec_helper"
 require "json"
-require_relative "../lib/adyen/errors"
 
 # rubocop:disable Metrics/BlockLength
 

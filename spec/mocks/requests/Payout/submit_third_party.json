@@ -1,0 +1,22 @@
+{
+  "amount": {
+    "currency": "EUR",
+    "value": "1000"
+  },
+  "merchantAccount": "TestMerchant",
+  "recurring": {
+    "contract": "PAYOUT"
+  },
+  "reference": "PayoutPayment-0001",
+  "shopperEmail": "shopper@email.com",
+  "shopperReference": "TheShopperReference",
+  "shopperName": {
+    "firstName": "Adyen",
+    "gender": "MALE",
+    "lastName": "Test"
+  },
+  "dateOfBirth": "1990-01-01",
+  "entityType": "Company",
+  "nationality": "NL",
+  "selectedRecurringDetailReference": "LATEST"
+}

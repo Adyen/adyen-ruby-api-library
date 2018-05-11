@@ -32,15 +32,5 @@ module Adyen
       action = 'declineThirdParty'
       @client.call_adyen_api(@service, action, request, @version)
     end
-
-    def void_pending_refund(request)
-      action = 'voidPendingRefund'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def refund_with_data(request)
-      action = 'refundWithData'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
   end
 end

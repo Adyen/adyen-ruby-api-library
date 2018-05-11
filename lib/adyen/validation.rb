@@ -18,15 +18,16 @@ module Adyen
         adjustAuthorisation: [:merchantAccount, :originalReference, :modificationAmount]
       },
       Payout: {
-        confirm_third_party: [:merchantAccount, :originalReference],
-        decline_third_party: [:merchantAccount, :originalReference],
-        store_details: [:merchantAccount, :recurring],
-        submit_third_party: [:amount, :merchantAccount, :recurring, :reference, :shopperEmail, :shopperReference, :selectedRecurringDetailReference],
-        store_detail_and_stubmit_third_party: [:amount, :merchantAccount, :recurring, :reference, :shopperEmail, :shopperReference]
+        confirmThirdParty: [:merchantAccount, :originalReference],
+        declineThirdParty: [:merchantAccount, :originalReference],
+        storeDetail: [:merchantAccount, :recurring],
+        submitThirdParty: [:amount, :merchantAccount, :recurring, :reference, :shopperEmail, :shopperReference, :selectedRecurringDetailReference],
+        storeDetailAndSubmitThirdParty: [:amount, :merchantAccount, :recurring, :reference, :shopperEmail, :shopperReference]
       },
       Recurring: {
         listRecurringDetails: [:merchantAccount, :shopperReference],
-        disable: [:merchantAccount, :shopperReference]
+        disable: [:merchantAccount, :shopperReference],
+        storeToken: [:merchantAccount, :shopperReference, :recurring]
       }
     }.freeze
   end

@@ -17,5 +17,10 @@ module Adyen
       action = 'disable'
       @client.call_adyen_api(@service, action, request, @version)
     end
+
+    def store_token(request)
+      action = 'storeToken'
+      @client.call_adyen_api(@service, action, request, @version)
+    end
   end
 end
