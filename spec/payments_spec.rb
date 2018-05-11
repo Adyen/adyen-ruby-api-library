@@ -4,15 +4,6 @@ require_relative "../lib/adyen/errors"
 # rubocop:disable Metrics/BlockLength
 
 RSpec.describe Adyen::Payments, service: "payments service" do
-  before(:all) do
-    @shared_values = {
-      client: nil,
-      ws_user: "username",
-      ws_password: "password",
-      service: "Payment",
-      version: 32
-    }
-  end
 
   # client instance to be used in dynamically generated tests
   client = create_client(:basic)

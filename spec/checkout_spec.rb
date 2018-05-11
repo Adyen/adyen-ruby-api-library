@@ -8,9 +8,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   before(:all) do
     @shared_values = {
       client: create_client(:api_key),
-      foobar: "foobar",
       service: "PaymentSetupAndVerification",
-      version: 32
     }
   end
 
@@ -26,7 +24,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     request_body = json_from_file("mocks/requests/PaymentSetupAndVerification/payment-details.json")
     response_body = json_from_file("mocks/responses/PaymentSetupAndVerification/payment-details.json")
 
-    url = @shared_values[:client].service_url(@shared_values[:service], "payments/details", @shared_values[:version])
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments/details", @shared_values[:client].checkout.version)
     WebMock.stub_request(:post, url).
       with(
         body: request_body,
