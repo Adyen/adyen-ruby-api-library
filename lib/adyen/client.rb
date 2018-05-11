@@ -94,7 +94,7 @@ module Adyen
       # make sure right authentication has been provided
       case service
       when "PaymentSetupAndVerification"
-        raise Adyen::PermissionError.new("Checkout API-key not set", request_data), "Checkout API-key not set" if @api_key.nil?
+        raise Adyen::AuthenticationError.new("Checkout API-key not set", request_data), "Checkout API-key not set" if @api_key.nil?
         auth_type = "api-key"
       when "Payment", "Recurring", "Payout"
         raise Adyen::AuthenticationError.new("Client.ws_user and client.ws_password must be set", request_data), "Client.ws_user and client.ws_password must be set" if @ws_password.nil? || @ws_user.nil?

@@ -13,10 +13,10 @@ end
 
 # boilerplate test scenario
 # returns hash of response from client
-def create_test(shared_values, method_name, parent_object)
+def create_test(client, service, method_name, parent_object)
   # pull request and response from json files
-  request_body = json_from_file("mocks/requests/#{shared_values[:service]}/#{method_name}.json")
-  response_body = json_from_file("mocks/responses/#{shared_values[:service]}/#{method_name}.json")
+  request_body = json_from_file("mocks/requests/#{service}/#{method_name}.json")
+  response_body = json_from_file("mocks/responses/#{service}/#{method_name}.json")
 
   # client-generated headers
   headers = {
@@ -27,15 +27,17 @@ def create_test(shared_values, method_name, parent_object)
   }
 
   # authentication headers
-  if not shared_values["x-api-key"].nil? then
-    headers["X-Api-Key"] = shared_values["x-api-key"]
-  elsif not shared_values["ws_user"].nil? and not shared_values["ws_password"].nil? then
-    auth_header = "Basic " + Base64::encode64("#{shared_values["ws_user"]}:#{shared_values["ws_password"]}")
-    headers["Authorization"] = auth_header
+  if not client.api_key.nil? then
+    headers["X-Api-Key"] = client.api_key
+  elsif not client.ws_user.nil? and not client.ws_password.nil? then
+    auth_header = "Basic " + Base64::encode64("#{client.ws_user}:#{client.ws_password}")
+    headers["Authorization"] = auth_header.strip
+  else
+    raise ArgumentError, "Authentication not set correctly in test case"
   end
 
   # stub request
-  url = shared_values[:client].service_url(shared_values[:service], method_name.to_camel_case, shared_values[:version])
+  url = client.service_url(service, method_name.to_camel_case, parent_object.version)
   WebMock.stub_request(:post, url).
     with(
       body: request_body,
@@ -59,10 +61,32 @@ def create_test(shared_values, method_name, parent_object)
 end
 
 # creates tests from an array of arrays
-# format:
+# test_set format:
 # [method name, test parameter in mock response, expected value of test parameter]
-def generate_test(shared_values, test_set, parent_object)
-  parsed_body = create_test(shared_values, test_set[0], parent_object)
-  expect(parsed_body[test_set[1]]).
-    to eq(test_set[2])
+def generate_tests(client, service, test_sets, parent_object)
+  test_sets.each do |test_set|
+    it "makes a #{test_set[0]} call" do
+      parsed_body = create_test(client, service, test_set[0], parent_object)
+      expect(parsed_body[test_set[1]]).
+        to eq(test_set[2])
+    end
+  end
+end
+
+# create and return a client for testing
+# auth_type must be one of [:basic, :api_key]
+def create_client(auth_type)
+  client = Adyen::Client.new
+  client.env = :mock
+
+  if auth_type == :basic then
+    client.ws_user = "user"
+    client.ws_password = "password"
+  elsif auth_type == :api_key then
+    client.api_key = "api_key"
+  else
+    raise ArgumentError "Invalid auth type for test client"
+  end
+
+  client
 end
