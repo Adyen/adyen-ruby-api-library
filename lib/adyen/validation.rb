@@ -23,6 +23,10 @@ module Adyen
         store_details: [:merchantAccount, :recurring],
         submit_third_party: [:amount, :merchantAccount, :recurring, :reference, :shopperEmail, :shopperReference, :selectedRecurringDetailReference],
         store_detail_and_stubmit_third_party: [:amount, :merchantAccount, :recurring, :reference, :shopperEmail, :shopperReference]
+      },
+      Recurring: {
+        listRecurringDetails: [:merchantAccount, :shopperReference],
+        disable: [:merchantAccount, :shopperReference]
       }
     }.freeze
   end
