@@ -1,0 +1,15 @@
+{
+  "accountHolderCode": "GENERATE_CODE",
+  "accountHolderDetails": {
+    "email": "tim@green.com",
+    "individualDetails": {
+      "name": {
+        "firstName": "Tim",
+        "gender": "MALE",
+        "lastName": "Green"
+      }
+    }
+  },
+  "legalEntity": "Individual",
+  "description": "Test Account Holder"
+}

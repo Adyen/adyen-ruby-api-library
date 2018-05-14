@@ -1,0 +1,9 @@
+{
+  "documentContent": "dGVzdCBkb2N1bWVudCBjb250ZW50",
+  "documentDetail": {
+    "accountHolderCode": "CODE_OF_ACCOUNT_HOLDER",
+    "documentType": "PASSPORT",
+    "filename": "passport.png",
+    "description": "test passport description"
+  }
+}

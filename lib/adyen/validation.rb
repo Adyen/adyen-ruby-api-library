@@ -4,7 +4,7 @@ module Adyen
       PaymentSetupAndVerification: {
         payments: [:amount, :merchantAccount, :paymentMethod, :reference, :returnUrl],
         paymentMethods: [:merchantAccount],
-        'payments/details':[:details, :paymentData],
+        'payments/details': [:details, :paymentData],
         setup: [:amount, :channel, :countryCode, :merchantAccount, :reference, :returnUrl],
         verify: [:payload]
       },
@@ -28,6 +28,22 @@ module Adyen
         listRecurringDetails: [:merchantAccount, :shopperReference],
         disable: [:merchantAccount, :shopperReference],
         storeToken: [:merchantAccount, :shopperReference, :recurring]
+      },
+      Account: {
+        createAccountHolder: [:accountHolderCode, :accountHolderDetails, :description, :legalEntity],
+        getAccountHolder: [:accountHolderCode],
+        updateAccountHolder: [:accountHolderCode],
+        updateAccountHolderState: [:accountHolderCode, :disable, :stateType],
+        suspendAccountHolder: [:accountHolderCode],
+        unSuspendAccountHolder: [:accountHolderCode],
+        closeAccountHolder: [:accountHolderCode],
+        createAccount: [:accountHolderCode],
+        updateAccount: [:accountCode],
+        closeAccount: [:accountCode],
+        uploadDocument: [:documentContent, :documentDetail],
+        getUploadedDocuments: [:accountHolderCode],
+        deleteBankAccounts: [:accountHolderCode, :bankAccountUUIDs],
+        deleteShareholders: [:accountHolderCode, :shareholderCodes]
       }
     }.freeze
   end

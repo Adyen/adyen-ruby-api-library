@@ -1,0 +1,6 @@
+{
+  "accountHolderCode": "CODE_OF_ACCOUNT_HOLDER",
+  "disable": "true",
+  "reason": "test reason payout",
+  "stateType": "Payout"
+}

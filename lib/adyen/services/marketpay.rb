@@ -17,7 +17,7 @@ module Adyen
       end
 
       def notification
-        @fund ||= Adyen::Marketpay::Notification.new(@client)
+        @notification ||= Adyen::Marketpay::Notification.new(@client)
       end
     end
 

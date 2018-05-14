@@ -1,0 +1,71 @@
+{
+  "pspReference": "8815263414367329",
+  "submittedAsync": "false",
+  "accountHolderCode": "holderCode",
+  "accountHolderDetails": {
+    "bankAccountDetails": [],
+    "email": "tim@green.com",
+    "individualDetails": {
+      "name": {
+        "firstName": "Tim",
+        "gender": "MALE",
+        "lastName": "Green"
+      }
+    },
+    "merchantCategoryCode": "7999"
+  },
+  "accountHolderStatus": {
+    "status": "Active",
+    "processingState": {
+      "disabled": "false",
+      "processedFrom": {
+        "currency": "EUR",
+        "value": 0
+      },
+      "processedTo": {
+        "currency": "EUR",
+        "value": 9999
+      },
+      "tierNumber": 0
+    },
+    "payoutState": {
+      "allowPayout": "false",
+      "disabled": "false"
+    }
+  },
+  "accounts": [
+    {
+      "Account": {
+        "accountCode": "152059446",
+        "description": "TransactionAccount",
+        "payoutSchedule": {
+          "schedule": "DEFAULT"
+        },
+        "status": "Active"
+      }
+    }
+  ],
+  "legalEntity": "Individual",
+  "verification": {
+    "accountHolder": {
+      "checks": [
+        {
+          "type": "IDENTITY_VERIFICATION",
+          "status": "AWAITING_DATA",
+          "requiredFields": [
+            "AccountHolderDetails.Address.address",
+            "AccountHolderDetails.PersonalData.personalData"
+          ]
+        },
+        {
+          "type": "BANK_ACCOUNT_VERIFICATION",
+          "status": "AWAITING_DATA",
+          "requiredFields": [
+            "AccountHolderDetails.BankAccountDetails.bankAccount",
+            "AccountHolderDetails.BankAccountDetails.bankStatement"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,10 +1,7 @@
 require "spec_helper"
 require_relative "../lib/adyen/errors"
 
-# rubocop:disable Metrics/BlockLength
-
 RSpec.describe Adyen::Payments, service: "recurring service" do
-
   # client instance to be used in dynamically generated tests
   client = create_client(:basic)
 
@@ -18,5 +15,3 @@ RSpec.describe Adyen::Payments, service: "recurring service" do
 
   generate_tests(client, "Recurring", test_sets, client.recurring)
 end
-
-# rubocop:enable Metrics/BlockLength

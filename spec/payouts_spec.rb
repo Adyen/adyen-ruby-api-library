@@ -1,9 +1,6 @@
 require "spec_helper"
 
-# rubocop:disable Metrics/BlockLength
-
 RSpec.describe Adyen::Payments, service: "payouts service" do
-
   # client instance to be used in dynamically generated tests
   client = create_client(:basic)
 
@@ -19,5 +16,3 @@ RSpec.describe Adyen::Payments, service: "payouts service" do
 
   generate_tests(client, "Payout", test_sets, client.payouts)
 end
-
-# rubocop:enable Metrics/BlockLength
