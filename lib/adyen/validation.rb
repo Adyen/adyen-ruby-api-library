@@ -44,6 +44,14 @@ module Adyen
         getUploadedDocuments: [:accountHolderCode],
         deleteBankAccounts: [:accountHolderCode, :bankAccountUUIDs],
         deleteShareholders: [:accountHolderCode, :shareholderCodes]
+      },
+      Fund: {
+        accountHolderBalance: [:accountHolderCode],
+        accountHolderTransactionList: [:accountHolderCode],
+        payoutAccountHolder: [:accountHolderCode, :accountCode, :amount],
+        transferFunds: [:amount, :destinationAccountCode, :sourceAccountCode, :transferCode],
+        setupBeneficiary: [:destinationAccountCode, :sourceAccountCode, :merchantReference],
+        refundNotPaidOutTransfers: [:accountHolderCode, :accountCode]
       }
     }.freeze
   end

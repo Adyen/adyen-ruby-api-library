@@ -1,0 +1,10 @@
+{
+  "accountCode": "118731451",
+  "amount": {
+    "currency": "EUR",
+    "value": 99792
+  },
+  "accountHolderCode": "TestAccountHolder877209",
+  "description": "12345 – Test",
+  "bankAccountUUID": "000b81aa-ae7e-4492-aa7e-72b2129dce0c"
+}

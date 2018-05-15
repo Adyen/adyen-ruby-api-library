@@ -1,0 +1,16 @@
+{
+  "accountHolderCode": "TestAccountHolder423978",
+  "transactionStatuses": [
+    "PendingCredit",
+    "Credited",
+    "Debited"
+  ],
+  "transactionListsPerAccount": [
+    {
+      "TransactionListForAccount": {
+        "accountCode": "2e64b396-1200-4474-b848-0cb06b52b3c7",
+        "page": 2
+      }
+    }
+  ]
+}
