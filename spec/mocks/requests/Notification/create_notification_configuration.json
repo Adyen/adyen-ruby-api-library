@@ -1,0 +1,20 @@
+{
+  "configurationDetails": {
+    "active": "true",
+    "description": "Test notification769551",
+    "eventConfigs": [
+      {
+        "NotificationEventConfiguration": {
+          "eventType": "ACCOUNT_HOLDER_VERIFICATION",
+          "includeMode": "INCLUDE"
+        }
+      }
+    ],
+    "messageFormat": "SOAP",
+    "notifyURL": "https://www.merchant-domain.com/notification-handler",
+    "notifyUsername": "testUserName",
+    "notifyPassword": "testPassword",
+    "sendActionHeader": "true",
+    "sslProtocol": "SSL"
+  }
+}

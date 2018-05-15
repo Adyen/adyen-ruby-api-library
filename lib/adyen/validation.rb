@@ -52,6 +52,14 @@ module Adyen
         transferFunds: [:amount, :destinationAccountCode, :sourceAccountCode, :transferCode],
         setupBeneficiary: [:destinationAccountCode, :sourceAccountCode, :merchantReference],
         refundNotPaidOutTransfers: [:accountHolderCode, :accountCode]
+      },
+      Notification: {
+        createNotificationConfiguration: [:configurationDetails],
+        getNotificationConfiguration: [:notificationId],
+        getNotificationConfigurationList: [],
+        testNotificationConfiguration: [:notificationId],
+        updateNotificationConfiguration: [:configurationDetails],
+        deleteNotificationConfigurations: [:notificationIds]
       }
     }.freeze
   end

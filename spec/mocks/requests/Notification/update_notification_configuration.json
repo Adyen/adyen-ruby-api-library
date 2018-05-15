@@ -1,0 +1,26 @@
+{
+  "configurationDetails": {
+    "active": "false",
+    "description": "new description799847",
+    "eventConfigs": [
+      {
+        "NotificationEventConfiguration": {
+          "eventType": "ACCOUNT_HOLDER_CREATED",
+          "includeMode": "EXCLUDE"
+        }
+      },
+      {
+        "NotificationEventConfiguration": {
+          "eventType": "ACCOUNT_CREATED",
+          "includeMode": "INCLUDE"
+        }
+      }
+    ],
+    "notificationId": 234674578,
+    "notifyPassword": "testPassword2",
+    "notifyURL": "http://www.adyen.com",
+    "notifyUsername": "testUserName2",
+    "sendActionHeader": "false",
+    "sslProtocol": "TLSv10"
+  }
+}
