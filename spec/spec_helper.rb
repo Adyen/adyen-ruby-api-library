@@ -36,6 +36,8 @@ def create_test(client, service, method_name, parent_object)
     raise ArgumentError, "Authentication not set correctly in test case"
   end
 
+  puts headers
+
   # stub request
   url = client.service_url(service, method_name.to_camel_case, parent_object.version)
   WebMock.stub_request(:post, url).

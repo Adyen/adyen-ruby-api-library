@@ -116,6 +116,8 @@ module Adyen
         when "api-key"
           faraday.headers["x-api-key"] = @api_key
         end
+
+        puts faraday.headers
       end
 
       # post request to Adyen
