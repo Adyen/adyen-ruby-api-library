@@ -20,15 +20,12 @@ def create_test(client, service, method_name, parent_object)
 
   # client-generated headers
   headers = {
-    :Accept => '*/*',
-    'Accept-Encoding'.to_sym => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-    'Content-Type'.to_sym => 'application/json',
-    'User-Agent'.to_sym => 'Faraday v0.14.0'
+    'Content-Type'.to_sym => 'application/json'
   }
 
   # authentication headers
   if not client.api_key.nil? then
-    headers["X-Api-Key"] = client.api_key
+    headers["x-api-key"] = client.api_key
   elsif not client.ws_user.nil? and not client.ws_password.nil? then
     auth_header = "Basic " + Base64::encode64("#{client.ws_user}:#{client.ws_password}")
     headers["Authorization"] = auth_header.strip
