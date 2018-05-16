@@ -1,5 +1,4 @@
 language: ruby
-rvm:
+rvm: 
   - 2.0
   - jruby
-  - rbx-3

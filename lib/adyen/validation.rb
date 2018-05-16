@@ -4,7 +4,7 @@ module Adyen
       PaymentSetupAndVerification: {
         payments: [:amount, :merchantAccount, :paymentMethod, :reference, :returnUrl],
         paymentMethods: [:merchantAccount],
-        'payments/details': [:details, :paymentData],
+        'payments/details'.to_sym => [:details, :paymentData],
         setup: [:amount, :channel, :countryCode, :merchantAccount, :reference, :returnUrl],
         verify: [:payload]
       },

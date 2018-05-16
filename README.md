@@ -6,7 +6,7 @@ Performs validation that required authentication parameters are present, as well
 
 ## Requirements
 
-Built for Ruby >= 2.0
+Built for Ruby >= 2.1
 
 The sole dependency is faraday for http communication - run `bundle install` to install faraday if you don't already have it
 

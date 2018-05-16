@@ -20,10 +20,10 @@ def create_test(client, service, method_name, parent_object)
 
   # client-generated headers
   headers = {
-    'Accept': '*/*',
-    'Accept-Encoding': 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-    'Content-Type': 'application/json',
-    'User-Agent': 'Faraday v0.14.0'
+    :Accept => '*/*',
+    'Accept-Encoding'.to_sym => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+    'Content-Type'.to_sym => 'application/json',
+    'User-Agent'.to_sym => 'Faraday v0.14.0'
   }
 
   # authentication headers
