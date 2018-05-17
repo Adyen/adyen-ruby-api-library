@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Adyen-ruby-api-library by Adyen</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="stylesheets/prism.css">
+    <script src="javascripts/prism.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Adyen-ruby-api-library</h1>
+        <p>Adyen API Library for ruby</p>
+
+      <p class="view"><a href="https://github.com/Adyen/adyen-ruby-api-library">View the Project on GitHub <small>Adyen/adyen-ruby-api-library</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2 id="availablemethods">Available methods</h2>
+
+        <ul>
+        <li>store_detail</li>
+
+        <li>submit_third_party</li>
+
+        <li>store_detail_and_submit_third_party</li>
+
+        <li>confirm_third_party</li>
+
+        <li>decline_third_party</li>
+        </ul>
+
+        <h2 id="authentication">Authentication</h2>
+
+        <p>Payouts are authenticated via webservice username and password.</p>
+
+        <pre><code class="ruby language-ruby">adyen.ws_user = "ws@Company.TestCompany"
+adyen.ws_passord = "super_secure_password123"</code></pre></p>
+
+        <h2 id="usage">Usage</h2>
+
+        <p>Merchants can send funds to a third-party's eligible credit card, bank account or digital wallet for payments such as insurance claims, rebates, affiliate and contractor payouts, expense reimbursements, or gaming winnings.</p>
+
+        <p>Each payout requires a 4-eye policy check, where one user submits a payout, before it is confirmed and executed by another user. </p>
+
+        <p>To set up third-party payouts, you need to:</p>
+
+        <ol>
+        <li>Store the payout details</li>
+
+        <li>Submit the payout</li>
+
+        <li>Confirm or decline the payout</li>
+        </ol>
+
+        <h3 id="storepayoutdetails">Store payout details</h3>
+
+        <p>To store details to payout to, use the store_details method:</p>
+
+        <pre><code class="ruby language-ruby">response = adyen.payouts.store_detail('{
+    "recurring" : {
+        "contract" : "PAYOUT"
+    },
+    "bank": {
+        "bankName": "AbnAmro",
+        "bic": "ABNANL2A",
+        "countryCode": "NL",
+        "iban": "NL32ABNA0515071439",
+        "ownerName": "Adyen",
+        "bankCity": "Amsterdam",
+        "taxId":"bankTaxId"
+    },
+    "merchantAccount" : "YOUR_MERCHANT_ACCOUNT",
+    "shopperEmail" : "shopper@email.com",    
+    "shopperReference" : "&lt;ShopperReference&gt;",
+    "dateOfBirth" : "1990-01-01",
+    "entityType" : "Company",
+    "nationality" : "NL",
+}')</code></pre>
+
+        <h3 id="submitapayout">Submit a payout</h3>
+
+        <p>After you've stored the payout details, call the submit_third_party method to request a payout:</p>
+
+        <pre><code class="ruby language-ruby">response = adyen.payouts.submit_third_party('{
+  "amount": {
+    "currency": "EUR",
+    "value": "1000"
+  },
+  "recurring": {
+    "contract": "PAYOUT"
+  },
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "reference": "YOUR_REFERENCE",
+  "shopperEmail": "shopper@email.com",
+  "shopperReference": "TheShopperReference",
+  "selectedRecurringDetailReference": "LATEST"
+}')</code></pre>
+
+        <p>Note that you can combine these steps with the store_detail_and_submit_third_party method, by including the amount object in the original store_detail call.</p>
+
+        <h3 id="confirmordeclineapayout">Confirm or decline a payout</h3>
+
+        <p>Once you've stored the payout account details and submitted a payout request, you must confirm the payout to initialize the transfer of funds:</p>
+
+        <pre><code class="ruby language-ruby">response = adyen.payouts.confirm_third_party('{
+    "merchantAccount" : "YOUR_MERCHANT_ACCOUNT",
+    "originalReference" : "&lt;PSP reference in response from submit_third_party&gt;"
+}')</code></pre>
+
+        <p>If you decide to decline the payout, you can make the same call to the decline_third_party method to cancel it.</p>
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Adyen">Adyen</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>

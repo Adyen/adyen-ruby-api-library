@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Adyen-ruby-api-library by Adyen</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="stylesheets/prism.css">
+    <script src="javascripts/prism.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Adyen-ruby-api-library</h1>
+        <p>Adyen API Library for ruby</p>
+
+      <p class="view"><a href="https://github.com/Adyen/adyen-ruby-api-library">View the Project on GitHub <small>Adyen/adyen-ruby-api-library</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2 id="availablemethods">Available methods</h2>
+
+        <ul>
+        <li>store_token</li>
+
+        <li>list_recurring_details</li>
+
+        <li>disable</li>
+        </ul>
+
+        <h2 id="authentication">Authentication</h2>
+
+        <p>Recurring is authenticated via webservice username and password.</p>
+
+        <pre><code class="ruby language-ruby">adyen.ws_user = "ws@Company.TestCompany"
+adyen.ws_passord = "super_secure_password123"</code></pre></p>
+
+        <h2 id="usage">Usage</h2>
+
+        <p>The Recurring service is used to store and manage payment method details on the Adyen server.</p>
+
+        <p>To store details, make a call to the store_token method:</p>
+
+        <pre><code class="ruby language-ruby">response = adyen.recurring.store_token('{
+  "card": {
+    "number": "4111111111111111",
+    "expiryMonth": "8",
+    "expiryYear": "2018",
+    "cvc": "737",
+    "holderName": "John Smith"
+  },
+  "reference": "YOUR_REFERENCE",
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "shopperReference": "&lt;shopperReference&gt;",
+  "recurring": {
+    "contract": "RECURRING,ONECLICK"
+  }
+}')</code></pre>
+
+        <p>In the response you will receive a recurringDetailReference which can later be used in conjunction with the shopperReference to create a card on file charge for the shopper:</p>
+
+        <pre><code class="ruby language-ruby">response = adyen.payments.authorise('{
+   "amount":{
+      "value":2000,
+      "currency":"EUR"
+   },
+   "reference":"YOUR_REFERENCE",
+   "merchantAccount":"YOUR_MERCHANT_ACCOUNT",
+   "shopperReference":"&lt;shopperReference&gt;",
+   "selectedRecurringDetailReference":"&lt;recurringDetailReference from store_token response&gt;",
+   "recurring":{
+      "contract":"RECURRING"
+   },
+   "shopperInteraction":"ContAuth"
+}')</code></pre>
+
+        <p>To retrieve a list of payment methods associated with a shopper, use the list<em>recurring</em>details method:</p>
+
+        <pre><code class="ruby language-ruby">response = adyen.recurring.list_recurring_details('{
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "shopperReference": "&lt;shopperReference&gt;"
+}')</code></pre>
+
+        <p>If you no longer wish to associate a certain payment detail with a shopper, send a call to the disable method:</p>
+
+        <pre><code class="ruby language-ruby">response = adyen.recurring.disable('{
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "shopperReference": "&lt;shopperReference&gt;",
+  "recurringDetailReference": "&lt;recurringDetailReference&gt;"
+}')</code></pre>
+
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Adyen">Adyen</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Adyen-ruby-api-library by Adyen</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="stylesheets/prism.css">
+    <script src="javascripts/prism.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Adyen-ruby-api-library</h1>
+        <p>Adyen API Library for ruby</p>
+
+      <p class="view"><a href="https://github.com/Adyen/adyen-ruby-api-library">View the Project on GitHub <small>Adyen/adyen-ruby-api-library</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+      	<h2 id="availablemethods">Available methods</h2>
+
+<ul>
+<li>authorise</li>
+
+<li>authorise3d</li>
+
+<li>capture</li>
+
+<li>cancel</li>
+
+<li>refund</li>
+
+<li>cancel_or_refund</li>
+
+<li>adjust_authorisation</li>
+</ul>
+
+<h2 id="authentication">Authentication</h2>
+
+<p>Payments are authenticated via webservice username and password.</p>
+
+<pre><code class="ruby language-ruby">adyen.ws_user = "ws@Company.TestCompany"
+adyen.ws_passord = "super_secure_password123"</code></pre></p>
+
+<h2 id="usage">Usage</h2>
+
+<p>The Payments service can be used to authorise and modify payments by sending data directly to Adyen's servers.</p>
+
+<p>The simplest example is an authorise call with raw card data:</p>
+
+<pre><code class="ruby language-ruby">response = adyen.payments.authorise('{
+  "card": {
+    "number": "4111111111111111",
+    "expiryMonth": "08",
+    "expiryYear": "2018",
+    "holderName": "Test Person",
+    "cvc": "737"
+  },
+  "amount": {
+    "value": 1500,
+    "currency": "USD"
+  },
+  "reference": "YOUR_REFERENCE",
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}')
+</code></pre>
+
+<p>You can then capture the payment with a subsequent call to the capture method:</p>
+
+<pre><code class="ruby language-ruby">response = adyen.payments.capture('{
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "originalReference": "&lt;PSP reference from authorise response&gt;",
+  "modificationAmount": {
+    "value": 1500,
+    "currency": "USD"
+  }
+}')
+</code></pre>
+
+<p>Refunds and cancellations work in the same way.</p>
+
+<p>The adjust_authorisation method can be used to change the amount of an authorisation after the initial submission.  However this is only available for certain MCC's, so please contact support@adyen.com before sending your own requests.</p>
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Adyen">Adyen</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>

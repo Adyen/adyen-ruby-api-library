@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Adyen-ruby-api-library by Adyen</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="stylesheets/prism.css">
+    <script src="javascripts/prism.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Adyen-ruby-api-library</h1>
+        <p>Adyen API Library for ruby</p>
+
+      <p class="view"><a href="https://github.com/Adyen/adyen-ruby-api-library">View the Project on GitHub <small>Adyen/adyen-ruby-api-library</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Adyen/adyen-ruby-api-library">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2 id="availablemethods">Available methods</h2>
+
+        <h4 id="marketpayaccount">marketpay.account:</h4>
+
+        <ul>
+        <li>create_account_holder</li>
+
+        <li>get_account_holder</li>
+
+        <li>update_account_holder</li>
+
+        <li>update_account_holder_state</li>
+
+        <li>suspend_account_holder</li>
+
+        <li>un_suspend_account_holder</li>
+
+        <li>close_account_holder</li>
+
+        <li>create_account</li>
+
+        <li>update_account</li>
+
+        <li>close_account</li>
+
+        <li>upload_document</li>
+
+        <li>get_uploaded_documents</li>
+
+        <li>delete_bank_accounts</li>
+
+        <li>delete_shareholders</li>
+        </ul>
+
+        <h4 id="marketpayfund">marketpay.fund:</h4>
+
+        <ul>
+        <li>account_holder_balance</li>
+
+        <li>account_holder_transaction_list</li>
+
+        <li>payout_account_holder</li>
+
+        <li>transfer_funds</li>
+
+        <li>setup_beneficiary</li>
+
+        <li>refund_not_paid_out_transfers</li>
+        </ul>
+
+        <h4 id="marketpaynotification">marketpay.notification:</h4>
+
+        <ul>
+        <li>create_notification_configuration</li>
+
+        <li>get_notification_configuration</li>
+
+        <li>get_notification_configuration_list</li>
+
+        <li>test_notification_configuration</li>
+
+        <li>update_notification_configuration</li>
+
+        <li>delete_notification_configurations</li>
+        </ul>
+
+        <h2 id="overview">Overview</h2>
+
+        <p>Use Adyen MarketPay to power your marketplace with onboarding, payment processing, and payouts.</p>
+
+        <p>Adyen MarketPay is an end-to-end payment solution for platforms and marketplaces. MarketPay's extensive API powers many types of platforms, such as crowdfunding platforms, peer-to-peer marketplaces, and on-demand services.</p>
+
+        <p>MarketPay enables you to onboard sellers, service providers or contractors as sub-merchants and accept payments on their behalf. You can also split payments, transfer funds, and pay out to sub-merchants.</p>
+
+        <p>From a technical perspective, MarketPay is broken down into 3 separate services:</p>
+
+        <ul>
+        <li>Account</li>
+
+        <li>Fund</li>
+
+        <li>Notification</li>
+        </ul>
+
+        <h2 id="authentication">Authentication</h2>
+
+        <p>MarketPay is authenticated via webservice username and password.</p>
+
+        <pre><code class="ruby language-ruby">adyen.ws_user = "ws@Company.TestCompany"
+adyen.ws_passord = "super_secure_password123"</code></pre></p>
+
+        <h2 id="account">Account</h2>
+
+        <p>The Account service is used for onboarding and KYC for people on both sides of your marketplace.</p>
+
+        <p>To create an account holder, use the create_account_holder method:</p>
+
+        <pre><code class="ruby language-ruby">response = adyen.marketpay.account('{
+   "accountHolderCode":"GENERATE_CODE", // Your unique ID
+   "accountHolderDetails":{
+      "email":"tim@green.com",
+      "individualDetails":{
+         "name":{
+            "firstName":"Tim",
+            "gender": "MALE",
+            "lastName":"Green"
+         }
+      }
+   },
+   "legalEntity":"Individual"
+}')</code></pre>
+
+        <p>To enable payouts to an account, send required KYC information and docuemnts to the update_account_holder and upload_documents methods.  Required KYC can be found in our docs <a href="https://docs.adyen.com/developers/marketpay/onboarding-and-verification#step2step2enablepayouts">here</a>.</p>
+
+        <p>You can disable / delete account holders in the same way.</p>
+
+        <h2 id="fund">Fund</h2>
+
+        <p>The MarketPay Funding API provides endpoints for managing the funds in MarketPay accounts. These management operations include actions such as the transfer of funds from one account to another, the payout of funds to an account holder, and the retrieval of balances in an account.</p>
+
+        <p>For further information on MarketPay fund management, please visit the <a href="https://docs.adyen.com/developers/marketpay/marketpay-overview">MarketPay documentation</a>.</p>
+
+        <h2 id="notification">Notification</h2>
+
+        <p>The Adyen MarketPay system can send you notifications for a set of events during the flow, such as creating new accounts or account holders, performing KYC checks, making payouts, and so on. </p>
+
+        <p>These notifications are sent as webhooks to the corresponding URLs configured on your server. Refer to the <a href="https://docs.adyen.com/developers/marketpay/marketpay-notifications/configure-notifications">Configure notifications</a> section to learn how you can set up and test MarketPay notifications, and to <a href="Receive notifications">Receive notifications</a> to explore notification types and see the examples.</p>
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Adyen">Adyen</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>
