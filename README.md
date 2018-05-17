@@ -56,37 +56,37 @@ adyen.marketpay.account.close_account('{
 Requests are checked to make sure that all top-level required fields are present.  In addition, the presence of the correct method of authentication is confirmed before making the API call (wrong credentials are not caught).
 
 ## List of supported methods
-####checkout:
+###checkout:
 - payments
 - payments.details
 - payment_methods
 - setup
 - verify
 
-####payments:
+###payments:
 - authorise
 - authorise3d
 
-####modifications:
+###modifications:
 - capture
 - cancel
 - refund
 - cancel_or_refund
 - adjust_authorisation
 
-####payouts:
+###payouts:
 - confirm_third_party
 - decline_third_party
 - store_detail
 - submit_third_party
 - store_detail_and_submit_third_party
 
-####recurring:
+###recurring:
 - list_recurring_details
 - disable
 - store_token
 
-####marketpay.account:
+###marketpay.account:
 - create_account_holder
 - get_account_holder
 - update_account_holder
@@ -102,7 +102,7 @@ Requests are checked to make sure that all top-level required fields are present
 - delete_bank_accounts
 - delete_shareholders
 
-####marketpay.fund:
+###marketpay.fund:
 - account_holder_balance
 - account_holder_transaction_list
 - payout_account_holder
@@ -110,7 +110,7 @@ Requests are checked to make sure that all top-level required fields are present
 - setup_beneficiary
 - refund_not_paid_out_transfers
 
-####marketpay.notification:
+###marketpay.notification:
 - create_notification_configuration
 - get_notification_configuration
 - get_notification_configuration_list
