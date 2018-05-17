@@ -66,6 +66,8 @@ Requests are checked to make sure that all top-level required fields are present
 ####payments:
 - authorise
 - authorise3d
+
+####modifications:
 - capture
 - cancel
 - refund
