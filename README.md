@@ -2,6 +2,9 @@
 
 The Adyen API Library for Ruby lets you easily work with Adyen's API.
 
+GitHub Docs pages available here:
+https://adyen.github.io/adyen-dotnet-api-library/
+
 ## Requirements
 
 Built for Ruby >= 2.1
