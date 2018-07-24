@@ -80,12 +80,12 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # methods / fields to test on
   # format is defined in spec_helper
   test_sets = [
-      ["payment_session", "publicKeyToken", "8115054323780109"],
-      ["verify", "authResponse", "Authorised"],
-      ["payments", "resultCode", "Authorised"]
-    ]
+    ["payment_session", "publicKeyToken", "8115054323780109"],
+    ["verify", "authResponse", "Authorised"],
+    ["payments", "resultCode", "Authorised"]
+  ]
 
-    generate_tests(client, "Checkout", test_sets, client.checkout)
+  generate_tests(client, "Checkout", test_sets, client.checkout)
 end
 
 # rubocop:enable Metrics/BlockLength

@@ -113,6 +113,10 @@ module Adyen
       @checkout ||= Adyen::Checkout.new(self)
     end
 
+    def checkout_utility
+      @checkout_utility ||= Adyen::CheckoutUtility.new(self)
+    end
+
     def payments
       @payments ||= Adyen::Payments.new(self)
     end
