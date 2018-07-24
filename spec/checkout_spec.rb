@@ -46,6 +46,34 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to eq("RedirectShopper")
   end
 
+  # must be created manually due to payments/result format
+  it "makes a payments/result call" do
+    request_body = json_from_file("mocks/requests/Checkout/payment-result.json")
+    response_body = json_from_file("mocks/responses/Checkout/payment-result.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments/result", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
+    response = @shared_values[:client].checkout.payments.result(request_body)
+
+    expect(response.status).
+      to eq(200)
+    expect(response.body).
+      to eq(response_body)
+    expect((parsed_body = JSON.parse(response.body)).class).
+      to be Hash
+    expect(parsed_body["resultCode"]).
+      to eq("Authorised")
+  end
+
   # create client for automated tests
   client = create_client(:api_key)
 

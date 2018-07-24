@@ -42,5 +42,10 @@ module Adyen
       action = "payments/details"
       @client.call_adyen_api(@service, action, request, @version)
     end
+
+    def result(request)
+      action = "payments/result"
+      @client.call_adyen_api(@service, action, request, @version)
+    end
   end
 end
