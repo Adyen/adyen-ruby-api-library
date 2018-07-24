@@ -5,7 +5,7 @@ module Adyen
     DEFAULT_VERSION = 32
 
     def initialize(client, version = DEFAULT_VERSION)
-      service = 'PaymentSetupAndVerification'
+      service = 'Checkout'
       method_names = [
         :payment_methods,
         :payment_session,
@@ -33,7 +33,7 @@ module Adyen
 
   class CheckoutDetail < Service
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'PaymentSetupAndVerification'
+      @service = 'Checkout'
       @client = client
       @version = version
     end

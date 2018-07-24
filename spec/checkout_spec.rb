@@ -7,7 +7,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   before(:all) do
     @shared_values = {
       client: create_client(:api_key),
-      service: "PaymentSetupAndVerification",
+      service: "Checkout",
     }
   end
 
@@ -20,8 +20,8 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
 
   # must be created manually due to payments/details format
   it "makes a payments/details call" do
-    request_body = json_from_file("mocks/requests/PaymentSetupAndVerification/payment-details.json")
-    response_body = json_from_file("mocks/responses/PaymentSetupAndVerification/payment-details.json")
+    request_body = json_from_file("mocks/requests/Checkout/payment-details.json")
+    response_body = json_from_file("mocks/responses/Checkout/payment-details.json")
 
     url = @shared_values[:client].service_url(@shared_values[:service], "payments/details", @shared_values[:client].checkout.version)
     WebMock.stub_request(:post, url).
@@ -57,7 +57,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       ["payments", "resultCode", "Authorised"]
     ]
 
-    generate_tests(client, "PaymentSetupAndVerification", test_sets, client.checkout)
+    generate_tests(client, "Checkout", test_sets, client.checkout)
 end
 
 # rubocop:enable Metrics/BlockLength

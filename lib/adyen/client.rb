@@ -32,8 +32,8 @@ module Adyen
         "http://localhost:#{@mock_port}"
       else
         case service
-        when "PaymentSetupAndVerification"
-          "https://checkout-#{@env}.adyen.com/services"
+        when "Checkout"
+          "https://checkout-#{@env}.adyen.com/"
         when "Account", "Fund", "Notification"
           "https://cal-#{@env}.adyen.com/cal/services"
         when "Recurring", "Payment"
@@ -46,7 +46,11 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
+      if service == "Checkout"
+        "#{service_url_base(service)}/v#{version}/#{action}"
+      else
+        "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
+      end
     end
 
     # send request to adyen API
