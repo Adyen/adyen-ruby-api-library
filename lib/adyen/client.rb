@@ -5,7 +5,6 @@ require "active_support/core_ext"
 require "rexml/document"
 
 require_relative "./errors"
-require_relative "./validation"
 
 module Adyen
   class Client
@@ -50,59 +49,24 @@ module Adyen
       "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
     end
 
-    # validate string to be sent to API
-    def check_request_validity(service, action, request)
-      # create error for use later
-      error_message = "Request data must be a json-parsable string"
-      error_object = Adyen::ValidationError.new(error_message, request)
-
-      # type checking (not really rubinic)
-      raise error_object, error_message if !request.is_a?(String)
-      begin
-        # attempt to parse request string
-        mappable_request = JSON.parse(request)
-      rescue JSON::ParserError
-        raise error_object, error_message
-      end
-
-      # make sure all required fields are present
-      missing_fields = []
-      Adyen::Validation::REQUIRED_FIELDS[service.to_sym][action.to_sym].map do |required_field|
-        key_present = false
-        mappable_request.keys.map do |json_key|
-          if json_key.to_sym == required_field
-            key_present = true
-            break
-          end
-        end
-
-        # make a list of missing fields to report to user
-        if !key_present
-          missing_fields << required_field
-        end
-      end
-
-      # raise an error if a field is missing
-      raise Adyen::ValidationError.new("Missing required field(s) #{missing_fields} in request", request), "Missing required field(s) #{missing_fields} in request" unless missing_fields.empty?
-    end
-
     # send request to adyen API
     def call_adyen_api(service, action, request_data, version)
       # get URL for requested endpoint
       url = service_url(service, action, version)
 
       # make sure right authentication has been provided
-      case service
-      when "PaymentSetupAndVerification"
-        raise Adyen::AuthenticationError.new("Checkout API-key not set", request_data), "Checkout API-key not set" if @api_key.nil?
+      # will use api_key if present, otherwise ws_user and ws_password
+      if @api_key.nil?
+        if service == "PaymentSetupAndVerification"
+          raise Adyen::AuthenticationError.new("Checkout service requires API-key", request_data), "Checkout service requires API-key"
+        elsif @ws_password.nil? || @ws_user.nil?
+          raise Adyen::AuthenticationError.new("No authentication found - please set api_key or ws_user and ws_password", request_data), "No authentication found - please set api_key or ws_user and ws_password"
+        else
+          auth_type = "basic"
+        end
+      else
         auth_type = "api-key"
-      when "Payment", "Recurring", "Payout", "Account", "Fund", "Notification"
-        raise Adyen::AuthenticationError.new("Client.ws_user and client.ws_password must be set", request_data), "Client.ws_user and client.ws_password must be set" if @ws_password.nil? || @ws_user.nil?
-        auth_type = "basic"
       end
-
-      # validate request
-      check_request_validity(service, action, request_data)
 
       # initialize Faraday connection object
       conn = Faraday.new(url: url) do |faraday|

@@ -37,10 +37,4 @@ RSpec.describe Adyen do
       to raise_error(Adyen::AuthenticationError)
     @shared_values[:client].api_key = "api_key"
   end
-
-  it "fails a call which is missing required parameters" do
-    request_body = "{}"
-    expect{ @shared_values[:client].checkout.payment_methods(request_body) }.
-      to raise_error(Adyen::ValidationError)
-  end
 end

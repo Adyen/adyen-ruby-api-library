@@ -8,7 +8,7 @@ module Adyen
       service = 'PaymentSetupAndVerification'
       method_names = [
         :payment_methods,
-        :setup,
+        :payment_session,
         :verify
       ]
 

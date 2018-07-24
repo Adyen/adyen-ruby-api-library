@@ -52,7 +52,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # methods / fields to test on
   # format is defined in spec_helper
   test_sets = [
-      ["setup", "publicKeyToken", "8115054323780109"],
+      ["payment_session", "publicKeyToken", "8115054323780109"],
       ["verify", "authResponse", "Authorised"],
       ["payments", "resultCode", "Authorised"]
     ]

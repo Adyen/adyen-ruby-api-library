@@ -24,7 +24,7 @@ module Adyen
     class Account
       attr_accessor :version
 
-      def initialize(client, version = 3)
+      def initialize(client, version = 4)
         @client = client
         @version = version
         @service = "Account"
