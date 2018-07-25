@@ -11,7 +11,7 @@ module Adyen
     attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
     attr_reader :env
 
-    def initialize(ws_user = nil, ws_password = nil, api_key = nil, env = :live, adapter = nil, mock_port = 3001)
+    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key

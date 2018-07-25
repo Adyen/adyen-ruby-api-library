@@ -61,11 +61,14 @@ Requests are checked to make sure that all top-level required fields are present
 ## List of supported methods
 
 **checkout:**
+- payment_session
+- payments.result
+- payment_methods
 - payments
 - payments.details
-- payment_methods
-- setup
-- verify
+
+**checkout utility**
+- origin_keys
 
 **payments:**
 - authorise
