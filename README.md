@@ -2,9 +2,6 @@
 
 The Adyen API Library for Ruby lets you easily work with Adyen's API.
 
-GitHub Docs pages available here:
-https://adyen.github.io/adyen-ruby-api-library/
-
 ## Requirements
 
 Built for Ruby >= 2.1
@@ -15,7 +12,11 @@ The sole dependency is faraday for http communication - run `bundle install` to 
 
 To validate functionality of client, use `bundle install --with development` and `rspec` to run mock API tests.
 
-## Getting Started
+## Documentation
+
+Follow the rest of our guides from the [documentation](https://adyen.github.io/adyen-ruby-api-library/) on how to use this library.
+
+## Usage
 
 ### Create a client to connect to the Adyen API
 ```ruby
