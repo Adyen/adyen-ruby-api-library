@@ -1,26 +1,19 @@
+require_relative 'service'
+
 module Adyen
-  class Recurring
+  class Recurring < Service
     attr_accessor :version
+    DEFAULT_VERSION = 25
 
-    def initialize(client, version = 25)
-      @client = client
-      @version = version
-      @service = 'Recurring'
-    end
+    def initialize(client, version = DEFAULT_VERSION)
+      service = 'Recurring'
+      method_names = [
+        :list_recurring_details,
+        :disable,
+        :store_token
+      ]
 
-    def list_recurring_details(request)
-      action = 'listRecurringDetails'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def disable(request)
-      action = 'disable'
-      @client.call_adyen_api(@service, action, request, @version)
-    end
-
-    def store_token(request)
-      action = 'storeToken'
-      @client.call_adyen_api(@service, action, request, @version)
+      super(client, version, service, method_names)
     end
   end
 end
