@@ -76,6 +76,7 @@ module Adyen
       conn = Faraday.new(url: url) do |faraday|
         faraday.adapter @adapter
         faraday.headers["Content-Type"] = "application/json"
+        faraday.headers["User-Agent"] = "adyen-ruby-api-library/" + Adyen::VERSION
 
         # set auth type based on service
         case auth_type
