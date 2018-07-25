@@ -55,9 +55,9 @@
         <p>The front-end is described <a href="https://docs.adyen.com/developers/checkout/integrations-overview">here</a>
         </p>
 
-        <p>To perform the initial setup call to Adyen, call its method as below:</p>
+        <p>To perform the initial paymentSession call to Adyen, call its method as below:</p>
 
-        <pre><code class="ruby language-ruby">response = adyen.checkout.setup('{
+        <pre><code class="ruby language-ruby">response = adyen.checkout.paymentSession('{
   "amount": {
     "value": 1500,
     "currency": "EUR"

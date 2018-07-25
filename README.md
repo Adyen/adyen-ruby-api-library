@@ -67,7 +67,7 @@ Requests are checked to make sure that all top-level required fields are present
 - payments
 - payments.details
 
-**checkout utility**
+**checkout utility:**
 - origin_keys
 
 **payments:**
