@@ -9,6 +9,8 @@ https://adyen.github.io/adyen-ruby-api-library/
 
 Built for Ruby >= 2.1
 
+## Installation
+
 The sole dependency is faraday for http communication - run `bundle install` to install faraday if you don't already have it
 
 To validate functionality of client, use `bundle install --with development` and `rspec` to run mock API tests.
@@ -124,3 +126,11 @@ Requests are checked to make sure that all top-level required fields are present
 - test_notification_configuration
 - update_notification_configuration
 - delete_notification_configurations
+
+## Support
+
+If you have any problems, questions or suggestions, create an issue here or send your inquiry to support@adyen.com.
+  
+## Licence
+
+MIT license. For more information, see the LICENSE file.
