@@ -87,6 +87,11 @@ module Adyen
         end
       end
 
+      # convert request hashes to json string
+      if request_data.is_a? Hash
+         request_data = request_data.to_json
+      end
+
       # post request to Adyen
       begin
         response = conn.post do |req|
