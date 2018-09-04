@@ -33,7 +33,7 @@ module Adyen
       else
         case service
         when "Checkout"
-          "https://checkout-#{@env}.adyen.com/"
+          "https://checkout-#{@env}.adyen.com"
         when "Account", "Fund", "Notification"
           "https://cal-#{@env}.adyen.com/cal/services"
         when "Recurring", "Payment"
