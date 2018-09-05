@@ -33,7 +33,7 @@ module Adyen
       else
         case service
         when "Checkout"
-          "https://checkout-#{@env}.adyen.com/"
+          "https://checkout-#{@env}.adyen.com"
         when "Account", "Fund", "Notification"
           "https://cal-#{@env}.adyen.com/cal/services"
         when "Recurring", "Payment"
@@ -85,6 +85,11 @@ module Adyen
         when "api-key"
           faraday.headers["x-api-key"] = @api_key
         end
+      end
+
+      # convert request hashes to json string
+      if request_data.is_a? Hash
+         request_data = request_data.to_json
       end
 
       # post request to Adyen
