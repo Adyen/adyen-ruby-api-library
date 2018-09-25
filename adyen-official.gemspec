@@ -1,7 +1,7 @@
 require_relative "lib/adyen/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "adyen"
+  spec.name          = "adyen-official"
   spec.version       = Adyen::VERSION
   spec.authors       = ["Adyen"]
   spec.email         = [""]
