@@ -36,7 +36,7 @@ module Adyen
           "https://checkout-#{@env}.adyen.com"
         when "Account", "Fund", "Notification"
           "https://cal-#{@env}.adyen.com/cal/services"
-        when "Recurring", "Payment"
+        when "Recurring", "Payment", "Payout"
           "https://pal-#{@env}.adyen.com/pal/servlet"
         else
           raise ArgumentError, "Invalid service specified"
