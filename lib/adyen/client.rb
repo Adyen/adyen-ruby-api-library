@@ -8,7 +8,7 @@ require_relative "./errors"
 
 module Adyen
   class Client
-    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
+    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter, :checkout_url_prefix
     attr_reader :env
 
     def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001)
@@ -20,7 +20,7 @@ module Adyen
       @mock_port = mock_port
     end
 
-    # make sure that env can only be live or test
+    # make sure that env can only be :live, :test, or :mock
     def env=(value)
       raise ArgumentError, "Invalid value for Client.env: '#{value}'' - must be one of [:live, :test, :mock]" unless [:live, :test, :mock].include? value
       @env = value
@@ -33,7 +33,11 @@ module Adyen
       else
         case service
         when "Checkout"
-          "https://checkout-#{@env}.adyen.com"
+          if @env == :test
+            "https://checkout-#{@env}.adyen.com"
+          else
+            raise ArgumentError, "Please set Client.checkout_url_prefix to the portion of your merchant-specific URL prior to '-checkout-live'" if :checkout_url_prefix.nil?
+            "https://#{@checkout_url_prefix}-checkout-live.adyenpayments.com/checkout/services/PaymentSetupAndVerification"
         when "Account", "Fund", "Notification"
           "https://cal-#{@env}.adyen.com/cal/services"
         when "Recurring", "Payment", "Payout"
