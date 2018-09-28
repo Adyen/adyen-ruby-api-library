@@ -37,6 +37,7 @@ module Adyen
             "https://checkout-#{@env}.adyen.com"
           else
             raise ArgumentError, "Please set Client.checkout_url_prefix to the portion of your merchant-specific URL prior to '-checkout-live'" if :checkout_url_prefix.nil?
+          end
             "https://#{@checkout_url_prefix}-checkout-live.adyenpayments.com/checkout/services/PaymentSetupAndVerification"
         when "Account", "Fund", "Notification"
           "https://cal-#{@env}.adyen.com/cal/services"
