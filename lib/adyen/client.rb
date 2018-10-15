@@ -8,19 +8,20 @@ require_relative "./errors"
 
 module Adyen
   class Client
-    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
+    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter, :checkout_url_prefix
     attr_reader :env
 
-    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001)
+    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001, checkout_url_prefix: nil)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key
       @env = env
       @adapter = adapter || Faraday.default_adapter
       @mock_port = mock_port
+      @checkout_url_prefix = checkout_url_prefix
     end
 
-    # make sure that env can only be live or test
+    # make sure that env can only be :live, :test, or :mock
     def env=(value)
       raise ArgumentError, "Invalid value for Client.env: '#{value}'' - must be one of [:live, :test, :mock]" unless [:live, :test, :mock].include? value
       @env = value
@@ -33,10 +34,15 @@ module Adyen
       else
         case service
         when "Checkout"
-          "https://checkout-#{@env}.adyen.com"
+          if @env == :test
+            "https://checkout-test.adyen.com"
+          else
+            raise ArgumentError, "Please set Client.checkout_url_prefix to the portion of your merchant-specific URL prior to '-checkout-live'" if @checkout_url_prefix.nil?
+            "https://#{@checkout_url_prefix}-checkout-live.adyenpayments.com/checkout/services/PaymentSetupAndVerification"
+          end
         when "Account", "Fund", "Notification"
           "https://cal-#{@env}.adyen.com/cal/services"
-        when "Recurring", "Payment"
+        when "Recurring", "Payment", "Payout"
           "https://pal-#{@env}.adyen.com/pal/servlet"
         else
           raise ArgumentError, "Invalid service specified"
@@ -100,7 +106,7 @@ module Adyen
 
       # handle client errors
       rescue Faraday::ConnectionFailed => connection_error
-        raise connection_error, "Please confirm that Client.env is set to the right value (:live or :test)"
+        raise connection_error, "Connection to #{url} failed"
       end
 
       # check for API errors
