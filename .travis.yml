@@ -5,4 +5,4 @@ rvm:
   - jruby
 notifications:
   email: false
-script: rake
+script: bundle exec rspec

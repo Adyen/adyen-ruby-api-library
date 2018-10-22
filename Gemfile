@@ -8,4 +8,5 @@ gem "faraday"
 
 gem "bundler", :group => :development
 gem "webmock", :group => :development
+gem "rspec", :group => :development
 gem "activesupport", :group => :development
