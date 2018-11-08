@@ -44,6 +44,8 @@ module Adyen
         case service
         when "Checkout"
           url = "https://checkout-#{@env}.adyen.com/checkout/services/PaymentSetupAndVerification"
+        when "CheckoutUtility"
+          url = "https://checkout-#{@env}.adyen.com"
         when "Account", "Fund", "Notification"
           url = "https://cal-#{@env}.adyen.com/cal/services"
         when "Recurring", "Payment", "Payout"
