@@ -43,7 +43,7 @@ module Adyen
       else
         case service
         when "Checkout"
-          url = "https://checkout-#{@env}.adyen.com/checkout/services/PaymentSetupAndVerification"
+          url = "https://checkout-#{@env}.adyen.com/checkout/"
         when "CheckoutUtility"
           url = "https://checkout-#{@env}.adyen.com"
         when "Account", "Fund", "Notification"
