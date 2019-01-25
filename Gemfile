@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
-git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
+ruby "> 2.1.0"
 
-# Specify your gem's dependencies in adyen.gemspec
-gemspec
+gem "faraday"
 
-gem "rake"
-gem "webmock"
+gem "bundler", :group => :development
+gem "webmock", :group => :development
+gem "rspec", :group => :development
+gem "activesupport", :group => :development

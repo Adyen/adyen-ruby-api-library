@@ -3,7 +3,7 @@ require_relative 'service'
 module Adyen
   class Payments < Service
     attr_accessor :version
-    DEFAULT_VERSION = 30
+    DEFAULT_VERSION = 40
 
     def initialize(client, version = DEFAULT_VERSION)
       service = 'Payment'

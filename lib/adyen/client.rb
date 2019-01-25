@@ -8,17 +8,17 @@ require_relative "./errors"
 
 module Adyen
   class Client
-    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter, :checkout_url_prefix
+    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter, :live_url_prefix
     attr_reader :env
 
-    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001, checkout_url_prefix: nil)
+    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001, live_url_prefix: nil)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key
       @env = env
       @adapter = adapter || Faraday.default_adapter
       @mock_port = mock_port
-      @checkout_url_prefix = checkout_url_prefix
+      @live_url_prefix = live_url_prefix
     end
 
     # make sure that env can only be :live, :test, or :mock
@@ -27,26 +27,39 @@ module Adyen
       @env = value
     end
 
+    # remove 'https' from live_url_prefix if necessary
+    def live_url_prefix=(value)
+      if not value["https://"].nil?
+        value["https://"] = ""
+      end
+      @live_url_prefix = value
+    end
+
     # base URL for API given service and @env
     def service_url_base(service)
+      raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" if @live_url_prefix.nil? and @env == :live
       if @env == :mock
         "http://localhost:#{@mock_port}"
       else
         case service
         when "Checkout"
-          if @env == :test
-            "https://checkout-test.adyen.com"
-          else
-            raise ArgumentError, "Please set Client.checkout_url_prefix to the portion of your merchant-specific URL prior to '-checkout-live'" if @checkout_url_prefix.nil?
-            "https://#{@checkout_url_prefix}-checkout-live.adyenpayments.com/checkout/services/PaymentSetupAndVerification"
-          end
+          url = "https://checkout-#{@env}.adyen.com/checkout"
+        when "CheckoutUtility"
+          url = "https://checkout-#{@env}.adyen.com"
         when "Account", "Fund", "Notification"
-          "https://cal-#{@env}.adyen.com/cal/services"
+          url = "https://cal-#{@env}.adyen.com/cal/services"
         when "Recurring", "Payment", "Payout"
-          "https://pal-#{@env}.adyen.com/pal/servlet"
+          url = "https://pal-#{@env}.adyen.com/pal/servlet"
         else
           raise ArgumentError, "Invalid service specified"
         end
+
+        if @env == :live
+          url.insert(8, "#{@live_url_prefix}-")
+          url["adyen.com"] = "adyenpayments.com"
+        end
+
+        return url
       end
     end
 

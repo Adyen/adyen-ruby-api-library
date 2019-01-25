@@ -1,7 +1,14 @@
 sudo: false
 language: ruby
-rvm: 
-  - 2.0
-  - jruby
+
+rvm:
+- 2.5
+- 2.4
+- 2.3
+- 2.2
+- 2.1
+
 notifications:
   email: false
+
+script: bundle exec rspec

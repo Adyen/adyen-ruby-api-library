@@ -2,7 +2,7 @@ require_relative 'service'
 
 module Adyen
   class Checkout < Service
-    DEFAULT_VERSION = 32
+    DEFAULT_VERSION = 40
 
     def initialize(client, version = DEFAULT_VERSION)
       service = 'Checkout'
