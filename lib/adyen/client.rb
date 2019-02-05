@@ -137,9 +137,9 @@ module Adyen
 
     def add_application_info(request_data)
       external_platform = {
-        "adyenLibrary": {
-          name: Adyen::NAME,
-          version: Adyen::VERSION.to_s
+        :adyenLibrary => {
+          :name => Adyen::NAME,
+          :version => Adyen::VERSION.to_s
         }
       }
 
