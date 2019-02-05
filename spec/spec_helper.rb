@@ -1,6 +1,6 @@
 require "webmock/rspec"
 require "base64"
-require_relative "../lib/adyen-ruby-api-client"
+require_relative "../lib/adyen-ruby-api-library"
 
 # disable external connections
 WebMock.disable_net_connect!(allow_localhost: true)
