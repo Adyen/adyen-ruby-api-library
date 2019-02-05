@@ -15,8 +15,13 @@ end
 # returns hash of response from client
 def create_test(client, service, method_name, parent_object)
   # pull request and response from json files
-  request_body = json_from_file("mocks/requests/#{service}/#{method_name}.json")
+  request_body = JSON.parse(json_from_file("mocks/requests/#{service}/#{method_name}.json"))
   response_body = json_from_file("mocks/responses/#{service}/#{method_name}.json")
+
+
+  if service == 'Checkout' || service == 'CheckoutUtility'
+    client.add_application_info(request_body)
+  end
 
   # client-generated headers
   headers = {

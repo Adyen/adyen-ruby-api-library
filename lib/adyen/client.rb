@@ -107,7 +107,10 @@ module Adyen
         request_data = JSON.parse(request_data)
       end
 
-      add_application_info(request_data)
+      # add apllication only on checkout service
+      if service == 'Checkout' || service == 'CheckoutUtility'
+        add_application_info(request_data)
+      end
 
       # convert to json
       request_data = request_data.to_json
@@ -116,9 +119,7 @@ module Adyen
       begin
         response = conn.post do |req|
           req.body = request_data
-        end
-
-      # handle client errors
+        end # handle client errors
       rescue Faraday::ConnectionFailed => connection_error
         raise connection_error, "Connection to #{url} failed"
       end
