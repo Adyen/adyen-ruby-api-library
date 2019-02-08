@@ -32,7 +32,7 @@ Follow the rest of our guides from the [documentation](https://adyen.github.io/a
 
 ### Create a client to connect to the Adyen API
 ```ruby
-require 'adyen-ruby-api-client'
+require 'adyen-ruby-api-library'
 
 adyen = Adyen::Client.new
 
