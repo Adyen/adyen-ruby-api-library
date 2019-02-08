@@ -1,9 +1,5 @@
 require "faraday"
 require "json"
-require "active_support"
-require "active_support/core_ext"
-require "rexml/document"
-
 require_relative "./errors"
 
 module Adyen
@@ -95,7 +91,7 @@ module Adyen
       conn = Faraday.new(url: url) do |faraday|
         faraday.adapter @adapter
         faraday.headers["Content-Type"] = "application/json"
-        faraday.headers["User-Agent"] = "adyen-ruby-api-library/" + Adyen::VERSION
+        faraday.headers["User-Agent"] = Adyen::NAME + "/" + Adyen::VERSION
 
         # set auth type based on service
         case auth_type
@@ -106,18 +102,24 @@ module Adyen
         end
       end
 
-      # convert request hashes to json string
-      if request_data.is_a? Hash
-         request_data = request_data.to_json
+      # if json string convert to hash needed to add applicationInfo
+      if request_data.is_a?(String)
+        request_data = JSON.parse(request_data)
       end
+
+      # add apllication only on checkout service
+      if service == 'Checkout' || service == 'CheckoutUtility'
+        add_application_info(request_data)
+      end
+
+      # convert to json
+      request_data = request_data.to_json
 
       # post request to Adyen
       begin
         response = conn.post do |req|
           req.body = request_data
-        end
-
-      # handle client errors
+        end # handle client errors
       rescue Faraday::ConnectionFailed => connection_error
         raise connection_error, "Connection to #{url} failed"
       end
@@ -131,6 +133,17 @@ module Adyen
       end
 
       response
+    end
+
+    def add_application_info(request_data)
+      external_platform = {
+        :adyenLibrary => {
+          :name => Adyen::NAME,
+          :version => Adyen::VERSION.to_s
+        }
+      }
+
+      request_data[:applicationInfo] = external_platform
     end
 
     # services
