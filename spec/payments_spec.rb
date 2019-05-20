@@ -10,6 +10,7 @@ RSpec.describe Adyen::Payments, service: "payments service" do
     ["authorise", "resultCode", "Authorised"],
     ["adjust_authorisation", "response", "[adjustAuthorisation-received]"],
     ["authorise3d", "resultCode", "Authorised"],
+    ["authorise3ds2", "resultCode", "ChallengeShopper"],
     ["cancel", "response", "[cancel-received]"],
     ["cancel_or_refund", "response", "[cancelOrRefund-received]"],
     ["capture", "response", "[capture-received]"],

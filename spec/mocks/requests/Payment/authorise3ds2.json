@@ -1,0 +1,7 @@
+{
+   "merchantAccount":"TestMerchant",
+   "threeDS2RequestData":{
+      "threeDSCompInd":"Y"
+   },
+   "threeDS2Token":"BQABAQBPCQZ98WKh3v7qGnBlUMGClVzDolIjs8w/8L64WIAqaOGZipbZod7n+E="
+}
