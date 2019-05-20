@@ -2,6 +2,18 @@
 
 The Adyen API Library for Ruby lets you easily work with Adyen's API.
 
+## Integration
+
+The Library supports all APIs under the following services:
+
+* checkout
+* checkout utility
+* payments
+* modifications
+* payouts
+* recurring
+* marketpay
+
 ## Requirements
 
 Built for Ruby >= 2.1
@@ -20,7 +32,7 @@ Follow the rest of our guides from the [documentation](https://adyen.github.io/a
 
 ### Create a client to connect to the Adyen API
 ```ruby
-require 'adyen-ruby-api-client'
+require 'adyen-ruby-api-library'
 
 adyen = Adyen::Client.new
 
