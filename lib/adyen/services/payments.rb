@@ -10,6 +10,7 @@ module Adyen
       method_names = [
         :authorise,
         :authorise3d,
+        :authorise3ds2,
         :capture,
         :cancel,
         :refund,

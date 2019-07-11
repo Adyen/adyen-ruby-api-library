@@ -102,12 +102,13 @@ module Adyen
         end
       end
 
-      # if json string convert to hash needed to add applicationInfo
+      # if json string convert to hash
+      # needed to add applicationInfo
       if request_data.is_a?(String)
         request_data = JSON.parse(request_data)
       end
 
-      # add apllication only on checkout service
+      # add application only on checkout service
       if service == 'Checkout' || service == 'CheckoutUtility'
         add_application_info(request_data)
       end
@@ -127,14 +128,15 @@ module Adyen
       # check for API errors
       case response.status
       when 401
-        raise Adyen::AuthenticationError.new("Invalid webservice username / password", request_data)
+        raise Adyen::AuthenticationError.new("Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key", request_data)
       when 403
-        raise Adyen::PermissionError.new("Invalid Checkout API key", request_data)
+        raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data)
       end
 
       response
     end
 
+    # add application_info for analytics
     def add_application_info(request_data)
       external_platform = {
         :adyenLibrary => {

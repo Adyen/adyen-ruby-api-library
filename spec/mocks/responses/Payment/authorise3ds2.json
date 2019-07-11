@@ -1,0 +1,17 @@
+{
+   "additionalData":{
+      "threeds2.threeDS2ResponseData.dsReferenceNumber":"ADYEN-DS-SIMULATOR",
+      "threeds2.threeDS2ResponseData.transStatus":"C",
+      "threeds2.threeDS2ResponseData.acsChallengeMandated":"Y",
+      "threeds2.threeDS2ResponseData.acsURL":"http:\/\/localhost:8080\/threeds2simulator\/services\/ThreeDS2Simulator\/v1\/handle\/eb9c6eb3-57b3-400d-bf2f-4e72bd69dcec",
+      "threeds2.threeDS2ResponseData.threeDSServerTransID":"c9200190-5ffe-11e8-954f-2677777ae710",
+      "threeds2.threeDS2ResponseData.authenticationType":"01",
+      "threeds2.threeDS2ResponseData.dsTransID":"73aab3ce-eb39-49e8-8e9b-46fb77a472f1",
+      "threeds2.threeDS2ResponseData.messageVersion":"2.1.0",
+      "threeds2.threeDS2Token":"BQABAQBPCQZ98WKh3v7qGnBlUMGClVzDolIjs8w/8L64WIAqaOGZipbZod7n+E=...",
+      "threeds2.threeDS2ResponseData.acsTransID":"eb9c6eb3-57b3-400d-bf2f-4e72b779dcec",
+      "threeds2.threeDS2ResponseData.acsReferenceNumber":"ADYEN-ACS-SIMULATOR"
+   },
+   "pspReference":"9935272408577755",
+   "resultCode":"ChallengeShopper"
+}
