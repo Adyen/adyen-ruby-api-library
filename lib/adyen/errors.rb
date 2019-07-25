@@ -1,6 +1,6 @@
 module Adyen
   class AdyenError < StandardError
-    attr_reader :code, :response, :request
+    attr_reader :code, :response, :request, :msg
 
     def initialize(request = nil, response = nil, msg = nil, code = nil)
       @code = code
