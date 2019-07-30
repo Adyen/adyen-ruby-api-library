@@ -64,6 +64,11 @@ response = adyen.checkout.payments({
 })
 ```
 
+### Change API Version
+```ruby
+adyen.checkout.version = 49
+```
+
 ## List of supported methods
 
 **checkout:**
