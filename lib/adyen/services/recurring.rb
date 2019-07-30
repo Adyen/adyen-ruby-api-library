@@ -3,7 +3,7 @@ require_relative 'service'
 module Adyen
   class Recurring < Service
     attr_accessor :version
-    DEFAULT_VERSION = 25
+    DEFAULT_VERSION = 30
 
     def initialize(client, version = DEFAULT_VERSION)
       service = 'Recurring'

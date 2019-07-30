@@ -72,7 +72,7 @@ module Adyen
 
     class Notification < Service
       attr_accessor :version
-      DEFAULT_VERSION = 1
+      DEFAULT_VERSION = 5
 
       def initialize(client, version = DEFAULT_VERSION)
         service = 'Notification'
