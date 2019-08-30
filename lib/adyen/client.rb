@@ -138,14 +138,17 @@ module Adyen
 
     # add application_info for analytics
     def add_application_info(request_data)
-      external_platform = {
-        :adyenLibrary => {
+      adyenLibrary = {
           :name => Adyen::NAME,
           :version => Adyen::VERSION.to_s
-        }
       }
 
-      request_data[:applicationInfo] = external_platform
+      if request_data[:applicationInfo].nil?
+        request_data[:applicationInfo] = {};
+      end
+
+      request_data[:applicationInfo][:adyenLibrary] = adyenLibrary
+      request_data[:applicationInfo][:adyenLibraryTest] = adyenLibrary
     end
 
     # services

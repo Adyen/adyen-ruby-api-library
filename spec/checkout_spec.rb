@@ -21,6 +21,12 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # must be created manually due to payments/details format
   it "makes a payments/details call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment-details.json"))
+    request_body[:applicationInfo] = {}
+    request_body[:applicationInfo][:adyenPaymentSource] = {
+      :name => "adyen-test",
+      :version => "1.0.0",
+    }
+
     @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment-details.json")
@@ -38,6 +44,12 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
     response = @shared_values[:client].checkout.payments.details(request_body)
 
+    expect(request_body[:applicationInfo][:adyenLibrary][:name]).
+      to eq(Adyen::NAME)
+    expect(request_body[:applicationInfo][:adyenLibrary][:version]).
+      to eq(Adyen::VERSION)
+    expect(request_body[:applicationInfo][:adyenPaymentSource][:name]).
+      to eq("adyen-test")
     expect(response.status).
       to eq(200)
     expect(response.body).
