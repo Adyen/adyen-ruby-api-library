@@ -41,7 +41,7 @@ module Adyen
         when "Checkout"
           url = "https://checkout-#{@env}.adyen.com/checkout"
         when "CheckoutUtility"
-          url = "https://checkout-#{@env}.adyen.com"
+          url = "https://checkout-#{@env}.adyen.com/checkout"
         when "Account", "Fund", "Notification"
           url = "https://cal-#{@env}.adyen.com/cal/services"
         when "Recurring", "Payment", "Payout"
