@@ -5,7 +5,7 @@ module Adyen
     DEFAULT_VERSION = 1
 
     def initialize(client, version = DEFAULT_VERSION)
-      service = 'CheckoutUtility'
+      service = 'Checkout'
       method_names = [
         :origin_keys
       ]
