@@ -7,6 +7,7 @@ module Adyen
     def initialize(client, version = DEFAULT_VERSION)
       service = 'CheckoutUtility'
       method_names = [
+        :origin_keys
       ]
 
       super(client, version, service, method_names)
