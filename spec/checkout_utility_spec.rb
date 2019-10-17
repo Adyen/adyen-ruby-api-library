@@ -13,7 +13,7 @@ RSpec.describe Adyen::CheckoutUtility, service: "checkout utility" do
 
   it "sets the correct service URL base" do
     client = Adyen::Client.new(env: :test)
-    expect(client.service_url_base(@shared_values[:service])).to eq("https://checkout-test.adyen.com")
+    expect(client.service_url_base(@shared_values[:service])).to eq("https://checkout-test.adyen.com/checkout")
   end
 
   # must be created manually because every field in the response is an array

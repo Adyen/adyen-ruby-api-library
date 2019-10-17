@@ -41,7 +41,7 @@ module Adyen
         when "Checkout"
           url = "https://checkout-#{@env}.adyen.com/checkout"
         when "CheckoutUtility"
-          url = "https://checkout-#{@env}.adyen.com"
+          url = "https://checkout-#{@env}.adyen.com/checkout"
         when "Account", "Fund", "Notification"
           url = "https://cal-#{@env}.adyen.com/cal/services"
         when "Recurring", "Payment", "Payout"
@@ -61,7 +61,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout"
+      if service == "Checkout" || service == "CheckoutUtility"
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
