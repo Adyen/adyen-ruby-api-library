@@ -23,9 +23,10 @@ module Adyen
       case args.size
       when 0
         Adyen::CheckoutDetail.new(@client, @version)
-      when 1
+      else
         action = 'payments'
-        @client.call_adyen_api(@service, action, args[0], @version)
+        args[1] ||= {}  # optional headers arg
+        @client.call_adyen_api(@service, action, args[0], args[1], @version)
       end
     end
   end
@@ -37,14 +38,14 @@ module Adyen
       @version = version
     end
 
-    def details(request)
+    def details(request, headers = {})
       action = "payments/details"
-      @client.call_adyen_api(@service, action, request, @version)
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def result(request)
+    def result(request, headers = {})
       action = "payments/result"
-      @client.call_adyen_api(@service, action, request, @version)
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
   end
 end

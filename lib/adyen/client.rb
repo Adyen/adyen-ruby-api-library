@@ -69,7 +69,7 @@ module Adyen
     end
 
     # send request to adyen API
-    def call_adyen_api(service, action, request_data, version)
+    def call_adyen_api(service, action, request_data, headers, version)
       # get URL for requested endpoint
       url = service_url(service, action, version)
 
@@ -100,7 +100,14 @@ module Adyen
         when "api-key"
           faraday.headers["x-api-key"] = @api_key
         end
+
+        # add optional headers if specified in request
+        # will overwrite default headers if overlapping
+        headers.map do |key, value|
+          faraday.headers[key] = value
+        end
       end
+
 
       # if json string convert to hash
       # needed to add applicationInfo
