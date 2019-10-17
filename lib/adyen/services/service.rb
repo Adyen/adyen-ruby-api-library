@@ -9,9 +9,9 @@ module Adyen
 
       # dynamically create API methods
       method_names.each do |method_name|
-        define_singleton_method method_name do |request|
+        define_singleton_method method_name do |request, headers = {}|
           action = method_name.to_s.to_camel_case
-          @client.call_adyen_api(@service, action, request, @version)
+          @client.call_adyen_api(@service, action, request, headers, @version)
         end
       end
     end
