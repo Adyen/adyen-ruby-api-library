@@ -50,16 +50,18 @@ def create_test(client, service, method_name, parent_object)
     )
   response = parent_object.public_send(method_name, request_body)
 
+  # response.body is already a Ruby hash (rather than an unparsed JSON string)
+  response_body_hash = response.body
+
   # boilerplate error checks
   expect(response.status).
     to eq(200)
-  expect(response.body).
-    to eq(response_body)
-  expect((parsed_body = JSON.parse(response.body)).class).
+  expect(response_body_hash).
+    to eq(JSON.parse(response_body))
+  expect(response_body_hash.class).
     to be Hash
 
-  # return hash of response
-  parsed_body
+  response_body_hash
 end
 
 # creates tests from an array of arrays

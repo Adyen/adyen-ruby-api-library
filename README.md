@@ -66,7 +66,7 @@ response = adyen.checkout.payments({
 
 ### Change API Version
 ```ruby
-adyen.checkout.version = 49
+adyen.checkout.version = 50
 ```
 
 ## List of supported methods
@@ -139,7 +139,7 @@ adyen.checkout.version = 49
 ## Support
 
 If you have any problems, questions or suggestions, create an issue here or send your inquiry to support@adyen.com.
-  
+
 ## Licence
 
 MIT license. For more information, see the LICENSE file.
