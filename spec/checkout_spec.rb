@@ -44,7 +44,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
 
     result = @shared_values[:client].checkout.payments.details(request_body)
-    # response.body is already a Ruby hash (rather than an unparsed JSON string)
+    # result.response is already a Ruby hash (rather than an unparsed JSON string)
     response_hash = result.response
 
     expect(request_body[:applicationInfo][:adyenLibrary][:name]).
