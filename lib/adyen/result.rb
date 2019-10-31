@@ -1,11 +1,11 @@
 require 'json'
 
 module Adyen
-  class AdyenResponse
-    attr_reader :body, :header, :status
+  class AdyenResult
+    attr_reader :response, :header, :status
 
-    def initialize(body, header, status)
-      @body = JSON.parse(body)
+    def initialize(response, header, status)
+      @response = JSON.parse(response)
 
       # `header` in Faraday response is not a JSON string, but rather a
       # Faraday `Headers` object. Convert first before parsing

@@ -1,7 +1,7 @@
 require "faraday"
 require "json"
 require_relative "./errors"
-require_relative "./response"
+require_relative "./result"
 require_relative "./util"
 
 module Adyen
@@ -140,7 +140,7 @@ module Adyen
         raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data)
       end
 
-      formatted_response = AdyenResponse.new(response.body, response.headers, response.status)
+      formatted_response = AdyenResult.new(response.body, response.headers, response.status)
 
       formatted_response
     end
