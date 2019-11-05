@@ -40,17 +40,21 @@ module Adyen
         case service
         when "Checkout"
           url = "https://checkout-#{@env}.adyen.com/checkout"
+          supports_live_url_prefix = true
         when "CheckoutUtility"
           url = "https://checkout-#{@env}.adyen.com/checkout"
+          supports_live_url_prefix = true
         when "Account", "Fund", "Notification"
           url = "https://cal-#{@env}.adyen.com/cal/services"
+          supports_live_url_prefix = false
         when "Recurring", "Payment", "Payout"
           url = "https://pal-#{@env}.adyen.com/pal/servlet"
+          supports_live_url_prefix = true
         else
           raise ArgumentError, "Invalid service specified"
         end
 
-        if @env == :live
+        if @env == :live && supports_live_url_prefix
           url.insert(8, "#{@live_url_prefix}-")
           url["adyen.com"] = "adyenpayments.com"
         end
