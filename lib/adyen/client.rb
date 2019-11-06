@@ -40,17 +40,21 @@ module Adyen
         case service
         when "Checkout"
           url = "https://checkout-#{@env}.adyen.com/checkout"
+          supports_live_url_prefix = true
         when "CheckoutUtility"
-          url = "https://checkout-#{@env}.adyen.com"
+          url = "https://checkout-#{@env}.adyen.com/checkout"
+          supports_live_url_prefix = true
         when "Account", "Fund", "Notification"
           url = "https://cal-#{@env}.adyen.com/cal/services"
+          supports_live_url_prefix = false
         when "Recurring", "Payment", "Payout"
           url = "https://pal-#{@env}.adyen.com/pal/servlet"
+          supports_live_url_prefix = true
         else
           raise ArgumentError, "Invalid service specified"
         end
 
-        if @env == :live
+        if @env == :live && supports_live_url_prefix
           url.insert(8, "#{@live_url_prefix}-")
           url["adyen.com"] = "adyenpayments.com"
         end
@@ -61,7 +65,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout"
+      if service == "Checkout" || service == "CheckoutUtility"
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
@@ -69,7 +73,7 @@ module Adyen
     end
 
     # send request to adyen API
-    def call_adyen_api(service, action, request_data, version)
+    def call_adyen_api(service, action, request_data, headers, version)
       # get URL for requested endpoint
       url = service_url(service, action, version)
 
@@ -100,7 +104,14 @@ module Adyen
         when "api-key"
           faraday.headers["x-api-key"] = @api_key
         end
+
+        # add optional headers if specified in request
+        # will overwrite default headers if overlapping
+        headers.map do |key, value|
+          faraday.headers[key] = value
+        end
       end
+
 
       # if json string convert to hash
       # needed to add applicationInfo
