@@ -9,13 +9,13 @@ module Adyen
     attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter, :live_url_prefix
     attr_reader :env
 
-    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001, live_url_prefix: nil)
+    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001, live_url_prefix: nil, mock_service_url_base: nil)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key
       @env = env
       @adapter = adapter || Faraday.default_adapter
-      @mock_port = mock_port
+      @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
     end
 
@@ -37,22 +37,26 @@ module Adyen
     def service_url_base(service)
       raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" if @live_url_prefix.nil? and @env == :live
       if @env == :mock
-        "http://localhost:#{@mock_port}"
+        @mock_service_url_base
       else
         case service
         when "Checkout"
           url = "https://checkout-#{@env}.adyen.com/checkout"
+          supports_live_url_prefix = true
         when "CheckoutUtility"
           url = "https://checkout-#{@env}.adyen.com/checkout"
+          supports_live_url_prefix = true
         when "Account", "Fund", "Notification"
           url = "https://cal-#{@env}.adyen.com/cal/services"
+          supports_live_url_prefix = false
         when "Recurring", "Payment", "Payout"
           url = "https://pal-#{@env}.adyen.com/pal/servlet"
+          supports_live_url_prefix = true
         else
           raise ArgumentError, "Invalid service specified"
         end
 
-        if @env == :live
+        if @env == :live && supports_live_url_prefix
           url.insert(8, "#{@live_url_prefix}-")
           url["adyen.com"] = "adyenpayments.com"
         end
