@@ -1,6 +1,6 @@
 # This utility method monkey-patches Ruby's Hash class to allow keys to be read
 # and updated with dot notation. Usage is entirely optional (i.e.,  hash values
-# can still be accessed via symbol and string keys.
+# can still be accessed via symbol and string keys).
 #
 # Credit: https://gist.github.com/winfred/2185384#file-ruby-dot-hash-access-rb
 
