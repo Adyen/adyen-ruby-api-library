@@ -1,6 +1,8 @@
 require "faraday"
 require "json"
 require_relative "./errors"
+require_relative "./result"
+require_relative "./util"
 
 module Adyen
   class Client
@@ -111,8 +113,6 @@ module Adyen
           faraday.headers[key] = value
         end
       end
-
-
       # if json string convert to hash
       # needed to add applicationInfo
       if request_data.is_a?(String)
@@ -144,7 +144,9 @@ module Adyen
         raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data)
       end
 
-      response
+      formatted_response = AdyenResult.new(response.body, response.headers, response.status)
+
+      formatted_response
     end
 
     # add application_info for analytics

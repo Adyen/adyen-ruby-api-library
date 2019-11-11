@@ -42,7 +42,10 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to_return(
         body: response_body
       )
-    response = @shared_values[:client].checkout.payments.details(request_body)
+
+    result = @shared_values[:client].checkout.payments.details(request_body)
+    # result.response is already a Ruby hash (rather than an unparsed JSON string)
+    response_hash = result.response
 
     expect(request_body[:applicationInfo][:adyenLibrary][:name]).
       to eq(Adyen::NAME)
@@ -50,13 +53,13 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to eq(Adyen::VERSION)
     expect(request_body[:applicationInfo][:adyenPaymentSource][:name]).
       to eq("adyen-test")
-    expect(response.status).
+    expect(result.status).
       to eq(200)
-    expect(response.body).
-      to eq(response_body)
-    expect((parsed_body = JSON.parse(response.body)).class).
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash.class).
       to be Hash
-    expect(parsed_body["resultCode"]).
+    expect(response_hash["resultCode"]).
       to eq("RedirectShopper")
   end
 
@@ -78,15 +81,17 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to_return(
         body: response_body
       )
-    response = @shared_values[:client].checkout.payments.result(request_body)
 
-    expect(response.status).
+    result = @shared_values[:client].checkout.payments.result(request_body)
+    response_hash = result.response
+
+    expect(result.status).
       to eq(200)
-    expect(response.body).
-      to eq(response_body)
-    expect((parsed_body = JSON.parse(response.body)).class).
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash.class).
       to be Hash
-    expect(parsed_body["resultCode"]).
+    expect(response_hash["resultCode"]).
       to eq("Authorised")
   end
 
