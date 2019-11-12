@@ -1,19 +1,21 @@
 require "faraday"
 require "json"
 require_relative "./errors"
+require_relative "./result"
+require_relative "./util"
 
 module Adyen
   class Client
     attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter, :live_url_prefix
     attr_reader :env
 
-    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001, live_url_prefix: nil)
+    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001, live_url_prefix: nil, mock_service_url_base: nil)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key
       @env = env
       @adapter = adapter || Faraday.default_adapter
-      @mock_port = mock_port
+      @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
     end
 
@@ -35,7 +37,7 @@ module Adyen
     def service_url_base(service)
       raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" if @live_url_prefix.nil? and @env == :live
       if @env == :mock
-        "http://localhost:#{@mock_port}"
+        @mock_service_url_base
       else
         case service
         when "Checkout"
@@ -111,8 +113,6 @@ module Adyen
           faraday.headers[key] = value
         end
       end
-
-
       # if json string convert to hash
       # needed to add applicationInfo
       if request_data.is_a?(String)
@@ -144,7 +144,9 @@ module Adyen
         raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data)
       end
 
-      response
+      formatted_response = AdyenResult.new(response.body, response.headers, response.status)
+
+      formatted_response
     end
 
     # add application_info for analytics
