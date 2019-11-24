@@ -39,7 +39,8 @@ def create_test(client, service, method_name, parent_object)
   end
 
   # stub request
-  url = client.service_url(service, method_name.to_camel_case, parent_object.version)
+  action = Adyen::Service.action_for_method_name(method_name)
+  url = client.service_url(service, action, parent_object.version)
   WebMock.stub_request(:post, url).
     with(
       body: request_body,
