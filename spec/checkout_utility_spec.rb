@@ -19,8 +19,10 @@ RSpec.describe Adyen::CheckoutUtility, service: "checkout utility" do
   # must be created manually because every field in the response is an array
   it "makes an origin_keys call" do
     parsed_body = create_test(@shared_values[:client], @shared_values[:service], "origin_keys", @shared_values[:client].checkout_utility)
-    expect(parsed_body["originKeys"].class).
-      to be Hash
+    expect(parsed_body["originKeys"]).
+      to be_a Adyen::HashWithAccessors
+    expect(parsed_body["originKeys"]).
+      to be_a_kind_of Hash
   end
 end
 

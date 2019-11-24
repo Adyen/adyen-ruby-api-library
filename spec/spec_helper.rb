@@ -50,7 +50,7 @@ def create_test(client, service, method_name, parent_object)
     )
   result = parent_object.public_send(method_name, request_body)
 
-  # result.response is already a Ruby hash (rather than an unparsed JSON string)
+  # result.response is already a Ruby object (Adyen::HashWithAccessors) (rather than an unparsed JSON string)
   response_hash = result.response
 
   # boilerplate error checks
@@ -58,8 +58,10 @@ def create_test(client, service, method_name, parent_object)
     to eq(200)
   expect(response_hash).
     to eq(JSON.parse(response_body))
-  expect(response_hash.class).
-    to be Hash
+  expect(response_hash).
+    to be_a Adyen::HashWithAccessors
+  expect(response_hash).
+    to be_a_kind_of Hash
 
   response_hash
 end

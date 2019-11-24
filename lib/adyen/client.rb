@@ -2,7 +2,6 @@ require "faraday"
 require "json"
 require_relative "./errors"
 require_relative "./result"
-require_relative "./util"
 
 module Adyen
   class Client
