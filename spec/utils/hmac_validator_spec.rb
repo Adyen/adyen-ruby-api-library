@@ -35,18 +35,18 @@ RSpec.describe Adyen::Utils::HmacValidator do
     end
 
     it 'should encrypt properly' do
-      encrypted = validator.calculate_hmac(notification_request_item, key)
+      encrypted = validator.calculate_notification_hmac(notification_request_item, key)
       expect(encrypted).to eq expected_sign
     end
 
     it 'should have a valid hmac' do
-      expect(validator.validate(notification_request_item, key)).to be_truthy
+      expect(validator.valid_notification_hmac?(notification_request_item, key)).to be true
     end
 
     it 'should have an invalid hmac' do
       notification_request_item['additionalData'] = { 'hmacSignature' => 'invalidHMACsign' }
 
-      expect(validator.validate(notification_request_item, key)).to be_falsy
+      expect(validator.valid_notification_hmac?(notification_request_item, key)).to be false
     end
   end
 end
