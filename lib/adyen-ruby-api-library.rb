@@ -8,6 +8,8 @@ require_relative "adyen/services/payouts"
 require_relative "adyen/services/recurring"
 require_relative "adyen/services/marketpay"
 require_relative "adyen/services/service"
+require_relative "adyen/hash_with_accessors"
+require_relative "adyen/utils/hmac_validator"
 
 # add snake case to camel case converter to String
 # to convert rubinic method names to Adyen API methods

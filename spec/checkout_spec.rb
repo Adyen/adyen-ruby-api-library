@@ -57,9 +57,13 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to eq(200)
     expect(response_hash).
       to eq(JSON.parse(response_body))
-    expect(response_hash.class).
-      to be Hash
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
     expect(response_hash["resultCode"]).
+      to eq("RedirectShopper")
+    expect(response_hash.resultCode).
       to eq("RedirectShopper")
   end
 
@@ -89,9 +93,13 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to eq(200)
     expect(response_hash).
       to eq(JSON.parse(response_body))
-    expect(response_hash.class).
-      to be Hash
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
     expect(response_hash["resultCode"]).
+      to eq("Authorised")
+    expect(response_hash.resultCode).
       to eq("Authorised")
   end
 
