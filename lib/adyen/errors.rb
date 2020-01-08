@@ -10,9 +10,9 @@ module Adyen
           if request[k].is_a?(Hash)
             request[k].each do |k2, v2|
               if k2 == :number
-                v2.replace("#{v2[0,6]}******#{v2[12,16]}")
+                request[k][k2] = "#{v2[0,6]}******#{v2[12,16]}"
               elsif k2 == :cvc
-                v2.replace("*" * v2.length)
+                request[k][k2] = "*" * v2.length
               end
             end
           end
