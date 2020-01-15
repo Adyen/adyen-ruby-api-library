@@ -3,21 +3,7 @@ module Adyen
     attr_reader :code, :response, :request, :msg
 
     def initialize(request = nil, response = nil, msg = nil, code = nil)
-      # mask PCI data in request
-      if not request.nil?
-        request = request.is_a?(Hash) ? request : JSON.parse(request)
-        request.each do |k, v|
-          if request[k].is_a?(Hash)
-            request[k].each do |k2, v2|
-              if k2 == :number
-                request[k][k2] = "#{v2[0,6]}******#{v2[12,16]}"
-              elsif k2 == :cvc
-                request[k][k2] = "*" * v2.length
-              end
-            end
-          end
-        end
-      end
+      mask_fields(request)
 
       # components of formatted error message
       attributes = {
@@ -34,6 +20,43 @@ module Adyen
       @response = response
       @request = request
       @msg = msg
+    end
+
+    # mask PCI data in request
+    def mask_fields(request)
+      return if request.nil?
+
+      # sensitive fields
+      fields_to_mask = [
+        :expiryMonth,
+        :expiryYear,
+        :encryptedCardNumber,
+        :encryptedExpiryMonth,
+        :encryptedExpiryYear,
+        :encryptedSecurityCode
+      ]
+
+      # convert to hash if necessary
+      request = request.is_a?(Hash) ? request : JSON.parse(request)
+
+      # iterate through request to find fields to mask
+      request.each do |k, v|
+        if request[k].is_a?(Hash)
+          # recursively traverse multi-level hashes
+          mask_fields(request[k])
+        else
+          if k == :number
+            # show first 6 and last 4 for cards
+            request[k] = "#{v[0,6]}******#{v[12,16]}"
+          elsif k == :cvc
+            # show length of cvc for debugging
+            request[k] = "*" * v.length
+          elsif fields_to_mask.include? k
+            # generic mask for other fields
+            request[k] = "***"
+          end
+        end
+      end
     end
   end
 
