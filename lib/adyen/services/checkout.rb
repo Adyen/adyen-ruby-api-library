@@ -8,7 +8,8 @@ module Adyen
       service = 'Checkout'
       method_names = [
         :payment_methods,
-        :payment_session
+        :payment_session,
+        :payment_links
       ]
 
       super(client, version, service, method_names)
