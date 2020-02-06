@@ -24,6 +24,7 @@ RSpec.describe Adyen::Service do
       expect(described_class.action_for_method_name(:get_uploaded_documents)).to eq 'getUploadedDocuments'
       expect(described_class.action_for_method_name(:list_recurring_details)).to eq 'listRecurringDetails'
       expect(described_class.action_for_method_name(:origin_keys)).to eq 'originKeys'
+      expect(described_class.action_for_method_name(:payment_links)).to eq 'paymentLinks'
       expect(described_class.action_for_method_name(:payment_methods)).to eq 'paymentMethods'
       expect(described_class.action_for_method_name(:payment_session)).to eq 'paymentSession'
       expect(described_class.action_for_method_name(:refund)).to eq 'refund'

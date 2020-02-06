@@ -77,6 +77,7 @@ adyen.checkout.version = 50
 - payment_methods
 - payments
 - payments.details
+- payment_links
 
 **checkout utility:**
 - origin_keys
