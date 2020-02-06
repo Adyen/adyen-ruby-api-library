@@ -26,6 +26,7 @@ RSpec.describe Adyen::Service do
       expect(described_class.action_for_method_name(:origin_keys)).to eq 'originKeys'
       expect(described_class.action_for_method_name(:payment_methods)).to eq 'paymentMethods'
       expect(described_class.action_for_method_name(:payment_session)).to eq 'paymentSession'
+      expect(described_class.action_for_method_name(:payment_links)).to eq 'paymentLinks'
       expect(described_class.action_for_method_name(:refund)).to eq 'refund'
       expect(described_class.action_for_method_name(:store_detail)).to eq 'storeDetail'
       expect(described_class.action_for_method_name(:store_detail_and_submit_third_party)).to eq 'storeDetailAndSubmitThirdParty'

@@ -1,0 +1,9 @@
+{
+  "amount": {
+    "currency": "USD",
+    "value": 1000
+  },
+  "expiresAt": "2019-12-14T10:05:29Z",
+  "reference": "Merchant Reference",
+  "url": "https://checkoutshopper-test.adyen.com"
+}
