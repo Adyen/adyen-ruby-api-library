@@ -110,6 +110,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # format is defined in spec_helper
   test_sets = [
     ["payment_session", "publicKeyToken", "8115054323780109"],
+    ["payment_links", "url", "https://checkoutshopper-test.adyen.com"],
     ["payments", "resultCode", "Authorised"]
   ]
 

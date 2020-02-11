@@ -41,6 +41,8 @@
         <li>payments</li>
 
         <li>payments.details</li>
+
+        <li>payment_links</li>
         </ul>
 
         <h2 id="authentication">Authentication</h2>
@@ -99,7 +101,22 @@
 
         <p>A successful call to payment_methods will return a list of supported payment methods along with redirect URL's so that you can send your shoppers directly to the issuer's site without losing control of front-end styling / logic.</p>
 
+        You can also create a link to Adyen's hosted payment form:
+
+        <pre><code class="ruby language-ruby">response = adyen.checkout.payment_links('{
+  "amount": {
+    "value": 1500,
+    "currency": "EUR"
+  },
+  "countryCode": "US",
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "reference": "YOUR_REFERENCE"
+}')</code></pre>
+
+        <p>A successful call to payment_links will return a url, which directs a user to Adyen's hosted payment form.</p>
       </section>
+
+
       <footer>
         <p>This project is maintained by <a href="https://github.com/Adyen">Adyen</a></p>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
