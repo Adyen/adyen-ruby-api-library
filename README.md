@@ -137,6 +137,9 @@ adyen.checkout.version = 50
 - update_notification_configuration
 - delete_notification_configurations
 
+**marketpay.hop:**
+- get_onboarding_url
+
 ## Support
 
 If you have any problems, questions or suggestions, create an issue here or send your inquiry to support@adyen.com.

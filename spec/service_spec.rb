@@ -38,6 +38,7 @@ RSpec.describe Adyen::Service do
       expect(described_class.action_for_method_name(:update_account_holder)).to eq 'updateAccountHolder'
       expect(described_class.action_for_method_name(:update_account_holder_state)).to eq 'updateAccountHolderState'
       expect(described_class.action_for_method_name(:upload_document)).to eq 'uploadDocument'
+      expect(described_class.action_for_method_name(:get_onboarding_url)).to eq 'getOnboardingUrl'
     end
   end
 end

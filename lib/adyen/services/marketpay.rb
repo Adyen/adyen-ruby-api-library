@@ -21,6 +21,10 @@ module Adyen
       def notification
         @notification ||= Adyen::Marketpay::Notification.new(@client)
       end
+
+      def hop
+        @hop ||= Adyen::Marketpay::Hop.new(@client)
+      end
     end
 
     class Account < Service
@@ -83,6 +87,20 @@ module Adyen
           :delete_notification_configurations,
           :get_notification_configuration_list,
           :test_notification_configuration
+        ]
+
+        super(client, version, service, method_names)
+      end
+    end
+
+    class Hop < Service
+      attr_accessor :version
+      DEFAULT_VERSION = 1
+
+      def initialize(client, version = DEFAULT_VERSION)
+        service = 'Hop'
+        method_names = [
+          :get_onboarding_url
         ]
 
         super(client, version, service, method_names)
