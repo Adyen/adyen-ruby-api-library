@@ -1,0 +1,4 @@
+{
+  "accountHolderCode": "YourUniqueAccountHolderCode",
+  "returnUrl": "https://your.return-url.com/?submerchant=123"
+}

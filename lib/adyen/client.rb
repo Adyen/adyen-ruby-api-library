@@ -45,7 +45,7 @@ module Adyen
         when "CheckoutUtility"
           url = "https://checkout-#{@env}.adyen.com/checkout"
           supports_live_url_prefix = true
-        when "Account", "Fund", "Notification"
+        when "Account", "Fund", "Notification", "Hop"
           url = "https://cal-#{@env}.adyen.com/cal/services"
           supports_live_url_prefix = false
         when "Recurring", "Payment", "Payout"
