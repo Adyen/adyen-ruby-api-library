@@ -1,0 +1,11 @@
+{
+    "companyAccount": "TestCompany",
+    "merchantAccounts": [
+        {
+            "merchantAccount": "TestMerchant",
+            "inStoreTerminals": [
+                "P400Plus-123456789"
+            ]
+        }
+    ]
+}
