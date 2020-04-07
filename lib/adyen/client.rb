@@ -45,12 +45,15 @@ module Adyen
         when "CheckoutUtility"
           url = "https://checkout-#{@env}.adyen.com/checkout"
           supports_live_url_prefix = true
-        when "Account", "Fund", "Notification"
+        when "Account", "Fund", "Notification", "Hop"
           url = "https://cal-#{@env}.adyen.com/cal/services"
           supports_live_url_prefix = false
         when "Recurring", "Payment", "Payout"
           url = "https://pal-#{@env}.adyen.com/pal/servlet"
           supports_live_url_prefix = true
+        when "Terminal"
+          url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
@@ -66,7 +69,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "CheckoutUtility"
+      if service == "Checkout" || service == "CheckoutUtility" || service == "Terminal"
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
@@ -186,6 +189,10 @@ module Adyen
 
     def marketpay
       @marketpay ||= Adyen::Marketpay::Marketpay.new(self)
+    end
+
+    def postfmapi
+      @postfmapi ||= Adyen::PosTerminalManagement.new(self)
     end
   end
 end

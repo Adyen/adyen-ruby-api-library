@@ -13,6 +13,7 @@ The Library supports all APIs under the following services:
 * payouts
 * recurring
 * marketpay
+* postfmapi
 
 ## Requirements
 
@@ -136,6 +137,14 @@ adyen.checkout.version = 50
 - test_notification_configuration
 - update_notification_configuration
 - delete_notification_configurations
+
+**marketpay.hop:**
+- get_onboarding_url
+
+**postfmapi:**
+- assign_terminals
+- find_terminal
+- get_terminals_under_account
 
 ## Support
 

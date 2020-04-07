@@ -1,0 +1,6 @@
+{
+	"companyAccount": "TestCompany",
+	"merchantAccount": "TestMerchant",
+	"merchantInventory": false,
+	"terminals": ["e285-123456789"]
+}
