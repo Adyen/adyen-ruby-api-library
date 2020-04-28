@@ -14,6 +14,7 @@ The Library supports all APIs under the following services:
 * recurring
 * marketpay
 * postfmapi
+* data_protection
 
 ## Requirements
 
@@ -145,6 +146,9 @@ adyen.checkout.version = 50
 - assign_terminals
 - find_terminal
 - get_terminals_under_account
+
+**data_protection:**
+- request_subject_erasure
 
 ## Support
 

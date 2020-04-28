@@ -1,0 +1,5 @@
+{
+  "merchantAccount": "test_merchant",
+  "pspReference": "test_reference",
+  "forceErasure": true
+}
