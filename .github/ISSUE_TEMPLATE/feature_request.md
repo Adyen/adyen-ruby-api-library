@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**dotnet version**: x.y.z
+**ruby version**: x.y.z
 **Library version**: x.y.z
 
 **Is your feature request related to a problem? Please describe.**
