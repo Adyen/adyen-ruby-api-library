@@ -1,4 +1,4 @@
 module Adyen
   NAME = "adyen-ruby-api-library"
-  VERSION = "4.1.0".freeze
+  VERSION = "4.2.0".freeze
 end

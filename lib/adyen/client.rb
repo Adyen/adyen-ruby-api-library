@@ -54,6 +54,9 @@ module Adyen
         when "Terminal"
           url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
           supports_live_url_prefix = false
+        when "DataProtectionService"
+          url = "https://ca-#{@env}.adyen.com/ca/services"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
@@ -193,6 +196,10 @@ module Adyen
 
     def postfmapi
       @postfmapi ||= Adyen::PosTerminalManagement.new(self)
+    end
+
+    def data_protection
+      @data_protection ||= Adyen::DataProtection.new(self)
     end
   end
 end
