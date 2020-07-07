@@ -14,7 +14,8 @@ RSpec.describe Adyen::Payments, service: "payments service" do
     ["cancel", "response", "[cancel-received]"],
     ["cancel_or_refund", "response", "[cancelOrRefund-received]"],
     ["capture", "response", "[capture-received]"],
-    ["refund", "response", "[refund-received]"]
+    ["refund", "response", "[refund-received]"],
+    ["donate", "response", "[donation-received]"]
   ]
 
   generate_tests(client, "Payment", test_sets, client.payments)
