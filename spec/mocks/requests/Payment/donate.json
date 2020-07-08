@@ -1,0 +1,10 @@
+{
+  "originalReference": "882594077439995E",
+  "modificationAmount": {
+    "value": 100,
+    "currency": "USD"
+  },
+  "reference": "Donation",
+  "donationAccount": "TestMerchantDonations",
+  "merchantAccount": "TestMerchant"
+}

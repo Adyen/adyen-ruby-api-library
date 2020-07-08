@@ -15,7 +15,8 @@ module Adyen
         :cancel,
         :refund,
         :cancel_or_refund,
-        :adjust_authorisation
+        :adjust_authorisation,
+        :donate
       ]
 
       super(client, version, service, method_names)
