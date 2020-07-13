@@ -94,6 +94,7 @@ adyen.checkout.version = 50
 - refund
 - cancel_or_refund
 - adjust_authorisation
+- donate
 
 **payouts:**
 - confirm_third_party

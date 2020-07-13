@@ -19,6 +19,7 @@ RSpec.describe Adyen::Service do
       expect(described_class.action_for_method_name(:delete_bank_accounts)).to eq 'deleteBankAccounts'
       expect(described_class.action_for_method_name(:delete_shareholders)).to eq 'deleteShareholders'
       expect(described_class.action_for_method_name(:disable)).to eq 'disable'
+      expect(described_class.action_for_method_name(:donate)).to eq 'donate'
       expect(described_class.action_for_method_name(:get_account_holder)).to eq 'getAccountHolder'
       expect(described_class.action_for_method_name(:get_tier_configuration)).to eq 'getTierConfiguration'
       expect(described_class.action_for_method_name(:get_uploaded_documents)).to eq 'getUploadedDocuments'
