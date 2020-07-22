@@ -1,0 +1,28 @@
+{
+  "defenseReasons": [
+    {
+      "defenseDocumentTypes": [
+        {
+          "available": false,
+          "defenseDocumentTypeCode": "TIDorInvoice",
+          "requirementLevel": "Optional"
+        },
+        {
+          "available": false,
+          "defenseDocumentTypeCode": "DefenseMaterial",
+          "requirementLevel": "Required"
+        },
+        {
+          "available": false,
+          "defenseDocumentTypeCode": "AlternativeDefenseMaterial",
+          "requirementLevel": "AlternativeRequired"
+        }
+      ],
+      "defenseReasonCode": "SupplyDefenseMaterial",
+      "satisfied": false
+    }
+  ],
+  "disputeServiceResult": {
+    "success": true
+  }
+}

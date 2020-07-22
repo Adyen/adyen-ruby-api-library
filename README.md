@@ -15,6 +15,7 @@ The Library supports all APIs under the following services:
 * marketpay
 * postfmapi
 * data_protection
+* dispute
 
 ## Requirements
 
@@ -150,6 +151,12 @@ adyen.checkout.version = 50
 
 **data_protection:**
 - request_subject_erasure
+
+**dispute:**
+- retrieve_applicable_defense_reasons
+- supply_defense_document
+- delete_dispute_defense_document
+- defend_dispute
 
 ## Support
 If you have a feature request, or spotted a bug or a technical problem, create a GitHub issue. For other questions, contact our [support team](https://support.adyen.com/hc/en-us/requests/new?ticket_form_id=360000705420).
