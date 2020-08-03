@@ -54,7 +54,7 @@ module Adyen
         when "Terminal"
           url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
           supports_live_url_prefix = false
-        when "DataProtectionService"
+        when "DataProtectionService", "DisputeService"
           url = "https://ca-#{@env}.adyen.com/ca/services"
           supports_live_url_prefix = false
         else
@@ -200,6 +200,10 @@ module Adyen
 
     def data_protection
       @data_protection ||= Adyen::DataProtection.new(self)
+    end
+
+    def dispute
+      @dispute ||= Adyen::Dispute.new(self)
     end
   end
 end
