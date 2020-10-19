@@ -48,7 +48,7 @@ module Adyen
         when "Account", "Fund", "Notification", "Hop"
           url = "https://cal-#{@env}.adyen.com/cal/services"
           supports_live_url_prefix = false
-        when "Recurring", "Payment", "Payout"
+        when "Recurring", "Payment", "Payout", "BinLookup"
           url = "https://pal-#{@env}.adyen.com/pal/servlet"
           supports_live_url_prefix = true
         when "Terminal"
@@ -204,6 +204,10 @@ module Adyen
 
     def dispute
       @dispute ||= Adyen::Dispute.new(self)
+    end
+
+    def bin_lookup
+      @bin_lookup ||= Adyen::BinLookup.new(self)
     end
   end
 end

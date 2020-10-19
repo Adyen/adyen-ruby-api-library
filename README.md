@@ -16,6 +16,7 @@ The Library supports all APIs under the following services:
 * postfmapi
 * data_protection
 * dispute
+* bin_lookup
 
 ## Requirements
 
@@ -157,6 +158,10 @@ adyen.checkout.version = 50
 - supply_defense_document
 - delete_dispute_defense_document
 - defend_dispute
+
+**bin_lookup:**
+- get_3ds_availability
+- get_cost_estimate
 
 ## Support
 If you have a feature request, or spotted a bug or a technical problem, create a GitHub issue. For other questions, contact our [support team](https://support.adyen.com/hc/en-us/requests/new?ticket_form_id=360000705420).
