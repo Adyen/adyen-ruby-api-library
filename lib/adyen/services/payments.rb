@@ -1,4 +1,4 @@
-require_relative 'service'
+require_relative "service"
 
 module Adyen
   class Payments < Service
@@ -6,7 +6,7 @@ module Adyen
     DEFAULT_VERSION = 50
 
     def initialize(client, version = DEFAULT_VERSION)
-      service = 'Payment'
+      service = "Payment"
       method_names = [
         :authorise,
         :authorise3d,
@@ -16,10 +16,15 @@ module Adyen
         :refund,
         :cancel_or_refund,
         :adjust_authorisation,
-        :donate
+        :donate,
+      ]
+      with_application_info = [
+        :authorise,
+        :authorise3d,
+        :authorise3ds2,
       ]
 
-      super(client, version, service, method_names)
+      super(client, version, service, method_names, with_application_info)
     end
   end
 end
