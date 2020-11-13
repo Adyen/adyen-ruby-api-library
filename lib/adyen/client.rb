@@ -80,7 +80,7 @@ module Adyen
     end
 
     # send request to adyen API
-    def call_adyen_api(service, action, request_data, headers, version)
+    def call_adyen_api(service, action, request_data, headers, version, with_application_info = false)
       # get URL for requested endpoint
       url = service_url(service, action, version)
 
@@ -125,7 +125,7 @@ module Adyen
       end
 
       # add application only on checkout service
-      if service == 'Checkout' || service == 'CheckoutUtility'
+      if with_application_info
         add_application_info(request_data)
       end
 
@@ -157,16 +157,15 @@ module Adyen
     # add application_info for analytics
     def add_application_info(request_data)
       adyenLibrary = {
-          :name => Adyen::NAME,
-          :version => Adyen::VERSION.to_s
+        :name => Adyen::NAME,
+        :version => Adyen::VERSION.to_s,
       }
 
       if request_data[:applicationInfo].nil?
-        request_data[:applicationInfo] = {};
+        request_data[:applicationInfo] = {}
       end
 
       request_data[:applicationInfo][:adyenLibrary] = adyenLibrary
-      request_data[:applicationInfo][:adyenLibraryTest] = adyenLibrary
     end
 
     # services
