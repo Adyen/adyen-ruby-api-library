@@ -18,20 +18,27 @@ def create_test(client, service, method_name, parent_object)
   request_body = JSON.parse(json_from_file("mocks/requests/#{service}/#{method_name}.json"))
   response_body = json_from_file("mocks/responses/#{service}/#{method_name}.json")
 
-
-  if service == 'Checkout' || service == 'CheckoutUtility'
+  with_application_info = [
+    "authorise",
+    "authorise3d",
+    "authorise3ds2",
+    "payments",
+    "payment_session",
+    "payment_links",
+  ]
+  if with_application_info.include?(method_name)
     client.add_application_info(request_body)
   end
 
   # client-generated headers
   headers = {
-    'Content-Type'.to_sym => 'application/json'
+    "Content-Type".to_sym => "application/json",
   }
 
   # authentication headers
-  if not client.api_key.nil? then
+  if not client.api_key.nil?
     headers["x-api-key"] = client.api_key
-  elsif not client.ws_user.nil? and not client.ws_password.nil? then
+  elsif not client.ws_user.nil? and not client.ws_password.nil?
     auth_header = "Basic " + Base64::encode64("#{client.ws_user}:#{client.ws_password}")
     headers["Authorization"] = auth_header.strip
   else
@@ -43,12 +50,12 @@ def create_test(client, service, method_name, parent_object)
   url = client.service_url(service, action, parent_object.version)
   WebMock.stub_request(:post, url).
     with(
-      body: request_body,
-      headers: headers
-    ).
+    body: request_body,
+    headers: headers,
+  ).
     to_return(
-      body: response_body
-    )
+    body: response_body,
+  )
   result = parent_object.public_send(method_name, request_body)
 
   # result.response is already a Ruby object (Adyen::HashWithAccessors) (rather than an unparsed JSON string)
@@ -86,10 +93,10 @@ def create_client(auth_type)
   client = Adyen::Client.new
   client.env = :mock
 
-  if auth_type == :basic then
+  if auth_type == :basic
     client.ws_user = "user"
     client.ws_password = "password"
-  elsif auth_type == :api_key then
+  elsif auth_type == :api_key
     client.api_key = "api_key"
   else
     raise ArgumentError "Invalid auth type for test client"

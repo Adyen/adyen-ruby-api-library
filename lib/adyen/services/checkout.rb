@@ -1,18 +1,22 @@
-require_relative 'service'
+require_relative "service"
 
 module Adyen
   class Checkout < Service
     DEFAULT_VERSION = 50
 
     def initialize(client, version = DEFAULT_VERSION)
-      service = 'Checkout'
+      service = "Checkout"
       method_names = [
         :payment_methods,
         :payment_session,
-        :payment_links
+        :payment_links,
+      ]
+      with_application_info = [
+        :payment_session,
+        :payment_links,
       ]
 
-      super(client, version, service, method_names)
+      super(client, version, service, method_names, with_application_info)
     end
 
     # This method can't be dynamically defined because
@@ -25,16 +29,16 @@ module Adyen
       when 0
         Adyen::CheckoutDetail.new(@client, @version)
       else
-        action = 'payments'
+        action = "payments"
         args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version)
+        @client.call_adyen_api(@service, action, args[0], args[1], @version, true)
       end
     end
   end
 
   class CheckoutDetail < Service
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'Checkout'
+      @service = "Checkout"
       @client = client
       @version = version
     end

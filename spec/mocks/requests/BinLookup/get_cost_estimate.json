@@ -1,0 +1,8 @@
+{
+  "amount": {
+    "currency": "EUR",
+    "value": 1000
+  },
+  "cardNumber": "5101180000000007",
+  "merchantAccount": "TestMerchant"
+}
