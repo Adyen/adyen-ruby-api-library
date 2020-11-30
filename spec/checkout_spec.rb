@@ -102,6 +102,114 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     expect(response_hash.resultCode).
       to eq("Authorised")
   end
+  
+  # must be created manually due to paymentsLinks format
+  it "makes a paymentLinks call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_links.json"))
+    request_body[:applicationInfo] = {}
+    request_body[:applicationInfo][:adyenPaymentSource] = {
+      :name => "adyen-test",
+      :version => "1.0.0",
+    }
+
+    @shared_values[:client].add_application_info(request_body)
+
+    response_body = json_from_file("mocks/responses/Checkout/payment_links.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "paymentLinks", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
+
+    result = @shared_values[:client].checkout.payment_links(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+  
+  # must be created manually due to paymentsLinks/{linkId} format
+  it "makes a get paymentLinks/{linkId} call" do
+    response_body = json_from_file("mocks/responses/Checkout/get-payment-link.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "paymentLinks/1", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:get, url).
+      with(
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
+
+    result = @shared_values[:client].checkout.payment_links.get("1")
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash["status"]).
+      to eq("active")
+    expect(response_hash.id).
+      to eq("MockId")
+  end
+
+  # must be created manually due to paymentsLinks/{linkId} format
+  it "makes a patch paymentLinks/{linkId} call" do
+    request_body = {
+      :status => "expired",
+    }
+
+    @shared_values[:client].add_application_info(request_body)
+    response_body = json_from_file("mocks/responses/Checkout/update-payment-link.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "paymentLinks/1", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:patch, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
+
+    result = @shared_values[:client].checkout.payment_links.update("1", request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash["status"]).
+      to eq("expired")
+    expect(response_hash.id).
+      to eq("MockId")
+  end
 
   # create client for automated tests
   client = create_client(:api_key)
@@ -110,7 +218,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # format is defined in spec_helper
   test_sets = [
     ["payment_session", "publicKeyToken", "8115054323780109"],
-    ["payment_links", "url", "https://checkoutshopper-test.adyen.com"],
     ["payments", "resultCode", "Authorised"]
   ]
 

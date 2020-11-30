@@ -1,0 +1,11 @@
+{
+    "amount": {
+        "currency": "USD",
+        "value": 1000
+    },
+    "id": "MockId",
+    "merchantAccount": "TestMerchant",
+    "reference": "Merchant Reference",
+    "status": "expired",
+    "url": "https://adyen.com"
+}

@@ -82,7 +82,7 @@ module Adyen
     # send request to adyen API
     def call_adyen_api(service, action, request_data, headers, version, with_application_info = false)
       # get URL for requested endpoint
-      url = service_url(service, action, version)
+      url = service_url(service, action.is_a?(String) ? action : action.fetch(:url), version)
 
       # make sure right authentication has been provided
       # will use api_key if present, otherwise ws_user and ws_password
@@ -132,13 +132,32 @@ module Adyen
       # convert to json
       request_data = request_data.to_json
 
-      # post request to Adyen
-      begin
-        response = conn.post do |req|
-          req.body = request_data
-        end # handle client errors
-      rescue Faraday::ConnectionFailed => connection_error
-        raise connection_error, "Connection to #{url} failed"
+      if action.is_a?(::Hash)
+        if action.fetch(:method) == "get"
+          begin
+            response = conn.get 
+          rescue Faraday::ConnectionFailed => connection_error
+            raise connection_error, "Connection to #{url} failed"
+          end
+        end
+        if action.fetch(:method) == "patch"
+          begin
+            response = conn.patch do |req|
+              req.body = request_data
+            end
+          rescue Faraday::ConnectionFailed => connection_error
+            raise connection_error, "Connection to #{url} failed"
+          end
+        end
+      else
+        # post request to Adyen
+        begin
+          response = conn.post do |req|
+            req.body = request_data
+          end # handle client errors
+        rescue Faraday::ConnectionFailed => connection_error
+          raise connection_error, "Connection to #{url} failed"
+        end
       end
 
       # check for API errors
