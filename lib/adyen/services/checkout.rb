@@ -7,7 +7,6 @@ module Adyen
     def initialize(client, version = DEFAULT_VERSION)
       service = "Checkout"
       method_names = [
-        :payment_methods,
         :payment_session,
       ]
       with_application_info = [
@@ -43,6 +42,46 @@ module Adyen
         @client.call_adyen_api(@service, action, args[0], args[1], @version, true)
       end
     end
+
+    def payment_methods(*args)
+      case args.size
+      when 0
+        Adyen::CheckoutMethod.new(@client, @version)
+      else
+        action = "paymentMethods"
+        args[1] ||= {}  # optional headers arg
+        @client.call_adyen_api(@service, action, args[0], args[1], @version)
+      end
+    end
+
+    def orders(*args)
+      case args.size
+      when 0
+        Adyen::CheckoutOrder.new(@client, @version)
+      else
+        action = "orders"
+        args[1] ||= {}  # optional headers arg
+        @client.call_adyen_api(@service, action, args[0], args[1], @version)
+      end
+    end
+  end
+
+  class CheckoutDetail < Service
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "Checkout"
+      @client = client
+      @version = version
+    end
+
+    def details(request, headers = {})
+      action = "payments/details"
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
+    def result(request, headers = {})
+      action = "payments/result"
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
   end
 
   class CheckoutLink < Service
@@ -63,20 +102,28 @@ module Adyen
     end
   end
 
-  class CheckoutDetail < Service
+  class CheckoutMethod < Service
     def initialize(client, version = DEFAULT_VERSION)
       @service = "Checkout"
       @client = client
       @version = version
     end
 
-    def details(request, headers = {})
-      action = "payments/details"
-      @client.call_adyen_api(@service, action, request, headers, @version)
+    def balance(request, headers = {})
+      action = "paymentMethods/balance"
+      @client.call_adyen_api(@service, action, request, headers, @version, true)
+    end
+  end
+
+  class CheckoutOrder < Service
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "Checkout"
+      @client = client
+      @version = version
     end
 
-    def result(request, headers = {})
-      action = "payments/result"
+    def cancel(request, headers = {})
+      action = "orders/cancel"
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
   end
