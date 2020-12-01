@@ -8,7 +8,9 @@ module Adyen
       service = "Checkout"
       method_names = [
         :payment_session,
+        :origin_keys,
       ]
+
       with_application_info = [
         :payment_session,
       ]

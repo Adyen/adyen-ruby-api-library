@@ -1,0 +1,5 @@
+{
+    "originKeys": {
+        "https://adyen.com": "mocked_origin_key"
+    }
+}

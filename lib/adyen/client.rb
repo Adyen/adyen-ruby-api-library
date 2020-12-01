@@ -42,9 +42,6 @@ module Adyen
         when "Checkout"
           url = "https://checkout-#{@env}.adyen.com/checkout"
           supports_live_url_prefix = true
-        when "CheckoutUtility"
-          url = "https://checkout-#{@env}.adyen.com/checkout"
-          supports_live_url_prefix = true
         when "Account", "Fund", "Notification", "Hop"
           url = "https://cal-#{@env}.adyen.com/cal/services"
           supports_live_url_prefix = false
@@ -72,7 +69,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "CheckoutUtility" || service == "Terminal"
+      if service == "Checkout" || service == "Terminal"
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
@@ -190,10 +187,6 @@ module Adyen
     # services
     def checkout
       @checkout ||= Adyen::Checkout.new(self)
-    end
-
-    def checkout_utility
-      @checkout_utility ||= Adyen::CheckoutUtility.new(self)
     end
 
     def payments

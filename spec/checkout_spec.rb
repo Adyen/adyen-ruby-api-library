@@ -352,7 +352,8 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # format is defined in spec_helper
   test_sets = [
     ["payment_session", "publicKeyToken", "8115054323780109"],
-    ["payments", "resultCode", "Authorised"]
+    ["payments", "resultCode", "Authorised"],
+    ["origin_keys", "originKeys", { "https://adyen.com" => "mocked_origin_key" }]
   ]
 
   generate_tests(client, "Checkout", test_sets, client.checkout)

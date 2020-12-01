@@ -7,7 +7,6 @@ The Adyen API Library for Ruby lets you easily work with Adyen's API.
 The Library supports all APIs under the following services:
 
 * checkout
-* checkout utility
 * payments
 * modifications
 * payouts
@@ -82,8 +81,6 @@ adyen.checkout.version = 50
 - payments
 - payments.details
 - payment_links
-
-**checkout utility:**
 - origin_keys
 
 **payments:**
