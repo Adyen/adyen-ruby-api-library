@@ -20,7 +20,9 @@ RSpec.describe Adyen::Payments, service: "marketpay account service" do
     ["upload_document", "pspReference", "9914762681460244"],
     ["get_uploaded_documents", "pspReference", "9914694369860322"],
     ["delete_bank_accounts", "pspReference", "9914694372670551"],
-    ["delete_shareholders", "pspReference", "9914694372990637"]
+    ["delete_shareholders", "pspReference", "9914694372990637"],
+    ["delete_payout_methods", "pspReference", "9914694372990637"],
+    ["check_account_holder", "pspReference", "9914694372990637"],
   ]
 
   generate_tests(client, "Account", test_sets, client.marketpay.account)

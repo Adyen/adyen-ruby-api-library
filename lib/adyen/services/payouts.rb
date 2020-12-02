@@ -3,7 +3,7 @@ require_relative 'service'
 module Adyen
   class Payouts < Service
     attr_accessor :version
-    DEFAULT_VERSION = 30
+    DEFAULT_VERSION = 64
 
     def initialize(client, version = DEFAULT_VERSION)
       service = 'Payout'
@@ -12,7 +12,8 @@ module Adyen
         :store_detail_and_submit_third_party,
         :submit_third_party,
         :confirm_third_party,
-        :decline_third_party
+        :decline_third_party,
+        :payout
       ]
 
       super(client, version, service, method_names)

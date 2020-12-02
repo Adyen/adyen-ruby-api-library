@@ -12,7 +12,8 @@ RSpec.describe Adyen::Payments, service: "marketpay fund service" do
     ["account_holder_transaction_list", "pspReference", "9914721175530029"],
     ["refund_not_paid_out_transfers", "pspReference", "9915090894215323"],
     ["setup_beneficiary", "pspReference", "9914860354282596"],
-    ["transfer_funds", "pspReference", "9915090893984580"]
+    ["transfer_funds", "pspReference", "9915090893984580"],
+    ["refund_funds_transfer", "pspReference", "9915090893984580"]
   ]
 
   generate_tests(client, "Fund", test_sets, client.marketpay.fund)

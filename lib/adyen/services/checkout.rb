@@ -100,7 +100,7 @@ module Adyen
 
     def update(linkId, request, headers = {})
       action = { method: 'patch', url: "paymentLinks/" + linkId }
-      @client.call_adyen_api(@service, action, request, headers, @version, true)
+      @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
   end
 

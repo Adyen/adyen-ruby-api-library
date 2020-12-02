@@ -29,7 +29,7 @@ module Adyen
 
     class Account < Service
       attr_accessor :version
-      DEFAULT_VERSION = 4
+      DEFAULT_VERSION = 6
 
       def initialize(client, version = DEFAULT_VERSION)
         service = 'Account'
@@ -46,9 +46,10 @@ module Adyen
           :delete_shareholders,
           :close_account,
           :close_account_holder,
-          :get_tier_configuration,
           :suspend_account_holder,
-          :un_suspend_account_holder
+          :un_suspend_account_holder,
+          :delete_payout_methods,
+          :check_account_holder
         ]
 
         super(client, version, service, method_names)
@@ -57,7 +58,7 @@ module Adyen
 
     class Fund < Service
       attr_accessor :version
-      DEFAULT_VERSION = 3
+      DEFAULT_VERSION = 6
 
       def initialize(client, version = DEFAULT_VERSION)
         service = 'Fund'
@@ -67,7 +68,8 @@ module Adyen
           :account_holder_transaction_list,
           :refund_not_paid_out_transfers,
           :setup_beneficiary,
-          :transfer_funds
+          :transfer_funds,
+          :refund_funds_transfer
         ]
 
         super(client, version, service, method_names)
@@ -76,7 +78,7 @@ module Adyen
 
     class Notification < Service
       attr_accessor :version
-      DEFAULT_VERSION = 5
+      DEFAULT_VERSION = 6
 
       def initialize(client, version = DEFAULT_VERSION)
         service = 'Notification'
@@ -95,7 +97,7 @@ module Adyen
 
     class Hop < Service
       attr_accessor :version
-      DEFAULT_VERSION = 1
+      DEFAULT_VERSION = 6
 
       def initialize(client, version = DEFAULT_VERSION)
         service = 'Hop'

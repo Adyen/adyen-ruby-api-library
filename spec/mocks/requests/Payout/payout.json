@@ -1,0 +1,8 @@
+{
+    "amount": {
+        "currency": "USD",
+        "value": 1000
+    },
+    "merchantAccount": "MERCHANT_ACCOUNT",
+    "reference": "9876543210"
+}
