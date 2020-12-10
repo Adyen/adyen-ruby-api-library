@@ -11,7 +11,8 @@ RSpec.describe Adyen::Payments, service: "payouts service" do
     ["store_detail_and_submit_third_party", "resultCode", "[payout-submit-received]"],
     ["submit_third_party", "resultCode", "[payout-submit-received]"],
     ["confirm_third_party", "response", "[payout-confirm-received]"],
-    ["decline_third_party", "response", "[payout-decline-received]"]
+    ["decline_third_party", "response", "[payout-decline-received]"],
+    ["payout", "resultCode", "Success"]
   ]
 
   generate_tests(client, "Payout", test_sets, client.payouts)

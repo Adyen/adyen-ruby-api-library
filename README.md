@@ -7,7 +7,6 @@ The Adyen API Library for Ruby lets you easily work with Adyen's API.
 The Library supports all APIs under the following services:
 
 * checkout
-* checkout utility
 * payments
 * modifications
 * payouts
@@ -70,7 +69,7 @@ response = adyen.checkout.payments({
 
 ### Change API Version
 ```ruby
-adyen.checkout.version = 50
+adyen.checkout.version = 65
 ```
 
 ## List of supported methods
@@ -79,24 +78,32 @@ adyen.checkout.version = 50
 - payment_session
 - payments.result
 - payment_methods
+- payment_methods.balance
 - payments
 - payments.details
 - payment_links
-
-**checkout utility:**
+- payment_links.get
+- payment_links.update
 - origin_keys
+- orders
+- orders.cancel
 
 **payments:**
 - authorise
 - authorise3d
+- authorise3ds2
+- get_authentication_result
+- retrieve_3ds2_result
 
 **modifications:**
 - capture
 - cancel
 - refund
 - cancel_or_refund
+- technical_cancel
 - adjust_authorisation
 - donate
+- void_pending_refund
 
 **payouts:**
 - confirm_third_party
@@ -104,11 +111,13 @@ adyen.checkout.version = 50
 - store_detail
 - submit_third_party
 - store_detail_and_submit_third_party
+- payout
 
 **recurring:**
 - list_recurring_details
 - disable
 - store_token
+- schedule_account_updater
 
 **marketpay.account:**
 - create_account_holder
@@ -124,7 +133,9 @@ adyen.checkout.version = 50
 - upload_document
 - get_uploaded_documents
 - delete_bank_accounts
+- delete_payout_methods
 - delete_shareholders
+- check_account_holder
 
 **marketpay.fund:**
 - account_holder_balance

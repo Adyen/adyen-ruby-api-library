@@ -2,18 +2,17 @@ require_relative "service"
 
 module Adyen
   class Checkout < Service
-    DEFAULT_VERSION = 50
+    DEFAULT_VERSION = 65
 
     def initialize(client, version = DEFAULT_VERSION)
       service = "Checkout"
       method_names = [
-        :payment_methods,
         :payment_session,
-        :payment_links,
+        :origin_keys,
       ]
+
       with_application_info = [
         :payment_session,
-        :payment_links,
       ]
 
       super(client, version, service, method_names, with_application_info)
@@ -34,6 +33,39 @@ module Adyen
         @client.call_adyen_api(@service, action, args[0], args[1], @version, true)
       end
     end
+
+    def payment_links(*args)
+      case args.size
+      when 0
+        Adyen::CheckoutLink.new(@client, @version)
+      else
+        action = "paymentLinks"
+        args[1] ||= {}  # optional headers arg
+        @client.call_adyen_api(@service, action, args[0], args[1], @version, true)
+      end
+    end
+
+    def payment_methods(*args)
+      case args.size
+      when 0
+        Adyen::CheckoutMethod.new(@client, @version)
+      else
+        action = "paymentMethods"
+        args[1] ||= {}  # optional headers arg
+        @client.call_adyen_api(@service, action, args[0], args[1], @version)
+      end
+    end
+
+    def orders(*args)
+      case args.size
+      when 0
+        Adyen::CheckoutOrder.new(@client, @version)
+      else
+        action = "orders"
+        args[1] ||= {}  # optional headers arg
+        @client.call_adyen_api(@service, action, args[0], args[1], @version)
+      end
+    end
   end
 
   class CheckoutDetail < Service
@@ -50,6 +82,50 @@ module Adyen
 
     def result(request, headers = {})
       action = "payments/result"
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+  end
+
+  class CheckoutLink < Service
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "Checkout"
+      @client = client
+      @version = version
+    end
+
+    def get(linkId, headers = {})
+      action = { method: 'get', url: "paymentLinks/" + linkId }
+      @client.call_adyen_api(@service, action, {}, headers, @version, true)
+    end
+
+    def update(linkId, request, headers = {})
+      action = { method: 'patch', url: "paymentLinks/" + linkId }
+      @client.call_adyen_api(@service, action, request, headers, @version, false)
+    end
+  end
+
+  class CheckoutMethod < Service
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "Checkout"
+      @client = client
+      @version = version
+    end
+
+    def balance(request, headers = {})
+      action = "paymentMethods/balance"
+      @client.call_adyen_api(@service, action, request, headers, @version, true)
+    end
+  end
+
+  class CheckoutOrder < Service
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "Checkout"
+      @client = client
+      @version = version
+    end
+
+    def cancel(request, headers = {})
+      action = "orders/cancel"
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
   end
