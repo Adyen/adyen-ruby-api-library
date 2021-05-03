@@ -1,42 +1,61 @@
 # Adyen API Library for Ruby
 
-The Adyen API Library for Ruby lets you easily work with Adyen's API.
+
+This is the officially supported PHP library for using Adyen's APIs.
 
 ## Integration
+The library supports all APIs under the following services:
 
-The Library supports all APIs under the following services:
+* [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v65/overview): Our latest integration for accepting online payments. Current supported version: **v65**
+* [Payments API](https://docs.adyen.com/api-explorer/#/Payment/v64/overview): Our classic integration for online payments. Current supported version: **v64**
+* [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v49/overview): Endpoints for managing saved payment details. Current supported version: **v49**
+* [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v64/overview): Endpoints for sending funds to your customers. Current supported version: **v64**
+* [Platforms APIs](https://docs.adyen.com/platforms/api): Set of APIs when using Adyen for Platforms. 
+  * [Account API](https://docs.adyen.com/api-explorer/#/Account/v6/overview) Current supported version: **v6**
+  * [Fund API](https://docs.adyen.com/api-explorer/#/Fund/v6/overview) Current supported version: **v6**
+  * [Notification Configuration API](https://docs.adyen.com/api-explorer/#/NotificationConfigurationService/v6/overview) Current supported version: **v6**
+* [POS Terminal Management API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview): Current supported version: **v1**
+* [Adyen BinLookup API](https://docs.adyen.com/api-explorer/#/BinLookup/v50/overview): Current supported version: **v50**
+* [Data Protection API](https://docs.adyen.com/development-resources/data-protection-api): Current supported version: **v1**
+* [Disputes API](https://docs.adyen.com/risk-management/disputes-api): Current supported version: **v50**
 
-* checkout
-* payments
-* modifications
-* payouts
-* recurring
-* marketpay
-* postfmapi
-* data_protection
-* dispute
-* bin_lookup
 
-## Requirements
+For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
 
-Built for Ruby >= 2.1
+## Prerequisites
+- [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
+- [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
+- Ruby >= 2.1
 
 ## Installation
 
-The sole dependency is faraday for http communication - run `bundle install` to install faraday if you don't already have it
+The sole dependency is faraday for http communication run the following command which installs faraday if you don't already have it
 
-To validate functionality of client, use `bundle install --with development` and `rspec` to run mock API tests.
+~~~~bash 
+bundle install
+~~~~
 
+To validate functionality of client and run mock API tests use 
+
+~~~~bash  
+bundle install --with development 
+~~~~
+and
+~~~~bash 
+`rspec` 
+~~~~
 ## Documentation
 
 Follow the rest of our guides from the [documentation](https://adyen.github.io/adyen-ruby-api-library/) on how to use this library.
 
-## Usage
+## Using the library
 
-### Create a client to connect to the Adyen API
-```ruby
+### General use with API key
+
+~~~~bash 
 require 'adyen-ruby-api-library'
-
+~~~~
+~~~~ruby
 adyen = Adyen::Client.new
 
 # for API-key based implementations
@@ -45,10 +64,11 @@ adyen.api_key = 'AF5XXXXXXXXXXXXXXXXXXXX'
 # for basic-auth based implementations
 adyen.ws_user = 'ws@Company.Adyen'
 adyen.ws_password = 'super_secure_password123'
-```
+~~~~
 
-### Make a Payment
-```ruby
+- Make a Payment
+
+~~~~ruby
 response = adyen.checkout.payments({
   :amount => {
     :currency => "EUR",
@@ -65,126 +85,36 @@ response = adyen.checkout.payments({
   :returnUrl => "https://your-company.com/checkout/",
   :merchantAccount => "YourMerchantAccount"
 })
-```
+~~~~
 
-### Change API Version
-```ruby
+- Change API Version
+~~~~ruby
 adyen.checkout.version = 65
-```
+~~~~
 
-## List of supported methods
+### Example integration
 
-**checkout:**
-- payment_session
-- payments.result
-- payment_methods
-- payment_methods.balance
-- payments
-- payments.details
-- payment_links
-- payment_links.get
-- payment_links.update
-- origin_keys
-- orders
-- orders.cancel
+For a closer look at how our PHP library works, clone our [example integration](https://github.com/adyen-examples/adyen-rails-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
 
-**payments:**
-- authorise
-- authorise3d
-- authorise3ds2
-- get_authentication_result
-- retrieve_3ds2_result
-
-**modifications:**
-- capture
-- cancel
-- refund
-- cancel_or_refund
-- technical_cancel
-- adjust_authorisation
-- donate
-- void_pending_refund
-
-**payouts:**
-- confirm_third_party
-- decline_third_party
-- store_detail
-- submit_third_party
-- store_detail_and_submit_third_party
-- payout
-
-**recurring:**
-- list_recurring_details
-- disable
-- store_token
-- schedule_account_updater
-
-**marketpay.account:**
-- create_account_holder
-- get_account_holder
-- update_account_holder
-- update_account_holder_state
-- suspend_account_holder
-- un_suspend_account_holder
-- close_account_holder
-- create_account
-- update_account
-- close_account
-- upload_document
-- get_uploaded_documents
-- delete_bank_accounts
-- delete_payout_methods
-- delete_shareholders
-- check_account_holder
-
-**marketpay.fund:**
-- account_holder_balance
-- account_holder_transaction_list
-- payout_account_holder
-- transfer_funds
-- setup_beneficiary
-- refund_not_paid_out_transfers
-
-**marketpay.notification:**
-- create_notification_configuration
-- get_notification_configuration
-- get_notification_configuration_list
-- test_notification_configuration
-- update_notification_configuration
-- delete_notification_configurations
-
-**marketpay.hop:**
-- get_onboarding_url
-
-**postfmapi:**
-- assign_terminals
-- find_terminal
-- get_terminals_under_account
-
-**data_protection:**
-- request_subject_erasure
-
-**dispute:**
-- retrieve_applicable_defense_reasons
-- supply_defense_document
-- delete_dispute_defense_document
-- defend_dispute
-
-**bin_lookup:**
-- get_3ds_availability
-- get_cost_estimate
-
-## Support
-If you have a feature request, or spotted a bug or a technical problem, create a GitHub issue. For other questions, contact our [support team](https://support.adyen.com/hc/en-us/requests/new?ticket_form_id=360000705420).
+### Running the tests
+For the test cases you need the PCI permission enabled on you account. There are no test cases for CSE because credit card data is encrypted through our javascript library.
+By default the test will then be skipped. If you have these permissions fill in your account details in the config/test.ini file to let the test work.
+To make the automatic testing cases work for your account change the credentials in the config/test.ini file.
 
 ## Contributing
-We strongly encourage you to join us in contributing to this repository so everyone can benefit from:
-* New features and functionality
-* Resolved bug fixes and issues
-* Any general improvements
 
-Read our [**contribution guidelines**](CONTRIBUTING.md) to find out how.
+We encourage you to contribute to this repository, so everyone can benefit from new features, bug fixes, and any other improvements.
+Have a look at our [contributing guidelines](https://github.com/Adyen/adyen-ruby-api-library/blob/develop/CONTRIBUTING.md) to find out how to raise a pull request.
+
+## Support
+If you have a feature request, or spotted a bug or a technical problem, [create an issue here](https://github.com/Adyen/adyen-ruby-api-library/issues/new/choose).
+
+For other questions, [contact our Support Team](https://www.adyen.help/hc/en-us/requests/new?ticket_form_id=360000705420).
 
 ## Licence
+This repository is available under the [MIT license](https://github.com/Adyen/adyen-ruby-api-library/blob/master/LICENSE).
 
-MIT license. For more information, see the LICENSE file.
+## See also
+* [Example integration](https://github.com/adyen-examples/adyen-rails-online-payments)
+* [Adyen docs](https://docs.adyen.com/)
+* [API Explorer](https://docs.adyen.com/api-explorer/)
