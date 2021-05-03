@@ -1,7 +1,7 @@
 # Adyen API Library for Ruby
 
 
-This is the officially supported PHP library for using Adyen's APIs.
+This is the officially supported Ruby library for using Adyen's APIs.
 
 ## Integration
 The library supports all APIs under the following services:
