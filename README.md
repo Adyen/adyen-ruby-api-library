@@ -92,7 +92,7 @@ adyen.checkout.version = 65
 
 ### Example integration
 
-For a closer look at how our PHP library works, clone our [example integration](https://github.com/adyen-examples/adyen-rails-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
+For a closer look at how our Ruby library works, clone our [example integration](https://github.com/adyen-examples/adyen-rails-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
 
 ### Running the tests
 To run the tests use : 
