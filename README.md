@@ -29,13 +29,13 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
 
 ## Installation
 
-The sole dependency is faraday for http communication run the following command which installs faraday if you don't already have it
+The sole dependency is faraday for HTTP communication.  Run the following command to install faraday if you don't already have it:
 
 ~~~~bash 
 bundle install
 ~~~~
 
-To validate functionality of client and run mock API tests use 
+To validate functionality of client and run mock API tests use
 
 ~~~~bash  
 bundle install --with development 
