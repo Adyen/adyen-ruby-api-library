@@ -87,7 +87,7 @@ response = adyen.checkout.payments({
 
 - Change API Version
 ~~~~ruby
-adyen.checkout.version = 65
+adyen.checkout.version = 67
 ~~~~
 
 ### Example integration
