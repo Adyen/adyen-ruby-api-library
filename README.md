@@ -65,7 +65,6 @@ adyen.ws_password = 'super_secure_password123'
 ~~~~
 
 - Make a Payment
-
 ~~~~ruby
 response = adyen.checkout.payments({
   :amount => {
