@@ -72,10 +72,10 @@ response = adyen.checkout.payments({
   :reference => "Your order number",
   :paymentMethod => {
     :type => "scheme",
-    :encryptedCardNumber => "adyenjs_0_1_18$MT6ppy0FAMVMLH...",
-    :encryptedExpiryMonth => "adyenjs_0_1_18$MT6ppy0FAMVMLH...",
-    :encryptedExpiryYear => "adyenjs_0_1_18$MT6ppy0FAMVMLH...",
-    :encryptedSecurityCode => "adyenjs_0_1_18$MT6ppy0FAMVMLH..."
+    :encryptedCardNumber => "test_4111111111111111",
+    :encryptedExpiryMonth => "test_03",
+    :encryptedExpiryYear => "test_2030",
+    :encryptedSecurityCode => "test_737"
   },
   :returnUrl => "https://your-company.com/checkout/",
   :merchantAccount => "YourMerchantAccount"
