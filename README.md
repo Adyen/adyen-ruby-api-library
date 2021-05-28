@@ -60,8 +60,6 @@ adyen = Adyen::Client.new
 
 adyen.api_key = 'AF5XXXXXXXXXXXXXXXXXXXX'
 
-adyen.ws_user = 'ws@Company.Adyen'
-adyen.ws_password = 'super_secure_password123'
 ~~~~
 
 - Make a Payment
