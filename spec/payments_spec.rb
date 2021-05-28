@@ -15,7 +15,11 @@ RSpec.describe Adyen::Payments, service: "payments service" do
     ["cancel_or_refund", "response", "[cancelOrRefund-received]"],
     ["capture", "response", "[capture-received]"],
     ["refund", "response", "[refund-received]"],
-    ["donate", "response", "[donation-received]"]
+    ["donate", "response", "[donation-received]"],
+    ["get_authentication_result", "threeDS2Result", {"transStatus" => "Y"}],
+    ["retrieve_3ds2_result", "threeDS2Result", {"transStatus" => "Y"}],
+    ["technical_cancel", "originalReference", "9914694372990637"],
+    ["void_pending_refund", "pspReference", "9914694372990637"]
   ]
 
   generate_tests(client, "Payment", test_sets, client.payments)

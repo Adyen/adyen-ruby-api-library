@@ -42,9 +42,6 @@ module Adyen
         when "Checkout"
           url = "https://checkout-#{@env}.adyen.com/checkout"
           supports_live_url_prefix = true
-        when "CheckoutUtility"
-          url = "https://checkout-#{@env}.adyen.com/checkout"
-          supports_live_url_prefix = true
         when "Account", "Fund", "Notification", "Hop"
           url = "https://cal-#{@env}.adyen.com/cal/services"
           supports_live_url_prefix = false
@@ -72,7 +69,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "CheckoutUtility" || service == "Terminal"
+      if service == "Checkout" || service == "Terminal"
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
@@ -82,7 +79,7 @@ module Adyen
     # send request to adyen API
     def call_adyen_api(service, action, request_data, headers, version, with_application_info = false)
       # get URL for requested endpoint
-      url = service_url(service, action, version)
+      url = service_url(service, action.is_a?(String) ? action : action.fetch(:url), version)
 
       # make sure right authentication has been provided
       # will use api_key if present, otherwise ws_user and ws_password
@@ -132,13 +129,32 @@ module Adyen
       # convert to json
       request_data = request_data.to_json
 
-      # post request to Adyen
-      begin
-        response = conn.post do |req|
-          req.body = request_data
-        end # handle client errors
-      rescue Faraday::ConnectionFailed => connection_error
-        raise connection_error, "Connection to #{url} failed"
+      if action.is_a?(::Hash)
+        if action.fetch(:method) == "get"
+          begin
+            response = conn.get 
+          rescue Faraday::ConnectionFailed => connection_error
+            raise connection_error, "Connection to #{url} failed"
+          end
+        end
+        if action.fetch(:method) == "patch"
+          begin
+            response = conn.patch do |req|
+              req.body = request_data
+            end
+          rescue Faraday::ConnectionFailed => connection_error
+            raise connection_error, "Connection to #{url} failed"
+          end
+        end
+      else
+        # post request to Adyen
+        begin
+          response = conn.post do |req|
+            req.body = request_data
+          end # handle client errors
+        rescue Faraday::ConnectionFailed => connection_error
+          raise connection_error, "Connection to #{url} failed"
+        end
       end
 
       # check for API errors
@@ -171,10 +187,6 @@ module Adyen
     # services
     def checkout
       @checkout ||= Adyen::Checkout.new(self)
-    end
-
-    def checkout_utility
-      @checkout_utility ||= Adyen::CheckoutUtility.new(self)
     end
 
     def payments

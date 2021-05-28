@@ -1,0 +1,7 @@
+{
+    "merchantAccount": "MERCHANT_ACCOUNT",
+    "order": {
+        "orderData": "mocked_order_data",
+        "pspReference": "mocked_psp_ref"
+    }
+}
