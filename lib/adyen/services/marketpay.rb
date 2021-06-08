@@ -44,6 +44,7 @@ module Adyen
           :update_account_holder_state,
           :delete_bank_accounts,
           :delete_shareholders,
+          :delete_signatories,
           :close_account,
           :close_account_holder,
           :suspend_account_holder,
