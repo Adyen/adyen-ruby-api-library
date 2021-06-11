@@ -18,6 +18,7 @@ RSpec.describe Adyen::Service do
       expect(described_class.action_for_method_name(:decline_third_party)).to eq 'declineThirdParty'
       expect(described_class.action_for_method_name(:delete_bank_accounts)).to eq 'deleteBankAccounts'
       expect(described_class.action_for_method_name(:delete_shareholders)).to eq 'deleteShareholders'
+      expect(described_class.action_for_method_name(:delete_signatories)).to eq 'deleteSignatories'
       expect(described_class.action_for_method_name(:disable)).to eq 'disable'
       expect(described_class.action_for_method_name(:donate)).to eq 'donate'
       expect(described_class.action_for_method_name(:get_account_holder)).to eq 'getAccountHolder'
