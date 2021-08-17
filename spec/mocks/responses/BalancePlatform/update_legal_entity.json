@@ -1,0 +1,22 @@
+{
+  "id": "LE322KH223222D5DNL6HZ8RFV",
+  "organization": {
+    "email":"info@example.com",
+    "legalName":"Test update Company",
+    "phone":{
+      "countryCode":"NL",
+      "number":"612356789",
+      "type":"mobile"
+      },
+      "registeredAddress":{
+        "city":"Amsterdam",
+        "country":"NL",
+        "postalCode":"1234",
+        "stateOrProvince":"CA",
+        "street":"Another Street",
+        "street2":"Another Building"
+        },
+        "taxId":"101002749",
+        "type":"privateCompany"},
+  "type": "organization"
+}

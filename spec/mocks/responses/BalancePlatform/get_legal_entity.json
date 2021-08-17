@@ -1,0 +1,23 @@
+{
+  "id": "LE322JV223222D5DNLR5C22TT",
+  "organization": {
+    "email": "info@example.com",
+    "legalName":"Example Company",
+    "phone":{
+      "countryCode":"US",
+      "number":"4153671502",
+      "type":"mobile"
+    },
+    "registeredAddress":{
+      "city":"San Francisco",
+      "country":"US",
+      "postalCode":"94107",
+      "stateOrProvince":"CA",
+      "street":"Brannan Street",
+      "street2":"Example Building"
+    },
+    "taxId": "101002749",
+    "type": "privateCompany"
+  },
+  "type": "organization"
+}

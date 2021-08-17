@@ -1,0 +1,22 @@
+{
+  "type": "organization",
+  "organization": {
+    "legalName": "Example Company",
+    "type": "privateCompany",
+    "taxId": "101002749",
+    "registeredAddress": {
+      "street": "Brannan Street",
+      "street2": "Example Building",
+      "city": "San Francisco",
+      "postalCode": "94107",
+      "stateOrProvince": "CA",
+      "country": "US"
+    },
+    "phone": {
+      "type": "mobile",
+      "countryCode": "US",
+      "number": "4153671502"
+    },
+    "email": "info@example.com"
+  }
+}

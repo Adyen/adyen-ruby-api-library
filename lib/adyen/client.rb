@@ -54,6 +54,9 @@ module Adyen
         when "DataProtectionService", "DisputeService"
           url = "https://ca-#{@env}.adyen.com/ca/services"
           supports_live_url_prefix = false
+        when "BalancePlatform"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/bcl"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
@@ -69,7 +72,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "Terminal"
+      if service == "Checkout" || service == "Terminal" || service == "BalancePlatform"
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
@@ -219,6 +222,10 @@ module Adyen
 
     def bin_lookup
       @bin_lookup ||= Adyen::BinLookup.new(self)
+    end
+
+    def balance_platform
+      @balance_platform ||= Adyen::BalancePlatform.new(self)
     end
   end
 end
