@@ -49,8 +49,11 @@ def create_test(client, service, method_name, parent_object)
   if service == "BalancePlatform"
     if action.include?("LegalEntity")
       action = "legalEntities"
+    elsif action.include?("AccountHolder")
+      action = "accountHolders"
     end
   end
+
   url = client.service_url(service, action, parent_object.version)
   WebMock.stub_request(:post, url).
     with(

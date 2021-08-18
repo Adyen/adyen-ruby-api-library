@@ -1,0 +1,54 @@
+{
+  "balancePlatform": "Moneybird",
+  "capabilities":{
+    "receiveFromBalanceAccount":{
+      "allowed" :"true",
+      "enabled": "true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    },
+    "receiveFromPlatformPayments":{
+      "allowed": "true",
+      "enabled":"true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    },
+    "receiveFromTransferInstrument":{
+      "allowed":"true",
+      "enabled":"true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    },
+    "sendToBalanceAccount":{
+      "allowed":"true",
+      "enabled":"true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    },
+    "sendToTransferInstrument":{
+      "allowed":"true",
+      "enabled":"true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    }
+  },
+  "contactDetails": {
+    "address":{
+      "city":"PARTYSCREENING_TEST_SERVICE",
+      "country":"NL",
+      "houseNumberOrName":"274",
+      "postalCode":"1020CD",
+      "street":"Brannan Street"
+    },
+    "email":"a.hopper@example.com",
+    "phone":{
+      "number":"+315551231234",
+      "type":"Mobile"
+    }
+  },
+  "description": "Money Bird",
+  "id": "AH3227C223222B5DNPXZM93VQ",
+  "legalEntityId": "LE322JV223222D5DNM6BB24BC",
+  "reference": "123456789",
+  "status": "Active"
+}

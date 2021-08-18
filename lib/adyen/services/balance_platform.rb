@@ -26,5 +26,21 @@ module Adyen
 
       @client.call_adyen_api(@service, action, request, {}, @version)
     end
+
+    def create_account_holder(request)
+      @client.call_adyen_api(@service, "accountHolders", request, {}, @version)
+    end
+
+    def update_account_holder(request, accountHolderId)
+      action = { method: 'patch', url: "accountHolders/" + accountHolderId }
+
+      @client.call_adyen_api(@service, action, request, {}, @version)
+    end
+
+    def get_account_holder(accountHolderId)
+      action = { method: 'get', url: "accountHolders/" + accountHolderId }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
   end
 end

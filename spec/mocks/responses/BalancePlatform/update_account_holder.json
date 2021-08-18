@@ -1,0 +1,54 @@
+{
+  "balancePlatform": "Moneybird",
+  "capabilities":{
+    "receiveFromBalanceAccount":{
+      "allowed" :"true",
+      "enabled": "true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    },
+    "receiveFromPlatformPayments":{
+      "allowed": "true",
+      "enabled":"true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    },
+    "receiveFromTransferInstrument":{
+      "allowed":"true",
+      "enabled":"true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    },
+    "sendToBalanceAccount":{
+      "allowed":"true",
+      "enabled":"true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    },
+    "sendToTransferInstrument":{
+      "allowed":"true",
+      "enabled":"true",
+      "requested":"true",
+      "verificationStatus":"valid"
+    }
+  },
+  "contactDetails": {
+    "address":{
+      "city":"FORGED",
+      "country":"NL",
+      "houseNumberOrName":"123",
+      "postalCode":"1234AA",
+      "street":"Moutlaan"
+    },
+    "email":"moneybird@example.com",
+    "phone":{
+      "number":"+316123456789",
+      "type":"Mobile"
+    }
+  },
+  "description": "Money Bird",
+  "id": "AH3227C223222B5DNPXZM93VQ",
+  "legalEntityId": "LE322JV223222D5DNM6BB24BC",
+  "reference": "123456789",
+  "status": "Active"
+}
