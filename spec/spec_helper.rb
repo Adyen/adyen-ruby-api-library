@@ -51,6 +51,8 @@ def create_test(client, service, method_name, parent_object)
       action = "legalEntities"
     elsif action.include?("AccountHolder")
       action = "accountHolders"
+    elsif action.include?("BalanceAccount")
+      action = "balanceAccounts"
     end
   end
 

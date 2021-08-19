@@ -42,5 +42,15 @@ module Adyen
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
+
+    def create_balance_account(request)
+      @client.call_adyen_api(@service, "balanceAccounts", request, {}, @version)
+    end
+
+    def get_balance_account(balanceAccountId)
+      action = { method: 'get', url: "balanceAccounts/" + balanceAccountId }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
   end
 end
