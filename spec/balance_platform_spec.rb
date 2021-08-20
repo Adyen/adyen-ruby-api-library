@@ -10,127 +10,249 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
     ["create_legal_entity", "id", "LE322KH223222D5DNL6HZ8RFV"],
     ["create_account_holder", "id", "AH3227C223222B5DNPXZM93VQ"],
     ["create_balance_account", "id", "BA3227C223222B5DNV89TD83T"],
+    ["create_transfer_instrument", "id", "SE322JV223222D5DNVKPZ3GL7"],
   ]
 
+  context "legal entities"do
+    it "updates a legal entity" do
+      legal_entity_id = "LE322KH223222D5DNL6HZ8RFV"
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_legal_entity.json"))
 
-  it "updates a legal entity" do
-    legal_entity_id = "LE322KH223222D5DNL6HZ8RFV"
-    request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_legal_entity.json"))
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_legal_entity.json")
 
-    response_body = json_from_file("mocks/responses/BalancePlatform/update_legal_entity.json")
+      url = client.service_url("BalancePlatform", "legalEntities/#{legal_entity_id}", "1")
+      WebMock.stub_request(:patch, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
 
-    url = client.service_url("BalancePlatform", "legalEntities/#{legal_entity_id}", "1")
-    WebMock.stub_request(:patch, url).
-      with(
-        body: request_body,
-        headers: {
-          "x-api-key" => client.api_key
-        }
-      ).
-      to_return(
-        body: response_body
-      )
+      result = client.balance_platform.update_legal_entity(request_body, legal_entity_id)
+      response_hash = result.response
 
-    result = client.balance_platform.update_legal_entity(request_body, legal_entity_id)
-    response_hash = result.response
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
 
-    expect(result.status).
-      to eq(200)
-    expect(response_hash).
-      to eq(JSON.parse(response_body))
-    expect(response_hash).
-      to be_a Adyen::HashWithAccessors
-    expect(response_hash).
-      to be_a_kind_of Hash
+    it "gets a legal entity" do
+      legal_entity_id = "LE322JV223222D5DNLR5C22TT"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_legal_entity.json")
+
+      url = client.service_url("BalancePlatform", "legalEntities/#{legal_entity_id}", "1")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.get_legal_entity(legal_entity_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
   end
 
-  it "gets a legal entity" do
-    legal_entity_id = "LE322JV223222D5DNLR5C22TT"
+  context "account holders" do
+    it "updates an account holder" do
+      account_holder_id = "AH3227C223222B5DNPXZM93VQ"
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_account_holder.json"))
 
-    response_body = json_from_file("mocks/responses/BalancePlatform/get_legal_entity.json")
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_account_holder.json")
 
-    url = client.service_url("BalancePlatform", "legalEntities/#{legal_entity_id}", "1")
-    WebMock.stub_request(:get, url).
-      with(
-        headers: {
-          "x-api-key" => client.api_key
-        }
-      ).
-      to_return(
-        body: response_body
-      )
+      url = client.service_url("BalancePlatform", "accountHolders/#{account_holder_id}", "1")
+      WebMock.stub_request(:patch, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
 
-    result = client.balance_platform.get_legal_entity(legal_entity_id)
-    response_hash = result.response
+      result = client.balance_platform.update_account_holder(request_body, account_holder_id)
+      response_hash = result.response
 
-    expect(result.status).
-      to eq(200)
-    expect(response_hash).
-      to eq(JSON.parse(response_body))
-    expect(response_hash).
-      to be_a Adyen::HashWithAccessors
-    expect(response_hash).
-      to be_a_kind_of Hash
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "gets an account holder" do
+      account_holder_id = "AH3227C223222B5DNPXZM93VQ"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_account_holder.json")
+
+      url = client.service_url("BalancePlatform", "accountHolders/#{account_holder_id}", "1")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.get_account_holder(account_holder_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
   end
 
-  it "updates an account holder" do
-    account_holder_id = "AH3227C223222B5DNPXZM93VQ"
-    request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_account_holder.json"))
 
-    response_body = json_from_file("mocks/responses/BalancePlatform/update_account_holder.json")
+  context "balance accounts" do
+    it "gets a balance account" do
+      balance_account_id = "BA3227C223222B5DNV89TD83T"
 
-    url = client.service_url("BalancePlatform", "accountHolders/#{account_holder_id}", "1")
-    WebMock.stub_request(:patch, url).
-      with(
-        body: request_body,
-        headers: {
-          "x-api-key" => client.api_key
-        }
-      ).
-      to_return(
-        body: response_body
-      )
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_balance_account.json")
 
-    result = client.balance_platform.update_account_holder(request_body, account_holder_id)
-    response_hash = result.response
+      url = client.service_url("BalancePlatform", "balanceAccounts/#{balance_account_id}", "1")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
 
-    expect(result.status).
-      to eq(200)
-    expect(response_hash).
-      to eq(JSON.parse(response_body))
-    expect(response_hash).
-      to be_a Adyen::HashWithAccessors
-    expect(response_hash).
-      to be_a_kind_of Hash
+      result = client.balance_platform.get_balance_account(balance_account_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
   end
 
-  it "gets an account holder" do
-    account_holder_id = "AH3227C223222B5DNPXZM93VQ"
+  context "transferInstruments" do
+    it "updates a transfer instrument" do
+      transferInstrumentId = "SE322JV223222D5DNVKPZ3GL7"
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_transfer_instrument.json"))
 
-    response_body = json_from_file("mocks/responses/BalancePlatform/get_account_holder.json")
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_transfer_instrument.json")
 
-    url = client.service_url("BalancePlatform", "accountHolders/#{account_holder_id}", "1")
-    WebMock.stub_request(:get, url).
-      with(
-        headers: {
-          "x-api-key" => client.api_key
-        }
-      ).
-      to_return(
-        body: response_body
-      )
+      url = client.service_url("BalancePlatform", "transferInstruments/#{transferInstrumentId}", "1")
+      WebMock.stub_request(:patch, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
 
-    result = client.balance_platform.get_account_holder(account_holder_id)
-    response_hash = result.response
+      result = client.balance_platform.update_transfer_instrument(request_body, transferInstrumentId)
+      response_hash = result.response
 
-    expect(result.status).
-      to eq(200)
-    expect(response_hash).
-      to eq(JSON.parse(response_body))
-    expect(response_hash).
-      to be_a Adyen::HashWithAccessors
-    expect(response_hash).
-      to be_a_kind_of Hash
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "gets a transfer instrument" do
+      transferInstrumentId = "SE322JV223222D5DNVKPZ3GL7"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_transfer_instrument.json")
+
+      url = client.service_url("BalancePlatform", "transferInstruments/#{transferInstrumentId}", "1")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.get_transfer_instrument(transferInstrumentId)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "deletes a transfer instrument" do
+      transferInstrumentId = "SE322JV223222D5DNVKPZ3GL7"
+
+      url = client.service_url("BalancePlatform", "transferInstruments/#{transferInstrumentId}", "1")
+      WebMock.stub_request(:delete, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: "",
+          status: 204
+        )
+
+      result = client.balance_platform.delete_transfer_instrument(transferInstrumentId)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(204)
+      expect(response_hash).
+        to eq("")
+    end
   end
 
   it "gets a balance account" do

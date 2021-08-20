@@ -149,6 +149,13 @@ module Adyen
             raise connection_error, "Connection to #{url} failed"
           end
         end
+        if action.fetch(:method) == "delete"
+          begin
+            response = conn.delete
+          rescue Faraday::ConnectionFailed => connection_error
+            raise connection_error, "Connection to #{url} failed"
+          end
+        end
       else
         # post request to Adyen
         begin

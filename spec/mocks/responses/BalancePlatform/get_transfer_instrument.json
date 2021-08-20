@@ -1,0 +1,10 @@
+{
+  "bankAccount": {
+    "countryCode": "NL",
+    "currencyCode": "EUR",
+    "iban": "NL69TEST0000000001"
+  },
+  "id" :"SE322JV223222D5DNVKPZ3GL7",
+  "legalEntityId": "LE322JV223222D5DNM6BB24BC",
+  "type": "bankAccount"
+}

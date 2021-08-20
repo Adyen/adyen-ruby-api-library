@@ -52,5 +52,27 @@ module Adyen
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
+
+    def create_transfer_instrument(request)
+      @client.call_adyen_api(@service, "transferInstruments", request, {}, @version)
+    end
+
+    def update_transfer_instrument(request, transferInstrumentId)
+      action = { method: 'patch', url: "transferInstruments/" + transferInstrumentId }
+
+      @client.call_adyen_api(@service, action, request, {}, @version)
+    end
+
+    def get_transfer_instrument(transferInstrumentId)
+      action = { method: 'get', url: "transferInstruments/" + transferInstrumentId }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
+
+    def delete_transfer_instrument(transferInstrumentId)
+      action = { method: 'delete', url: "transferInstruments/" + transferInstrumentId }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
   end
 end
