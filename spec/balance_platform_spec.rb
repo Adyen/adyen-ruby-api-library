@@ -255,35 +255,6 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
     end
   end
 
-  it "gets a balance account" do
-    balance_account_id = "BA3227C223222B5DNV89TD83T"
-
-    response_body = json_from_file("mocks/responses/BalancePlatform/get_balance_account.json")
-
-    url = client.service_url("BalancePlatform", "balanceAccounts/#{balance_account_id}", "1")
-    WebMock.stub_request(:get, url).
-      with(
-        headers: {
-          "x-api-key" => client.api_key
-        }
-      ).
-      to_return(
-        body: response_body
-      )
-
-    result = client.balance_platform.get_balance_account(balance_account_id)
-    response_hash = result.response
-
-    expect(result.status).
-      to eq(200)
-    expect(response_hash).
-      to eq(JSON.parse(response_body))
-    expect(response_hash).
-      to be_a Adyen::HashWithAccessors
-    expect(response_hash).
-      to be_a_kind_of Hash
-  end
-
   generate_tests(client, "BalancePlatform", test_sets, client.balance_platform)
 end
 
