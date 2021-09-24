@@ -11,6 +11,7 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
     ["create_account_holder", "id", "AH3227C223222B5DNPXZM93VQ"],
     ["create_balance_account", "id", "BA3227C223222B5DNV89TD83T"],
     ["create_transfer_instrument", "id", "SE322JV223222D5DNVKPZ3GL7"],
+    ["create_document", "id", "SE322JV223222D5DTMZBK44M5"],
   ]
 
   context "legal entities"do
@@ -246,6 +247,92 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
         )
 
       result = client.balance_platform.delete_transfer_instrument(transferInstrumentId)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(204)
+      expect(response_hash).
+        to eq("")
+    end
+  end
+
+  context "documents" do
+    it "updates a documents" do
+      documentId = "SE322JV223222D5DTMZBK44M5"
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_document.json"))
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_document.json")
+
+      url = client.service_url("BalancePlatform", "documents/#{documentId}", "1")
+      WebMock.stub_request(:patch, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.update_document(request_body, documentId)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "gets a document" do
+      documentId = "SE322JV223222D5DTMZBK44M5"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_document.json")
+
+      url = client.service_url("BalancePlatform", "documents/#{documentId}", "1")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.get_document(documentId)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "deletes a document" do
+      documentId = "SE322JV223222D5DTMZBK44M5"
+
+      url = client.service_url("BalancePlatform", "documents/#{documentId}", "1")
+      WebMock.stub_request(:delete, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: "",
+          status: 204
+        )
+
+      result = client.balance_platform.delete_document(documentId)
       response_hash = result.response
 
       expect(result.status).

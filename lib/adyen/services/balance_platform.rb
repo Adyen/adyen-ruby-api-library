@@ -15,14 +15,14 @@ module Adyen
       @client.call_adyen_api(@service, "legalEntities", request, {}, @version)
     end
 
-    def get_legal_entity(legalEntityId)
-      action = { method: 'get', url: "legalEntities/" + legalEntityId }
+    def get_legal_entity(legal_entity_id)
+      action = { method: 'get', url: "legalEntities/" + legal_entity_id }
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
 
-    def update_legal_entity(request, legalEntityId)
-      action = { method: 'patch', url: "legalEntities/" + legalEntityId }
+    def update_legal_entity(request, legal_entity_id)
+      action = { method: 'patch', url: "legalEntities/" + legal_entity_id }
 
       @client.call_adyen_api(@service, action, request, {}, @version)
     end
@@ -31,14 +31,14 @@ module Adyen
       @client.call_adyen_api(@service, "accountHolders", request, {}, @version)
     end
 
-    def update_account_holder(request, accountHolderId)
-      action = { method: 'patch', url: "accountHolders/" + accountHolderId }
+    def update_account_holder(request, account_holder_id)
+      action = { method: 'patch', url: "accountHolders/" + account_holder_id }
 
       @client.call_adyen_api(@service, action, request, {}, @version)
     end
 
-    def get_account_holder(accountHolderId)
-      action = { method: 'get', url: "accountHolders/" + accountHolderId }
+    def get_account_holder(account_holder_id)
+      action = { method: 'get', url: "accountHolders/" + account_holder_id }
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
@@ -47,8 +47,8 @@ module Adyen
       @client.call_adyen_api(@service, "balanceAccounts", request, {}, @version)
     end
 
-    def get_balance_account(balanceAccountId)
-      action = { method: 'get', url: "balanceAccounts/" + balanceAccountId }
+    def get_balance_account(balance_account_id)
+      action = { method: 'get', url: "balanceAccounts/" + balance_account_id }
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
@@ -57,20 +57,42 @@ module Adyen
       @client.call_adyen_api(@service, "transferInstruments", request, {}, @version)
     end
 
-    def update_transfer_instrument(request, transferInstrumentId)
-      action = { method: 'patch', url: "transferInstruments/" + transferInstrumentId }
+    def update_transfer_instrument(request, transfer_instrument_id)
+      action = { method: 'patch', url: "transferInstruments/" + transfer_instrument_id }
 
       @client.call_adyen_api(@service, action, request, {}, @version)
     end
 
-    def get_transfer_instrument(transferInstrumentId)
-      action = { method: 'get', url: "transferInstruments/" + transferInstrumentId }
+    def get_transfer_instrument(transfer_instrument_id)
+      action = { method: 'get', url: "transferInstruments/" + transfer_instrument_id }
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
 
-    def delete_transfer_instrument(transferInstrumentId)
-      action = { method: 'delete', url: "transferInstruments/" + transferInstrumentId }
+    def delete_transfer_instrument(transfer_instrument_id)
+      action = { method: 'delete', url: "transferInstruments/" + transfer_instrument_id }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
+
+    def create_document(request)
+      @client.call_adyen_api(@service, "documents", request, {}, @version)
+    end
+
+    def update_document(request, document_id)
+      action = { method: 'patch', url: "documents/" + document_id }
+
+      @client.call_adyen_api(@service, action, request, {}, @version)
+    end
+
+    def get_document(document_id)
+      action = { method: 'get', url: "documents/" + document_id }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
+
+    def delete_document(document_id)
+      action = { method: 'delete', url: "documents/" + document_id }
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
