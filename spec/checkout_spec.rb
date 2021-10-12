@@ -223,7 +223,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         }
       ).
       to_return(
-        status: [201, "OK"],
         body: response_body
       )
 
@@ -231,7 +230,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     response_hash = result.response
 
     expect(result.status).
-      to eq(201)
+      to eq(200)
     expect(response_hash).
       to eq(JSON.parse(response_body))
     expect(response_hash).
@@ -358,16 +357,14 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         headers: {
           "x-api-key" => @shared_values[:client].api_key
         }
-      ).
-      to_return(
-        body: response_body
       )
+      .to_return(status: 201, body: response_body, headers: {})
 
     result = @shared_values[:client].checkout.sessions(request_body)
     response_hash = result.response
 
     expect(result.status).
-      to eq(200)
+      to eq(201)
     expect(response_hash).
       to eq(JSON.parse(response_body))
     expect(response_hash).
