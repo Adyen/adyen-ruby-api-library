@@ -224,8 +224,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       ).
       to_return(
         status:201,
-        body: response_body,
-        headers:{}
+        body: response_body
       )
 
     result = @shared_values[:client].checkout.payment_links.get("1")
