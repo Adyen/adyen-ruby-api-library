@@ -223,7 +223,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         }
       ).
       to_return(
-        status:201,
+        status: [201, "OK"],
         body: response_body
       )
 
