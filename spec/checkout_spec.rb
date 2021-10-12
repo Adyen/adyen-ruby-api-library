@@ -358,7 +358,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
           "x-api-key" => @shared_values[:client].api_key
         }
       )
-      .to_return(status: 201, body: response_body, headers: {})
+      .to_return(body: response_body, headers: {"status" => 201})
 
     result = @shared_values[:client].checkout.sessions(request_body)
     response_hash = result.response
