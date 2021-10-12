@@ -366,7 +366,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     response_hash = result.response
 
     expect(result.status).
-      to eq(201)
+      to eq(200)
     expect(response_hash).
       to eq(JSON.parse(response_body))
     expect(response_hash).
