@@ -223,14 +223,16 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         }
       ).
       to_return(
-        body: response_body
+        status:201,
+        body: response_body,
+        headers:{}
       )
 
     result = @shared_values[:client].checkout.payment_links.get("1")
     response_hash = result.response
 
     expect(result.status).
-      to eq(200)
+      to eq(201)
     expect(response_hash).
       to eq(JSON.parse(response_body))
     expect(response_hash).

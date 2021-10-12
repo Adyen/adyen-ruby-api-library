@@ -67,9 +67,9 @@ module Adyen
       end
     end
 
-    def sessions(request, headers = {})
+    def sessions(*args)
       action = "sessions"
-      @client.call_adyen_api(@service, action, request, headers, @version)
+      @client.call_adyen_api(@service, action, args[0], args[1], @version)
     end
   end
 
