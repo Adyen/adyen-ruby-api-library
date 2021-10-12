@@ -68,14 +68,8 @@ module Adyen
     end
 
     def sessions(*args)
-      case args.size
-      when 0
-        Adyen::CheckoutOrder.new(@client, @version)
-      else
-        action = "sessions"
-        args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version)
-      end
+      action = "sessions"
+      @client.call_adyen_api(@service, action, args[0], args[1], @version)
     end
   end
 
