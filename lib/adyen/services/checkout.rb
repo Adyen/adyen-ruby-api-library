@@ -2,7 +2,7 @@ require_relative "service"
 
 module Adyen
   class Checkout < Service
-    DEFAULT_VERSION = 67
+    DEFAULT_VERSION = 68
 
     def initialize(client, version = DEFAULT_VERSION)
       service = "Checkout"
@@ -62,6 +62,17 @@ module Adyen
         Adyen::CheckoutOrder.new(@client, @version)
       else
         action = "orders"
+        args[1] ||= {}  # optional headers arg
+        @client.call_adyen_api(@service, action, args[0], args[1], @version)
+      end
+    end
+
+    def sessions(*args)
+      case args.size
+      when 0
+        Adyen::CheckoutOrder.new(@client, @version)
+      else
+        action = "sessions"
         args[1] ||= {}  # optional headers arg
         @client.call_adyen_api(@service, action, args[0], args[1], @version)
       end
