@@ -9,6 +9,7 @@ module Adyen
       method_names = [
         :payment_session,
         :origin_keys,
+        :sessions
       ]
 
       with_application_info = [
@@ -62,17 +63,6 @@ module Adyen
         Adyen::CheckoutOrder.new(@client, @version)
       else
         action = "orders"
-        args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version)
-      end
-    end
-
-    def sessions(*args)
-      case args.size
-      when 0
-        Adyen::CheckoutOrder.new(@client, @version)
-      else
-        action = "sessions"
         args[1] ||= {}  # optional headers arg
         @client.call_adyen_api(@service, action, args[0], args[1], @version)
       end
