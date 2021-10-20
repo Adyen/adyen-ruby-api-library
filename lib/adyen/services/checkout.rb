@@ -2,13 +2,14 @@ require_relative "service"
 
 module Adyen
   class Checkout < Service
-    DEFAULT_VERSION = 67
+    DEFAULT_VERSION = 68
 
     def initialize(client, version = DEFAULT_VERSION)
       service = "Checkout"
       method_names = [
         :payment_session,
         :origin_keys,
+        :sessions
       ]
 
       with_application_info = [
