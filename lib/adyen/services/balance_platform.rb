@@ -47,6 +47,12 @@ module Adyen
       @client.call_adyen_api(@service, "balanceAccounts", request, {}, @version)
     end
 
+    def update_balance_account(request, balance_account_id)
+      action = { method: 'patch', url: "balanceAccounts/" + balance_account_id }
+
+      @client.call_adyen_api(@service, action, request, {}, @version)
+    end
+
     def get_balance_account(balance_account_id)
       action = { method: 'get', url: "balanceAccounts/" + balance_account_id }
 
