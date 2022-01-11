@@ -12,6 +12,7 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
     ["create_balance_account", "id", "BA3227C223222B5DNV89TD83T"],
     ["create_transfer_instrument", "id", "SE322JV223222D5DNVKPZ3GL7"],
     ["create_document", "id", "SE322JV223222D5DTMZBK44M5"],
+    ["create_payment_instrument", "id", "PI3227C223222B5BPCMFXD2XG"]
   ]
 
   context "legal entities"do
@@ -188,6 +189,68 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
         )
 
       result = client.balance_platform.get_balance_account(balance_account_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+  end
+
+  context "paymentInstruments" do
+    it "updates a payment instrument" do
+      payment_instrument_id = "PI3227C223222B5BPCMFXD2XG"
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_payment_instrument.json"))
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_payment_instrument.json")
+
+      url = client.service_url("BalancePlatform", "paymentInstruments/#{payment_instrument_id}", "1")
+      WebMock.stub_request(:patch, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.update_payment_instrument(request_body, payment_instrument_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "gets a payment instrument" do
+      payment_instrument_id = "PI3227C223222B5BPCMFXD2XG"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_payment_instrument.json")
+
+      url = client.service_url("BalancePlatform", "paymentInstruments/#{payment_instrument_id}", "1")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.get_payment_instrument(payment_instrument_id)
       response_hash = result.response
 
       expect(result.status).

@@ -1,0 +1,12 @@
+{
+  "type": "card",
+  "description": "S.Hopper - Main card",
+  "balanceAccountId": "BA1234123412341234",
+  "issuingCountryCode": "NL",
+  "card": {
+    "cardholderName": "Sam Hopper",
+    "brand": "mc",
+    "brandVariant": "mcdebit",
+    "formFactor": "virtual"
+  }
+}

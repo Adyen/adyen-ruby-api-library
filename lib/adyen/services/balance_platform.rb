@@ -59,6 +59,22 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
 
+    def create_payment_instrument(request)
+      @client.call_adyen_api(@service, "paymentInstruments", request, {}, @version)
+    end
+
+    def update_payment_instrument(request, payment_instrument_id)
+      action = { method: 'patch', url: "paymentInstruments/" + payment_instrument_id }
+
+      @client.call_adyen_api(@service, action, request, {}, @version)
+    end
+
+    def get_payment_instrument(payment_instrument_id)
+      action = { method: 'get', url: "paymentInstruments/" + payment_instrument_id }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
+
     def create_transfer_instrument(request)
       @client.call_adyen_api(@service, "transferInstruments", request, {}, @version)
     end

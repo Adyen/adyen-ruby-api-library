@@ -1,0 +1,22 @@
+{
+  "balanceAccountId": "BA1234123412341234",
+  "description": "S.Hopper - Main card",
+  "issuingCountryCode": "NL",
+  "status": "Inactive",
+  "type": "card",
+  "card": {
+      "brand": "mc",
+      "brandVariant": "mcdebit",
+      "cardholderName": "Sam Hopper",
+      "formFactor": "virtual",
+      "bin": "555544",
+      "cvc": "686",
+      "expiration": {
+          "month": "07",
+          "year": "2023"
+      },
+      "lastFour": "2787",
+      "number": "5555444400092787"
+  },
+  "id": "PI3227C223222B5BPCMFXD2XG"
+}
