@@ -1,0 +1,10 @@
+{
+  "merchantAccount": "YourMerchantAccount",
+  "amount": {
+    "value": 100,
+    "currency": "EUR"
+  },
+  "returnUrl": "https://your-company.com/checkout?shopperOrder=12xy..",
+  "reference": "YOUR_PAYMENT_REFERENCE",
+  "countryCode": "NL"
+}
