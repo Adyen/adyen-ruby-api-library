@@ -54,5 +54,11 @@ module Adyen
     def transaction_rules_api
       @transaction_rules_api ||= Adyen::TransactionRulesApi.new(@client, @version)
     end
+
+    def get_public_key(purpose)
+      action = { method: 'get', url: "publicKey?purpose=" + purpose}
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
   end
 end

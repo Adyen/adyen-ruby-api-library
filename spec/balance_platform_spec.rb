@@ -126,4 +126,35 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
     expect(result.status)
       .to eq(200)
   end
+
+  context "publicKey" do
+    it "gets a public key" do
+      response_body = json_from_file('mocks/responses/BalancePlatform/get_public_key.json')
+
+      url = @shared_values[:client].service_url(@shared_values[:service], 'publicKey?purpose=pinReveal',
+                                                @shared_values[:client].balance_platform.version)
+      WebMock.stub_request(:get, url)
+            .with(
+              headers: {
+                'x-api-key' => @shared_values[:client].api_key
+              }
+            )
+            .to_return(
+              body: response_body
+            )
+
+      result = @shared_values[:client].balance_platform.get_public_key("pinReveal")
+
+      response_hash = result.response
+
+      expect(result.status)
+        .to eq(200)
+      expect(response_hash)
+        .to eq(JSON.parse(response_body))
+      expect(response_hash)
+        .to be_a Adyen::HashWithAccessors
+      expect(response_hash)
+        .to be_a_kind_of Hash
+    end
+  end
 end
