@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.files = `git ls-files`.split("\n")
 
-  spec.add_dependency 'faraday', '~> 2.0'
+  spec.add_dependency 'faraday'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'webmock'
