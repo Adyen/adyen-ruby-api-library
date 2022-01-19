@@ -104,7 +104,13 @@ module Adyen
         # set auth type based on service
         case auth_type
         when "basic"
-          faraday.request :authorization, :basic, @ws_user, @ws_password
+          if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
+            # for faraday 2.0 and higher
+            faraday.request :authorization, :basic, @ws_user, @ws_password
+          else
+            # for faraday 1.x
+            faraday.basic_auth(@ws_user, @ws_password)
+          end
         when "api-key"
           faraday.headers["x-api-key"] = @api_key
         end
