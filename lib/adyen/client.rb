@@ -104,7 +104,7 @@ module Adyen
         # set auth type based on service
         case auth_type
         when "basic"
-          faraday.basic_auth(@ws_user, @ws_password)
+          faraday.request :authorization, :basic, @ws_user, @ws_password
         when "api-key"
           faraday.headers["x-api-key"] = @api_key
         end
@@ -132,7 +132,7 @@ module Adyen
       if action.is_a?(::Hash)
         if action.fetch(:method) == "get"
           begin
-            response = conn.get 
+            response = conn.get
           rescue Faraday::ConnectionFailed => connection_error
             raise connection_error, "Connection to #{url} failed"
           end
