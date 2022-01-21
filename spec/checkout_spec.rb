@@ -172,7 +172,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     expect(response_hash.resultCode).
       to eq("Authorised")
   end
-  
+
   # must be created manually due to paymentsLinks format
   it "makes a paymentLinks call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_links.json"))
@@ -210,7 +210,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     expect(response_hash).
       to be_a_kind_of Hash
   end
-  
+
   # must be created manually due to paymentsLinks/{linkId} format
   it "makes a get paymentLinks/{linkId} call" do
     response_body = json_from_file("mocks/responses/Checkout/get-payment-link.json")
@@ -343,6 +343,34 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to be_a_kind_of Hash
     expect(response_hash["resultCode"]).
       to eq("cancelled")
+  end
+
+  it "makes a sessions call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/sessions.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/sessions-success.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "sessions", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      )
+      .to_return(body: response_body, status: 201)
+
+    result = @shared_values[:client].checkout.sessions(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
   end
 
   # create client for automated tests

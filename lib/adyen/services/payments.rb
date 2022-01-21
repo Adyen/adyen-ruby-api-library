@@ -25,7 +25,7 @@ module Adyen
       with_application_info = [
         :authorise,
         :authorise3d,
-        :authorise3ds2,
+        :authorise3ds2
       ]
 
       super(client, version, service, method_names, with_application_info)
