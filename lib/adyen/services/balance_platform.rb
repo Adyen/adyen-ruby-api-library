@@ -75,6 +75,10 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
 
+    def get_payment_instrument_pin(request)
+      @client.call_adyen_api(@service, "pins/reveal", request, {}, @version)
+    end
+
     def create_transfer_instrument(request)
       @client.call_adyen_api(@service, "transferInstruments", request, {}, @version)
     end
