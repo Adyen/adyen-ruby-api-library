@@ -496,5 +496,36 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
     end
   end
 
+  context "payment instrument reveal" do
+    it "retrieves the encrypted payment instrument data" do
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/payment_instrument_reveal.json"))
+      response_body = json_from_file("mocks/responses/BalancePlatform/payment_instrument_reveal.json")
+
+      url = client.service_url("BalancePlatform", "paymentInstruments/reveal", "1")
+      WebMock.stub_request(:post, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.get_payment_instrument_information(request_body)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+  end
+
   generate_tests(client, "BalancePlatform", test_sets, client.balance_platform)
 end
