@@ -33,7 +33,7 @@ module Adyen
     end
 
     # base URL for API given service and @env
-    def service_url_base(service)
+    def service_url_base(service, balance_platform_postfix: "bcl")
       raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" if @live_url_prefix.nil? and @env == :live
       if @env == :mock
         @mock_service_url_base
@@ -55,7 +55,7 @@ module Adyen
           url = "https://ca-#{@env}.adyen.com/ca/services"
           supports_live_url_prefix = false
         when "BalancePlatform"
-          url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/#{balance_platform_postfix}"
           supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
@@ -72,7 +72,9 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "Terminal" || service == "BalancePlatform"
+      if service == "BalancePlatform" && (action.start_with?("transactions") || action.start_with?("transfers"))
+        "#{service_url_base(service, balance_platform_postfix: "btl")}/v#{version}/#{action}"
+      elsif service == "Checkout" || service == "Terminal" || service == "BalancePlatform"
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
@@ -141,7 +143,12 @@ module Adyen
       if action.is_a?(::Hash)
         if action.fetch(:method) == "get"
           begin
-            response = conn.get
+            response = conn.get do |req|
+              req.params.update(
+                req.params.merge(JSON.parse(request_data))
+              )
+
+            end
           rescue Faraday::ConnectionFailed => connection_error
             raise connection_error, "Connection to #{url} failed"
           end

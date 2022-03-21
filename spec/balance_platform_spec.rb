@@ -527,5 +527,47 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
     end
   end
 
+  context "transaction" do
+    it "retrieves transactions" do
+      balance_account_id = "BA32272223222B5FD6CD2FNXB"
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_transactions.json")
+
+      url = client.service_url("BalancePlatform", "transactions?balanceAccountId=#{balance_account_id}", "1")
+
+      request_params = {
+        "createdSince" => "2021-01-01T15:07:40Z",
+        "createdUntil" => "2022-12-31T15:07:40Z",
+        "limit" => "100"
+      }
+
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          },
+          query: request_params
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.get_transactions(balance_account_id, request_params)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+  end
+
+  context "transfers" do
+    # TODO: version difference between v2 and v3
+  end
+
   generate_tests(client, "BalancePlatform", test_sets, client.balance_platform)
 end
