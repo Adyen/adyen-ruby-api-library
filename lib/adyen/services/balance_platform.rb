@@ -132,5 +132,11 @@ module Adyen
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
+    
+    def get_transactions
+      action = { method: 'get', url: "transactions"}
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
   end
 end
