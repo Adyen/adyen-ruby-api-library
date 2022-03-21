@@ -55,7 +55,7 @@ module Adyen
           url = "https://ca-#{@env}.adyen.com/ca/services"
           supports_live_url_prefix = false
         when "BalancePlatform"
-          url = "https://balanceplatform-api-#{@env}.adyen.com/bcl"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
           supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
