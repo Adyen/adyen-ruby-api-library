@@ -220,7 +220,8 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       with(
         headers: {
           "x-api-key" => @shared_values[:client].api_key
-        }
+        },
+        query: hash_including({"applicationInfo" => anything })
       ).
       to_return(
         body: response_body
