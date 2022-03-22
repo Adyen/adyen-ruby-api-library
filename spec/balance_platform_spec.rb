@@ -532,9 +532,10 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
       balance_account_id = "BA32272223222B5FD6CD2FNXB"
       response_body = json_from_file("mocks/responses/BalancePlatform/get_transactions.json")
 
-      url = client.service_url("BalancePlatform", "transactions?balanceAccountId=#{balance_account_id}", "2")
+      url = client.service_url("BalancePlatform", "transactions", "2")
 
       request_params = {
+        "balanceAccountId" => balance_account_id,
         "createdSince" => "2021-01-01T15:07:40Z",
         "createdUntil" => "2022-12-31T15:07:40Z",
         "limit" => "100"
@@ -551,7 +552,7 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
           body: response_body
         )
 
-      result = client.balance_platform.get_transactions(balance_account_id, request_params)
+      result = client.balance_platform.get_transactions(request_params)
       response_hash = result.response
 
       expect(result.status).
