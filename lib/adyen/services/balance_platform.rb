@@ -136,17 +136,17 @@ module Adyen
     def get_transactions(balance_account_id, request)
       action = { method: 'get', url: "transactions?balanceAccountId=" + balance_account_id }
 
-      @client.call_adyen_api(@service, action, request, {}, @version)
+      @client.call_adyen_api(@service, action, request, {}, 2)
     end
 
     def get_transaction(transaction_id)
       action = { method: 'get', url: "transactions/" + transaction_id }
 
-      @client.call_adyen_api(@service, action, request, {}, @version)
+      @client.call_adyen_api(@service, action, {}, {}, 2)
     end
 
-    def create_transfer_request
-      @client.call_adyen_api(@service, "transfers", request, {}, @version)
+    def create_transfer_request(request)
+      @client.call_adyen_api(@service, "transfers", request, {}, 2)
     end
   end
 end

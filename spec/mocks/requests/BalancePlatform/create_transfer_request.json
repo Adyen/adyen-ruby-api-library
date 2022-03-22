@@ -1,0 +1,13 @@
+{
+  "amount": {
+    "value": 10,
+    "currency": "EUR"
+  },
+  "balanceAccountId": "BA3227C223222B5D52F825THQ",
+  "category": "internal",
+  "counterparty": {
+    "balanceAccountId": "BA3227C223222B5FPF4Z85SV9"
+  },
+  "reference": "YOUR_INTERNAL_REFERENCE",
+  "description": "YOUR_DESCRIPTION"
+}
