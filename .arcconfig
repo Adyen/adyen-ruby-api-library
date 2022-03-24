@@ -1,7 +1,0 @@
-{
-  "phabricator.uri": "https://phabricator.moneybird.net/",
-  "arc.land.onto.default": "develop",
-  "repository.callsign": "AD",
-  "base": "git:merge-base(origin/develop), arc:prompt",
-  "arc.feature.start.default" : "develop"
-}
