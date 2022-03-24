@@ -145,10 +145,7 @@ module Adyen
         if action.fetch(:method) == "get"
           begin
             response = conn.get do |req|
-              req.params.update(
-                req.params.merge(JSON.parse(request_data))
-              )
-
+              req.params.merge!(JSON.parse(request_data))
             end
           rescue Faraday::ConnectionFailed => connection_error
             raise connection_error, "Connection to #{url} failed"
