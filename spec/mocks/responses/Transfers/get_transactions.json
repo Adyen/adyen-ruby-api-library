@@ -1,26 +1,26 @@
 {
   "data": [
     {
-      "accountHolderId": "AH3227C223222B5FD6CD2BND6",
+      "accountHolderId": "AH123",
       "amount": {
         "currency": "EUR",
-        "value": 1693965
+        "value": 100
       },
-      "balanceAccountId": "BA32272223222B5FD6CD2FNXB",
+      "balanceAccountId": "BA456",
       "balancePlatform": "Moneybird",
       "bookingDate": "2022-03-09T03:01:14+01:00",
       "category": "platformPayment",
       "createdAt": "2022-03-09T03:01:14+01:00",
       "description": "Factuur 2022-0003 van Demo Administration B.V.",
-      "id": "3JERI55U58GRGWCK",
+      "id": "12345678ABC",
       "instructedAmount": {
         "currency": "EUR",
-        "value": 1693965
+        "value": 100
       },
       "reference": "ce7d603f-75f4-3af6-8e28-0cdf86890066-96bae4d2-dec4-3a53-aca7-7ac637a9b7a0",
-      "referenceForBeneficiary": "PaymentTransaction: 348684078161069544",
+      "referenceForBeneficiary": "PaymentTransaction: 87654321",
       "status": "booked",
-      "transferId": "3JERI55U58GRGWCK",
+      "transferId": "12345678ABC",
       "type": "capture",
       "valueDate": "2022-03-09T03:01:14+01:00"
     }
