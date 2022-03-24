@@ -33,7 +33,7 @@ module Adyen
     end
 
     # base URL for API given service and @env
-    def service_url_base(service, balance_platform_postfix: "bcl")
+    def service_url_base(service)
       raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" if @live_url_prefix.nil? and @env == :live
       if @env == :mock
         @mock_service_url_base
@@ -55,7 +55,10 @@ module Adyen
           url = "https://ca-#{@env}.adyen.com/ca/services"
           supports_live_url_prefix = false
         when "BalancePlatform"
-          url = "https://balanceplatform-api-#{@env}.adyen.com/#{balance_platform_postfix}"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/bcl"
+          supports_live_url_prefix = false
+        when "Transfers"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
           supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
@@ -72,9 +75,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "BalancePlatform" && (action.start_with?("transactions") || action.start_with?("transfers"))
-        "#{service_url_base(service, balance_platform_postfix: "btl")}/v#{version}/#{action}"
-      elsif service == "Checkout" || service == "Terminal" || service == "BalancePlatform"
+      if service == "Checkout" || service == "Terminal" || service == "BalancePlatform" || service == "Transfers"
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
@@ -246,6 +247,10 @@ module Adyen
 
     def balance_platform
       @balance_platform ||= Adyen::BalancePlatform.new(self)
+    end
+
+    def transfers
+      @transfers ||= Adyen::Transfers.new(self)
     end
   end
 end
