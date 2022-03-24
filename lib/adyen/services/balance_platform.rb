@@ -128,9 +128,12 @@ module Adyen
     end
 
     def get_public_key(purpose)
-      action = { method: 'get', url: "publicKey?purpose=" + purpose}
+      request_params = {
+        "purpose" => purpose
+      }
+      action = { method: 'get', url: "publicKey"}
 
-      @client.call_adyen_api(@service, action, {}, {}, @version)
+      @client.call_adyen_api(@service, action, request_params, {}, @version)
     end
   end
 end
