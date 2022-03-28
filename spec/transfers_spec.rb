@@ -68,19 +68,37 @@ RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
         to be_a Adyen::HashWithAccessors
       expect(response_hash).
         to be_a_kind_of Hash
-  
     end
   end
   
   context "transfers" do
-    xit "creates a transfer" do
+    it "creates a transfer" do
       request_body = JSON.parse(json_from_file("mocks/requests/Transfers/create_transfer_request.json"))
+      response_body = json_from_file("mocks/responses/Transfers/create_transfer_request.json")
+  
+      url = client.service_url("Transfers", "transfers", "2")
+  
+      WebMock.stub_request(:post, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
   
       result = client.transfers.create_transfer_request(request_body)
       response_hash = result.response
-      puts response_hash
-      # TODO: Find a balance account with capabilites and balance > 0
+  
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
     end
   end
-
 end
