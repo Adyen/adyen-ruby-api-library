@@ -8,7 +8,7 @@ RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
       balance_account_id = "BA32272223222B5FD6CD2FNXB"
       response_body = json_from_file("mocks/responses/Transfers/get_transactions.json")
   
-      url = client.service_url("Transfers", "transactions", "2")
+      url = client.service_url("Transfers", "transactions", "3")
   
       request_params = {
         "balanceAccountId" => balance_account_id,
@@ -45,7 +45,7 @@ RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
       transaction_id = "3JERI55U58GRGWCK"
       response_body = json_from_file("mocks/responses/Transfers/get_transaction.json")
   
-      url = client.service_url("Transfers", "transactions/#{transaction_id}", "2")
+      url = client.service_url("Transfers", "transactions/#{transaction_id}", "3")
   
       WebMock.stub_request(:get, url).
         with(
@@ -76,7 +76,7 @@ RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
       request_body = JSON.parse(json_from_file("mocks/requests/Transfers/create_transfer_request.json"))
       response_body = json_from_file("mocks/responses/Transfers/create_transfer_request.json")
   
-      url = client.service_url("Transfers", "transfers", "2")
+      url = client.service_url("Transfers", "transfers", "3")
   
       WebMock.stub_request(:post, url).
         with(
