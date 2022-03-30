@@ -1,0 +1,17 @@
+{
+  "id": "123",
+  "amount": {
+    "currency": "EUR",
+    "value": 1000
+  },
+  "balanceAccountId": "BA123",
+  "category": "internal",
+  "description": "YOUR_DESCRIPTION",
+  "reference": "YOUR_INTERNAL_REFERENCE",
+  "counterparty": {
+    "balanceAccountId": "BA456"
+  },
+  "direction": "outgoing",
+  "reason": "approved",
+  "status": "authorised"
+}

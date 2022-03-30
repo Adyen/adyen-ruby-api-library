@@ -3,7 +3,7 @@ require_relative "service"
 module Adyen
   class Transfers < Service
     attr_accessor :version
-    DEFAULT_VERSION = 2
+    DEFAULT_VERSION = 3
 
     def initialize(client, version = DEFAULT_VERSION)
       @service = "Transfers"
