@@ -78,11 +78,15 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "Terminal" || service == "BalancePlatform" || service == "Transfers" || service == "LegalEntityManagement"
+      if short_url_services.include?(service)
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
       end
+    end
+
+    def short_url_services
+      %w[Checkout Terminal BalancePlatform Transfers LegalEntityManagement]
     end
 
     # send request to adyen API
