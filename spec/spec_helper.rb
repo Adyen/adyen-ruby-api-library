@@ -47,18 +47,20 @@ def create_test(client, service, method_name, parent_object)
   # stub request
   action = Adyen::Service.action_for_method_name(method_name)
   if service == "BalancePlatform"
-    if action.include?("LegalEntity")
-      action = "legalEntities"
-    elsif action.include?("AccountHolder")
+    if action.include?("AccountHolder")
       action = "accountHolders"
     elsif action.include?("BalanceAccount")
       action = "balanceAccounts"
+    elsif action.include?("PaymentInstrument")
+      action = "paymentInstruments"
+    end
+  elsif service == "LegalEntityManagement"
+    if action.include?("LegalEntity")
+      action = "legalEntities"
     elsif action.include?("TransferInstrument")
       action = "transferInstruments"
     elsif action.include?("Document")
       action = "documents"
-    elsif action.include?("PaymentInstrument")
-      action = "paymentInstruments"
     end
   end
 
