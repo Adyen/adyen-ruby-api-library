@@ -16,6 +16,7 @@
       "street":"Brannan Street",
       "street2":"Example Building"
     },
+    "taxExempt":"false",
     "taxId": "101002749",
     "type": "privateCompany"
   },

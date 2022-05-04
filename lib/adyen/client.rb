@@ -60,6 +60,9 @@ module Adyen
         when "Transfers"
           url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
           supports_live_url_prefix = false
+        when "LegalEntityManagement"
+          url = "https://kyc-#{@env}.adyen.com/lem"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
@@ -75,11 +78,15 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "Terminal" || service == "BalancePlatform" || service == "Transfers"
+      if short_url_services.include?(service)
         "#{service_url_base(service)}/v#{version}/#{action}"
       else
         "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
       end
+    end
+
+    def short_url_services
+      %w[Checkout Terminal BalancePlatform Transfers LegalEntityManagement]
     end
 
     # send request to adyen API
@@ -248,6 +255,10 @@ module Adyen
 
     def transfers
       @transfers ||= Adyen::Transfers.new(self)
+    end
+
+    def legal_entity_management
+      @legal_entity_management ||= Adyen::LegalEntityManagement.new(self)
     end
   end
 end
