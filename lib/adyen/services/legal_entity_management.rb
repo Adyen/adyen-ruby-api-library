@@ -70,5 +70,15 @@ module Adyen
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
+
+    def create_business_line(request)
+      @client.call_adyen_api(@service, "businessLines", request, {}, @version)
+    end
+
+    def get_business_line(business_line_id)
+      action = { method: 'get', url: "businessLines/" + business_line_id }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
   end
 end

@@ -9,7 +9,8 @@ RSpec.describe Adyen::LegalEntityManagement, service: "Legal entity management s
   test_sets = [
     ["create_legal_entity", "id", "LE322KH223222D5DNL6HZ8RFV"],
     ["create_transfer_instrument", "id", "SE322JV223222D5DNVKPZ3GL7"],
-    ["create_document", "id", "SE322JV223222D5DTMZBK44M5"]
+    ["create_document", "id", "SE322JV223222D5DTMZBK44M5"],
+    ["create_business_line", "id", "SE322JV223222D5FKLGQPC2H5"]
   ]
 
   context "legal entities"do
@@ -210,6 +211,32 @@ RSpec.describe Adyen::LegalEntityManagement, service: "Legal entity management s
         to eq(204)
       expect(response_hash).
         to eq("")
+    end
+  end
+
+  context "business lines" do
+    it "gets a business line" do
+      line_id = "SE322JV223222D5FKLGQPC2H5"
+
+      response_body = json_from_file("mocks/responses/LegalEntityManagement/get_business_line.json")
+
+      url = client.service_url("LegalEntityManagement", "businessLines/#{line_id}", "1")
+      WebMock.stub_request(:get, url).
+      to_return(
+        body: response_body
+      )
+
+      result = client.legal_entity_management.get_business_line(line_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
     end
   end
 
