@@ -1,0 +1,23 @@
+{
+  "capability": "string",
+  "id": "SE322JV223222D5FKLGQPC2H5",
+  "industryCode": "55",
+  "legalEntityId": "LE322KT223222D5FJ7THR293F",
+  "salesChannels": [
+    "string"
+  ],
+  "sourceOfFunds": {
+    "acquiringBusinessLineId": "string",
+    "type": "business",
+    "adyenProcessedFunds": "true",
+    "description": "Funds from my flower shop business"
+  },
+  "webData": [
+    {
+      "webAddress": "string"
+    }
+  ],
+  "webDataExemption": {
+    "reason": "noOnlinePresence"
+  }
+}

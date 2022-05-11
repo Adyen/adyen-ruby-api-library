@@ -61,6 +61,8 @@ def create_test(client, service, method_name, parent_object)
       action = "transferInstruments"
     elsif action.include?("Document")
       action = "documents"
+    elsif action.include?("BusinessLine")
+      action = "businessLines"
     end
   end
 
