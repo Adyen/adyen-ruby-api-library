@@ -290,5 +290,158 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
     end
   end
 
+  context "sweeps" do
+    let(:platform) { client.balance_platform }
+
+    before do
+      platform.version = 2
+    end
+
+    it "creates a sweep" do
+      balance_account_id = "BA3227C223222B5DNV89TD83T"
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/create_sweep.json"))
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/create_sweep.json")
+
+      url = client.service_url("BalancePlatform", "balanceAccounts/#{balance_account_id}/sweeps", "2")
+      WebMock.stub_request(:post, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = platform.create_sweep(request_body, balance_account_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "updates a sweep" do
+      balance_account_id = "BA3227C223222B5DNV89TD83T"
+      sweep_id = "TESTTEST"
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_sweep.json"))
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_sweep.json")
+
+      url = client.service_url("BalancePlatform", "balanceAccounts/#{balance_account_id}/sweeps/#{sweep_id}", "2")
+      WebMock.stub_request(:patch, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = platform.update_sweep(request_body, balance_account_id, sweep_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "deletes a sweep" do
+      balance_account_id = "BA3227C223222B5DNV89TD83T"
+      sweep_id = "TESTTEST"
+
+      url = client.service_url("BalancePlatform", "balanceAccounts/#{balance_account_id}/sweeps/#{sweep_id}", "2")
+      WebMock.stub_request(:delete, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: "",
+          status: 204
+        )
+
+      result = platform.delete_sweep(balance_account_id, sweep_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(204)
+      expect(response_hash).
+        to eq("")
+    end
+
+    it "gets a sweep" do
+      balance_account_id = "BA3227C223222B5DNV89TD83T"
+      sweep_id = "TESTTEST"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_sweep.json")
+
+      url = client.service_url("BalancePlatform", "balanceAccounts/#{balance_account_id}/sweeps/#{sweep_id}", "2")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+      result = platform.get_sweep(balance_account_id, sweep_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "gets sweeps for balance account" do
+      balance_account_id = "BA3227C223222B5DNV89TD83T"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_sweeps.json")
+
+      url = client.service_url("BalancePlatform", "balanceAccounts/#{balance_account_id}/sweeps", "2")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+      result = platform.get_sweeps(balance_account_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash[0]).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Array
+    end
+  end
+
   generate_tests(client, "BalancePlatform", test_sets, client.balance_platform)
 end

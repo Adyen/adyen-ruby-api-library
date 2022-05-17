@@ -67,6 +67,34 @@ module Adyen
       @client.call_adyen_api(@service, "paymentInstruments/reveal", request, {}, @version)
     end
 
+    def create_sweep(request, balance_account_id)
+      @client.call_adyen_api(@service, "balanceAccounts/#{balance_account_id}/sweeps", request, {}, @version)
+    end
+
+    def update_sweep(request, balance_account_id, sweep_id)
+      action = { method: 'patch', url: "balanceAccounts/#{balance_account_id}/sweeps/#{sweep_id}" }
+
+      @client.call_adyen_api(@service, action, request, {}, @version)
+    end
+
+    def get_sweep(balance_account_id, sweep_id)
+      action = { method: 'get', url: "balanceAccounts/#{balance_account_id}/sweeps/#{sweep_id}" }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
+
+    def delete_sweep(balance_account_id, sweep_id)
+      action = { method: 'delete', url: "balanceAccounts/#{balance_account_id}/sweeps/#{sweep_id}" }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
+
+    def get_sweeps(balance_account_id)
+      action = { method: 'get', url: "balanceAccounts/#{balance_account_id}/sweeps" }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
+
     def get_public_key(purpose)
       request_params = {
         "purpose" => purpose

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "TESTTEST",
+    "counterparty": {
+      "transferInstrumentId": "SE32272223222D5DHXWBB9995"
+    },
+    "currency": "EUR",
+    "schedule": {
+      "type": "weekly"
+    },
+    "type": "push"
+  },
+  {
+    "id": "TESTTEST1",
+    "counterparty": {
+      "transferInstrumentId": "SE32272223222D5DHXWBB9995"
+    },
+    "currency": "EUR",
+    "schedule": {
+      "type": "weekly"
+    },
+    "type": "push"
+  }
+]
