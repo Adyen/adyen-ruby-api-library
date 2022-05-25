@@ -239,6 +239,34 @@ RSpec.describe Adyen::LegalEntityManagement, service: "Legal entity management s
         to be_a_kind_of Hash
     end
 
+    it "updates a businessLine" do
+      line_id = "SE322JV223222D5DTMZBK44M5"
+      request_body = JSON.parse(json_from_file("mocks/requests/LegalEntityManagement/update_business_line.json"))
+
+      response_body = json_from_file("mocks/responses/LegalEntityManagement/update_business_line.json")
+
+      url = client.service_url("LegalEntityManagement", "businessLines/#{line_id}", "1")
+      WebMock.stub_request(:patch, url).
+        with(
+          body: request_body
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.legal_entity_management.update_business_line(request_body, line_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
     it "gets all legal entity business lines" do
       legal_entity_id = "LE322JV223222D5DNLR5C22TT"
 
@@ -261,6 +289,25 @@ RSpec.describe Adyen::LegalEntityManagement, service: "Legal entity management s
         to be_a Adyen::HashWithAccessors
       expect(response_hash).
         to be_a_kind_of Hash
+    end
+
+    it "deletes a businessLine" do
+      line_id = "SE322JV223222D5DVD85RCGHR"
+
+      url = client.service_url("LegalEntityManagement", "businessLines/#{line_id}", "1")
+      WebMock.stub_request(:delete, url).
+        to_return(
+          body: "",
+          status: 204
+        )
+
+      result = client.legal_entity_management.delete_business_line(line_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(204)
+      expect(response_hash).
+        to eq("")
     end
   end
 
