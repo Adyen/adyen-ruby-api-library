@@ -80,5 +80,17 @@ module Adyen
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
+
+    def update_business_line(request, business_line_id)
+      action = { method: 'patch', url: "businessLines/" + business_line_id }
+
+      @client.call_adyen_api(@service, action, request, {}, @version)
+    end
+
+    def delete_business_line(business_line_id)
+      action = { method: 'delete', url: "businessLines/" + business_line_id }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
   end
 end
