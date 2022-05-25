@@ -92,5 +92,11 @@ module Adyen
 
       @client.call_adyen_api(@service, action, {}, {}, @version)
     end
+
+    def get_legal_entity_business_lines(legal_entity_id)
+      action = { method: 'get', url: "legalEntities/#{legal_entity_id}/businessLines" }
+
+      @client.call_adyen_api(@service, action, {}, {}, @version)
+    end
   end
 end
