@@ -67,6 +67,17 @@ module Adyen
         @client.call_adyen_api(@service, action, args[0], args[1], @version)
       end
     end
+
+    def apple_pay(*args)
+      case args.size
+      when 0
+        Adyen::CheckoutApplePay.new(@client, @version)
+      else
+        action = "applePay"
+        args[1] ||= {}  # optional headers arg
+        @client.call_adyen_api(@service, action, args[0], args[1], @version)
+      end
+    end
   end
 
   class CheckoutDetail < Service
@@ -127,6 +138,19 @@ module Adyen
 
     def cancel(request, headers = {})
       action = "orders/cancel"
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+  end
+
+  class CheckoutApplePay < Service
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "Checkout"
+      @client = client
+      @version = version
+    end
+
+    def sessions(request, headers = {})
+      action = "applePay/sessions"
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
   end
