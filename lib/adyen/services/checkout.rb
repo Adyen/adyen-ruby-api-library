@@ -68,15 +68,8 @@ module Adyen
       end
     end
 
-    def apple_pay(*args)
-      case args.size
-      when 0
-        Adyen::CheckoutApplePay.new(@client, @version)
-      else
-        action = "applePay"
-        args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version)
-      end
+    def apple_pay
+      @apple_pay ||= Adyen::CheckoutApplePay.new(@client, @version)
     end
   end
 
