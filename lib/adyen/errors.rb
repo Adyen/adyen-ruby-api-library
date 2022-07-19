@@ -3,7 +3,10 @@ module Adyen
     attr_reader :code, :response, :request, :msg
 
     def initialize(request = nil, response = nil, msg = nil, code = nil)
-      mask_fields(request)
+      unless request.nil?
+        request = request.is_a?(Hash) ? request : JSON.parse(request, symbolize_names: true)
+        mask_fields(request)
+      end
 
       # components of formatted error message
       attributes = {
@@ -37,7 +40,7 @@ module Adyen
       ]
 
       # convert to hash if necessary
-      request = request.is_a?(Hash) ? request : JSON.parse(request)
+      request = request.is_a?(Hash) ? request : JSON.parse(request, symbolize_names: true)
 
       # iterate through request to find fields to mask
       request.each do |k, v|
