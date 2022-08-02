@@ -43,5 +43,14 @@ RSpec.describe Adyen::AdyenError do
     it 'masks CVC when logging request in errors' do
       expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message', 'code').request[:paymentMethod][:cvc]).to eq('***')
     end
+
+    context 'when request is string' do
+      it 'masks card number when logging request in errors' do
+        expect(Adyen::AdyenError.new(JSON.generate(@shared_values[:request]), 'response', 'message', 'code').request[:paymentMethod][:number]).to eq('411111******1111')
+      end
+      it 'masks CVC when logging request in errors' do
+        expect(Adyen::AdyenError.new(JSON.generate(@shared_values[:request]), 'response', 'message', 'code').request[:paymentMethod][:cvc]).to eq('***')
+      end
+    end
   end
 end

@@ -345,6 +345,38 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to eq("cancelled")
   end
 
+  it "makes an applePay/sessions call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/apple_pay_sessions.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/apple_pay_sessions.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "applePay/sessions", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
+
+    result = @shared_values[:client].checkout.apple_pay.sessions(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash["data"]).
+      to eq("LARGE_BLOB_HERE")
+  end
+
   it "makes a sessions call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/sessions.json"))
 

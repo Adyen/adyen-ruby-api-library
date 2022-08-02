@@ -1,0 +1,5 @@
+{
+    "displayName": "YOUR_MERCHANT_NAME",
+    "domainName": "window.location.hostname",
+    "merchantIdentifier": "YOUR_MERCHANT_ID"
+}
