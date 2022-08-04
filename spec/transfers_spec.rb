@@ -73,6 +73,7 @@ RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
   
   context "transfers" do
     it "creates a transfer" do
+      authenticate_header = "abc"
       request_body = JSON.parse(json_from_file("mocks/requests/Transfers/create_transfer_request.json"))
       response_body = json_from_file("mocks/responses/Transfers/create_transfer_request.json")
   
@@ -81,14 +82,17 @@ RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
       WebMock.stub_request(:post, url).
         with(
           headers: {
-            "x-api-key" => client.api_key
+            "x-api-key" => client.api_key,
+            "WWW-Authenticate" => authenticate_header
           }
         ).
         to_return(
           body: response_body
         )
   
-      result = client.transfers.create_transfer_request(request_body)
+      result = client.transfers.create_transfer_request(request_body, {
+        "WWW-Authenticate" => authenticate_header
+      })
       response_hash = result.response
   
       expect(result.status).

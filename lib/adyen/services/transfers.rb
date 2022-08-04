@@ -11,20 +11,20 @@ module Adyen
       @version = version
     end
 
-    def get_transactions(request_params)
+    def get_transactions(request_params, headers = {})
       action = { method: 'get', url: "transactions" }
 
-      @client.call_adyen_api(@service, action, request_params, {}, @version)
+      @client.call_adyen_api(@service, action, request_params, headers, @version)
     end
 
-    def get_transaction(transaction_id)
+    def get_transaction(transaction_id, headers = {})
       action = { method: 'get', url: "transactions/" + transaction_id }
 
-      @client.call_adyen_api(@service, action, {}, {}, @version)
+      @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def create_transfer_request(request)
-      @client.call_adyen_api(@service, "transfers", request, {}, @version)
+    def create_transfer_request(request, headers = {})
+      @client.call_adyen_api(@service, "transfers", request, headers, @version)
     end
   end
 end
