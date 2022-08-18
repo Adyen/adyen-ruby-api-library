@@ -83,4 +83,31 @@ RSpec.describe Adyen do
     expect(client.service_url_base("Payment")).
       to eq("https://abcdef1234567890-TestCompany-pal-live.adyenpayments.com/pal/servlet")
   end
+
+  it "generates a new set of ConnectionOptions when none are provided" do
+    expect(Faraday::ConnectionOptions).to receive(:new).and_call_original
+    client = Adyen::Client.new(env: :test)
+  end
+
+  it "uses the ConnectionOptions provided" do
+    connection_options = Faraday::ConnectionOptions.new
+    expect(Faraday::ConnectionOptions).not_to receive(:new)
+    client = Adyen::Client.new(env: :test, connection_options: connection_options)
+  end
+
+  it "initiates a Faraday connection with the provided options" do
+    connection_options = Faraday::ConnectionOptions.new
+    expect(Faraday::ConnectionOptions).not_to receive(:new)
+    client = Adyen::Client.new(api_key: "api_key", env: :mock, connection_options: connection_options)
+
+    mock_faraday_connection = double(Faraday::Connection)
+    url = client.service_url(@shared_values[:service], "payments/details", client.checkout.version)
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment-details.json"))
+    mock_response = Faraday::Response.new(status: 200)
+
+    expect(Adyen::AdyenResult).to receive(:new)
+    expect(Faraday).to receive(:new).with("http://localhost:3001/v68/payments/details", connection_options).and_return(mock_faraday_connection)
+    expect(mock_faraday_connection).to receive(:post).and_return(mock_response)
+    client.checkout.payments.details(request_body)
+  end
 end
