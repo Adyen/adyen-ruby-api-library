@@ -1,0 +1,6 @@
+{
+  "paymentInstrumentId": "PI3227C223222B5BPCMFXD2XG",
+  "strongCustomerAuthentication" : {
+      "sdkOutput": "eyJ2ZXJzaW9uIjoxLCJkZXZpY2UiOiJhbmRyb2lkIn0="
+  }
+}

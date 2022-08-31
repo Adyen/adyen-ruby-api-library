@@ -95,6 +95,16 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
+    def create_registered_device(request, headers = {})
+      @client.call_adyen_api(@service, "registeredDevices", request, headers, @version)
+    end
+
+    def update_registered_device(request, registered_device_id, headers = {})
+      action = { method: 'patch', url: "registeredDevices/#{registered_device_id}" }
+
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
     def get_public_key(purpose, headers = {})
       request_params = {
         "purpose" => purpose
