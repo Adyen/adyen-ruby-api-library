@@ -189,4 +189,67 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
         to be_a_kind_of Hash
     end
   end
+
+  context "registeredDevices" do
+    it "creates a registeredDevice" do
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/create_registered_device.json"))
+      response_body = json_from_file("mocks/responses/BalancePlatform/create_registered_device.json")
+
+      url = @shared_values[:client].service_url(@shared_values[:service], 'registeredDevices',
+                                                @shared_values[:client].balance_platform.version)
+
+      WebMock.stub_request(:post, url).
+        with(
+          headers: {
+            "x-api-key" => @shared_values[:client].api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+        result = @shared_values[:client].balance_platform.create_registered_device(request_body)
+        response_hash = result.response
+  
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "updates a registeredDevice" do
+      registered_device_id = "RD32275223224S5GKPPPH2B66"
+
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_registered_device.json"))
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_registered_device.json")
+
+      url = @shared_values[:client].service_url(@shared_values[:service], "registeredDevices/#{registered_device_id}", @shared_values[:client].balance_platform.version)
+
+      WebMock.stub_request(:patch, url).
+        with(
+          headers: {
+            "x-api-key" => @shared_values[:client].api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+        result = @shared_values[:client].balance_platform.update_registered_device(request_body, registered_device_id)
+        response_hash = result.response
+  
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+  end
 end

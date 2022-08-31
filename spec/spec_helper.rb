@@ -38,6 +38,7 @@ def create_test(client, service, method_name, parent_object)
 
   # stub request
   action = Adyen::Service.action_for_method_name(method_name)
+
   url = client.service_url(service, action, parent_object.version)
   WebMock.stub_request(:post, url)
          .with(

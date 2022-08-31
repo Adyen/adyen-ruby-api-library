@@ -64,5 +64,15 @@ module Adyen
     def get_payment_instrument_pin(request)
       @client.call_adyen_api(@service, "pins/reveal", request, {}, @version)
     end
+
+    def create_registered_device(request, headers = {})
+      @client.call_adyen_api(@service, "registeredDevices", request, headers, @version)
+    end
+
+    def update_registered_device(request, registered_device_id, headers = {})
+      action = { method: 'patch', url: "registeredDevices/#{registered_device_id}" }
+
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
   end
 end
