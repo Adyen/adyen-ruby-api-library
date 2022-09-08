@@ -208,9 +208,9 @@ module Adyen
       # check for API errors
       case response.status
       when 401
-        raise Adyen::AuthenticationError.new(
-          'Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key', request_data
-        )
+        if response.headers["www-authenticate"].nil?
+          raise Adyen::AuthenticationError.new("Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key", request_data)
+        end
       when 403
         raise Adyen::PermissionError.new('Missing user permissions; https://docs.adyen.com/user-management/user-roles',
                                          request_data, response.body)

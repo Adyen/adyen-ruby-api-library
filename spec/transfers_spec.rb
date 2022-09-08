@@ -60,5 +60,45 @@ RSpec.describe Adyen::Transfers, service: 'transfers' do
     expect(result.status)
       .to eq(200)
   end
+
+  it "returns an error response including the headers" do
+    authenticate_header = "abc"
+    request_body = JSON.parse(json_from_file("mocks/requests/Transfers/make_transfer.json"))
+    response_body = json_from_file("mocks/responses/Transfers/create_transfer_request_requires_sca.json")
+
+    url = @shared_values[:client].service_url("Transfers", "transfers", "3")
+
+    WebMock.stub_request(:post, url).
+      with(
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key,
+          "WWW-Authenticate" => authenticate_header
+        }
+      ).
+      to_return(
+        status: 401,
+        headers: {
+          "WWW-Authenticate" => 'SCA realm="Transfer" auth-param1="1234"'
+        },
+        body: response_body
+      )
+  
+      result = @shared_values[:client].transfers.transfers_api.transfer_funds(request_body, headers: {
+        "WWW-Authenticate" => authenticate_header
+      })
+  
+      expect(result.status).
+        to eq(401)
+      expect(result.response).
+        to eq(JSON.parse(response_body))
+      expect(result.response).
+        to be_a Adyen::HashWithAccessors
+      expect(result.header)
+        .to eq({
+          "www-authenticate" => 'SCA realm="Transfer" auth-param1="1234"'
+        })
+      expect(result.response).
+        to be_a_kind_of Hash
+    end
 end
 # rubocop:enable Metrics/BlockLength
