@@ -1,0 +1,15 @@
+{
+  "type": "https://docs.adyen.com/errors/unauthorized",
+  "title": "Unauthorized",
+  "status": 401,
+  "response": {
+      "amount": {
+          "currency": "EUR",
+          "value": 1000
+      },
+      "counterparty": {
+          "transferInstrumentId": "TI12345"
+      }
+  },
+  "errorCode": "00_401"
+}

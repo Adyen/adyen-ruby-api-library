@@ -104,5 +104,45 @@ RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
       expect(response_hash).
         to be_a_kind_of Hash
     end
+
+    it "returns an error response including the headers" do
+      authenticate_header = "abc"
+      request_body = JSON.parse(json_from_file("mocks/requests/Transfers/create_transfer_request.json"))
+      response_body = json_from_file("mocks/responses/Transfers/create_transfer_request_requires_sca.json")
+  
+      url = client.service_url("Transfers", "transfers", "3")
+  
+      WebMock.stub_request(:post, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key,
+            "WWW-Authenticate" => authenticate_header
+          }
+        ).
+        to_return(
+          status: 401,
+          headers: {
+            "WWW-Authenticate" => 'SCA realm="Transfer" auth-param1="1234"'
+          },
+          body: response_body
+        )
+  
+      result = client.transfers.create_transfer_request(request_body, {
+        "WWW-Authenticate" => authenticate_header
+      })
+  
+      expect(result.status).
+        to eq(401)
+      expect(result.response).
+        to eq(JSON.parse(response_body))
+      expect(result.response).
+        to be_a Adyen::HashWithAccessors
+      expect(result.header)
+        .to eq({
+          "www-authenticate" => 'SCA realm="Transfer" auth-param1="1234"'
+        })
+      expect(result.response).
+        to be_a_kind_of Hash
+    end
   end
 end
