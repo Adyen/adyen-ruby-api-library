@@ -67,6 +67,34 @@ module Adyen
       @client.call_adyen_api(@service, "paymentInstruments/reveal", request, headers, @version)
     end
 
+    def get_payment_instrument_transaction_rules(payment_instrument_id, headers = {})
+      action = { method: 'get', url: "paymentInstruments/#{payment_instrument_id}/transactionRules" }
+
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
+    def create_transaction_rule(request, headers = {})
+      @client.call_adyen_api(@service, "transactionRules", request, headers, @version)
+    end
+
+    def update_transaction_rule(request, transaction_rule_id, headers = {})
+      action = { method: 'patch', url: "transactionRules/#{transaction_rule_id}" }
+
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
+    def get_transaction_rule(transaction_rule_id, headers = {})
+      action = { method: 'get', url: "transactionRules/#{transaction_rule_id}" }
+
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
+    def delete_transaction_rule(transaction_rule_id, headers = {})
+      action = { method: 'delete', url: "transactionRules/#{transaction_rule_id}" }
+
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     def create_sweep(request, balance_account_id, headers = {})
       @client.call_adyen_api(@service, "balanceAccounts/#{balance_account_id}/sweeps", request, headers, @version)
     end
