@@ -153,6 +153,15 @@ module Adyen
             raise connection_error, "Connection to #{url} failed"
           end
         end
+        if action.fetch(:method) == "post"
+          begin
+            response = conn.post do |req|
+              req.body = request_data
+            end
+          rescue Faraday::ConnectionFailed => connection_error
+            raise connection_error, "Connection to #{url} failed"
+          end
+        end
       else
         # post request to Adyen
         begin
@@ -171,7 +180,7 @@ module Adyen
       when 403
         raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data)
       end
-
+      puts response.inspect
       formatted_response = AdyenResult.new(response.body, response.headers, response.status)
 
       formatted_response
