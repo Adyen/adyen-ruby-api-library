@@ -405,6 +405,198 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to be_a_kind_of Hash
   end
 
+  it "makes a capture call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/capture.json"))
+  
+    response_body = json_from_file("mocks/responses/Checkout/capture.json")
+  
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments/12345/captures", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      )
+      .to_return(body: response_body, status: 201)
+  
+    result = @shared_values[:client].checkout.modifications.capture("12345", request_body)
+    response_hash = result.response
+  
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash.reference).
+      to eq("123456789")
+    expect(response_hash.pspReference).
+      to eq("12345")
+  end
+
+  it "makes a psp specific cancel call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/psp_cancel.json"))
+  
+    response_body = json_from_file("mocks/responses/Checkout/psp_cancel.json")
+  
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments/12345/cancels", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      )
+      .to_return(body: response_body, status: 201)
+  
+    result = @shared_values[:client].checkout.modifications.cancel("12345", request_body)
+    response_hash = result.response
+  
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash.reference).
+      to eq("123456789")
+    expect(response_hash.pspReference).
+      to eq("12345")
+  end
+
+  it "makes a psp specific refunds call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/refund.json"))
+  
+    response_body = json_from_file("mocks/responses/Checkout/refund.json")
+  
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments/12345/refunds", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      )
+      .to_return(body: response_body, status: 201)
+  
+    result = @shared_values[:client].checkout.modifications.refund("12345", request_body)
+    response_hash = result.response
+  
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash.reference).
+      to eq("123456789")
+    expect(response_hash.pspReference).
+      to eq("12345")
+  end
+
+  it "makes a psp specific reversals call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/psp_cancel.json"))
+  
+    response_body = json_from_file("mocks/responses/Checkout/psp_cancel.json")
+  
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments/12345/reversals", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      )
+      .to_return(body: response_body, status: 201)
+  
+    result = @shared_values[:client].checkout.modifications.reversal("12345", request_body)
+    response_hash = result.response
+  
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash.reference).
+      to eq("123456789")
+    expect(response_hash.pspReference).
+      to eq("12345")
+  end
+
+  it "makes a psp specific amountUpdates call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/amount_updates.json"))
+  
+    response_body = json_from_file("mocks/responses/Checkout/amount_updates.json")
+  
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments/12345/amountUpdates", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      )
+      .to_return(body: response_body, status: 201)
+  
+    result = @shared_values[:client].checkout.modifications.amountUpdate("12345", request_body)
+    response_hash = result.response
+  
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash.reference).
+      to eq("123456789")
+    expect(response_hash.pspReference).
+      to eq("12345")
+  end
+
+  it "makes a generic cancel call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/generic_cancel.json"))
+  
+    response_body = json_from_file("mocks/responses/Checkout/generic_cancel.json")
+  
+    url = @shared_values[:client].service_url(@shared_values[:service], "cancels", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      )
+      .to_return(body: response_body, status: 201)
+  
+    result = @shared_values[:client].checkout.modifications.genericCancel(request_body)
+    response_hash = result.response
+  
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash.reference).
+      to eq("123456789")
+    expect(response_hash.pspReference).
+      to eq("12345")
+  end
+
   # create client for automated tests
   client = create_client(:api_key)
 

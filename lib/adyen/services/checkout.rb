@@ -71,6 +71,10 @@ module Adyen
     def apple_pay
       @apple_pay ||= Adyen::CheckoutApplePay.new(@client, @version)
     end
+
+    def modifications
+      @modifications ||= Adyen::Modifications.new(@client, @version)
+    end
   end
 
   class CheckoutDetail < Service
@@ -145,6 +149,44 @@ module Adyen
     def sessions(request, headers = {})
       action = "applePay/sessions"
       @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+  end
+
+  class Modifications < Service
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "Checkout"
+      @client = client
+      @version = version
+    end
+
+    def capture(linkId, request, headers = {})
+      action = "payments/" + linkId + "/captures"
+      @client.call_adyen_api(@service, action, request, headers, @version, false)
+    end
+
+    def cancel(linkId, request, headers = {})
+      action = "payments/" + linkId + "/cancels"
+      @client.call_adyen_api(@service, action, request, headers, @version, false)
+    end
+
+    def genericCancel(request, headers = {})
+      action = "cancels"
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+  
+    def refund(linkId, request, headers = {})
+      action = "payments/" + linkId + "/refunds"
+      @client.call_adyen_api(@service, action, request, headers, @version, false)
+    end
+
+    def reversal(linkId, request, headers = {})
+      action = "payments/" + linkId + "/reversals"
+      @client.call_adyen_api(@service, action, request, headers, @version, false)
+    end
+
+    def amountUpdate(linkId, request, headers = {})
+      action = "payments/" + linkId + "/amountUpdates"
+      @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
   end
 end
