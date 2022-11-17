@@ -160,12 +160,12 @@ module Adyen
     end
 
     def capture(linkId, request, headers = {})
-      action = { method: 'post', url: "payments/" + linkId + "/captures"}
+      action = "payments/" + linkId + "/captures"
       @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
 
     def cancel(linkId, request, headers = {})
-      action = { method: 'post', url: "payments/" + linkId + "/cancels"}
+      action = "payments/" + linkId + "/cancels"
       @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
 
@@ -175,17 +175,17 @@ module Adyen
     end
   
     def refund(linkId, request, headers = {})
-      action = { method: 'post', url: "payments/" + linkId + "/refunds"}
+      action = "payments/" + linkId + "/refunds"
       @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
 
     def reversal(linkId, request, headers = {})
-      action = { method: 'post', url: "payments/" + linkId + "/reversals"}
+      action = "payments/" + linkId + "/reversals"
       @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
 
     def amountUpdate(linkId, request, headers = {})
-      action = { method: 'post', url: "payments/" + linkId + "/amountUpdates"}
+      action = "payments/" + linkId + "/amountUpdates"
       @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
   end
