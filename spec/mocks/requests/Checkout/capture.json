@@ -1,0 +1,34 @@
+{
+    "amount": {
+      "currency": "str",
+      "value": 0
+    },
+    "lineItems": [
+      {
+        "amountExcludingTax": 0,
+        "amountIncludingTax": 0,
+        "description": "string",
+        "id": "string",
+        "imageUrl": "string",
+        "itemCategory": "string",
+        "productUrl": "string",
+        "quantity": 0,
+        "taxAmount": 0,
+        "taxPercentage": 0
+      }
+    ],
+    "merchantAccount": "string",
+    "reference": "string",
+    "splits": [
+      {
+        "account": "string",
+        "amount": {
+          "currency": "str",
+          "value": 0
+        },
+        "description": "string",
+        "reference": "string",
+        "type": "BalanceAccount"
+      }
+    ]
+}
