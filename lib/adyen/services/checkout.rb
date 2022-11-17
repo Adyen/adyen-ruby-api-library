@@ -174,17 +174,17 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
   
-    def refunds(linkId, request, headers = {})
+    def refund(linkId, request, headers = {})
       action = { method: 'post', url: "payments/" + linkId + "/refunds"}
       @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
 
-    def reversals(linkId, request, headers = {})
+    def reversal(linkId, request, headers = {})
       action = { method: 'post', url: "payments/" + linkId + "/reversals"}
       @client.call_adyen_api(@service, action, request, headers, @version, false)
     end
 
-    def amountUpdates(linkId, request, headers = {})
+    def amountUpdate(linkId, request, headers = {})
       action = { method: 'post', url: "payments/" + linkId + "/amountUpdates"}
       @client.call_adyen_api(@service, action, request, headers, @version, false)
     end

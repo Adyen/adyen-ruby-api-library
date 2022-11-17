@@ -1,0 +1,24 @@
+{
+    "amount": {
+      "currency": "str",
+      "value": 0
+    },
+    "merchantAccount": "TestMerchant",
+    "paymentPspReference": "123456789",
+    "pspReference": "12345",
+    "reason": "delayedCharge",
+    "reference": "123456789",
+    "splits": [
+      {
+        "account": "string",
+        "amount": {
+          "currency": "str",
+          "value": 0
+        },
+        "description": "string",
+        "reference": "string",
+        "type": "BalanceAccount"
+      }
+    ],
+    "status": "received"
+}
