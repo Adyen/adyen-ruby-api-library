@@ -180,7 +180,7 @@ module Adyen
       when 403
         raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data)
       end
-      puts response.inspect
+      
       formatted_response = AdyenResult.new(response.body, response.headers, response.status)
 
       formatted_response
