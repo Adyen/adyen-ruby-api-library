@@ -46,30 +46,31 @@ RSpec.describe Adyen::AdyenError do
       expect(Adyen::PermissionError.new(
         'message',
         @shared_values[:request],
-        'response'
+        'response',
+        '{"header": "1"}'
       ).to_s).to eq(
-        "Adyen::PermissionError code:403, msg:message, request:#{@shared_values[:request]}, response:response"
+        "Adyen::PermissionError code:403, msg:message, header:{\"header\": \"1\"}, request:#{@shared_values[:request]}, response:response"
       )
     end
   end
   describe '#masking' do
     it 'masks card number when logging request in errors' do
       expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message',
-                                   'code').request[:paymentMethod][:number]).to eq('411111******1111')
+                                   'code', '{"header": "1"}').request[:paymentMethod][:number]).to eq('411111******1111')
     end
     it 'masks CVC when logging request in errors' do
       expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message',
-                                   'code').request[:paymentMethod][:cvc]).to eq('***')
+                                   'code', '{"header": "1"}').request[:paymentMethod][:cvc]).to eq('***')
     end
 
     context 'when request is string' do
       it 'masks card number when logging request in errors' do
         expect(Adyen::AdyenError.new(JSON.generate(@shared_values[:request]), 'response', 'message',
-                                     'code').request[:paymentMethod][:number]).to eq('411111******1111')
+                                     'code', '{"header": "1"}').request[:paymentMethod][:number]).to eq('411111******1111')
       end
       it 'masks CVC when logging request in errors' do
         expect(Adyen::AdyenError.new(JSON.generate(@shared_values[:request]), 'response', 'message',
-                                     'code').request[:paymentMethod][:cvc]).to eq('***')
+                                     'code', '{"header": "1"}').request[:paymentMethod][:cvc]).to eq('***')
       end
     end
   end
