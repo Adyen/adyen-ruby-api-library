@@ -189,10 +189,10 @@ module Adyen
       case response.status
       when 401
         unless response.headers["www-authenticate"].present?
-          raise Adyen::AuthenticationError.new("Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key", request_data)
+          raise Adyen::AuthenticationError.new("Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key", request_data, response.body, response.headers)
         end
       when 403
-        raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data)
+        raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data, response.body, response.headers)
       end
 
       formatted_response = AdyenResult.new(response.body, response.headers, response.status)
