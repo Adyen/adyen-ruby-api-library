@@ -32,7 +32,7 @@ RSpec.describe Adyen::AdyenError do
         'response',
         'message',
         'code'
-      ).to_s).to eq("Adyen::AdyenError code:code, msg:message, request:#{@shared_values[:request]}, response:response")
+      ).to_s).to eq("Adyen::AdyenError code:code, msg:message, response:response, request:#{@shared_values[:request]}")
     end
     it 'skips the null properties' do
       expect(Adyen::AdyenError.new(
@@ -49,7 +49,7 @@ RSpec.describe Adyen::AdyenError do
         'response',
         '{"header": "1"}'
       ).to_s).to eq(
-        "Adyen::PermissionError code:403, msg:message, header:{\"header\": \"1\"}, request:#{@shared_values[:request]}, response:response"
+        "Adyen::PermissionError code:403, msg:message, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}"
       )
     end
   end
