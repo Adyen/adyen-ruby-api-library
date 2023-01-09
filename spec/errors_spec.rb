@@ -27,13 +27,13 @@ RSpec.describe Adyen::AdyenError do
 
   describe '#to_s' do
     it 'describes using the error properties' do
-      expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message', 'code', '{"header": "1"}').to_s).to eq("Adyen::AdyenError code:code, msg:message, header:{\"header\": \"1\"}, request:#{@shared_values[:request]}, response:response")
+      expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message', 'code', '{"header": "1"}').to_s).to eq("Adyen::AdyenError code:code, msg:message, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}")
     end
     it 'skips the null properties' do
       expect(Adyen::AdyenError.new(@shared_values[:request], nil, nil, 'code', nil).to_s).to eq("Adyen::AdyenError code:code, request:#{@shared_values[:request]}")
     end
     it 'uses the proper error class name' do
-      expect(Adyen::PermissionError.new('message', @shared_values[:request], 'response', '{"header": "1"}').to_s).to eq("Adyen::PermissionError code:403, msg:message, header:{\"header\": \"1\"}, request:#{@shared_values[:request]}, response:response")
+      expect(Adyen::PermissionError.new('message', @shared_values[:request], 'response', '{"header": "1"}').to_s).to eq("Adyen::PermissionError code:403, msg:message, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}")
     end
   end
   describe '#masking' do

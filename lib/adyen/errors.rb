@@ -14,8 +14,8 @@ module Adyen
         code: code,
         msg: msg,
         header: header,
-        request: request,
-        response: response
+        response: response,
+        request: request
       }.select { |_k, v| v }.map { |k, v| "#{k}:#{v}" }.join(', ')
       message = "#{self.class.name} #{attributes}"
       super(message)
