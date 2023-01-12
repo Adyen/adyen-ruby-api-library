@@ -28,12 +28,6 @@ RSpec.describe Adyen::Utils::HmacValidator do
       expect(data_to_sign).to eq '7914073381342284::TestMerchant:TestPayment-1407325143704:1130:EUR:AUTHORISATION:true'
     end
 
-    it 'should get correct data with escaped characters' do
-      notification_request_item['merchantAccountCode'] = 'Test:\\Merchant'
-      data_to_sign = validator.data_to_sign(notification_request_item)
-      expect(data_to_sign).to eq '7914073381342284::Test\\:\\Merchant:TestPayment-1407325143704:1130:EUR:AUTHORISATION:true'
-    end
-
     it 'should encrypt properly' do
       encrypted = validator.calculate_notification_hmac(notification_request_item, key)
       expect(encrypted).to eq expected_sign
@@ -47,6 +41,26 @@ RSpec.describe Adyen::Utils::HmacValidator do
       notification_request_item['additionalData'] = { 'hmacSignature' => 'invalidHMACsign' }
 
       expect(validator.valid_notification_hmac?(notification_request_item, key)).to be false
+    end
+
+    it 'should validate backslashes correctly' do
+      webhook = JSON.parse(json_from_file("mocks/responses/Webhooks/backslash_notification.json"))
+      expect(validator.valid_notification_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
+    end
+
+    it 'should validate colons correctly' do
+      webhook = JSON.parse(json_from_file("mocks/responses/Webhooks/colon_notification.json"))
+      expect(validator.valid_notification_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
+    end
+
+    it 'should validate forward slashes correctly' do
+      webhook = JSON.parse(json_from_file("mocks/responses/Webhooks/forwardslash_notification.json"))
+      expect(validator.valid_notification_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
+    end
+
+    it 'should validate mix of slashes and colon correctly' do
+      webhook = JSON.parse(json_from_file("mocks/responses/Webhooks/mixed_notification.json"))
+      expect(validator.valid_notification_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
     end
   end
 end

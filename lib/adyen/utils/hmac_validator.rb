@@ -22,16 +22,15 @@ module Adyen
       end
 
       def data_to_sign(notification_request_item)
-        NOTIFICATION_VALIDATION_KEYS.map { |key| fetch(notification_request_item, key).to_s }
-                                    .map { |value| value.gsub('\\', '\\\\').gsub(':', '\\:') }
+        data = NOTIFICATION_VALIDATION_KEYS.map { |key| fetch(notification_request_item, key).to_s }
                                     .join(DATA_SEPARATOR)
+        return data
       end
 
       private
 
       def fetch(hash, keys)
         value = hash
-
         keys.to_s.split('.').each do |key|
           value = if key.to_i.to_s == key
                     value[key.to_i]
