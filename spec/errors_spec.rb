@@ -47,9 +47,10 @@ RSpec.describe Adyen::AdyenError do
         'message',
         @shared_values[:request],
         'response',
-        '{"header": "1"}'
+        '{"header": "1"}',
+        "https://kyc-test.adyen.com"
       ).to_s).to eq(
-        "Adyen::PermissionError code:403, msg:message, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}"
+        "Adyen::PermissionError code:403, msg:message, url:https://kyc-test.adyen.com, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}"
       )
     end
   end
