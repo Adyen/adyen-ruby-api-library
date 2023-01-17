@@ -30,10 +30,10 @@ RSpec.describe Adyen::AdyenError do
       expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message', 'code', '{"header": "1"}').to_s).to eq("Adyen::AdyenError code:code, msg:message, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}")
     end
     it 'skips the null properties' do
-      expect(Adyen::AdyenError.new(@shared_values[:request], nil, nil, 'code', nil).to_s).to eq("Adyen::AdyenError code:code, request:#{@shared_values[:request]}")
+      expect(Adyen::AdyenError.new(@shared_values[:request], nil, nil, 'code', nil, nil).to_s).to eq("Adyen::AdyenError code:code, request:#{@shared_values[:request]}")
     end
     it 'uses the proper error class name' do
-      expect(Adyen::PermissionError.new('message', @shared_values[:request], 'response', '{"header": "1"}').to_s).to eq("Adyen::PermissionError code:403, msg:message, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}")
+      expect(Adyen::PermissionError.new('message', @shared_values[:request], 'response', '{"header": "1"}', "https://kyc-test.adyen.com").to_s).to eq("Adyen::PermissionError code:403, msg:message, url:https://kyc-test.adyen.com, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}")
     end
   end
   describe '#masking' do

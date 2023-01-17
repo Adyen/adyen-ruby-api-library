@@ -1,8 +1,8 @@
 module Adyen
   class AdyenError < StandardError
-    attr_reader :code, :response, :request, :msg, :header
+    attr_reader :code, :response, :url, :request, :msg, :header
 
-    def initialize(request = nil, response = nil, msg = nil, code = nil, header = nil)
+    def initialize(request = nil, response = nil, msg = nil, code = nil, header = nil, url = nil)
       mask_fields(request)
 
       # `header` in Faraday response is not a JSON string, but rather a
@@ -13,6 +13,7 @@ module Adyen
       attributes = {
         code: code,
         msg: msg,
+        url: url,
         header: header,
         response: response,
         request: request
@@ -25,6 +26,7 @@ module Adyen
       @response = response
       @request = request
       @msg = msg
+      @url = url
       @header = header
     end
 
@@ -73,8 +75,8 @@ module Adyen
   end
 
   class PermissionError < AdyenError
-    def initialize(msg, request, response, header)
-      super(request, response, msg, 403, header)
+    def initialize(msg, request, response, header, url)
+      super(request, response, msg, 403, header, url)
     end
   end
 

@@ -192,7 +192,7 @@ module Adyen
           raise Adyen::AuthenticationError.new("Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key", request_data, response.body, response.headers)
         end
       when 403
-        raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data, response.body, response.headers)
+        raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data, response.body, response.headers, url)
       end
 
       formatted_response = AdyenResult.new(response.body, response.headers, response.status)
