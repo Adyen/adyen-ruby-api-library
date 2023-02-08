@@ -70,8 +70,8 @@ module Adyen
   end
 
   class PermissionError < AdyenError
-    def initialize(msg, request)
-      super(request, nil, msg, 403)
+    def initialize(msg, request, response)
+      super(request, response, msg, 403)
     end
   end
 

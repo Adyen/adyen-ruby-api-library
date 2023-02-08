@@ -33,7 +33,7 @@ RSpec.describe Adyen::AdyenError do
       expect(Adyen::AdyenError.new(@shared_values[:request], nil, nil, 'code').to_s).to eq("Adyen::AdyenError code:code, request:#{@shared_values[:request]}")
     end
     it 'uses the proper error class name' do
-      expect(Adyen::PermissionError.new('message', @shared_values[:request]).to_s).to eq("Adyen::PermissionError code:403, msg:message, request:#{@shared_values[:request]}")
+      expect(Adyen::PermissionError.new('message', @shared_values[:request], 'response').to_s).to eq("Adyen::PermissionError code:403, msg:message, request:#{@shared_values[:request]}, response:response")
     end
   end
   describe '#masking' do
