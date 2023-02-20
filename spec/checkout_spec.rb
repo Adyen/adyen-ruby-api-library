@@ -597,6 +597,56 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to eq("12345")
   end
 
+  it "makes a get storedPaymentMethods call" do
+    response_body = json_from_file("mocks/responses/Checkout/stored_payment_methods.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:get, url).
+      with(
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
+
+    result = @shared_values[:client].checkout.stored_payment_methods.get({"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+    expect(response_hash["shopperReference"]).
+      to eq("test-1234")
+  end
+
+  it "makes a delete storedPaymentMethods call" do
+    response_body = json_from_file("mocks/responses/Checkout/stored_payment_methods.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "storedPaymentMethods/RL8FW7WZM6KXWD82?merchantAccount=TestMerchantAccount&shopperReference=test-1234", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:delete, url).
+      with(
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
+
+    result = @shared_values[:client].checkout.stored_payment_methods.delete("RL8FW7WZM6KXWD82", {"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+  end
+
   # create client for automated tests
   client = create_client(:api_key)
 
