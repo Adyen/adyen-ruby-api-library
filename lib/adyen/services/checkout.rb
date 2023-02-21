@@ -12,7 +12,9 @@ module Adyen
         :sessions
       ]
 
-      with_application_info = []
+      with_application_info = [
+        :payment_session
+      ]
 
       super(client, version, service, method_names, with_application_info)
     end
@@ -29,7 +31,7 @@ module Adyen
       else
         action = "payments"
         args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version)
+        @client.call_adyen_api(@service, action, args[0], args[1], @version, true)
       end
     end
 
@@ -134,7 +136,7 @@ module Adyen
 
     def balance(request, headers = {})
       action = "paymentMethods/balance"
-      @client.call_adyen_api(@service, action, request, headers, @version, false)
+      @client.call_adyen_api(@service, action, request, headers, @version, true)
     end
   end
 
