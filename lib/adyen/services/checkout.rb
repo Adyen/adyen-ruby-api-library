@@ -2,7 +2,7 @@ require_relative "service"
 
 module Adyen
   class Checkout < Service
-    DEFAULT_VERSION = 68
+    DEFAULT_VERSION = 70
 
     def initialize(client, version = DEFAULT_VERSION)
       service = "Checkout"
@@ -13,7 +13,7 @@ module Adyen
       ]
 
       with_application_info = [
-        :payment_session,
+        :payment_session
       ]
 
       super(client, version, service, method_names, with_application_info)
@@ -42,7 +42,7 @@ module Adyen
       else
         action = "paymentLinks"
         args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version, true)
+        @client.call_adyen_api(@service, action, args[0], args[1], @version)
       end
     end
 
@@ -75,6 +75,10 @@ module Adyen
     def modifications
       @modifications ||= Adyen::Modifications.new(@client, @version)
     end
+
+    def stored_payment_methods
+      @stored_payment_methods ||= Adyen::StoredPaymentMethods.new(@client, @version)
+    end
   end
 
   class CheckoutDetail < Service
@@ -93,6 +97,16 @@ module Adyen
       action = "payments/result"
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
+
+    def donations(request, headers = {})
+      action = "donations"
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
+    def card_details(request, headers = {})
+      action = "cardDetails"
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
   end
 
   class CheckoutLink < Service
@@ -104,12 +118,12 @@ module Adyen
 
     def get(linkId, headers = {})
       action = { method: 'get', url: "paymentLinks/" + linkId }
-      @client.call_adyen_api(@service, action, {}, headers, @version, true)
+      @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
     def update(linkId, request, headers = {})
       action = { method: 'patch', url: "paymentLinks/" + linkId }
-      @client.call_adyen_api(@service, action, request, headers, @version, false)
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
   end
 
@@ -161,12 +175,12 @@ module Adyen
 
     def capture(linkId, request, headers = {})
       action = "payments/" + linkId + "/captures"
-      @client.call_adyen_api(@service, action, request, headers, @version, false)
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def cancel(linkId, request, headers = {})
       action = "payments/" + linkId + "/cancels"
-      @client.call_adyen_api(@service, action, request, headers, @version, false)
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def genericCancel(request, headers = {})
@@ -176,17 +190,35 @@ module Adyen
   
     def refund(linkId, request, headers = {})
       action = "payments/" + linkId + "/refunds"
-      @client.call_adyen_api(@service, action, request, headers, @version, false)
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def reversal(linkId, request, headers = {})
       action = "payments/" + linkId + "/reversals"
-      @client.call_adyen_api(@service, action, request, headers, @version, false)
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def amountUpdate(linkId, request, headers = {})
       action = "payments/" + linkId + "/amountUpdates"
-      @client.call_adyen_api(@service, action, request, headers, @version, false)
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+  end
+
+  class StoredPaymentMethods < Service
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "Checkout"
+      @client = client
+      @version = version
+    end
+
+    def get(query_array={}, headers = {})
+      action = { method: 'get', url: "storedPaymentMethods" + create_query_string(query_array)}
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
+    def delete(recurringId, query_array={}, headers = {})
+      action = { method: 'delete', url: "storedPaymentMethods/%s" % recurringId + create_query_string(query_array)}
+      @client.call_adyen_api(@service, action, {}, headers, @version)
     end
   end
 end

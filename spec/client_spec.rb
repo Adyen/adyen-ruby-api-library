@@ -106,7 +106,7 @@ RSpec.describe Adyen do
     mock_response = Faraday::Response.new(status: 200)
 
     expect(Adyen::AdyenResult).to receive(:new)
-    expect(Faraday).to receive(:new).with("http://localhost:3001/v68/payments/details", connection_options).and_return(mock_faraday_connection)
+    expect(Faraday).to receive(:new).with("http://localhost:3001/v70/payments/details", connection_options).and_return(mock_faraday_connection)
     expect(mock_faraday_connection).to receive(:post).and_return(mock_response)
     client.checkout.payments.details(request_body)
   end
