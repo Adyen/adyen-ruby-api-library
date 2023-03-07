@@ -24,5 +24,10 @@ module Adyen
         end
       end
     end
+
+    # create query parameter from an array
+    def create_query_string(arr)
+      "?" + URI.encode_www_form(arr)
+    end
   end
 end

@@ -144,6 +144,13 @@ module Adyen
             raise connection_error, "Connection to #{url} failed"
           end
         end
+        if action.fetch(:method) == "delete"
+          begin
+            response = conn.delete
+          rescue Faraday::ConnectionFailed => connection_error
+            raise connection_error, "Connection to #{url} failed"
+          end
+        end
         if action.fetch(:method) == "patch"
           begin
             response = conn.patch do |req|
@@ -169,11 +176,16 @@ module Adyen
       when 401
         raise Adyen::AuthenticationError.new("Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key", request_data)
       when 403
-        raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data)
+        raise Adyen::PermissionError.new("Missing user permissions; https://docs.adyen.com/user-management/user-roles", request_data, response.body)
       end
-
-      formatted_response = AdyenResult.new(response.body, response.headers, response.status)
-
+      
+      # delete has no response.body (unless it throws an error)
+      if response.body == nil
+        formatted_response = AdyenResult.new("{}", response.headers, response.status)
+      else
+        formatted_response = AdyenResult.new(response.body, response.headers, response.status)
+      end
+      
       formatted_response
     end
 
