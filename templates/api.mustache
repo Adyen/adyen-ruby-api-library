@@ -1,0 +1,30 @@
+module Adyen
+{{#operations}}
+  class {{classname}}
+
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = "{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}"
+      @client = client
+      @version = version
+    end
+
+{{#operation}}
+    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/isQueryParam}}{{/requiredParams}} headers={})
+      """
+      {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
+      """
+      endpoint = "{{path}}".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint % [{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{^-last}},{{/-last}}{{/lambda.camelcase}}{{/isQueryParam}}{{/requiredParams}}]
+      action = { method: "{{httpMethod}}", url: endpoint}
+  {{#bodyParams}}        
+      @client.call_adyen_api(@service, action, request, headers, @version)
+  {{/bodyParams}}
+  {{^bodyParams}}
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+  {{/bodyParams}}
+    end
+
+{{/operation}}
+{{/operations}}
+  end
+end
