@@ -5,7 +5,11 @@ require_relative '{{serviceName}}/{{#lambda.snakecase}}{{classname}}{{/lambda.sn
     {{/apiInfo}}
 
 module Adyen
+    
+
     class {{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}
+        attr_accessor :service, :version
+        
         DEFAULT_VERSION = {{version}}
         def initialize(client, version = DEFAULT_VERSION)
         @service = "{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}"

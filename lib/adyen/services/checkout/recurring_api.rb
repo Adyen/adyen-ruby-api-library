@@ -1,5 +1,8 @@
 module Adyen
+
+
   class RecurringApi
+    attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
       @service = "Checkout"
@@ -12,6 +15,7 @@ module Adyen
       Delete a token for stored payment details
       """
       endpoint = "/storedPaymentMethods/{recurringId}".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [recurringId]
       action = { method: "DELETE", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -22,6 +26,7 @@ module Adyen
       Get tokens for stored payment details
       """
       endpoint = "/storedPaymentMethods".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "GET", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)

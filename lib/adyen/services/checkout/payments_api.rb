@@ -1,5 +1,8 @@
 module Adyen
+
+
   class PaymentsApi
+    attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
       @service = "Checkout"
@@ -12,6 +15,7 @@ module Adyen
       Get the list of brands on the card
       """
       endpoint = "/cardDetails".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -22,6 +26,7 @@ module Adyen
       Start a transaction for donations
       """
       endpoint = "/donations".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -32,6 +37,7 @@ module Adyen
       Get a list of available payment methods
       """
       endpoint = "/paymentMethods".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -42,6 +48,7 @@ module Adyen
       Start a transaction
       """
       endpoint = "/payments".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -52,6 +59,7 @@ module Adyen
       Submit details for a payment
       """
       endpoint = "/payments/details".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -62,6 +70,7 @@ module Adyen
       Create a payment session
       """
       endpoint = "/sessions".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)

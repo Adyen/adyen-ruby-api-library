@@ -29,7 +29,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_methods(request_body)
+    result = @shared_values[:client].checkout.payments_api.payment_methods(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -66,7 +66,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_methods.balance(request_body)
+    result = @shared_values[:client].checkout.orders_api.get_balance_of_gift_card(request_body)
     # result.response is already a Ruby hash (rather than an unparsed JSON string)
     response_hash = result.response
 
@@ -113,7 +113,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payments.details(request_body)
+    result = @shared_values[:client].checkout.payments_api.payments_details(request_body)
     # result.response is already a Ruby hash (rather than an unparsed JSON string)
     response_hash = result.response
 
@@ -156,7 +156,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payments.result(request_body)
+    result = @shared_values[:client].checkout.classic_checkout_sdk_api.verify_payment_result(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -198,7 +198,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_links(request_body)
+    result = @shared_values[:client].checkout.payment_links_api.payment_links(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -226,7 +226,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_links.get("1")
+    result = @shared_values[:client].checkout.payment_links_api.get_payment_link("1")
     response_hash = result.response
 
     expect(result.status).

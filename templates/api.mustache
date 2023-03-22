@@ -1,6 +1,9 @@
 module Adyen
 {{#operations}}
+
+
   class {{classname}}
+    attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
       @service = "{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}"
@@ -14,6 +17,7 @@ module Adyen
       {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
       """
       endpoint = "{{path}}".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{^-last}},{{/-last}}{{/lambda.camelcase}}{{/isQueryParam}}{{/requiredParams}}]
       action = { method: "{{httpMethod}}", url: endpoint}
   {{#bodyParams}}        

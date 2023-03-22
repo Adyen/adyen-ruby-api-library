@@ -7,7 +7,11 @@ require_relative 'checkout/recurring_api'
 require_relative 'checkout/utility_api'
 
 module Adyen
+    
+
     class Checkout
+        attr_accessor :service, :version
+        
         DEFAULT_VERSION = 70
         def initialize(client, version = DEFAULT_VERSION)
         @service = "Checkout"

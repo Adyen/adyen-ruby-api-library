@@ -1,5 +1,8 @@
 module Adyen
+
+
   class ModificationsApi
+    attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
       @service = "Checkout"
@@ -12,6 +15,7 @@ module Adyen
       Cancel an authorised payment
       """
       endpoint = "/cancels".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -22,6 +26,7 @@ module Adyen
       Update an authorised amount
       """
       endpoint = "/payments/{paymentPspReference}/amountUpdates".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -32,6 +37,7 @@ module Adyen
       Cancel an authorised payment
       """
       endpoint = "/payments/{paymentPspReference}/cancels".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -42,6 +48,7 @@ module Adyen
       Capture an authorised payment
       """
       endpoint = "/payments/{paymentPspReference}/captures".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -52,6 +59,7 @@ module Adyen
       Refund a captured payment
       """
       endpoint = "/payments/{paymentPspReference}/refunds".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -62,6 +70,7 @@ module Adyen
       Refund or cancel a payment
       """
       endpoint = "/payments/{paymentPspReference}/reversals".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)

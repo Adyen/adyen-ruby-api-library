@@ -1,5 +1,8 @@
 module Adyen
+
+
   class PaymentLinksApi
+    attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
       @service = "Checkout"
@@ -12,6 +15,7 @@ module Adyen
       Get a payment link
       """
       endpoint = "/paymentLinks/{linkId}".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [linkId]
       action = { method: "GET", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -22,6 +26,7 @@ module Adyen
       Update the status of a payment link
       """
       endpoint = "/paymentLinks/{linkId}".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [linkId]
       action = { method: "PATCH", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -32,6 +37,7 @@ module Adyen
       Create a payment link
       """
       endpoint = "/paymentLinks".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)

@@ -1,5 +1,8 @@
 module Adyen
+
+
   class ClassicCheckoutSDKApi
+    attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
       @service = "Checkout"
@@ -12,6 +15,7 @@ module Adyen
       Create a payment session
       """
       endpoint = "/paymentSession".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -22,6 +26,7 @@ module Adyen
       Verify a payment result
       """
       endpoint = "/payments/result".gsub(/{.+?}/, '%s') 
+      endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       action = { method: "POST", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
