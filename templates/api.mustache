@@ -1,8 +1,9 @@
+require_relative '../service'
 module Adyen
 {{#operations}}
 
 
-  class {{classname}}
+  class {{classname}} < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
@@ -12,13 +13,14 @@ module Adyen
     end
 
 {{#operation}}
-    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/isQueryParam}}{{/requiredParams}} headers={})
+    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/isQueryParam}}{{/requiredParams}}headers: {} {{#queryParams}}{{#-first}}, queryParams: {}{{/-first}}{{/queryParams}})
       """
       {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
       """
       endpoint = "{{path}}".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{^-last}},{{/-last}}{{/lambda.camelcase}}{{/isQueryParam}}{{/requiredParams}}]
+      {{#queryParams}}{{#-first}}endpoint = endpoint + create_query_string(queryParams){{/-first}}{{/queryParams}}
       action = { method: "{{httpMethod}}", url: endpoint}
   {{#bodyParams}}        
       @client.call_adyen_api(@service, action, request, headers, @version)

@@ -1,6 +1,6 @@
 module Adyen
   class Service
-    attr_accessor :service, :version
+    attr_accessor :service, :version, :create_query_string
 
     # add snake case to camel case converter to String
     # to convert rubinic method names to Adyen API methods
@@ -25,7 +25,7 @@ module Adyen
       end
     end
 
-    # create query parameter from an array
+    # create query parameter from a hash
     def create_query_string(arr)
       "?" + URI.encode_www_form(arr)
     end
