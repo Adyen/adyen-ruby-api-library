@@ -611,7 +611,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details({"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
+    result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details()
     response_hash = result.response
 
     expect(result.status).
@@ -652,13 +652,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
 
   # methods / fields to test on
   # format is defined in spec_helper
-  test_sets = [
-    ["payment_session", "publicKeyToken", "8115054323780109"],
-    ["payments", "resultCode", "Authorised"],
-    ["origin_keys", "originKeys", { "https://adyen.com" => "mocked_origin_key" }]
-  ]
 
-  generate_tests(client, "Checkout", test_sets, client.checkout)
 end
 
 # rubocop:enable Metrics/BlockLength

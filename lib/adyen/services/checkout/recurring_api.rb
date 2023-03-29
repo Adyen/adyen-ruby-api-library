@@ -10,7 +10,7 @@ module Adyen
       @version = version
     end
 
-    def delete_token_for_stored_payment_details(recurringId,  headers={})
+    def delete_token_for_stored_payment_details(recurringId, headers={})
       """
       Delete a token for stored payment details
       """
