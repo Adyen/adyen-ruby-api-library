@@ -19,7 +19,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [recurringId]
       endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "DELETE", url: endpoint}
+      action = { method: "delete", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
@@ -31,7 +31,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "GET", url: endpoint}
+      action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 

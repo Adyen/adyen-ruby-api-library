@@ -137,21 +137,21 @@ module Adyen
       request_data = request_data.to_json
 
       if action.is_a?(::Hash)
-        if action.fetch(:method) == "get" || action.fetch(:method) == "GET"
+        if action.fetch(:method) == "get"
           begin
             response = conn.get
           rescue Faraday::ConnectionFailed => connection_error
             raise connection_error, "Connection to #{url} failed"
           end
         end
-        if action.fetch(:method) == "delete" || action.fetch(:method) == "DELETE"
+        if action.fetch(:method) == "delete"
           begin
             response = conn.delete
           rescue Faraday::ConnectionFailed => connection_error
             raise connection_error, "Connection to #{url} failed"
           end
         end
-        if action.fetch(:method) == "patch" || action.fetch(:method) == "PATCH"
+        if action.fetch(:method) == "patch"
           begin
             response = conn.patch do |req|
               req.body = request_data
@@ -160,7 +160,7 @@ module Adyen
             raise connection_error, "Connection to #{url} failed"
           end
         end
-       if action.fetch(:method) == 'POST'
+       if action.fetch(:method) == 'post'
         # post request to Adyen
         begin
           response = conn.post do |req|

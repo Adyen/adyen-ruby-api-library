@@ -21,7 +21,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{^-last}},{{/-last}}{{/lambda.camelcase}}{{/isQueryParam}}{{/requiredParams}}]
       {{#queryParams}}{{#-first}}endpoint = endpoint + create_query_string(queryParams){{/-first}}{{/queryParams}}
-      action = { method: "{{httpMethod}}", url: endpoint}
+      action = { method: "{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}", url: endpoint}
   {{#bodyParams}}        
       @client.call_adyen_api(@service, action, request, headers, @version)
   {{/bodyParams}}

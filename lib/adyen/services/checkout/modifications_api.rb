@@ -19,7 +19,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       
-      action = { method: "POST", url: endpoint}
+      action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
@@ -31,7 +31,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       
-      action = { method: "POST", url: endpoint}
+      action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
@@ -43,7 +43,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       
-      action = { method: "POST", url: endpoint}
+      action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
@@ -55,7 +55,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       
-      action = { method: "POST", url: endpoint}
+      action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
@@ -67,7 +67,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       
-      action = { method: "POST", url: endpoint}
+      action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
@@ -79,7 +79,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [paymentPspReference]
       
-      action = { method: "POST", url: endpoint}
+      action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

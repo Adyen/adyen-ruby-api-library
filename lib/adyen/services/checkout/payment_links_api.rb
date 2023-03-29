@@ -19,7 +19,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [linkId]
       
-      action = { method: "GET", url: endpoint}
+      action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
@@ -31,7 +31,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [linkId]
       
-      action = { method: "PATCH", url: endpoint}
+      action = { method: "patch", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
@@ -43,7 +43,7 @@ module Adyen
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       
-      action = { method: "POST", url: endpoint}
+      action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
