@@ -1,4 +1,6 @@
 generator:=ruby
+openapi-generator-version:=6.0.1
+openapi-generator-url:=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-$(openapi-generator-version).jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
 smallServices:=balanceControlService binlookup dataProtection recurring storedValue terminal
@@ -22,7 +24,7 @@ transfers: spec=TransferService-v3
 balanceControlService: spec=BalanceControlService-v1
 
 $(services): build/spec
-	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
+	wget $(openapi-generator-url) -O build/openapi-generator-cli.jar
 	rm -rf lib/adyen/services/$@
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
