@@ -44,13 +44,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
 
   it "makes a paymentMethods/balance call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_methods_balance.json"))
-    request_body[:applicationInfo] = {}
-    request_body[:applicationInfo][:adyenPaymentSource] = {
-      :name => "adyen-test",
-      :version => "1.0.0",
-    }
-
-    @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment_methods_balance.json")
 
@@ -70,12 +63,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     # result.response is already a Ruby hash (rather than an unparsed JSON string)
     response_hash = result.response
 
-    expect(request_body[:applicationInfo][:adyenLibrary][:name]).
-      to eq(Adyen::NAME)
-    expect(request_body[:applicationInfo][:adyenLibrary][:version]).
-      to eq(Adyen::VERSION)
-    expect(request_body[:applicationInfo][:adyenPaymentSource][:name]).
-      to eq("adyen-test")
     expect(result.status).
       to eq(200)
     expect(response_hash).
@@ -91,13 +78,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # must be created manually due to payments/details format
   it "makes a payments/details call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment-details.json"))
-    request_body[:applicationInfo] = {}
-    request_body[:applicationInfo][:adyenPaymentSource] = {
-      :name => "adyen-test",
-      :version => "1.0.0",
-    }
-
-    @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment-details.json")
 
@@ -117,12 +97,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     # result.response is already a Ruby hash (rather than an unparsed JSON string)
     response_hash = result.response
 
-    expect(request_body[:applicationInfo][:adyenLibrary][:name]).
-      to eq(Adyen::NAME)
-    expect(request_body[:applicationInfo][:adyenLibrary][:version]).
-      to eq(Adyen::VERSION)
-    expect(request_body[:applicationInfo][:adyenPaymentSource][:name]).
-      to eq("adyen-test")
     expect(result.status).
       to eq(200)
     expect(response_hash).
@@ -140,7 +114,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # must be created manually due to payments/result format
   it "makes a payments/result call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment-result.json"))
-    @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment-result.json")
 
@@ -176,13 +149,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # must be created manually due to paymentsLinks format
   it "makes a paymentLinks call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_links.json"))
-    request_body[:applicationInfo] = {}
-    request_body[:applicationInfo][:adyenPaymentSource] = {
-      :name => "adyen-test",
-      :version => "1.0.0",
-    }
-
-    @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment_links.json")
 
@@ -249,7 +215,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       :status => "expired",
     }
 
-    @shared_values[:client].add_application_info(request_body)
     response_body = json_from_file("mocks/responses/Checkout/update-payment-link.json")
 
     url = @shared_values[:client].service_url(@shared_values[:service], "paymentLinks/1", @shared_values[:client].checkout.version)

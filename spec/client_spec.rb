@@ -60,28 +60,41 @@ RSpec.describe Adyen do
     client = Adyen::Client.new(env: :test)
     client.live_url_prefix = "abcdef1234567890-TestCompany"
     expect(client.service_url_base("Account")).
-      to eq("https://cal-test.adyen.com/cal/services")
+      to eq("https://cal-test.adyen.com/cal/services/Account")
   end
 
   it "generates the correct service URL base for CAL LIVE" do
     client = Adyen::Client.new(env: :live)
     client.live_url_prefix = "abcdef1234567890-TestCompany"
     expect(client.service_url_base("Account")).
-      to eq("https://cal-live.adyen.com/cal/services")
+      to eq("https://cal-live.adyen.com/cal/services/Account")
   end
 
   it "generates the correct service URL base for PAL TEST" do
     client = Adyen::Client.new(env: :test)
     client.live_url_prefix = "abcdef1234567890-TestCompany"
     expect(client.service_url_base("Payment")).
-      to eq("https://pal-test.adyen.com/pal/servlet")
+      to eq("https://pal-test.adyen.com/pal/servlet/Payment")
   end
 
   it "generates the correct service URL base for PAL LIVE" do
     client = Adyen::Client.new(env: :live)
     client.live_url_prefix = "abcdef1234567890-TestCompany"
     expect(client.service_url_base("Payment")).
-      to eq("https://abcdef1234567890-TestCompany-pal-live.adyenpayments.com/pal/servlet")
+      to eq("https://abcdef1234567890-TestCompany-pal-live.adyenpayments.com/pal/servlet/Payment")
+  end
+  
+  it "generates the correct service URL PAL authorise TEST" do
+    client = Adyen::Client.new(env: :test)
+    expect(client.service_url("Payment", "authorise", "68")).
+      to eq("https://pal-test.adyen.com/pal/servlet/Payment/v68/authorise")
+  end
+
+  it "generates the correct service URL base for PAL LIVE" do
+    client = Adyen::Client.new(env: :live)
+    client.live_url_prefix = "abcdef1234567890-TestCompany"
+    expect(client.service_url("Payment", "authorise", "68")).
+      to eq("https://abcdef1234567890-TestCompany-pal-live.adyenpayments.com/pal/servlet/Payment/v68/authorise")
   end
 
   it "generates a new set of ConnectionOptions when none are provided" do
@@ -110,4 +123,23 @@ RSpec.describe Adyen do
     expect(mock_faraday_connection).to receive(:post).and_return(mock_response)
     client.checkout.payments_api.payments_details(request_body)
   end
+
+  it "checks the creation of checkout url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("Checkout", "paymentMethods", "70")).
+    to eq("https://checkout-test.adyen.com/v70/paymentMethods")
+  end 
+
+  it "checks the creation of checkout url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :live, live_url_prefix: "YourLiveUrlPrefix")
+    expect(client.service_url("Checkout", "paymentMethods", "70")).
+    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/v70/paymentMethods")
+  end 
+  it "checks the creation of lem url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :live)
+    expect(client.service_url("LegalEntityManagement", "businessLines", "3")).
+    to eq("https://kyc-live.adyen.com/lem/v3/businessLines")
+  end 
+
+  
 end
