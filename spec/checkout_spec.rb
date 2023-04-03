@@ -592,7 +592,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   end
 
   it "makes a delete storedPaymentMethods call" do
-    response_body = json_from_file("mocks/responses/Checkout/stored_payment_methods.json")
 
     url = @shared_values[:client].service_url(@shared_values[:service], "storedPaymentMethods/RL8FW7WZM6KXWD82?merchantAccount=TestMerchantAccount&shopperReference=test-1234", @shared_values[:client].checkout.version)
     WebMock.stub_request(:delete, url).
@@ -602,7 +601,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         }
       ).
       to_return(
-        body: response_body
+        body: "{}"
       )
 
     result = @shared_values[:client].checkout.recurring_api.delete_token_for_stored_payment_details("RL8FW7WZM6KXWD82", queryParams:{"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})

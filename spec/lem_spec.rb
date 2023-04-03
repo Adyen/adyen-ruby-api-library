@@ -44,7 +44,6 @@ RSpec.describe Adyen::LegalEntityManagement, service: "legalEntityManagement" do
 
   it "makes a documents DELETE call" do
 
-    response_body = nil
 
     url = @shared_values[:client].service_url(@shared_values[:service], "documents/123", @shared_values[:client].legalEntityManagement.version)
     WebMock.stub_request(:delete, url).
@@ -54,7 +53,7 @@ RSpec.describe Adyen::LegalEntityManagement, service: "legalEntityManagement" do
         }
       ).
       to_return(
-        body: response_body
+        body: "{}"
       )
 
     result = @shared_values[:client].legalEntityManagement.documents_api.delete_document('123')
