@@ -160,7 +160,7 @@ module Adyen
             raise connection_error, "Connection to #{url} failed"
           end
         end
-      else
+       if action.fetch(:method) == 'post'
         # post request to Adyen
         begin
           response = conn.post do |req|
@@ -169,8 +169,16 @@ module Adyen
         rescue Faraday::ConnectionFailed => connection_error
           raise connection_error, "Connection to #{url} failed"
         end
+       end 
+      else
+        begin
+          response = conn.post do |req|
+            req.body = request_data
+          end # handle client errors
+        rescue Faraday::ConnectionFailed => connection_error
+          raise connection_error, "Connection to #{url} failed"
+        end
       end
-
       # check for API errors
       case response.status
       when 401

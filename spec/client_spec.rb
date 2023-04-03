@@ -33,7 +33,7 @@ RSpec.describe Adyen do
   end
 
   it "fails a checkout call without api key" do
-    expect{ @shared_values[:client].checkout.payment_methods("{}") }.
+    expect{ @shared_values[:client].checkout.payments_api.payment_methods("{}") }.
       to raise_error(Adyen::AuthenticationError)
     @shared_values[:client].api_key = "api_key"
   end
@@ -108,6 +108,6 @@ RSpec.describe Adyen do
     expect(Adyen::AdyenResult).to receive(:new)
     expect(Faraday).to receive(:new).with("http://localhost:3001/v70/payments/details", connection_options).and_return(mock_faraday_connection)
     expect(mock_faraday_connection).to receive(:post).and_return(mock_response)
-    client.checkout.payments.details(request_body)
+    client.checkout.payments_api.payments_details(request_body)
   end
 end
