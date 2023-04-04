@@ -35,30 +35,34 @@ module Adyen
 
     # base URL for API given service and @env
     def service_url_base(service)
-      raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" if @live_url_prefix.nil? and @env == :live
       if @env == :mock
         @mock_service_url_base
       else
         case service
         when "Checkout"
-          url = "https://checkout-#{@env}.adyen.com/checkout"
+          url = "https://checkout-#{@env}.adyen.com"
           supports_live_url_prefix = true
         when "Account", "Fund", "Notification", "Hop"
-          url = "https://cal-#{@env}.adyen.com/cal/services"
+          url = "https://cal-#{@env}.adyen.com/cal/services/#{service}"
           supports_live_url_prefix = false
         when "Recurring", "Payment", "Payout", "BinLookup"
-          url = "https://pal-#{@env}.adyen.com/pal/servlet"
+          url = "https://pal-#{@env}.adyen.com/pal/servlet/#{service}"
           supports_live_url_prefix = true
         when "Terminal"
           url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
           supports_live_url_prefix = false
         when "DataProtectionService", "DisputeService"
-          url = "https://ca-#{@env}.adyen.com/ca/services"
+          url = "https://ca-#{@env}.adyen.com/ca/services/#{service}"
+          supports_live_url_prefix = false
+        when "LegalEntityManagement"
+          url = "https://kyc-#{@env}.adyen.com/lem"
           supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
-
+        
+        raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" \
+         if @live_url_prefix.nil? and @env == :live and supports_live_url_prefix
         if @env == :live && supports_live_url_prefix
           url.insert(8, "#{@live_url_prefix}-")
           url["adyen.com"] = "adyenpayments.com"
@@ -70,11 +74,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "Terminal"
-        "#{service_url_base(service)}/v#{version}/#{action}"
-      else
-        "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
-      end
+      "#{service_url_base(service)}/v#{version}/#{action}"
     end
 
     # send request to adyen API
@@ -128,10 +128,6 @@ module Adyen
         request_data = JSON.parse(request_data)
       end
 
-      # add application only on checkout service
-      if with_application_info
-        add_application_info(request_data)
-      end
 
       # convert to json
       request_data = request_data.to_json
@@ -197,19 +193,6 @@ module Adyen
       formatted_response
     end
 
-    # add application_info for analytics
-    def add_application_info(request_data)
-      adyenLibrary = {
-        :name => Adyen::NAME,
-        :version => Adyen::VERSION.to_s,
-      }
-
-      if request_data[:applicationInfo].nil?
-        request_data[:applicationInfo] = {}
-      end
-
-      request_data[:applicationInfo][:adyenLibrary] = adyenLibrary
-    end
 
     # services
     def checkout
@@ -246,6 +229,10 @@ module Adyen
 
     def bin_lookup
       @bin_lookup ||= Adyen::BinLookup.new(self)
+    end
+
+    def legalEntityManagement
+      @legalEntityManagement ||= Adyen::LegalEntityManagement.new(self)
     end
   end
 end
