@@ -2,20 +2,20 @@ require_relative '../service'
 module Adyen
 
 
-  class TermsOfServiceApi < Service
+  class AccountHoldersApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "LegalEntityManagement"
+      @service = "BalancePlatform"
       @client = client
       @version = version
     end
 
-    def get_terms_of_service_information_for_legal_entity(id, headers: {} )
+    def get_account_holder(id, headers: {} )
       """
-      Get Terms of Service information for a legal entity
+      Get an account holder
       """
-      endpoint = "/legalEntities/{id}/termsOfServiceAcceptanceInfos".gsub(/{.+?}/, '%s') 
+      endpoint = "/accountHolders/{id}".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [id]
       
@@ -23,37 +23,37 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_terms_of_service_status(id, headers: {} )
+    def get_all_balance_accounts_of_account_holder(id, headers: {} , queryParams: {})
       """
-      Get Terms of Service status
+      Get all balance accounts of an account holder
       """
-      endpoint = "/legalEntities/{id}/termsOfServiceStatus".gsub(/{.+?}/, '%s') 
+      endpoint = "/accountHolders/{id}/balanceAccounts".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % [id]
-      
+      endpoint = endpoint + create_query_string(queryParams)
       action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def accept_terms_of_service(request, id, termsofservicedocumentid, headers: {} )
+    def update_account_holder(request, id, headers: {} )
       """
-      Accept Terms of Service
+      Update an account holder
       """
-      endpoint = "/legalEntities/{id}/termsOfService/{termsofservicedocumentid}".gsub(/{.+?}/, '%s') 
+      endpoint = "/accountHolders/{id}".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [id,termsofservicedocumentid]
+      endpoint = endpoint % [id]
       
       action = { method: "patch", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_terms_of_service_document(request, id, headers: {} )
+    def create_account_holder(request, headers: {} )
       """
-      Get Terms of Service document
+      Create an account holder
       """
-      endpoint = "/legalEntities/{id}/termsOfService".gsub(/{.+?}/, '%s') 
+      endpoint = "/accountHolders".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [id]
+      endpoint = endpoint % []
       
       action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
