@@ -61,7 +61,7 @@ module Adyen
           url = "https://balanceplatform-api-#{@env}.adyen.com/bcl"
           supports_live_url_prefix = false
         when "Transfers"
-          url = "https://balanceplatform-api-test.adyen.com/btl"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
           supports_live_url_prefix = false
         when "Management"
           url = "https://management-#{@env}.adyen.com"

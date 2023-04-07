@@ -164,4 +164,5 @@ RSpec.describe Adyen do
     expect(client.service_url("Management", "companies", "1")).
     to eq("https://management-test.adyen.com/v1/companies")
   end 
+
 end
