@@ -3,7 +3,7 @@ require "json"
 
 # rubocop:disable Metrics/BlockLength
 
-RSpec.describe Adyen::LegalEntityManagement, service: "legalEntityManagement" do
+RSpec.describe Adyen::LegalEntityManagement, service: "LegalEntityManagement" do
   before(:all) do
     @shared_values = {
       client: create_client(:api_key),

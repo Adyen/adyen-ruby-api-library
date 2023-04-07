@@ -60,6 +60,9 @@ module Adyen
         when "BalancePlatform" 
           url = "https://balanceplatform-api-#{@env}.adyen.com/bcl"
           supports_live_url_prefix = false
+        when "Transfers"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
@@ -240,6 +243,10 @@ module Adyen
 
     def balancePlatform
       @balancePlatform ||= Adyen::BalancePlatform.new(self)
+    end
+
+    def transfers
+      @transfers ||= Adyen::Transfers.new(self)
     end
   end
 end
