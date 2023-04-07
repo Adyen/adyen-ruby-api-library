@@ -241,5 +241,9 @@ module Adyen
     def balancePlatform
       @balancePlatform ||= Adyen::BalancePlatform.new(self)
     end
+
+    def transfers
+      @transfers ||= Adyen::Transfers.new(self)
+    end
   end
 end
