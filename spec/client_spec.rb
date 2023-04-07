@@ -159,5 +159,9 @@ RSpec.describe Adyen do
     to eq("https://balanceplatform-api-test.adyen.com/btl/v1/transactions")
   end 
 
-  
+  it "checks the creation of management url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("Management", "companies", "1")).
+    to eq("https://management-test.adyen.com/v1/companies")
+  end 
 end
