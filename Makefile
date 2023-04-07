@@ -15,7 +15,7 @@ recurring: spec=RecurringService-v68
 payouts: spec=PayoutService-v68
 management: spec=ManagementService-v1
 legalEntityManagement: spec=LegalEntityService-v2
-balancePlatform: spec=BalancePlatformService-v1
+balancePlatform: spec=BalancePlatformService-v2
 platformsAccount: spec=AccountService-v6
 platformsFund: spec=FundService-v6
 platformsNotificationConfiguration: spec=NotificationConfigurationService-v6
@@ -36,6 +36,7 @@ $(services): build/spec
 		--skip-validate-spec
 	cp -r build/lib/openapi_client/api lib/adyen/services/$@
 	cp build/api/api-single.rb lib/adyen/services/$@.rb
+	rm -rf build
 
 $(smallServices): build/spec
 	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar

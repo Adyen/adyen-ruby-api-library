@@ -57,6 +57,9 @@ module Adyen
         when "LegalEntityManagement"
           url = "https://kyc-#{@env}.adyen.com/lem"
           supports_live_url_prefix = false
+        when "BalancePlatform" 
+          url = "https://balanceplatform-api-#{@env}.adyen.com/bcl"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
@@ -233,6 +236,10 @@ module Adyen
 
     def legalEntityManagement
       @legalEntityManagement ||= Adyen::LegalEntityManagement.new(self)
+    end
+
+    def balancePlatform
+      @balancePlatform ||= Adyen::BalancePlatform.new(self)
     end
   end
 end

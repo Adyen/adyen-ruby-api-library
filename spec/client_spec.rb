@@ -141,5 +141,17 @@ RSpec.describe Adyen do
     to eq("https://kyc-live.adyen.com/lem/v3/businessLines")
   end 
 
+  it "checks the creation of balancePlatform url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :live)
+    expect(client.service_url("BalancePlatform", "legalEntities", "1")).
+    to eq("https://balanceplatform-api-live.adyen.com/bcl/v1/legalEntities")
+  end 
+
+  it "checks the creation of balancePlatform url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("BalancePlatform", "legalEntities", "1")).
+    to eq("https://balanceplatform-api-test.adyen.com/bcl/v1/legalEntities")
+  end 
+
   
 end
