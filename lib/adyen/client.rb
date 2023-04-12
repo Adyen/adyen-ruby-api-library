@@ -236,7 +236,7 @@ module Adyen
       @dispute ||= Adyen::Dispute.new(self)
     end
 
-    def bin_lookup
+    def binLookup
       @bin_lookup ||= Adyen::BinLookup.new(self)
     end
 
