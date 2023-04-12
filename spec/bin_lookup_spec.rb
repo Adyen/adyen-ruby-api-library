@@ -17,7 +17,7 @@ RSpec.describe Adyen::BinLookup, service: "BinLookup" do
 
     response_body = json_from_file("mocks/responses/BinLookup/get_cost_estimate.json")
 
-    url = @shared_values[:client].service_url(@shared_values[:service], "getCostEstimate", @shared_values[:client].binLookup.version)
+    url = @shared_values[:client].service_url(@shared_values[:service], "getCostEstimate", @shared_values[:client].bin_lookup.version)
     WebMock.stub_request(:post, url).
       with(
         body: request_body,
@@ -29,7 +29,7 @@ RSpec.describe Adyen::BinLookup, service: "BinLookup" do
         body: response_body
       )
 
-    result = @shared_values[:client].binLookup.get_cost_estimate(request_body)
+    result = @shared_values[:client].bin_lookup.get_cost_estimate(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -46,7 +46,7 @@ RSpec.describe Adyen::BinLookup, service: "BinLookup" do
 
     response_body = json_from_file("mocks/responses/BinLookup/get_3ds_availability.json")
 
-    url = @shared_values[:client].service_url(@shared_values[:service], "get3dsAvailability", @shared_values[:client].binLookup.version)
+    url = @shared_values[:client].service_url(@shared_values[:service], "get3dsAvailability", @shared_values[:client].bin_lookup.version)
     WebMock.stub_request(:post, url).
       with(
         body: request_body,
@@ -58,7 +58,7 @@ RSpec.describe Adyen::BinLookup, service: "BinLookup" do
         body: response_body
       )
 
-    result = @shared_values[:client].binLookup.get3ds_availability(request_body)
+    result = @shared_values[:client].bin_lookup.get3ds_availability(request_body)
     response_hash = result.response
 
     expect(result.status).

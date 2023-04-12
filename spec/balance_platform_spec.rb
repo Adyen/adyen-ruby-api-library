@@ -17,7 +17,7 @@ RSpec.describe Adyen::BalancePlatform, service: "balancePlatform" do
 
     response_body = json_from_file("mocks/responses/BalancePlatform/create_account_holder.json")
 
-    url = @shared_values[:client].service_url(@shared_values[:service], "accountHolders", @shared_values[:client].balancePlatform.version)
+    url = @shared_values[:client].service_url(@shared_values[:service], "accountHolders", @shared_values[:client].balance_platform.version)
     WebMock.stub_request(:post, url).
       with(
         body: request_body,
@@ -29,7 +29,7 @@ RSpec.describe Adyen::BalancePlatform, service: "balancePlatform" do
         body: response_body
       )
 
-    result = @shared_values[:client].balancePlatform.account_holders_api.create_account_holder(request_body)
+    result = @shared_values[:client].balance_platform.account_holders_api.create_account_holder(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -47,7 +47,7 @@ RSpec.describe Adyen::BalancePlatform, service: "balancePlatform" do
 
     response_body = json_from_file("mocks/responses/BalancePlatform/update_account_holder.json")
 
-    url = @shared_values[:client].service_url(@shared_values[:service], "accountHolders/AH3227C223222C5GKR23686TF", @shared_values[:client].balancePlatform.version)
+    url = @shared_values[:client].service_url(@shared_values[:service], "accountHolders/AH3227C223222C5GKR23686TF", @shared_values[:client].balance_platform.version)
     WebMock.stub_request(:patch, url).
       with(
         body: request_body,
@@ -59,7 +59,7 @@ RSpec.describe Adyen::BalancePlatform, service: "balancePlatform" do
         body: response_body
       )
 
-    result = @shared_values[:client].balancePlatform.account_holders_api.update_account_holder(request_body, id = "AH3227C223222C5GKR23686TF")
+    result = @shared_values[:client].balance_platform.account_holders_api.update_account_holder(request_body, id = "AH3227C223222C5GKR23686TF")
     response_hash = result.response
 
     expect(result.status).
@@ -76,7 +76,7 @@ RSpec.describe Adyen::BalancePlatform, service: "balancePlatform" do
 
     response_body = json_from_file("mocks/responses/BalancePlatform/get_balance_account.json")
 
-    url = @shared_values[:client].service_url(@shared_values[:service], "balanceAccounts/BA3227C223222B5BLP6JQC3FD", @shared_values[:client].balancePlatform.version)
+    url = @shared_values[:client].service_url(@shared_values[:service], "balanceAccounts/BA3227C223222B5BLP6JQC3FD", @shared_values[:client].balance_platform.version)
     WebMock.stub_request(:get, url).
       with(
         headers: {
@@ -87,7 +87,7 @@ RSpec.describe Adyen::BalancePlatform, service: "balancePlatform" do
         body: response_body
       )
 
-    result = @shared_values[:client].balancePlatform.balance_accounts_api.get_balance_account(id = "BA3227C223222B5BLP6JQC3FD")
+    result = @shared_values[:client].balance_platform.balance_accounts_api.get_balance_account(id = "BA3227C223222B5BLP6JQC3FD")
     response_hash = result.response
 
     expect(result.status).
@@ -102,7 +102,7 @@ RSpec.describe Adyen::BalancePlatform, service: "balancePlatform" do
 
   it "makes a balance_account/sweeps DELETE call" do
 
-    url = @shared_values[:client].service_url(@shared_values[:service], "balanceAccounts/balanceAccountID/sweeps/sweepID", @shared_values[:client].balancePlatform.version)
+    url = @shared_values[:client].service_url(@shared_values[:service], "balanceAccounts/balanceAccountID/sweeps/sweepID", @shared_values[:client].balance_platform.version)
     WebMock.stub_request(:delete, url).
       with(
         headers: {
@@ -113,7 +113,7 @@ RSpec.describe Adyen::BalancePlatform, service: "balancePlatform" do
         body: "{}"
       )
 
-    result = @shared_values[:client].balancePlatform.balance_accounts_api.delete_sweep("balanceAccountID", "sweepID")
+    result = @shared_values[:client].balance_platform.balance_accounts_api.delete_sweep("balanceAccountID", "sweepID")
     response_hash = result.response
 
     expect(result.status).

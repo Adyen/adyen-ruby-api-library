@@ -236,15 +236,15 @@ module Adyen
       @dispute ||= Adyen::Dispute.new(self)
     end
 
-    def binLookup
+    def bin_lookup
       @bin_lookup ||= Adyen::BinLookup.new(self)
     end
 
-    def legalEntityManagement
+    def legal_entity_management
       @legalEntityManagement ||= Adyen::LegalEntityManagement.new(self)
     end
 
-    def balancePlatform
+    def balance_platform
       @balancePlatform ||= Adyen::BalancePlatform.new(self)
     end
 
