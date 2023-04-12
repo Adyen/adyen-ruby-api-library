@@ -3,9 +3,9 @@ openapi-generator-version:=6.4.0
 openapi-generator-url:=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$(openapi-generator-version)/openapi-generator-cli-$(openapi-generator-version).jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
-smallServices:=balanceControlService binlookup dataProtection recurring storedValue terminal
+singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue terminal
 
-binlookup: spec=BinLookupService-v52
+binLookup: spec=BinLookupService-v54
 checkout: spec=CheckoutService-v70
 dataProtection: spec=DataProtectionService-v1
 storedValue: spec=StoredValueService-v46
@@ -38,9 +38,9 @@ $(services): build/spec
 	cp build/api/api-single.rb lib/adyen/services/$@.rb
 	rm -rf build
 
-$(smallServices): build/spec
+$(singleFileServices): build/spec
 	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
-	rm -rf Adyen/services/$@
+	rm -rf lib/adyen/services/$@.rb
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
 		-g $(generator) \
@@ -49,9 +49,9 @@ $(smallServices): build/spec
 		--global-property apis,apiTests=false,apiDocs=false\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
-	mkdir -p Adyen/services
-	cp build/openapi_client/api/general_api-small.py Adyen/services/$@.py
+	cp build/lib/openapi_client/api/general_api-small.rb lib/adyen/services/$@.rb
 	rm -rf build
+
 
 
 build/spec:

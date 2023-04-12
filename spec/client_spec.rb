@@ -165,4 +165,10 @@ RSpec.describe Adyen do
     to eq("https://management-test.adyen.com/v1/companies")
   end 
 
+  it "checks the creation of binLookup url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("BinLookup", "getCostEstimate", "54")).
+    to eq("https://pal-test.adyen.com/pal/servlet/BinLookup/v54/getCostEstimate")
+  end 
+
 end
