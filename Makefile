@@ -3,7 +3,7 @@ openapi-generator-version:=6.4.0
 openapi-generator-url:=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$(openapi-generator-version)/openapi-generator-cli-$(openapi-generator-version).jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
-smallServices:=balanceControlService binLookup dataProtection recurring storedValue terminal
+singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue terminal
 
 binLookup: spec=BinLookupService-v52
 checkout: spec=CheckoutService-v70
