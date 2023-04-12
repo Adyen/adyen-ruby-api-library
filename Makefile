@@ -38,7 +38,7 @@ $(services): build/spec
 	cp build/api/api-single.rb lib/adyen/services/$@.rb
 	rm -rf build
 
-$(smallServices): build/spec
+$(singleFileServices): build/spec
 	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
 	rm -rf lib/adyen/services/$@.rb
 	$(openapi-generator-cli) generate \
