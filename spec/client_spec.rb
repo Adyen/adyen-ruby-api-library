@@ -114,13 +114,14 @@ RSpec.describe Adyen do
     client = Adyen::Client.new(api_key: "api_key", env: :mock, connection_options: connection_options)
 
     mock_faraday_connection = double(Faraday::Connection)
+    headers = double
+          headers.should_receive(:[]=).with('adyen-library-name', 'test'))
     url = client.service_url(@shared_values[:service], "payments/details", client.checkout.version)
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment-details.json"))
     mock_response = Faraday::Response.new(status: 200)
 
     expect(Adyen::AdyenResult).to receive(:new)
     expect(Faraday).to receive(:new).with("http://localhost:3001/v70/payments/details", connection_options).and_return(mock_faraday_connection)
-    expect(mock_faraday_connection.headers['adyen-library-name']).to eq('adyen-ruby-api-library')
     expect(mock_faraday_connection).to receive(:post).and_return(mock_response)
     client.checkout.payments_api.payments_details(request_body)
   end

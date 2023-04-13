@@ -130,7 +130,7 @@ module Adyen
         headers.map do |key, value|
           faraday.headers[key] = value
         end
-        
+
         # add library headers
         faraday.headers["adyen-library-name"] = Adyen::NAME
         faraday.headers["adyen-library-version"] = Adyen::VERSION
