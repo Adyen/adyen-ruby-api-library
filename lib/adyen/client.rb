@@ -130,11 +130,11 @@ module Adyen
         headers.map do |key, value|
           faraday.headers[key] = value
         end
+        
+        # add library headers
+        faraday.headers["adyen-library-name"] = Adyen::NAME
+        faraday.headers["adyen-library-version"] = Adyen::VERSION
       end
-
-      # add library headers
-      faraday.headers["adyen-library-name"] = Adyen::NAME
-      faraday.headers["adyen-library-version"] = Adyen::VERSION
       # if json string convert to hash
       # needed to add applicationInfo
       if request_data.is_a?(String)
