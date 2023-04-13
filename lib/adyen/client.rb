@@ -131,6 +131,10 @@ module Adyen
           faraday.headers[key] = value
         end
       end
+
+      # add library headers
+      faraday.headers["adyen-library-name"] = Adyen::NAME
+      faraday.headers["adyen-library-version"] = Adyen::VERSION
       # if json string convert to hash
       # needed to add applicationInfo
       if request_data.is_a?(String)

@@ -120,6 +120,7 @@ RSpec.describe Adyen do
 
     expect(Adyen::AdyenResult).to receive(:new)
     expect(Faraday).to receive(:new).with("http://localhost:3001/v70/payments/details", connection_options).and_return(mock_faraday_connection)
+    expect(mock_faraday_connection.headers['adyen-library-name']).to eq('adyen-ruby-api-library')
     expect(mock_faraday_connection).to receive(:post).and_return(mock_response)
     client.checkout.payments_api.payments_details(request_body)
   end
