@@ -171,4 +171,10 @@ RSpec.describe Adyen do
     to eq("https://pal-test.adyen.com/pal/servlet/BinLookup/v54/getCostEstimate")
   end 
 
+  it "check the creation of storedValue url" do
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("StoredValue", "issue", "46")).
+    to eq("https://pal-test.adyen.com/pal/servlet/StoredValue/v46/issue")
+  end
+
 end

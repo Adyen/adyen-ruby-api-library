@@ -1,0 +1,12 @@
+{
+    "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+    "store": "YOUR_STORE_ID",
+    "paymentMethod": {
+        "type": "givex"
+    },
+    "amount": {
+        "currency": "EUR",
+        "value": 1000
+    },
+    "reference": "YOUR_REFERENCE"
+}

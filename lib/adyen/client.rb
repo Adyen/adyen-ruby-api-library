@@ -45,7 +45,7 @@ module Adyen
         when "Account", "Fund", "Notification", "Hop"
           url = "https://cal-#{@env}.adyen.com/cal/services/#{service}"
           supports_live_url_prefix = false
-        when "Recurring", "Payment", "Payout", "BinLookup"
+        when "Recurring", "Payment", "Payout", "BinLookup", "StoredValue"
           url = "https://pal-#{@env}.adyen.com/pal/servlet/#{service}"
           supports_live_url_prefix = true
         when "Terminal"
@@ -245,11 +245,11 @@ module Adyen
     end
 
     def legal_entity_management
-      @legalEntityManagement ||= Adyen::LegalEntityManagement.new(self)
+      @legal_entity_management ||= Adyen::LegalEntityManagement.new(self)
     end
 
     def balance_platform
-      @balancePlatform ||= Adyen::BalancePlatform.new(self)
+      @balance_platform ||= Adyen::BalancePlatform.new(self)
     end
 
     def transfers
@@ -258,6 +258,10 @@ module Adyen
 
     def management
       @management ||= Adyen::Management.new(self)
+    end
+    
+    def stored_value
+      @stored_value ||=Adyen::StoredValue.new(self)
     end
   end
 end
