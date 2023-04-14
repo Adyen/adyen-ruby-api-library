@@ -1,22 +1,31 @@
-require_relative 'service'
+require_relative 'payouts/initialization_api'
+require_relative 'payouts/instant_payouts_api'
+require_relative 'payouts/reviewing_api'
 
 module Adyen
-  class Payouts < Service
-    attr_accessor :version
-    DEFAULT_VERSION = 64
+    
 
-    def initialize(client, version = DEFAULT_VERSION)
-      service = 'Payout'
-      method_names = [
-        :store_detail,
-        :store_detail_and_submit_third_party,
-        :submit_third_party,
-        :confirm_third_party,
-        :decline_third_party,
-        :payout
-      ]
+    class Payouts
+        attr_accessor :service, :version
+        
+        DEFAULT_VERSION = 68
+        def initialize(client, version = DEFAULT_VERSION)
+        @service = "Payouts"
+        @client = client
+        @version = version
+        end
 
-      super(client, version, service, method_names)
+        def initialization_api
+            @initialization_api ||= Adyen::InitializationApi.new(@client, @version)
+        end
+
+        def instant_payouts_api
+            @instant_payouts_api ||= Adyen::InstantPayoutsApi.new(@client, @version)
+        end
+
+        def reviewing_api
+            @reviewing_api ||= Adyen::ReviewingApi.new(@client, @version)
+        end
+
     end
-  end
 end

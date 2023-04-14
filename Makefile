@@ -34,6 +34,7 @@ $(services): build/spec
 		--global-property apis,apiTests=false,apiDocs=false,supportingFiles=api-single.rb\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
+	rm -f build/lib/openapi_client/api/*-small.rb
 	cp -r build/lib/openapi_client/api lib/adyen/services/$@
 	cp build/api/api-single.rb lib/adyen/services/$@.rb
 	rm -rf build
