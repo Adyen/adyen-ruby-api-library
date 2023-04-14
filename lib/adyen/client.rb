@@ -66,6 +66,9 @@ module Adyen
         when "Management"
           url = "https://management-#{@env}.adyen.com"
           supports_live_url_prefix = false
+        when "TerminalManagement"
+          url = ""
+          supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
@@ -228,8 +231,8 @@ module Adyen
       @marketpay ||= Adyen::Marketpay::Marketpay.new(self)
     end
 
-    def postfmapi
-      @postfmapi ||= Adyen::PosTerminalManagement.new(self)
+    def pos_terminal_management
+      @pos_terminal_management ||= Adyen::PosTerminalManagement.new(self)
     end
 
     def data_protection
