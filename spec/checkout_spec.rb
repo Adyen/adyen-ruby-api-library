@@ -611,11 +611,26 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       to eq(200)
   end
 
-  # create client for automated tests
-  client = create_client(:api_key)
+  it "tests sending the application headers" do
+    response_body = json_from_file("mocks/responses/Checkout/stored_payment_methods.json")
 
-  # methods / fields to test on
-  # format is defined in spec_helper
+    url = @shared_values[:client].service_url(@shared_values[:service], "storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:get, url).
+      with(
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
+
+    result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(queryParams:{"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
+    expect(
+    a_request(:get, "http://localhost:3001/v70/storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234")
+      .with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Adyen-Library-Name'=>'adyen-ruby-api-library', 'Adyen-Library-Version'=>'6.3.0', 'Content-Type'=>'application/json', 'User-Agent'=>'adyen-ruby-api-library/6.3.0', 'X-Api-Key'=>'api_key'})
+    ).to have_been_made.once
+  end
 
 end
 
