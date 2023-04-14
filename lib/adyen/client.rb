@@ -48,7 +48,7 @@ module Adyen
         when "Recurring", "Payment", "Payout", "BinLookup", "StoredValue"
           url = "https://pal-#{@env}.adyen.com/pal/servlet/#{service}"
           supports_live_url_prefix = true
-        when "Terminal"
+        when "PosTerminalManagement"
           url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
           supports_live_url_prefix = false
         when "DataProtectionService", "DisputeService"
