@@ -66,9 +66,6 @@ module Adyen
         when "Management"
           url = "https://management-#{@env}.adyen.com"
           supports_live_url_prefix = false
-        when "TerminalManagement"
-          url = ""
-          supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
