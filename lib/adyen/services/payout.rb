@@ -1,16 +1,16 @@
-require_relative 'payouts/initialization_api'
-require_relative 'payouts/instant_payouts_api'
-require_relative 'payouts/reviewing_api'
+require_relative 'payout/initialization_api'
+require_relative 'payout/instant_payouts_api'
+require_relative 'payout/reviewing_api'
 
 module Adyen
     
 
-    class Payouts
+    class Payout
         attr_accessor :service, :version
         
         DEFAULT_VERSION = 68
         def initialize(client, version = DEFAULT_VERSION)
-        @service = "Payouts"
+        @service = "Payout"
         @client = client
         @version = version
         end

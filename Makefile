@@ -2,7 +2,7 @@ generator:=ruby
 openapi-generator-version:=6.4.0
 openapi-generator-url:=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$(openapi-generator-version)/openapi-generator-cli-$(openapi-generator-version).jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
-services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
+services:=balancePlatform checkout legalEntityManagement management payments payout platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
 singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue terminal
 
 binLookup: spec=BinLookupService-v54
@@ -12,7 +12,7 @@ storedValue: spec=StoredValueService-v46
 terminal: spec=TfmAPIService-v1
 payments: spec=PaymentService-v68
 recurring: spec=RecurringService-v68
-payouts: spec=PayoutService-v68
+payout: spec=PayoutService-v68
 management: spec=ManagementService-v1
 legalEntityManagement: spec=LegalEntityService-v2
 balancePlatform: spec=BalancePlatformService-v2

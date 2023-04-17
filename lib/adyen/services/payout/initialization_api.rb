@@ -6,7 +6,7 @@ module Adyen
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "Payouts"
+      @service = "Payout"
       @client = client
       @version = version
     end

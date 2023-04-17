@@ -217,7 +217,7 @@ module Adyen
     end
 
     def payouts
-      @payouts ||= Adyen::Payouts.new(self)
+      @payouts ||= Adyen::Payout.new(self)
     end
 
     def recurring
