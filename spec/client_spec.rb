@@ -177,4 +177,10 @@ RSpec.describe Adyen do
     to eq("https://pal-test.adyen.com/pal/servlet/StoredValue/v46/issue")
   end
 
+  it "checks the creation of PosTerminalManagement url" do
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("PosTerminalManagement", "assignTerminals", "1")).
+    to eq("https://postfmapi-test.adyen.com/postfmapi/terminal/v1/assignTerminals")
+  end 
+
 end
