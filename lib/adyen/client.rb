@@ -48,7 +48,7 @@ module Adyen
         when "Recurring", "Payment", "Payout", "BinLookup", "StoredValue"
           url = "https://pal-#{@env}.adyen.com/pal/servlet/#{service}"
           supports_live_url_prefix = true
-        when "Terminal"
+        when "PosTerminalManagement"
           url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
           supports_live_url_prefix = false
         when "DataProtectionService", "DisputeService"
@@ -228,8 +228,8 @@ module Adyen
       @marketpay ||= Adyen::Marketpay::Marketpay.new(self)
     end
 
-    def postfmapi
-      @postfmapi ||= Adyen::PosTerminalManagement.new(self)
+    def pos_terminal_management
+      @pos_terminal_management ||= Adyen::PosTerminalManagement.new(self)
     end
 
     def data_protection
