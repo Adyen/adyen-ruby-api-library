@@ -212,8 +212,8 @@ module Adyen
       @checkout ||= Adyen::Checkout.new(self)
     end
 
-    def payments
-      @payments ||= Adyen::Payments.new(self)
+    def payment
+      @payment ||= Adyen::Payment.new(self)
     end
 
     def payout
