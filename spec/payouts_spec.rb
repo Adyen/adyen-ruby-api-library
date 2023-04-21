@@ -17,7 +17,7 @@ RSpec.describe Adyen::Payout, service: "Payout" do
 
     response_body = json_from_file("mocks/responses/Payout/confirm_third_party.json")
 
-    url = @shared_values[:client].service_url(@shared_values[:service], "confirmThirdParty", @shared_values[:client].payouts.version)
+    url = @shared_values[:client].service_url(@shared_values[:service], "confirmThirdParty", @shared_values[:client].payout.version)
     WebMock.stub_request(:post, url).
       with(
         body: request_body,
@@ -29,7 +29,7 @@ RSpec.describe Adyen::Payout, service: "Payout" do
         body: response_body
       )
 
-    result = @shared_values[:client].payouts.reviewing_api.confirm_payout(request_body)
+    result = @shared_values[:client].payout.reviewing_api.confirm_payout(request_body)
     response_hash = result.response
 
     expect(result.status).
