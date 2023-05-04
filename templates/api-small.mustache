@@ -20,7 +20,7 @@ module Adyen
       """
       endpoint = "{{path}}".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}{{^-last}},{{/-last}}{{/isQueryParam}}{{/requiredParams}}]
+      endpoint = endpoint % [{{#pathParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}{{^-last}},{{/-last}}{{/pathParams}}]
       {{#queryParams}}{{#-first}}endpoint = endpoint + create_query_string(queryParams){{/-first}}{{/queryParams}}
       action = { method: "{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}", url: endpoint}
   {{#bodyParams}}        

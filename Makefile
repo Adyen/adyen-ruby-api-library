@@ -1,7 +1,11 @@
 generator:=ruby
 openapi-generator-version:=6.4.0
 openapi-generator-url:=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$(openapi-generator-version)/openapi-generator-cli-$(openapi-generator-version).jar
+openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
+output:=build/out
+
+
 services:=balancePlatform checkout legalEntityManagement management payout platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
 singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue posTerminalManagement payment
 
@@ -23,38 +27,46 @@ platformsHostedOnboardingPage: spec=HopService-v6
 transfers: spec=TransferService-v3
 balanceControlService: spec=BalanceControlService-v1
 
-$(services): build/spec
+allServices: $(services) $(singleFileServices)
+
+$(services): build/spec $(openapi-generator-jar)
 	wget $(openapi-generator-url) -O build/openapi-generator-cli.jar
-	rm -rf lib/adyen/services/$@
+	rm -rf $(output)
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
 		-g $(generator) \
 		-c ./templates/config.yaml \
-		-o build \
+		-o $(output) \
 		--global-property apis,apiTests=false,apiDocs=false,supportingFiles=api-single.rb\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
-	rm -f build/lib/openapi_client/api/*-small.rb
-	cp -r build/lib/openapi_client/api lib/adyen/services/$@
-	cp build/api/api-single.rb lib/adyen/services/$@.rb
-	rm -rf build
+	rm -f $(output)/lib/openapi_client/api/*-small.rb
+	mkdir -p lib/adyen/services/$@
+	mv $(output)/lib/openapi_client/api/*.rb lib/adyen/services/$@
+	mv $(output)/api/api-single.rb lib/adyen/services/$@.rb
+	rm -rf $(output)
 
 $(singleFileServices): build/spec
 	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
 	cat <<< "$$(jq 'del(.paths[][].tags)' build/spec/json/$(spec).json)" > build/spec/json/$(spec).json
-	rm -rf lib/adyen/services/$@.rb
+	rm -rf $(output)
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
 		-g $(generator) \
 		-c ./templates/config.yaml \
-		-o build \
+		-o $(output) \
 		--global-property apis,apiTests=false,apiDocs=false\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
-	cp build/lib/openapi_client/api/default_api-small.rb lib/adyen/services/$@.rb
-	rm -rf build
+	mv $(output)/lib/openapi_client/api/default_api-small.rb lib/adyen/services/$@.rb
+	rm -rf $(output)
 
+templates: $(openapi-generator-jar)
+	$(openapi-generator-cli) author template -g $(generator) -o build/templates
 
+# Download the generator
+$(openapi-generator-jar):
+	wget --quiet -o /dev/null $(openapi-generator-url) -O $(openapi-generator-jar)
 
 build/spec:
 	git clone https://github.com/Adyen/adyen-openapi.git build/spec

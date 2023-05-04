@@ -4,7 +4,7 @@ module Adyen
 
   class BinLookup < Service
     attr_accessor :service, :version
-    DEFAULT_VERSION = 52
+    DEFAULT_VERSION = 54
 
     def initialize(client, version = DEFAULT_VERSION)
       @service = "BinLookup"

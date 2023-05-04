@@ -11,7 +11,7 @@ module Adyen
       @version = version
     end
 
-    def confirm_payout(request, headers: {} )
+    def confirm_third_party(request, headers: {} )
       """
       Confirm a payout
       """
@@ -23,7 +23,7 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def cancel_payout(request, headers: {} )
+    def decline_third_party(request, headers: {} )
       """
       Cancel a payout
       """

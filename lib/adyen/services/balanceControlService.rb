@@ -1,21 +1,22 @@
-require_relative '../service'
+require_relative './service'
 module Adyen
 
 
-  class InstantPayoutsApi < Service
+  class BalanceControlService < Service
     attr_accessor :service, :version
+    DEFAULT_VERSION = 1
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "Payout"
+      @service = "BalanceControlService"
       @client = client
       @version = version
     end
 
-    def payout(request, headers: {} )
+    def balance_transfer(request, headers: {} )
       """
-      Make an instant card payout
+      Start a balance transfer
       """
-      endpoint = "/payout".gsub(/{.+?}/, '%s') 
+      endpoint = "/balanceTransfer".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       

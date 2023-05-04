@@ -1,21 +1,22 @@
-require_relative '../service'
+require_relative './service'
 module Adyen
 
 
-  class InstantPayoutsApi < Service
+  class DataProtection < Service
     attr_accessor :service, :version
+    DEFAULT_VERSION = 1
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "Payout"
+      @service = "DataProtection"
       @client = client
       @version = version
     end
 
-    def payout(request, headers: {} )
+    def request_subject_erasure(request, headers: {} )
       """
-      Make an instant card payout
+      Submit a Subject Erasure Request.
       """
-      endpoint = "/payout".gsub(/{.+?}/, '%s') 
+      endpoint = "/requestSubjectErasure".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       

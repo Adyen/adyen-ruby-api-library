@@ -11,7 +11,7 @@ module Adyen
       @version = version
     end
 
-    def store_payout_details(request, headers: {} )
+    def store_detail(request, headers: {} )
       """
       Store payout details
       """
@@ -23,7 +23,7 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def store_details_and_submit_payout(request, headers: {} )
+    def store_detail_and_submit_third_party(request, headers: {} )
       """
       Store details and submit a payout
       """
@@ -35,7 +35,7 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def submit_payout(request, headers: {} )
+    def submit_third_party(request, headers: {} )
       """
       Submit a payout
       """
