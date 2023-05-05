@@ -2,20 +2,20 @@ require_relative '../service'
 module Adyen
 
 
-  class TransactionsApi < Service
+  class GrantOffersApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "Transfers"
+      @service = "BalancePlatform"
       @client = client
       @version = version
     end
 
-    def get_all_transactions(headers: {} , queryParams: {})
+    def get_all_available_grant_offers(headers: {} , queryParams: {})
       """
-      Get all transactions
+      Get all available grant offers
       """
-      endpoint = "/transactions".gsub(/{.+?}/, '%s') 
+      endpoint = "/grantOffers".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
       endpoint = endpoint % []
       endpoint = endpoint + create_query_string(queryParams)
@@ -23,13 +23,13 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_transaction(id, headers: {} )
+    def get_grant_offer(grantOfferId, headers: {} )
       """
-      Get a transaction
+      Get a grant offer
       """
-      endpoint = "/transactions/{id}".gsub(/{.+?}/, '%s') 
+      endpoint = "/grantOffers/{grantOfferId}".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [id]
+      endpoint = endpoint % [grantOfferId]
       
       action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)

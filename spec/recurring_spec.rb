@@ -10,7 +10,7 @@ RSpec.describe Adyen::Payment, service: "recurring service" do
   test_sets = [
     ["list_recurring_details", "creationDate", "2017-03-01T11:53:11+01:00"],
     ["disable", "response", "[detail-successfully-disabled]"],
-    ["store_token", "result", "Success"],
+    ["create_permit", "pspReference", "8815260599791117"],
     ["schedule_account_updater", "result", "Success"]
   ]
 

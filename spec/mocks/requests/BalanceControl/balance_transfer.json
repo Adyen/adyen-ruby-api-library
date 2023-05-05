@@ -1,0 +1,10 @@
+{
+    "amount": {
+      "value": 50000,
+      "currency": "EUR"
+    },
+    "description": "Your description for the transfer",
+    "fromMerchant": "MerchantAccount_NL",
+    "toMerchant": "MerchantAccount_DE",
+    "type": "debit"
+  }

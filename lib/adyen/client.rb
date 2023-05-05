@@ -45,7 +45,7 @@ module Adyen
         when "Account", "Fund", "Notification", "Hop"
           url = "https://cal-#{@env}.adyen.com/cal/services/#{service}"
           supports_live_url_prefix = false
-        when "Recurring", "Payment", "Payout", "BinLookup", "StoredValue"
+        when "Recurring", "Payment", "Payout", "BinLookup", "StoredValue", "BalanceControlService"
           url = "https://pal-#{@env}.adyen.com/pal/servlet/#{service}"
           supports_live_url_prefix = true
         when "PosTerminalManagement"
@@ -262,6 +262,10 @@ module Adyen
     
     def stored_value
       @stored_value ||=Adyen::StoredValue.new(self)
+    end
+
+    def balance_control_service
+      @balance_control_service ||=Adyen::BalanceControlService.new(self)
     end
   end
 end

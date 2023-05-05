@@ -29,7 +29,7 @@ RSpec.describe Adyen::Payout, service: "Payout" do
         body: response_body
       )
 
-    result = @shared_values[:client].payout.reviewing_api.confirm_payout(request_body)
+    result = @shared_values[:client].payout.reviewing_api.confirm_third_party(request_body)
     response_hash = result.response
 
     expect(result.status).

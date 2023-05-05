@@ -25,10 +25,10 @@ RSpec.describe Adyen do
   end
 
   it "fails payments call without WS user and password" do
-    expect{ @shared_values[:client].payment.general_api.authorise("{}") }.
+    expect{ @shared_values[:client].payment.authorise("{}") }.
       to raise_error(Adyen::AuthenticationError)
     @shared_values[:client].ws_user = @shared_values[:ws_user]
-    expect{ @shared_values[:client].payment.general_api.authorise("{}") }.
+    expect{ @shared_values[:client].payment.authorise("{}") }.
       to raise_error(Adyen::AuthenticationError)
   end
 

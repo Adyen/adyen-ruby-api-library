@@ -23,18 +23,6 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_terms_of_service_status(id, headers: {} )
-      """
-      Get Terms of Service status
-      """
-      endpoint = "/legalEntities/{id}/termsOfServiceStatus".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [id]
-      
-      action = { method: "get", url: endpoint}
-      @client.call_adyen_api(@service, action, {}, headers, @version)
-    end
-
     def accept_terms_of_service(request, id, termsofservicedocumentid, headers: {} )
       """
       Accept Terms of Service
