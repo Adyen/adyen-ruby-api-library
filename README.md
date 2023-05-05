@@ -66,7 +66,7 @@ adyen.api_key = 'AF5XXXXXXXXXXXXXXXXXXXX'
 
 - Make a Payment
 ~~~~ruby
-response = adyen.checkout.payments({
+response = adyen.checkout.payments_api.payments({
   :amount => {
     :currency => "EUR",
     :value => 1000
