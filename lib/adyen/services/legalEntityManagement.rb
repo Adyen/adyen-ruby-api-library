@@ -12,7 +12,7 @@ module Adyen
     class LegalEntityManagement
         attr_accessor :service, :version
         
-        DEFAULT_VERSION = 2
+        DEFAULT_VERSION = 3
         def initialize(client, version = DEFAULT_VERSION)
         @service = "LegalEntityManagement"
         @client = client
