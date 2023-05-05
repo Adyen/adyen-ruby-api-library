@@ -29,7 +29,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_methods(request_body)
+    result = @shared_values[:client].checkout.payments_api.payment_methods(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -44,13 +44,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
 
   it "makes a paymentMethods/balance call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_methods_balance.json"))
-    request_body[:applicationInfo] = {}
-    request_body[:applicationInfo][:adyenPaymentSource] = {
-      :name => "adyen-test",
-      :version => "1.0.0",
-    }
-
-    @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment_methods_balance.json")
 
@@ -66,16 +59,10 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_methods.balance(request_body)
+    result = @shared_values[:client].checkout.orders_api.get_balance_of_gift_card(request_body)
     # result.response is already a Ruby hash (rather than an unparsed JSON string)
     response_hash = result.response
 
-    expect(request_body[:applicationInfo][:adyenLibrary][:name]).
-      to eq(Adyen::NAME)
-    expect(request_body[:applicationInfo][:adyenLibrary][:version]).
-      to eq(Adyen::VERSION)
-    expect(request_body[:applicationInfo][:adyenPaymentSource][:name]).
-      to eq("adyen-test")
     expect(result.status).
       to eq(200)
     expect(response_hash).
@@ -91,13 +78,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # must be created manually due to payments/details format
   it "makes a payments/details call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment-details.json"))
-    request_body[:applicationInfo] = {}
-    request_body[:applicationInfo][:adyenPaymentSource] = {
-      :name => "adyen-test",
-      :version => "1.0.0",
-    }
-
-    @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment-details.json")
 
@@ -113,16 +93,10 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payments.details(request_body)
+    result = @shared_values[:client].checkout.payments_api.payments_details(request_body)
     # result.response is already a Ruby hash (rather than an unparsed JSON string)
     response_hash = result.response
 
-    expect(request_body[:applicationInfo][:adyenLibrary][:name]).
-      to eq(Adyen::NAME)
-    expect(request_body[:applicationInfo][:adyenLibrary][:version]).
-      to eq(Adyen::VERSION)
-    expect(request_body[:applicationInfo][:adyenPaymentSource][:name]).
-      to eq("adyen-test")
     expect(result.status).
       to eq(200)
     expect(response_hash).
@@ -140,7 +114,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # must be created manually due to payments/result format
   it "makes a payments/result call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment-result.json"))
-    @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment-result.json")
 
@@ -156,7 +129,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payments.result(request_body)
+    result = @shared_values[:client].checkout.classic_checkout_sdk_api.verify_payment_result(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -176,13 +149,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   # must be created manually due to paymentsLinks format
   it "makes a paymentLinks call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_links.json"))
-    request_body[:applicationInfo] = {}
-    request_body[:applicationInfo][:adyenPaymentSource] = {
-      :name => "adyen-test",
-      :version => "1.0.0",
-    }
-
-    @shared_values[:client].add_application_info(request_body)
 
     response_body = json_from_file("mocks/responses/Checkout/payment_links.json")
 
@@ -198,7 +164,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_links(request_body)
+    result = @shared_values[:client].checkout.payment_links_api.payment_links(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -226,7 +192,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_links.get("1")
+    result = @shared_values[:client].checkout.payment_links_api.get_payment_link("1")
     response_hash = result.response
 
     expect(result.status).
@@ -249,7 +215,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       :status => "expired",
     }
 
-    @shared_values[:client].add_application_info(request_body)
     response_body = json_from_file("mocks/responses/Checkout/update-payment-link.json")
 
     url = @shared_values[:client].service_url(@shared_values[:service], "paymentLinks/1", @shared_values[:client].checkout.version)
@@ -264,7 +229,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.payment_links.update("1", request_body)
+    result = @shared_values[:client].checkout.payment_links_api.update_payment_link(request_body, "1")
     response_hash = result.response
 
     expect(result.status).
@@ -298,7 +263,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.orders(request_body)
+    result = @shared_values[:client].checkout.orders_api.orders(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -330,7 +295,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.orders.cancel(request_body)
+    result = @shared_values[:client].checkout.orders_api.cancel_order(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -362,7 +327,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.apple_pay.sessions(request_body)
+    result = @shared_values[:client].checkout.utility_api.get_apple_pay_session(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -392,7 +357,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
       .to_return(body: response_body, status: 201)
 
-    result = @shared_values[:client].checkout.sessions(request_body)
+    result = @shared_values[:client].checkout.payments_api.sessions(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -420,7 +385,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
       .to_return(body: response_body, status: 201)
   
-    result = @shared_values[:client].checkout.modifications.capture("12345", request_body)
+    result = @shared_values[:client].checkout.modifications_api.capture_authorised_payment(request_body, "12345")
     response_hash = result.response
   
     expect(result.status).
@@ -452,7 +417,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
       .to_return(body: response_body, status: 201)
   
-    result = @shared_values[:client].checkout.modifications.cancel("12345", request_body)
+    result = @shared_values[:client].checkout.modifications_api.cancel_authorised_payment_by_psp_reference(request_body, "12345")
     response_hash = result.response
   
     expect(result.status).
@@ -484,7 +449,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
       .to_return(body: response_body, status: 201)
   
-    result = @shared_values[:client].checkout.modifications.refund("12345", request_body)
+    result = @shared_values[:client].checkout.modifications_api.refund_captured_payment(request_body, "12345")
     response_hash = result.response
   
     expect(result.status).
@@ -516,7 +481,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
       .to_return(body: response_body, status: 201)
   
-    result = @shared_values[:client].checkout.modifications.reversal("12345", request_body)
+    result = @shared_values[:client].checkout.modifications_api.refund_or_cancel_payment(request_body, "12345")
     response_hash = result.response
   
     expect(result.status).
@@ -548,7 +513,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
       .to_return(body: response_body, status: 201)
   
-    result = @shared_values[:client].checkout.modifications.amountUpdate("12345", request_body)
+    result = @shared_values[:client].checkout.modifications_api.update_authorised_amount(request_body, "12345")
     response_hash = result.response
   
     expect(result.status).
@@ -580,7 +545,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
       )
       .to_return(body: response_body, status: 201)
   
-    result = @shared_values[:client].checkout.modifications.genericCancel(request_body)
+    result = @shared_values[:client].checkout.modifications_api.cancel_authorised_payment(request_body)
     response_hash = result.response
   
     expect(result.status).
@@ -611,7 +576,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         body: response_body
       )
 
-    result = @shared_values[:client].checkout.stored_payment_methods.get({"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
+    result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(queryParams:{"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
     response_hash = result.response
 
     expect(result.status).
@@ -627,7 +592,6 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   end
 
   it "makes a delete storedPaymentMethods call" do
-    response_body = json_from_file("mocks/responses/Checkout/stored_payment_methods.json")
 
     url = @shared_values[:client].service_url(@shared_values[:service], "storedPaymentMethods/RL8FW7WZM6KXWD82?merchantAccount=TestMerchantAccount&shopperReference=test-1234", @shared_values[:client].checkout.version)
     WebMock.stub_request(:delete, url).
@@ -637,28 +601,37 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
         }
       ).
       to_return(
-        body: response_body
+        body: "{}"
       )
 
-    result = @shared_values[:client].checkout.stored_payment_methods.delete("RL8FW7WZM6KXWD82", {"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
+    result = @shared_values[:client].checkout.recurring_api.delete_token_for_stored_payment_details("RL8FW7WZM6KXWD82", queryParams:{"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
     response_hash = result.response
 
     expect(result.status).
       to eq(200)
   end
 
-  # create client for automated tests
-  client = create_client(:api_key)
+  it "tests sending the application headers" do
+    response_body = json_from_file("mocks/responses/Checkout/stored_payment_methods.json")
 
-  # methods / fields to test on
-  # format is defined in spec_helper
-  test_sets = [
-    ["payment_session", "publicKeyToken", "8115054323780109"],
-    ["payments", "resultCode", "Authorised"],
-    ["origin_keys", "originKeys", { "https://adyen.com" => "mocked_origin_key" }]
-  ]
+    url = @shared_values[:client].service_url(@shared_values[:service], "storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:get, url).
+      with(
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key
+        }
+      ).
+      to_return(
+        body: response_body
+      )
 
-  generate_tests(client, "Checkout", test_sets, client.checkout)
+    result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(queryParams:{"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
+    expect(
+    a_request(:get, "http://localhost:3001/v70/storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234")
+      .with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Adyen-Library-Name'=>'adyen-ruby-api-library', 'Adyen-Library-Version'=>'7.0.0', 'Content-Type'=>'application/json', 'User-Agent'=>'adyen-ruby-api-library/7.0.0', 'X-Api-Key'=>'api_key'})
+    ).to have_been_made.once
+  end
+
 end
 
 # rubocop:enable Metrics/BlockLength

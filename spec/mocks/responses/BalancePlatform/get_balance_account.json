@@ -1,0 +1,15 @@
+{
+    "accountHolderId": "AH32272223222B59K6RTQBFNZ",
+    "defaultCurrencyCode": "EUR",
+    "timeZone": "Europe/Amsterdam",
+    "balances": [
+      {
+        "available": 0,
+        "balance": 0,
+        "currency": "EUR",
+        "reserved": 0
+      }
+    ],
+    "id": "BA3227C223222B5BLP6JQC3FD",
+    "status": "active"
+  }

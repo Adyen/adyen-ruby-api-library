@@ -1,0 +1,6 @@
+{
+    "permits": "object",
+    "merchantAccount": "TestMerchant",
+    "shopperReference": "shopperReference",
+    "recurringDetailsReference": "object"
+  }

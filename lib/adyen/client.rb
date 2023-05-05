@@ -35,30 +35,43 @@ module Adyen
 
     # base URL for API given service and @env
     def service_url_base(service)
-      raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" if @live_url_prefix.nil? and @env == :live
       if @env == :mock
         @mock_service_url_base
       else
         case service
         when "Checkout"
-          url = "https://checkout-#{@env}.adyen.com/checkout"
+          url = "https://checkout-#{@env}.adyen.com"
           supports_live_url_prefix = true
         when "Account", "Fund", "Notification", "Hop"
-          url = "https://cal-#{@env}.adyen.com/cal/services"
+          url = "https://cal-#{@env}.adyen.com/cal/services/#{service}"
           supports_live_url_prefix = false
-        when "Recurring", "Payment", "Payout", "BinLookup"
-          url = "https://pal-#{@env}.adyen.com/pal/servlet"
+        when "Recurring", "Payment", "Payout", "BinLookup", "StoredValue", "BalanceControlService"
+          url = "https://pal-#{@env}.adyen.com/pal/servlet/#{service}"
           supports_live_url_prefix = true
-        when "Terminal"
+        when "PosTerminalManagement"
           url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
           supports_live_url_prefix = false
         when "DataProtectionService", "DisputeService"
-          url = "https://ca-#{@env}.adyen.com/ca/services"
+          url = "https://ca-#{@env}.adyen.com/ca/services/#{service}"
+          supports_live_url_prefix = false
+        when "LegalEntityManagement"
+          url = "https://kyc-#{@env}.adyen.com/lem"
+          supports_live_url_prefix = false
+        when "BalancePlatform" 
+          url = "https://balanceplatform-api-#{@env}.adyen.com/bcl"
+          supports_live_url_prefix = false
+        when "Transfers"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
+          supports_live_url_prefix = false
+        when "Management"
+          url = "https://management-#{@env}.adyen.com"
           supports_live_url_prefix = false
         else
           raise ArgumentError, "Invalid service specified"
         end
-
+        
+        raise ArgumentError, "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'" \
+         if @live_url_prefix.nil? and @env == :live and supports_live_url_prefix
         if @env == :live && supports_live_url_prefix
           url.insert(8, "#{@live_url_prefix}-")
           url["adyen.com"] = "adyenpayments.com"
@@ -70,11 +83,7 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      if service == "Checkout" || service == "Terminal"
-        "#{service_url_base(service)}/v#{version}/#{action}"
-      else
-        "#{service_url_base(service)}/#{service}/v#{version}/#{action}"
-      end
+      "#{service_url_base(service)}/v#{version}/#{action}"
     end
 
     # send request to adyen API
@@ -121,6 +130,10 @@ module Adyen
         headers.map do |key, value|
           faraday.headers[key] = value
         end
+
+        # add library headers
+        faraday.headers["adyen-library-name"] = Adyen::NAME
+        faraday.headers["adyen-library-version"] = Adyen::VERSION
       end
       # if json string convert to hash
       # needed to add applicationInfo
@@ -128,10 +141,6 @@ module Adyen
         request_data = JSON.parse(request_data)
       end
 
-      # add application only on checkout service
-      if with_application_info
-        add_application_info(request_data)
-      end
 
       # convert to json
       request_data = request_data.to_json
@@ -160,7 +169,7 @@ module Adyen
             raise connection_error, "Connection to #{url} failed"
           end
         end
-      else
+       if action.fetch(:method) == 'post'
         # post request to Adyen
         begin
           response = conn.post do |req|
@@ -169,8 +178,16 @@ module Adyen
         rescue Faraday::ConnectionFailed => connection_error
           raise connection_error, "Connection to #{url} failed"
         end
+       end 
+      else
+        begin
+          response = conn.post do |req|
+            req.body = request_data
+          end # handle client errors
+        rescue Faraday::ConnectionFailed => connection_error
+          raise connection_error, "Connection to #{url} failed"
+        end
       end
-
       # check for API errors
       case response.status
       when 401
@@ -189,31 +206,18 @@ module Adyen
       formatted_response
     end
 
-    # add application_info for analytics
-    def add_application_info(request_data)
-      adyenLibrary = {
-        :name => Adyen::NAME,
-        :version => Adyen::VERSION.to_s,
-      }
-
-      if request_data[:applicationInfo].nil?
-        request_data[:applicationInfo] = {}
-      end
-
-      request_data[:applicationInfo][:adyenLibrary] = adyenLibrary
-    end
 
     # services
     def checkout
       @checkout ||= Adyen::Checkout.new(self)
     end
 
-    def payments
-      @payments ||= Adyen::Payments.new(self)
+    def payment
+      @payment ||= Adyen::Payment.new(self)
     end
 
-    def payouts
-      @payouts ||= Adyen::Payouts.new(self)
+    def payout
+      @payout ||= Adyen::Payout.new(self)
     end
 
     def recurring
@@ -224,8 +228,8 @@ module Adyen
       @marketpay ||= Adyen::Marketpay::Marketpay.new(self)
     end
 
-    def postfmapi
-      @postfmapi ||= Adyen::PosTerminalManagement.new(self)
+    def pos_terminal_management
+      @pos_terminal_management ||= Adyen::PosTerminalManagement.new(self)
     end
 
     def data_protection
@@ -238,6 +242,30 @@ module Adyen
 
     def bin_lookup
       @bin_lookup ||= Adyen::BinLookup.new(self)
+    end
+
+    def legal_entity_management
+      @legal_entity_management ||= Adyen::LegalEntityManagement.new(self)
+    end
+
+    def balance_platform
+      @balance_platform ||= Adyen::BalancePlatform.new(self)
+    end
+
+    def transfers
+      @transfers ||= Adyen::Transfers.new(self)
+    end
+
+    def management
+      @management ||= Adyen::Management.new(self)
+    end
+    
+    def stored_value
+      @stored_value ||=Adyen::StoredValue.new(self)
+    end
+
+    def balance_control_service
+      @balance_control_service ||=Adyen::BalanceControlService.new(self)
     end
   end
 end

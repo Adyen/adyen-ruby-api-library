@@ -18,16 +18,6 @@ def create_test(client, service, method_name, parent_object)
   request_body = JSON.parse(json_from_file("mocks/requests/#{service}/#{method_name}.json"))
   response_body = json_from_file("mocks/responses/#{service}/#{method_name}.json")
 
-  with_application_info = [
-    "authorise",
-    "authorise3d",
-    "authorise3ds2",
-    "payments",
-    "payment_session",
-  ]
-  if with_application_info.include?(method_name)
-    client.add_application_info(request_body)
-  end
 
   # client-generated headers
   headers = {
