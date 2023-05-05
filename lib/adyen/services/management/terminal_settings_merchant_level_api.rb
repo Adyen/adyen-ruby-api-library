@@ -17,7 +17,7 @@ module Adyen
       """
       endpoint = "/merchants/{merchantId}/terminalLogos".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [merchantId,]
+      endpoint = endpoint % [merchantId]
       endpoint = endpoint + create_query_string(queryParams)
       action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -41,7 +41,7 @@ module Adyen
       """
       endpoint = "/merchants/{merchantId}/terminalLogos".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [merchantId,]
+      endpoint = endpoint % [merchantId]
       endpoint = endpoint + create_query_string(queryParams)
       action = { method: "patch", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
