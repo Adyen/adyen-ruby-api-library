@@ -77,7 +77,7 @@ module Adyen
       """
       endpoint = "/merchants/{merchantId}/terminalProducts".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [merchantId,]
+      endpoint = endpoint % [merchantId]
       endpoint = endpoint + create_query_string(queryParams)
       action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)

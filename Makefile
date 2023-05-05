@@ -46,7 +46,7 @@ $(services): build/spec $(openapi-generator-jar)
 	rm -rf $(output)
 
 $(singleFileServices): build/spec
-	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
+	wget $(openapi-generator-url) -O build/openapi-generator-cli.jar
 	cat <<< "$$(jq 'del(.paths[][].tags)' build/spec/json/$(spec).json)" > build/spec/json/$(spec).json
 	rm -rf $(output)
 	$(openapi-generator-cli) generate \
