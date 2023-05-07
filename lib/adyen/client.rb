@@ -85,8 +85,6 @@ module Adyen
     def service_url(service, action, version)
       if service == "Checkout" && @env == :live
         return "#{service_url_base(service)}/checkout/v#{version}/#{action}"
-      elsif service == "Terminal" && @env == :live
-        return "#{service_url_base(service)}/terminal/v#{version}/#{action}"
       else
         return "#{service_url_base(service)}/v#{version}/#{action}"
       end
