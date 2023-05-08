@@ -628,7 +628,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(queryParams:{"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
     expect(
     a_request(:get, "http://localhost:3001/v70/storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234")
-      .with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Adyen-Library-Name'=>'adyen-ruby-api-library', 'Adyen-Library-Version'=>'7.0.0', 'Content-Type'=>'application/json', 'User-Agent'=>'adyen-ruby-api-library/7.0.0', 'X-Api-Key'=>'api_key'})
+      .with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Adyen-Library-Name'=>'adyen-ruby-api-library', 'Adyen-Library-Version'=>'7.0.1', 'Content-Type'=>'application/json', 'User-Agent'=>'adyen-ruby-api-library/7.0.1', 'X-Api-Key'=>'api_key'})
     ).to have_been_made.once
   end
 
