@@ -633,7 +633,7 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
   end
 
   # must be created manually because every field in the response is an array
-  it "makes a LIVE payment_methods call" do
+  it "makes a LIVE paymentMethods call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_methods.json"))
 
     response_body = json_from_file("mocks/responses/Checkout/payment_methods.json")
