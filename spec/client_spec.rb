@@ -133,7 +133,7 @@ RSpec.describe Adyen do
   it "checks the creation of checkout url" do 
     client = Adyen::Client.new(api_key: "api_key", env: :live, live_url_prefix: "YourLiveUrlPrefix")
     expect(client.service_url("Checkout", "paymentMethods", "70")).
-    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/v70/paymentMethods")
+    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v70/paymentMethods")
   end 
   it "checks the creation of lem url" do 
     client = Adyen::Client.new(api_key: "api_key", env: :live)
