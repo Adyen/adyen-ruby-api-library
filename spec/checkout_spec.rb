@@ -632,6 +632,23 @@ RSpec.describe Adyen::Checkout, service: "checkout" do
     ).to have_been_made.once
   end
 
+  # must be created manually because every field in the response is an array
+  it "makes a LIVE paymentMethods call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_methods.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/payment_methods.json")
+
+    adyen = Adyen::Client.new
+    adyen.api_key = 'AF5XXXXXXXXXXXXXXXXXXXX'
+    adyen.env = :live
+    adyen.live_url_prefix = "prefix"
+    url = adyen.service_url("Checkout", "paymentMethods", @shared_values[:client].checkout.version)
+
+    expect(url).
+      to eq("https://prefix-checkout-live.adyenpayments.com/checkout/v70/paymentMethods")
+
+  end
+
 end
 
 # rubocop:enable Metrics/BlockLength
