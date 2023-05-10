@@ -99,6 +99,9 @@ To run the tests use :
 bundle install --with development 
 ~~~~
 
+## Feedback
+We value your input! Help us enhance our API Libraries and improve the integration experience by providing your feedback. Please take a moment to fill out [our feedback form](https://forms.gle/A4EERrR6CWgKWe5r9) to share your thoughts, suggestions or ideas.
+
 ## Contributing
 
 We encourage you to contribute to this repository, so everyone can benefit from new features, bug fixes, and any other improvements.
