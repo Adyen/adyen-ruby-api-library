@@ -18,16 +18,17 @@ def create_test(client, service, method_name, parent_object)
   request_body = JSON.parse(json_from_file("mocks/requests/#{service}/#{method_name}.json"))
   response_body = json_from_file("mocks/responses/#{service}/#{method_name}.json")
 
-
   # client-generated headers
   headers = {
     "Content-Type".to_sym => "application/json",
   }
 
   # authentication headers
-  if not client.api_key.nil?
+  if !client.api_key.nil?
     headers["x-api-key"] = client.api_key
-  elsif not client.ws_user.nil? and not client.ws_password.nil?
+  elsif !client.oauth_token.nil?
+    headers["Authorization"] = "Bearer #{client.oauth_token}"
+  elsif !client.ws_user.nil? && !client.ws_password.nil?
     auth_header = "Basic " + Base64::encode64("#{client.ws_user}:#{client.ws_password}")
     headers["Authorization"] = auth_header.strip
   else
@@ -77,7 +78,7 @@ def generate_tests(client, service, test_sets, parent_object)
 end
 
 # create and return a client for testing
-# auth_type must be one of [:basic, :api_key]
+# auth_type must be one of [:basic, :api_key, :oauth]
 def create_client(auth_type)
   client = Adyen::Client.new
   client.env = :mock
@@ -85,6 +86,8 @@ def create_client(auth_type)
   if auth_type == :basic
     client.ws_user = "user"
     client.ws_password = "password"
+  elsif auth_type == :oauth
+    client.oauth_token = "oauth_token"
   elsif auth_type == :api_key
     client.api_key = "api_key"
   else
