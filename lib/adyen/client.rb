@@ -12,14 +12,15 @@ require_relative './result'
 
 module Adyen
   class Client
-    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
+    attr_accessor :ws_user, :ws_password, :api_key, :oauth_token, :client, :adapter
     attr_reader :env, :connection_options
 
-    def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001,
+    def initialize(ws_user: nil, ws_password: nil, api_key: nil, oauth_token: nil, env: :live, adapter: nil, mock_port: 3001,
                    live_url_prefix: nil, mock_service_url_base: nil, connection_options: nil)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key
+      @oauth_token = oauth_token
       @env = env
       @adapter = adapter || Faraday.default_adapter
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
@@ -113,24 +114,7 @@ module Adyen
       # get URL for requested endpoint
       url = service_url(service, action.is_a?(String) ? action : action.fetch(:url), version)
 
-      # make sure right authentication has been provided
-      # will use api_key if present, otherwise ws_user and ws_password
-      if @api_key.nil?
-        if service == 'PaymentSetupAndVerification'
-          raise Adyen::AuthenticationError.new('Checkout service requires API-key', request_data),
-                'Checkout service requires API-key'
-        elsif @ws_password.nil? || @ws_user.nil?
-          raise Adyen::AuthenticationError.new(
-            'No authentication found - please set api_key or ws_user and ws_password',
-            request_data
-          ),
-                'No authentication found - please set api_key or ws_user and ws_password'
-        else
-          auth_type = 'basic'
-        end
-      else
-        auth_type = 'api-key'
-      end
+      auth_type = auth_type(service, request_data)
 
       # initialize Faraday connection object
       conn = Faraday.new(url, @connection_options) do |faraday|
@@ -138,19 +122,8 @@ module Adyen
         faraday.headers['Content-Type'] = 'application/json'
         faraday.headers['User-Agent'] = "#{Adyen::NAME}/#{Adyen::VERSION}"
 
-        # set auth type based on service
-        case auth_type
-        when 'basic'
-          if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
-            # for faraday 2.0 and higher
-            faraday.request :authorization, :basic, @ws_user, @ws_password
-          else
-            # for faraday 1.x
-            faraday.basic_auth(@ws_user, @ws_password)
-          end
-        when 'api-key'
-          faraday.headers['x-api-key'] = @api_key
-        end
+        # set header based on auth_type and service
+        auth_header(auth_type, faraday)
 
         # add optional headers if specified in request
         # will overwrite default headers if overlapping
@@ -297,6 +270,48 @@ module Adyen
 
     def terminal_cloud_api
       @terminal_cloud_api ||= Adyen::TerminalCloudAPI.new(self)
+    end
+
+    private
+
+    def auth_header(auth_type, faraday)
+      case auth_type
+      when "basic"
+        if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
+          # for faraday 2.0 and higher
+          faraday.request :authorization, :basic, @ws_user, @ws_password
+        else
+          # for faraday 1.x
+          faraday.basic_auth(@ws_user, @ws_password)
+        end
+      when "api-key"
+        faraday.headers["x-api-key"] = @api_key
+      when "oauth"
+        faraday.headers["Authorization"] = "Bearer #{@oauth_token}"
+      end
+    end
+
+    def auth_type(service, request_data)
+      # make sure valid authentication has been provided
+      validate_auth_type(service, request_data)
+      # make sure right authentication has been provided
+      # will use api_key if present, otherwise ws_user and ws_password
+      return "api-key" if @api_key
+      return "oauth" if @oauth_token
+      "basic"
+    end
+
+    def validate_auth_type(service, request_data)
+      if @api_key.nil? && @oauth_token.nil? && (@ws_password.nil? || @ws_user.nil?)
+        raise Adyen::AuthenticationError.new(
+          'No authentication found - please set api_key, oauth_token, or ws_user and ws_password',
+          request_data
+        )
+      end
+      if service == "PaymentSetupAndVerification" && @api_key.nil? && @oauth_token.nil? && @ws_password.nil? && @ws_user.nil?
+        raise Adyen::AuthenticationError.new('Checkout service requires API-key or oauth_token', request_data),
+              'Checkout service requires API-key or oauth_token'
+      end
     end
   end
 end
