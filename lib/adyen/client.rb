@@ -294,14 +294,15 @@ module Adyen
     def auth_type(service, request_data)
       # make sure valid authentication has been provided
       validate_auth_type(service, request_data)
-      # make sure right authentication has been provided
-      # will use api_key if present, otherwise ws_user and ws_password
-      return "api-key" if @api_key
-      return "oauth" if @oauth_token
+      # Will prioritize authentication methods in this order:
+      # api-key, oauth, basic
+      return "api-key" unless @api_key.nil?
+      return "oauth" unless @oauth_token.nil?
       "basic"
     end
 
     def validate_auth_type(service, request_data)
+      # ensure authentication has been provided
       if @api_key.nil? && @oauth_token.nil? && (@ws_password.nil? || @ws_user.nil?)
         raise Adyen::AuthenticationError.new(
           'No authentication found - please set api_key, oauth_token, or ws_user and ws_password',
