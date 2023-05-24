@@ -30,7 +30,6 @@ RSpec.describe Adyen::Transfers, service: 'transfers' do
            )
 
     result = @shared_values[:client].transfers.transfers_api.transfer_funds(request_body)
-    response_hash = result.response
 
     expect(result.status)
       .to eq(200)
@@ -39,8 +38,11 @@ RSpec.describe Adyen::Transfers, service: 'transfers' do
   it 'makes a transactions GET call' do
     response_body = json_from_file('mocks/responses/Transfers/make_transfer.json')
 
-    url = @shared_values[:client].service_url(@shared_values[:service],
-                                              'transactions?createdUntil=2021-05-30T15%3A07%3A40Z&createdSince=2021-05-30T15%3A07%3A40Z', @shared_values[:client].transfers.version)
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      'transactions?createdUntil=2021-05-30T15%3A07%3A40Z&createdSince=2021-05-30T15%3A07%3A40Z',
+      @shared_values[:client].transfers.version
+    )
     WebMock.stub_request(:get, url)
            .with(
              headers: {
@@ -51,12 +53,14 @@ RSpec.describe Adyen::Transfers, service: 'transfers' do
              body: response_body
            )
 
-    result = @shared_values[:client].transfers.transactions_api.get_all_transactions(queryParams: {
-                                                                                       'createdUntil' => '2021-05-30T15:07:40Z', 'createdSince' => '2021-05-30T15:07:40Z'
-                                                                                     })
-    response_hash = result.response
+    result = @shared_values[:client].transfers.transactions_api.get_all_transactions(
+      queryParams: {
+        'createdUntil' => '2021-05-30T15:07:40Z', 'createdSince' => '2021-05-30T15:07:40Z'
+      }
+    )
 
     expect(result.status)
       .to eq(200)
   end
 end
+# rubocop:enable Metrics/BlockLength

@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/BlockLength
+
 require 'spec_helper'
 require 'json'
 
@@ -41,3 +43,4 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
       .to be_a_kind_of Hash
   end
 end
+# rubocop:enable Metrics/BlockLength

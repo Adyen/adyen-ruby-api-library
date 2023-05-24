@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/BlockLength
+
 require 'spec_helper'
 
 RSpec.describe Adyen::Utils::HmacValidator do
@@ -45,26 +47,43 @@ RSpec.describe Adyen::Utils::HmacValidator do
 
     it 'should validate backslashes correctly' do
       webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/backslash_notification.json'))
-      expect(validator.valid_notification_hmac?(webhook,
-                                                '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
+      expect(
+        validator.valid_notification_hmac?(
+          webhook,
+          '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174'
+        )
+      ).to be true
     end
 
     it 'should validate colons correctly' do
       webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/colon_notification.json'))
-      expect(validator.valid_notification_hmac?(webhook,
-                                                '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
+      expect(
+        validator.valid_notification_hmac?(
+          webhook,
+          '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174'
+        )
+      ).to be true
     end
 
     it 'should validate forward slashes correctly' do
       webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/forwardslash_notification.json'))
-      expect(validator.valid_notification_hmac?(webhook,
-                                                '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
+      expect(
+        validator.valid_notification_hmac?(
+          webhook,
+          '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174'
+        )
+      ).to be true
     end
 
     it 'should validate mix of slashes and colon correctly' do
       webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/mixed_notification.json'))
-      expect(validator.valid_notification_hmac?(webhook,
-                                                '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
+      expect(
+        validator.valid_notification_hmac?(
+          webhook,
+          '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174'
+        )
+      ).to be true
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

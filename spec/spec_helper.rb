@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/MethodLength
+
 require 'webmock/rspec'
 require 'base64'
 require_relative '../lib/adyen-ruby-api-library'
@@ -26,7 +28,7 @@ def create_test(client, service, method_name, parent_object)
   # authentication headers
   if !client.api_key.nil?
     headers['x-api-key'] = client.api_key
-  elsif !client.ws_user.nil? and !client.ws_password.nil?
+  elsif !client.ws_user.nil? && !client.ws_password.nil?
     auth_header = 'Basic ' + Base64.encode64("#{client.ws_user}:#{client.ws_password}")
     headers['Authorization'] = auth_header.strip
   else
@@ -80,7 +82,6 @@ end
 def create_client(auth_type)
   client = Adyen::Client.new
   client.env = :mock
-
   if auth_type == :basic
     client.ws_user = 'user'
     client.ws_password = 'password'
@@ -89,6 +90,6 @@ def create_client(auth_type)
   else
     raise ArgumentError 'Invalid auth type for test client'
   end
-
   client
 end
+# rubocop:enable Metrics/MethodLength
