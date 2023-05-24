@@ -7,21 +7,21 @@ module Adyen
       super(client, version, 'Transfers')
     end
 
-    def get_all_transactions(headers: {} , queryParams: {})
-      endpoint = "/transactions".gsub(/{.+?}/, '%s') 
+    def get_all_transactions(headers: {}, query_params: {})
+      endpoint = '/transactions'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpoint)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_transaction(id, headers: {} )
-      endpoint = "/transactions/{id}".gsub(/{.+?}/, '%s') 
+    def get_transaction(id, headers: {})
+      endpoint = '/transactions/{id}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [id]
+      endpoint = format(endpointid)
       
-      action = { method: "get", url: endpoint}
+      action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 

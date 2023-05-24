@@ -7,48 +7,48 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def delete_payout_setting(merchantId, payoutSettingsId, headers: {} )
-      endpoint = "/merchants/{merchantId}/payoutSettings/{payoutSettingsId}".gsub(/{.+?}/, '%s') 
+    def delete_payout_setting(merchantId, payoutSettingsId, headers: {})
+      endpoint = '/merchants/{merchantId}/payoutSettings/{payoutSettingsId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,payoutSettingsId]
+      endpoint = format(endpointmerchantIdpayoutSettingsId)
       
-      action = { method: "delete", url: endpoint}
+      action = { method: "delete", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_payout_settings(merchantId, headers: {} )
-      endpoint = "/merchants/{merchantId}/payoutSettings".gsub(/{.+?}/, '%s') 
+    def list_payout_settings(merchantId, headers: {})
+      endpoint = '/merchants/{merchantId}/payoutSettings'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
+      endpoint = format(endpointmerchantId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_payout_setting(merchantId, payoutSettingsId, headers: {} )
-      endpoint = "/merchants/{merchantId}/payoutSettings/{payoutSettingsId}".gsub(/{.+?}/, '%s') 
+    def get_payout_setting(merchantId, payoutSettingsId, headers: {})
+      endpoint = '/merchants/{merchantId}/payoutSettings/{payoutSettingsId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,payoutSettingsId]
+      endpoint = format(endpointmerchantIdpayoutSettingsId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_payout_setting(request, merchantId, payoutSettingsId, headers: {} )
-      endpoint = "/merchants/{merchantId}/payoutSettings/{payoutSettingsId}".gsub(/{.+?}/, '%s') 
+    def update_payout_setting(request, merchantId, payoutSettingsId, headers: {})
+      endpoint = '/merchants/{merchantId}/payoutSettings/{payoutSettingsId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,payoutSettingsId]
+      endpoint = format(endpointmerchantIdpayoutSettingsId)
       
-      action = { method: "patch", url: endpoint}
+      action = { method: "patch", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def add_payout_setting(request, merchantId, headers: {} )
-      endpoint = "/merchants/{merchantId}/payoutSettings".gsub(/{.+?}/, '%s') 
+    def add_payout_setting(request, merchantId, headers: {})
+      endpoint = '/merchants/{merchantId}/payoutSettings'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
+      endpoint = format(endpointmerchantId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

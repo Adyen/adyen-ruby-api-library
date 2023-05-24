@@ -7,39 +7,39 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def delete_allowed_origin(companyId, apiCredentialId, originId, headers: {} )
-      endpoint = "/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}".gsub(/{.+?}/, '%s') 
+    def delete_allowed_origin(companyId, apiCredentialId, originId, headers: {})
+      endpoint = '/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId,apiCredentialId,originId]
+      endpoint = format(endpointcompanyIdapiCredentialIdoriginId)
       
-      action = { method: "delete", url: endpoint}
+      action = { method: "delete", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_allowed_origins(companyId, apiCredentialId, headers: {} )
-      endpoint = "/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins".gsub(/{.+?}/, '%s') 
+    def list_allowed_origins(companyId, apiCredentialId, headers: {})
+      endpoint = '/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId,apiCredentialId]
+      endpoint = format(endpointcompanyIdapiCredentialId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_allowed_origin(companyId, apiCredentialId, originId, headers: {} )
-      endpoint = "/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}".gsub(/{.+?}/, '%s') 
+    def get_allowed_origin(companyId, apiCredentialId, originId, headers: {})
+      endpoint = '/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId,apiCredentialId,originId]
+      endpoint = format(endpointcompanyIdapiCredentialIdoriginId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def create_allowed_origin(request, companyId, apiCredentialId, headers: {} )
-      endpoint = "/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins".gsub(/{.+?}/, '%s') 
+    def create_allowed_origin(request, companyId, apiCredentialId, headers: {})
+      endpoint = '/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId,apiCredentialId]
+      endpoint = format(endpointcompanyIdapiCredentialId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

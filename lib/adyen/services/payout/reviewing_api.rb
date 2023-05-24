@@ -10,7 +10,7 @@ module Adyen
     def confirm_third_party(request, headers: {} )
       endpoint = "/confirmThirdParty".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
       action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -19,7 +19,7 @@ module Adyen
     def decline_third_party(request, headers: {} )
       endpoint = "/declineThirdParty".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
       action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)

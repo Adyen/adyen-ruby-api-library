@@ -9,12 +9,12 @@ module Adyen
     end
 
 {{#operation}}
-    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/isQueryParam}}{{/requiredParams}}headers: {} {{#queryParams}}{{#-first}}, queryParams: {}{{/-first}}{{/queryParams}})
-      endpoint = "{{path}}".gsub(/{.+?}/, '%s') 
+    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/isQueryParam}}{{/requiredParams}}headers: {}{{#queryParams}}{{#-first}}, query_params: {}{{/-first}}{{/queryParams}})
+      endpoint = '{{path}}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [{{#pathParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}{{^-last}},{{/-last}}{{/pathParams}}]
-      {{#queryParams}}{{#-first}}endpoint = endpoint + create_query_string(queryParams){{/-first}}{{/queryParams}}
-      action = { method: "{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}", url: endpoint}
+      endpoint = format(endpoint{{#pathParams}}{{#lambda.camelcase}}, {{paramName}}{{/lambda.camelcase}}{{/pathParams}})
+      {{#queryParams}}{{#-first}}endpoint = endpoint + create_query_string(query_params){{/-first}}{{/queryParams}}
+      action = { method: '{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}', url: endpoint }
   {{#bodyParams}}        
       @client.call_adyen_api(@service, action, request, headers, @version)
   {{/bodyParams}}

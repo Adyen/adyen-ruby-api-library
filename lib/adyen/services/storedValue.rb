@@ -8,57 +8,57 @@ module Adyen
       super(client, version, 'StoredValue')
     end
 
-    def change_status(request, headers: {} )
-      endpoint = "/changeStatus".gsub(/{.+?}/, '%s') 
+    def change_status(request, headers: {})
+      endpoint = '/changeStatus'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def check_balance(request, headers: {} )
-      endpoint = "/checkBalance".gsub(/{.+?}/, '%s') 
+    def check_balance(request, headers: {})
+      endpoint = '/checkBalance'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def issue(request, headers: {} )
-      endpoint = "/issue".gsub(/{.+?}/, '%s') 
+    def issue(request, headers: {})
+      endpoint = '/issue'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def load(request, headers: {} )
-      endpoint = "/load".gsub(/{.+?}/, '%s') 
+    def load(request, headers: {})
+      endpoint = '/load'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def merge_balance(request, headers: {} )
-      endpoint = "/mergeBalance".gsub(/{.+?}/, '%s') 
+    def merge_balance(request, headers: {})
+      endpoint = '/mergeBalance'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def void_transaction(request, headers: {} )
-      endpoint = "/voidTransaction".gsub(/{.+?}/, '%s') 
+    def void_transaction(request, headers: {})
+      endpoint = '/voidTransaction'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

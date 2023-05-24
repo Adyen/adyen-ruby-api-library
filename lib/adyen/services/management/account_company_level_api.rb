@@ -7,30 +7,30 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def list_company_accounts(headers: {} , queryParams: {})
-      endpoint = "/companies".gsub(/{.+?}/, '%s') 
+    def list_company_accounts(headers: {}, query_params: {})
+      endpoint = '/companies'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpoint)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_company_account(companyId, headers: {} )
-      endpoint = "/companies/{companyId}".gsub(/{.+?}/, '%s') 
+    def get_company_account(companyId, headers: {})
+      endpoint = '/companies/{companyId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId]
+      endpoint = format(endpointcompanyId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_merchant_accounts(companyId, headers: {} , queryParams: {})
-      endpoint = "/companies/{companyId}/merchants".gsub(/{.+?}/, '%s') 
+    def list_merchant_accounts(companyId, headers: {}, query_params: {})
+      endpoint = '/companies/{companyId}/merchants'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpointcompanyId)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 

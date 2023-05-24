@@ -7,39 +7,39 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def list_android_apps(companyId, headers: {} , queryParams: {})
-      endpoint = "/companies/{companyId}/androidApps".gsub(/{.+?}/, '%s') 
+    def list_android_apps(companyId, headers: {}, query_params: {})
+      endpoint = '/companies/{companyId}/androidApps'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpointcompanyId)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_android_certificates(companyId, headers: {} , queryParams: {})
-      endpoint = "/companies/{companyId}/androidCertificates".gsub(/{.+?}/, '%s') 
+    def list_android_certificates(companyId, headers: {}, query_params: {})
+      endpoint = '/companies/{companyId}/androidCertificates'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpointcompanyId)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_terminal_actions(companyId, headers: {} , queryParams: {})
-      endpoint = "/companies/{companyId}/terminalActions".gsub(/{.+?}/, '%s') 
+    def list_terminal_actions(companyId, headers: {}, query_params: {})
+      endpoint = '/companies/{companyId}/terminalActions'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpointcompanyId)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_terminal_action(companyId, actionId, headers: {} )
-      endpoint = "/companies/{companyId}/terminalActions/{actionId}".gsub(/{.+?}/, '%s') 
+    def get_terminal_action(companyId, actionId, headers: {})
+      endpoint = '/companies/{companyId}/terminalActions/{actionId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId,actionId]
+      endpoint = format(endpointcompanyIdactionId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 

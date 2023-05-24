@@ -7,57 +7,57 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def get_all_payment_methods(merchantId, headers: {} , queryParams: {})
-      endpoint = "/merchants/{merchantId}/paymentMethodSettings".gsub(/{.+?}/, '%s') 
+    def get_all_payment_methods(merchantId, headers: {}, query_params: {})
+      endpoint = '/merchants/{merchantId}/paymentMethodSettings'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpointmerchantId)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_payment_method_details(merchantId, paymentMethodId, headers: {} )
-      endpoint = "/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}".gsub(/{.+?}/, '%s') 
+    def get_payment_method_details(merchantId, paymentMethodId, headers: {})
+      endpoint = '/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,paymentMethodId]
+      endpoint = format(endpointmerchantIdpaymentMethodId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_apple_pay_domains(merchantId, paymentMethodId, headers: {} )
-      endpoint = "/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains".gsub(/{.+?}/, '%s') 
+    def get_apple_pay_domains(merchantId, paymentMethodId, headers: {})
+      endpoint = '/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,paymentMethodId]
+      endpoint = format(endpointmerchantIdpaymentMethodId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_payment_method(request, merchantId, paymentMethodId, headers: {} )
-      endpoint = "/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}".gsub(/{.+?}/, '%s') 
+    def update_payment_method(request, merchantId, paymentMethodId, headers: {})
+      endpoint = '/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,paymentMethodId]
+      endpoint = format(endpointmerchantIdpaymentMethodId)
       
-      action = { method: "patch", url: endpoint}
+      action = { method: "patch", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def request_payment_method(request, merchantId, headers: {} )
-      endpoint = "/merchants/{merchantId}/paymentMethodSettings".gsub(/{.+?}/, '%s') 
+    def request_payment_method(request, merchantId, headers: {})
+      endpoint = '/merchants/{merchantId}/paymentMethodSettings'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
+      endpoint = format(endpointmerchantId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def add_apple_pay_domain(request, merchantId, paymentMethodId, headers: {} )
-      endpoint = "/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains".gsub(/{.+?}/, '%s') 
+    def add_apple_pay_domain(request, merchantId, paymentMethodId, headers: {})
+      endpoint = '/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,paymentMethodId]
+      endpoint = format(endpointmerchantIdpaymentMethodId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

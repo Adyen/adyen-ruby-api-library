@@ -7,75 +7,75 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def list_stores_by_merchant_id(merchantId, headers: {} , queryParams: {})
-      endpoint = "/merchants/{merchantId}/stores".gsub(/{.+?}/, '%s') 
+    def list_stores_by_merchant_id(merchantId, headers: {}, query_params: {})
+      endpoint = '/merchants/{merchantId}/stores'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpointmerchantId)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_store(merchantId, storeId, headers: {} )
-      endpoint = "/merchants/{merchantId}/stores/{storeId}".gsub(/{.+?}/, '%s') 
+    def get_store(merchantId, storeId, headers: {})
+      endpoint = '/merchants/{merchantId}/stores/{storeId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,storeId]
+      endpoint = format(endpointmerchantIdstoreId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_stores(headers: {} , queryParams: {})
-      endpoint = "/stores".gsub(/{.+?}/, '%s') 
+    def list_stores(headers: {}, query_params: {})
+      endpoint = '/stores'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpoint)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_store_by_id(storeId, headers: {} )
-      endpoint = "/stores/{storeId}".gsub(/{.+?}/, '%s') 
+    def get_store_by_id(storeId, headers: {})
+      endpoint = '/stores/{storeId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [storeId]
+      endpoint = format(endpointstoreId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_store(request, merchantId, storeId, headers: {} )
-      endpoint = "/merchants/{merchantId}/stores/{storeId}".gsub(/{.+?}/, '%s') 
+    def update_store(request, merchantId, storeId, headers: {})
+      endpoint = '/merchants/{merchantId}/stores/{storeId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,storeId]
+      endpoint = format(endpointmerchantIdstoreId)
       
-      action = { method: "patch", url: endpoint}
+      action = { method: "patch", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def update_store_by_id(request, storeId, headers: {} )
-      endpoint = "/stores/{storeId}".gsub(/{.+?}/, '%s') 
+    def update_store_by_id(request, storeId, headers: {})
+      endpoint = '/stores/{storeId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [storeId]
+      endpoint = format(endpointstoreId)
       
-      action = { method: "patch", url: endpoint}
+      action = { method: "patch", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def create_store_by_merchant_id(request, merchantId, headers: {} )
-      endpoint = "/merchants/{merchantId}/stores".gsub(/{.+?}/, '%s') 
+    def create_store_by_merchant_id(request, merchantId, headers: {})
+      endpoint = '/merchants/{merchantId}/stores'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
+      endpoint = format(endpointmerchantId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def create_store(request, headers: {} )
-      endpoint = "/stores".gsub(/{.+?}/, '%s') 
+    def create_store(request, headers: {})
+      endpoint = '/stores'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

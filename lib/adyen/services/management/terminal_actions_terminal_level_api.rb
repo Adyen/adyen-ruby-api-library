@@ -7,12 +7,12 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def create_terminal_action(request, headers: {} )
-      endpoint = "/terminals/scheduleActions".gsub(/{.+?}/, '%s') 
+    def create_terminal_action(request, headers: {})
+      endpoint = '/terminals/scheduleActions'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

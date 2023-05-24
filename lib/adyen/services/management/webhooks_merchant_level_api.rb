@@ -7,66 +7,66 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def remove_webhook(merchantId, webhookId, headers: {} )
-      endpoint = "/merchants/{merchantId}/webhooks/{webhookId}".gsub(/{.+?}/, '%s') 
+    def remove_webhook(merchantId, webhookId, headers: {})
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,webhookId]
+      endpoint = format(endpointmerchantIdwebhookId)
       
-      action = { method: "delete", url: endpoint}
+      action = { method: "delete", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_all_webhooks(merchantId, headers: {} , queryParams: {})
-      endpoint = "/merchants/{merchantId}/webhooks".gsub(/{.+?}/, '%s') 
+    def list_all_webhooks(merchantId, headers: {}, query_params: {})
+      endpoint = '/merchants/{merchantId}/webhooks'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpointmerchantId)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_webhook(merchantId, webhookId, headers: {} )
-      endpoint = "/merchants/{merchantId}/webhooks/{webhookId}".gsub(/{.+?}/, '%s') 
+    def get_webhook(merchantId, webhookId, headers: {})
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,webhookId]
+      endpoint = format(endpointmerchantIdwebhookId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_webhook(request, merchantId, webhookId, headers: {} )
-      endpoint = "/merchants/{merchantId}/webhooks/{webhookId}".gsub(/{.+?}/, '%s') 
+    def update_webhook(request, merchantId, webhookId, headers: {})
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,webhookId]
+      endpoint = format(endpointmerchantIdwebhookId)
       
-      action = { method: "patch", url: endpoint}
+      action = { method: "patch", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def set_up_webhook(request, merchantId, headers: {} )
-      endpoint = "/merchants/{merchantId}/webhooks".gsub(/{.+?}/, '%s') 
+    def set_up_webhook(request, merchantId, headers: {})
+      endpoint = '/merchants/{merchantId}/webhooks'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
+      endpoint = format(endpointmerchantId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def generate_hmac_key(merchantId, webhookId, headers: {} )
-      endpoint = "/merchants/{merchantId}/webhooks/{webhookId}/generateHmac".gsub(/{.+?}/, '%s') 
+    def generate_hmac_key(merchantId, webhookId, headers: {})
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}/generateHmac'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,webhookId]
+      endpoint = format(endpointmerchantIdwebhookId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def test_webhook(request, merchantId, webhookId, headers: {} )
-      endpoint = "/merchants/{merchantId}/webhooks/{webhookId}/test".gsub(/{.+?}/, '%s') 
+    def test_webhook(request, merchantId, webhookId, headers: {})
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}/test'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,webhookId]
+      endpoint = format(endpointmerchantIdwebhookId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

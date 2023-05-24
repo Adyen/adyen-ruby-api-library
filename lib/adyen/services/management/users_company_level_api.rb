@@ -7,39 +7,39 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def list_users(companyId, headers: {} , queryParams: {})
-      endpoint = "/companies/{companyId}/users".gsub(/{.+?}/, '%s') 
+    def list_users(companyId, headers: {}, query_params: {})
+      endpoint = '/companies/{companyId}/users'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpointcompanyId)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_user_details(companyId, userId, headers: {} )
-      endpoint = "/companies/{companyId}/users/{userId}".gsub(/{.+?}/, '%s') 
+    def get_user_details(companyId, userId, headers: {})
+      endpoint = '/companies/{companyId}/users/{userId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId,userId]
+      endpoint = format(endpointcompanyIduserId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_user_details(request, companyId, userId, headers: {} )
-      endpoint = "/companies/{companyId}/users/{userId}".gsub(/{.+?}/, '%s') 
+    def update_user_details(request, companyId, userId, headers: {})
+      endpoint = '/companies/{companyId}/users/{userId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId,userId]
+      endpoint = format(endpointcompanyIduserId)
       
-      action = { method: "patch", url: endpoint}
+      action = { method: "patch", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def create_new_user(request, companyId, headers: {} )
-      endpoint = "/companies/{companyId}/users".gsub(/{.+?}/, '%s') 
+    def create_new_user(request, companyId, headers: {})
+      endpoint = '/companies/{companyId}/users'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [companyId]
+      endpoint = format(endpointcompanyId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

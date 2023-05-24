@@ -8,48 +8,48 @@ module Adyen
       super(client, version, 'PosTerminalManagement')
     end
 
-    def assign_terminals(request, headers: {} )
-      endpoint = "/assignTerminals".gsub(/{.+?}/, '%s') 
+    def assign_terminals(request, headers: {})
+      endpoint = '/assignTerminals'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def find_terminal(request, headers: {} )
-      endpoint = "/findTerminal".gsub(/{.+?}/, '%s') 
+    def find_terminal(request, headers: {})
+      endpoint = '/findTerminal'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_stores_under_account(request, headers: {} )
-      endpoint = "/getStoresUnderAccount".gsub(/{.+?}/, '%s') 
+    def get_stores_under_account(request, headers: {})
+      endpoint = '/getStoresUnderAccount'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_terminal_details(request, headers: {} )
-      endpoint = "/getTerminalDetails".gsub(/{.+?}/, '%s') 
+    def get_terminal_details(request, headers: {})
+      endpoint = '/getTerminalDetails'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_terminals_under_account(request, headers: {} )
-      endpoint = "/getTerminalsUnderAccount".gsub(/{.+?}/, '%s') 
+    def get_terminals_under_account(request, headers: {})
+      endpoint = '/getTerminalsUnderAccount'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

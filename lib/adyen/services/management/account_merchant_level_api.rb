@@ -7,39 +7,39 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def list_merchant_accounts(headers: {} , queryParams: {})
-      endpoint = "/merchants".gsub(/{.+?}/, '%s') 
+    def list_merchant_accounts(headers: {}, query_params: {})
+      endpoint = '/merchants'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+      endpoint = format(endpoint)
+      endpoint = endpoint + create_query_string(query_params)
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_merchant_account(merchantId, headers: {} )
-      endpoint = "/merchants/{merchantId}".gsub(/{.+?}/, '%s') 
+    def get_merchant_account(merchantId, headers: {})
+      endpoint = '/merchants/{merchantId}'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
+      endpoint = format(endpointmerchantId)
       
-      action = { method: "get", url: endpoint}
+      action = { method: "get", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def create_merchant_account(request, headers: {} )
-      endpoint = "/merchants".gsub(/{.+?}/, '%s') 
+    def create_merchant_account(request, headers: {})
+      endpoint = '/merchants'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % []
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def request_to_activate_merchant_account(merchantId, headers: {} )
-      endpoint = "/merchants/{merchantId}/activate".gsub(/{.+?}/, '%s') 
+    def request_to_activate_merchant_account(merchantId, headers: {})
+      endpoint = '/merchants/{merchantId}/activate'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId]
+      endpoint = format(endpointmerchantId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 

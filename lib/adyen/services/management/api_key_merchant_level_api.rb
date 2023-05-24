@@ -7,12 +7,12 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def generate_new_api_key(merchantId, apiCredentialId, headers: {} )
-      endpoint = "/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateApiKey".gsub(/{.+?}/, '%s') 
+    def generate_new_api_key(merchantId, apiCredentialId, headers: {})
+      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateApiKey'.gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = endpoint % [merchantId,apiCredentialId]
+      endpoint = format(endpointmerchantIdapiCredentialId)
       
-      action = { method: "post", url: endpoint}
+      action = { method: "post", url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
