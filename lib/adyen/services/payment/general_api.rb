@@ -8,49 +8,48 @@ module Adyen
     end
 
     def authorise(request, headers: {})
-      endpoint = '/authorise'.gsub(/{.+?}/, '%s') 
+      endpoint = '/authorise'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      
-      action = { method: "post", url: endpoint }
+
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def authorise3d(request, headers: {})
-      endpoint = '/authorise3d'.gsub(/{.+?}/, '%s') 
+      endpoint = '/authorise3d'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      
-      action = { method: "post", url: endpoint }
+
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def authorise3ds2(request, headers: {})
-      endpoint = '/authorise3ds2'.gsub(/{.+?}/, '%s') 
+      endpoint = '/authorise3ds2'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      
-      action = { method: "post", url: endpoint }
+
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def get_authentication_result(request, headers: {})
-      endpoint = '/getAuthenticationResult'.gsub(/{.+?}/, '%s') 
+      endpoint = '/getAuthenticationResult'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      
-      action = { method: "post", url: endpoint }
+
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def retrieve3ds2_result(request, headers: {})
-      endpoint = '/retrieve3ds2Result'.gsub(/{.+?}/, '%s') 
+      endpoint = '/retrieve3ds2Result'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      
-      action = { method: "post", url: endpoint }
+
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
-
   end
 end

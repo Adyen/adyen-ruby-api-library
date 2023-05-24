@@ -7,28 +7,28 @@ module Adyen
       super(client, version, 'BalancePlatform')
     end
 
-    def delete_transaction_rule(transactionRuleId, headers: {})
+    def delete_transaction_rule(transaction_rule_id, headers: {})
       endpoint = '/transactionRules/{transactionRuleId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, transactionRuleId)
+      endpoint = format(endpoint, transaction_rule_id)
 
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_transaction_rule(transactionRuleId, headers: {})
+    def get_transaction_rule(transaction_rule_id, headers: {})
       endpoint = '/transactionRules/{transactionRuleId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, transactionRuleId)
+      endpoint = format(endpoint, transaction_rule_id)
 
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_transaction_rule(request, transactionRuleId, headers: {})
+    def update_transaction_rule(request, transaction_rule_id, headers: {})
       endpoint = '/transactionRules/{transactionRuleId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, transactionRuleId)
+      endpoint = format(endpoint, transaction_rule_id)
 
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

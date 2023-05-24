@@ -4,9 +4,7 @@ module Adyen
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'LegalEntityManagement'
-      @client = client
-      @version = version
+      super(client, version, 'LegalEntityManagement')
     end
 
     def get_legal_entity(id, headers: {})

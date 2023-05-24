@@ -4,25 +4,23 @@ module Adyen
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'Checkout'
-      @client = client
-      @version = version
+      super(client, version, 'Checkout')
     end
 
-    def delete_token_for_stored_payment_details(recurringId, headers: {}, queryParams: {})
+    def delete_token_for_stored_payment_details(recurring_id, headers: {}, query_params: {})
       endpoint = '/storedPaymentMethods/{recurringId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, recurringId)
-      endpoint += create_query_string(queryParams)
+      endpoint = format(endpoint, recurring_id)
+      endpoint += create_query_string(query_params)
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_tokens_for_stored_payment_details(headers: {}, queryParams: {})
+    def get_tokens_for_stored_payment_details(headers: {}, query_params: {})
       endpoint = '/storedPaymentMethods'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      endpoint += create_query_string(queryParams)
+      endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end

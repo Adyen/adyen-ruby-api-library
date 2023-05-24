@@ -11,16 +11,16 @@ module Adyen
       endpoint = '/merchants'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      endpoint = endpoint + create_query_string(query_params)
+      endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_merchant_account(merchantId, headers: {})
+    def get_merchant_account(merchant_id, headers: {})
       endpoint = '/merchants/{merchantId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchantId)
-      
+      endpoint = format(endpoint, merchant_id)
+
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -29,19 +29,18 @@ module Adyen
       endpoint = '/merchants'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      
+
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def request_to_activate_merchant_account(merchantId, headers: {})
+    def request_to_activate_merchant_account(merchant_id, headers: {})
       endpoint = '/merchants/{merchantId}/activate'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchantId)
-      
+      endpoint = format(endpoint, merchant_id)
+
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
-
   end
 end

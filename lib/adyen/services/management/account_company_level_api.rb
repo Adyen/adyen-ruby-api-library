@@ -11,28 +11,27 @@ module Adyen
       endpoint = '/companies'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      endpoint = endpoint + create_query_string(query_params)
+      endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_company_account(companyId, headers: {})
+    def get_company_account(company_id, headers: {})
       endpoint = '/companies/{companyId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, companyId)
-      
+      endpoint = format(endpoint, company_id)
+
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_merchant_accounts(companyId, headers: {}, query_params: {})
+    def list_merchant_accounts(company_id, headers: {}, query_params: {})
       endpoint = '/companies/{companyId}/merchants'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, companyId)
-      endpoint = endpoint + create_query_string(query_params)
+      endpoint = format(endpoint, company_id)
+      endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
-
   end
 end

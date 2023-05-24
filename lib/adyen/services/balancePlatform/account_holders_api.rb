@@ -16,11 +16,11 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_all_balance_accounts_of_account_holder(id, headers: {}, queryParams: {})
+    def get_all_balance_accounts_of_account_holder(id, headers: {}, query_params: {})
       endpoint = '/accountHolders/{id}/balanceAccounts'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
-      endpoint += create_query_string(queryParams)
+      endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end

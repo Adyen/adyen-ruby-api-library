@@ -7,41 +7,40 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def get_terminal_logo(terminalId, headers: {})
+    def get_terminal_logo(terminal_id, headers: {})
       endpoint = '/terminals/{terminalId}/terminalLogos'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, terminalId)
-      
+      endpoint = format(endpoint, terminal_id)
+
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_terminal_settings(terminalId, headers: {})
+    def get_terminal_settings(terminal_id, headers: {})
       endpoint = '/terminals/{terminalId}/terminalSettings'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, terminalId)
-      
+      endpoint = format(endpoint, terminal_id)
+
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_logo(request, terminalId, headers: {})
+    def update_logo(request, terminal_id, headers: {})
       endpoint = '/terminals/{terminalId}/terminalLogos'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, terminalId)
-      
+      endpoint = format(endpoint, terminal_id)
+
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def update_terminal_settings(request, terminalId, headers: {})
+    def update_terminal_settings(request, terminal_id, headers: {})
       endpoint = '/terminals/{terminalId}/terminalSettings'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, terminalId)
-      
+      endpoint = format(endpoint, terminal_id)
+
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
-
   end
 end

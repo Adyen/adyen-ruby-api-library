@@ -4,9 +4,7 @@ module Adyen
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'Checkout'
-      @client = client
-      @version = version
+      super(client, version, 'Checkout')
     end
 
     def orders(request, headers: {})

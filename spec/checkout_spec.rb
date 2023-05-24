@@ -598,7 +598,7 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
            )
 
     result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(
-      queryParams: {
+      query_params: {
         'merchantAccount' => 'TestMerchantAccount',
         'shopperReference' => 'test-1234'
       }
@@ -635,7 +635,7 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
 
     result = @shared_values[:client].checkout.recurring_api.delete_token_for_stored_payment_details(
       'RL8FW7WZM6KXWD82',
-      queryParams: {
+      query_params: {
         'merchantAccount' => 'TestMerchantAccount',
         'shopperReference' => 'test-1234'
       }
@@ -664,7 +664,7 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
              body: response_body
            )
 
-    @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(queryParams:
+    @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(query_params:
     {
       'merchantAccount' => 'TestMerchantAccount',
       'shopperReference' => 'test-1234'
