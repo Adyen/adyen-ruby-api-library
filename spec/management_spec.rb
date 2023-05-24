@@ -60,7 +60,7 @@ RSpec.describe Adyen::Management, service: 'Management' do
 
     result = @shared_values[:client].management.account_store_level_api.create_store_by_merchant_id(request_body,
                                                                                                     'merchantID')
-    response_hash = result.response
+    result.response
 
     expect(result.status)
       .to eq(200)

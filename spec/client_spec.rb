@@ -99,13 +99,13 @@ RSpec.describe Adyen do
 
   it 'generates a new set of ConnectionOptions when none are provided' do
     expect(Faraday::ConnectionOptions).to receive(:new).and_call_original
-    client = Adyen::Client.new(env: :test)
+    Adyen::Client.new(env: :test)
   end
 
   it 'uses the ConnectionOptions provided' do
     connection_options = Faraday::ConnectionOptions.new
     expect(Faraday::ConnectionOptions).not_to receive(:new)
-    client = Adyen::Client.new(env: :test, connection_options: connection_options)
+    Adyen::Client.new(env: :test, connection_options: connection_options)
   end
 
   it 'initiates a Faraday connection with the provided options' do
@@ -114,7 +114,7 @@ RSpec.describe Adyen do
     client = Adyen::Client.new(api_key: 'api_key', env: :mock, connection_options: connection_options)
 
     mock_faraday_connection = double(Faraday::Connection)
-    url = client.service_url(@shared_values[:service], 'payments/details', client.checkout.version)
+    client.service_url(@shared_values[:service], 'payments/details', client.checkout.version)
     request_body = JSON.parse(json_from_file('mocks/requests/Checkout/payment-details.json'))
     mock_response = Faraday::Response.new(status: 200)
 

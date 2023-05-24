@@ -630,7 +630,7 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
                                                                                                     queryParams: {
                                                                                                       'merchantAccount' => 'TestMerchantAccount', 'shopperReference' => 'test-1234'
                                                                                                     })
-    response_hash = result.response
+    result.response
 
     expect(result.status)
       .to eq(200)
@@ -651,9 +651,9 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
              body: response_body
            )
 
-    result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(queryParams: {
-                                                                                                    'merchantAccount' => 'TestMerchantAccount', 'shopperReference' => 'test-1234'
-                                                                                                  })
+    @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(queryParams: {
+                                                                                           'merchantAccount' => 'TestMerchantAccount', 'shopperReference' => 'test-1234'
+                                                                                         })
     expect(
       a_request(:get, 'http://localhost:3001/v70/storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234')
         .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
@@ -663,9 +663,9 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
 
   # must be created manually because every field in the response is an array
   it 'makes a LIVE paymentMethods call' do
-    request_body = JSON.parse(json_from_file('mocks/requests/Checkout/payment_methods.json'))
+    JSON.parse(json_from_file('mocks/requests/Checkout/payment_methods.json'))
 
-    response_body = json_from_file('mocks/responses/Checkout/payment_methods.json')
+    json_from_file('mocks/responses/Checkout/payment_methods.json')
 
     adyen = Adyen::Client.new
     adyen.api_key = 'AF5XXXXXXXXXXXXXXXXXXXX'

@@ -29,7 +29,7 @@ def create_test(client, service, method_name, parent_object)
   if !client.api_key.nil?
     headers['x-api-key'] = client.api_key
   elsif !client.ws_user.nil? && !client.ws_password.nil?
-    auth_header = 'Basic ' + Base64.encode64("#{client.ws_user}:#{client.ws_password}")
+    auth_header = "Basic #{Base64.encode64("#{client.ws_user}:#{client.ws_password}")}"
     headers['Authorization'] = auth_header.strip
   else
     raise ArgumentError, 'Authentication not set correctly in test case'

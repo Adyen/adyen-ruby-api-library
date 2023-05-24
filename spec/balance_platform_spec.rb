@@ -62,7 +62,7 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
            )
 
     result = @shared_values[:client].balance_platform.account_holders_api.update_account_holder(request_body,
-                                                                                                id = 'AH3227C223222C5GKR23686TF')
+                                                                                                'AH3227C223222C5GKR23686TF')
     response_hash = result.response
 
     expect(result.status)
@@ -90,7 +90,7 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
              body: response_body
            )
 
-    result = @shared_values[:client].balance_platform.balance_accounts_api.get_balance_account(id = 'BA3227C223222B5BLP6JQC3FD')
+    result = @shared_values[:client].balance_platform.balance_accounts_api.get_balance_account('BA3227C223222B5BLP6JQC3FD')
     response_hash = result.response
 
     expect(result.status)
@@ -117,7 +117,7 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
            )
 
     result = @shared_values[:client].balance_platform.balance_accounts_api.delete_sweep('balanceAccountID', 'sweepID')
-    response_hash = result.response
+    result.response
 
     expect(result.status)
       .to eq(200)

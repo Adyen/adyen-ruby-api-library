@@ -57,7 +57,7 @@ RSpec.describe Adyen::LegalEntityManagement, service: 'LegalEntityManagement' do
            )
 
     result = @shared_values[:client].legal_entity_management.documents_api.delete_document('123')
-    response_hash = result.response
+    result.response
 
     expect(result.status)
       .to eq(200)

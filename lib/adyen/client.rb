@@ -72,7 +72,7 @@ module Adyen
           raise ArgumentError, 'Invalid service specified'
         end
 
-        if @live_url_prefix.nil? and @env == :live and supports_live_url_prefix
+        if @live_url_prefix.nil? && (@env == :live) && supports_live_url_prefix
           raise ArgumentError,
                 "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'"
         end
@@ -118,7 +118,7 @@ module Adyen
       conn = Faraday.new(url, @connection_options) do |faraday|
         faraday.adapter @adapter
         faraday.headers['Content-Type'] = 'application/json'
-        faraday.headers['User-Agent'] = Adyen::NAME + '/' + Adyen::VERSION
+        faraday.headers['User-Agent'] = "#{Adyen::NAME}/#{Adyen::VERSION}"
 
         # set auth type based on service
         case auth_type
@@ -180,7 +180,7 @@ module Adyen
           begin
             response = conn.post do |req|
               req.body = request_data
-            end # handle client errors
+            end
           rescue Faraday::ConnectionFailed => e
             raise e, "Connection to #{url} failed"
           end
@@ -189,7 +189,7 @@ module Adyen
         begin
           response = conn.post do |req|
             req.body = request_data
-          end # handle client errors
+          end
         rescue Faraday::ConnectionFailed => e
           raise e, "Connection to #{url} failed"
         end

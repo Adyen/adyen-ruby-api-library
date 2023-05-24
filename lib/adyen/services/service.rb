@@ -28,7 +28,7 @@ module Adyen
 
     # create query parameter from a hash
     def create_query_string(arr)
-      '?' + URI.encode_www_form(arr)
+      "?#{URI.encode_www_form(arr)}"
     end
   end
 end
