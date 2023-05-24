@@ -4,11 +4,8 @@ module Adyen
     attr_accessor :service, :version
 
     DEFAULT_VERSION = 1
-
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'BalanceControlService'
-      @client = client
-      @version = version
+      super(client, version, 'BalanceControlService')
     end
 
     def balance_transfer(request, headers: {})

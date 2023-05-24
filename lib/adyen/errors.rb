@@ -1,3 +1,9 @@
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/ParameterLists
+
 module Adyen
   class AdyenError < StandardError
     attr_reader :code, :response, :request, :msg
@@ -104,3 +110,4 @@ module Adyen
     end
   end
 end
+# rubocop:enable all

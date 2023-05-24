@@ -1,3 +1,10 @@
+# rubocop:disable Metrics/ParameterLists
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/ClassLength
+
 require 'faraday'
 require 'json'
 require_relative './errors'
@@ -5,7 +12,7 @@ require_relative './result'
 
 module Adyen
   class Client
-    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter, :live_url_prefix
+    attr_accessor :ws_user, :ws_password, :api_key, :client, :adapter
     attr_reader :env, :connection_options
 
     def initialize(ws_user: nil, ws_password: nil, api_key: nil, env: :live, adapter: nil, mock_port: 3001,
@@ -74,7 +81,8 @@ module Adyen
 
         if @live_url_prefix.nil? && (@env == :live) && supports_live_url_prefix
           raise ArgumentError,
-                "Please set Client.live_url_prefix to the portion of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'"
+                "Please set Client.live_url_prefix to the portion \
+          of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'"
         end
 
         if @env == :live && supports_live_url_prefix
@@ -94,7 +102,7 @@ module Adyen
     end
 
     # send request to adyen API
-    def call_adyen_api(service, action, request_data, headers, version, _with_application_info = false)
+    def call_adyen_api(service, action, request_data, headers, version, _with_application_info: false)
       # get URL for requested endpoint
       url = service_url(service, action.is_a?(String) ? action : action.fetch(:url), version)
 
@@ -105,7 +113,10 @@ module Adyen
           raise Adyen::AuthenticationError.new('Checkout service requires API-key', request_data),
                 'Checkout service requires API-key'
         elsif @ws_password.nil? || @ws_user.nil?
-          raise Adyen::AuthenticationError.new('No authentication found - please set api_key or ws_user and ws_password', request_data),
+          raise Adyen::AuthenticationError.new(
+            'No authentication found - please set api_key or ws_user and ws_password',
+            request_data
+          ),
                 'No authentication found - please set api_key or ws_user and ws_password'
         else
           auth_type = 'basic'
@@ -275,3 +286,4 @@ module Adyen
     end
   end
 end
+# rubocop:enable all

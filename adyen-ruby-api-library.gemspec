@@ -8,7 +8,10 @@ Gem::Specification.new do |spec|
   spec.email = ['support@adyen.com']
 
   spec.summary = 'Official Adyen  Ruby API Library'
-  spec.description = 'Official Adyen API Library for Ruby. Simplifies integrating with the Adyen API, including Checkout, Marketpay, payments, recurring, and payouts.  For support please reach out to support@adyen.com.  If you would like to contribute please submit a comment or pull request at https://github.com/Adyen/adyen-ruby-api-library.'
+  spec.description = 'Official Adyen API Library for Ruby. Simplifies integrating with the Adyen API,\
+   including Checkout, Marketpay, payments, recurring, and payouts.  For support please reach out to \
+   support@adyen.com.  If you would like to contribute please submit \
+   a comment or pull request at https://github.com/Adyen/adyen-ruby-api-library.'
   spec.homepage = 'https://www.adyen.com'
   spec.license = 'MIT'
 

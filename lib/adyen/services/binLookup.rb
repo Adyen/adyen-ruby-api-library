@@ -4,11 +4,8 @@ module Adyen
     attr_accessor :service, :version
 
     DEFAULT_VERSION = 54
-
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'BinLookup'
-      @client = client
-      @version = version
+      super(client, version, 'BinLookup')
     end
 
     def get3ds_availability(request, headers: {})

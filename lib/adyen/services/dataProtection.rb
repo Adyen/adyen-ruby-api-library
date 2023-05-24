@@ -4,11 +4,8 @@ module Adyen
     attr_accessor :service, :version
 
     DEFAULT_VERSION = 1
-
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'DataProtection'
-      @client = client
-      @version = version
+      super(client, version, 'DataProtection')
     end
 
     def request_subject_erasure(request, headers: {})

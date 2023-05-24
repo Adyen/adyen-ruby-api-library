@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/MethodLength
+
 require_relative 'service'
 
 module Adyen
@@ -64,7 +66,6 @@ module Adyen
       DEFAULT_VERSION = 6
 
       def initialize(client, version = DEFAULT_VERSION)
-        service = 'Fund'
         method_names = %i[
           payout_account_holder
           account_holder_balance
@@ -75,7 +76,7 @@ module Adyen
           refund_funds_transfer
         ]
 
-        super(client, version, service, method_names)
+        super(client, version, 'Fund', method_names)
       end
     end
 
@@ -115,3 +116,4 @@ module Adyen
     end
   end
 end
+# rubocop:enable Metrics/MethodLength

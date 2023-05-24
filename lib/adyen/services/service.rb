@@ -21,7 +21,7 @@ module Adyen
         define_singleton_method method_name do |request, headers = {}|
           action = self.class.action_for_method_name(method_name)
           @client.call_adyen_api(@service, action, request, headers, @version,
-                                 with_application_info.include?(method_name))
+                                 _with_application_info: with_application_info.include?(method_name))
         end
       end
     end

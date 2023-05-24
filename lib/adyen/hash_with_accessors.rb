@@ -1,3 +1,7 @@
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity
+
 # This utility method inherits from Hash, but allows keys to be read
 # and updated with dot notation. Usage is entirely optional (i.e.,  hash values
 # can still be accessed via symbol and string keys).
@@ -36,3 +40,4 @@ module Adyen
     end
   end
 end
+# rubocop:enable all
