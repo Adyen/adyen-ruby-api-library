@@ -1,14 +1,12 @@
 require_relative './service'
 module Adyen
 {{#operations}}
-
-
   class {{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}} < Service
     attr_accessor :service, :version
     DEFAULT_VERSION = {{version}}
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}"
+      @service = '{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}'
       @client = client
       @version = version
     end
@@ -19,8 +17,8 @@ module Adyen
       {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
       """
       endpoint = "{{path}}".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [{{#pathParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}{{^-last}},{{/-last}}{{/pathParams}}]
+      endpoint.gsub(%r{^/}, '')
+      endpoint = format({{#pathParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}{{^-last}}, {{/-last}}{{/pathParams}})
       {{#queryParams}}{{#-first}}endpoint = endpoint + create_query_string(queryParams){{/-first}}{{/queryParams}}
       action = { method: "{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}", url: endpoint}
   {{#bodyParams}}        

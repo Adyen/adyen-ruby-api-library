@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Adyen
   module Utils
     class HmacValidator
-      HMAC_ALGORITHM = 'sha256'.freeze
-      DATA_SEPARATOR = ':'.freeze
+      HMAC_ALGORITHM = 'sha256'
+      DATA_SEPARATOR = ':'
       NOTIFICATION_VALIDATION_KEYS = %w[
         pspReference originalReference merchantAccountCode merchantReference
         amount.value amount.currency eventCode success
@@ -22,9 +24,8 @@ module Adyen
       end
 
       def data_to_sign(notification_request_item)
-        data = NOTIFICATION_VALIDATION_KEYS.map { |key| fetch(notification_request_item, key).to_s }
+        NOTIFICATION_VALIDATION_KEYS.map { |key| fetch(notification_request_item, key).to_s }
                                     .join(DATA_SEPARATOR)
-        return data
       end
 
       private

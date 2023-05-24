@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'lib/adyen/version'
 
 Gem::Specification.new do |spec|
@@ -22,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'faraday'
 
+  spec.add_development_dependency 'activesupport'
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'webmock'
-  spec.add_development_dependency 'activesupport'
 end
