@@ -8,65 +8,65 @@ module Adyen
     end
 
     def remove_webhook(merchantId, webhookId, headers: {})
-      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s') 
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpointmerchantIdwebhookId)
+      endpoint = format(endpoint, merchantId, webhookId)
       
-      action = { method: "delete", url: endpoint }
+      action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
     def list_all_webhooks(merchantId, headers: {}, query_params: {})
-      endpoint = '/merchants/{merchantId}/webhooks'.gsub(/{.+?}/, '%s') 
+      endpoint = '/merchants/{merchantId}/webhooks'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpointmerchantId)
+      endpoint = format(endpoint, merchantId)
       endpoint = endpoint + create_query_string(query_params)
-      action = { method: "get", url: endpoint }
+      action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
     def get_webhook(merchantId, webhookId, headers: {})
-      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s') 
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpointmerchantIdwebhookId)
+      endpoint = format(endpoint, merchantId, webhookId)
       
-      action = { method: "get", url: endpoint }
+      action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
     def update_webhook(request, merchantId, webhookId, headers: {})
-      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s') 
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpointmerchantIdwebhookId)
+      endpoint = format(endpoint, merchantId, webhookId)
       
-      action = { method: "patch", url: endpoint }
+      action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def set_up_webhook(request, merchantId, headers: {})
-      endpoint = '/merchants/{merchantId}/webhooks'.gsub(/{.+?}/, '%s') 
+      endpoint = '/merchants/{merchantId}/webhooks'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpointmerchantId)
+      endpoint = format(endpoint, merchantId)
       
-      action = { method: "post", url: endpoint }
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def generate_hmac_key(merchantId, webhookId, headers: {})
-      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}/generateHmac'.gsub(/{.+?}/, '%s') 
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}/generateHmac'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpointmerchantIdwebhookId)
+      endpoint = format(endpoint, merchantId, webhookId)
       
-      action = { method: "post", url: endpoint }
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
     def test_webhook(request, merchantId, webhookId, headers: {})
-      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}/test'.gsub(/{.+?}/, '%s') 
+      endpoint = '/merchants/{merchantId}/webhooks/{webhookId}/test'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpointmerchantIdwebhookId)
+      endpoint = format(endpoint, merchantId, webhookId)
       
-      action = { method: "post", url: endpoint }
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

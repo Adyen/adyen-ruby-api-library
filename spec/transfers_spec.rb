@@ -52,7 +52,7 @@ RSpec.describe Adyen::Transfers, service: 'transfers' do
            )
 
     result = @shared_values[:client].transfers.transactions_api.get_all_transactions(
-      queryParams: {
+      query_params: {
         'createdUntil' => '2021-05-30T15:07:40Z', 'createdSince' => '2021-05-30T15:07:40Z'
       }
     )

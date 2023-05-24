@@ -8,11 +8,11 @@ module Adyen
     end
 
     def list_terminals(headers: {}, query_params: {})
-      endpoint = '/terminals'.gsub(/{.+?}/, '%s') 
+      endpoint = '/terminals'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       endpoint = endpoint + create_query_string(query_params)
-      action = { method: "get", url: endpoint }
+      action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 

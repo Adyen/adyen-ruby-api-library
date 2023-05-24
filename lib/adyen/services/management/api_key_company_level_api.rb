@@ -8,11 +8,11 @@ module Adyen
     end
 
     def generate_new_api_key(companyId, apiCredentialId, headers: {})
-      endpoint = '/companies/{companyId}/apiCredentials/{apiCredentialId}/generateApiKey'.gsub(/{.+?}/, '%s') 
+      endpoint = '/companies/{companyId}/apiCredentials/{apiCredentialId}/generateApiKey'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpointcompanyIdapiCredentialId)
+      endpoint = format(endpoint, companyId, apiCredentialId)
       
-      action = { method: "post", url: endpoint }
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
