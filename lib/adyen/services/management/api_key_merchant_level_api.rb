@@ -4,18 +4,17 @@ module Adyen
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'Management'
-      @client = client
-      @version = version
+      super(client, version, 'Management')
     end
 
-    def generate_new_api_key(merchantId, apiCredentialId, headers: {})
-      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateApiKey'.gsub(/{.+?}/, '%s')
+    def generate_new_api_key(merchantId, apiCredentialId, headers: {} )
+      endpoint = "/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateApiKey".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchantId, apiCredentialId)
-
-      action = { method: 'post', url: endpoint }
+      endpoint = endpoint % [merchantId,apiCredentialId]
+      
+      action = { method: "post", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
+
   end
 end

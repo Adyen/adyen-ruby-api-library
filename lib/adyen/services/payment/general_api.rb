@@ -1,15 +1,14 @@
-require_relative './service'
+require_relative '../service'
 module Adyen
-  class PosTerminalManagement < Service
+  class GeneralApi < Service
     attr_accessor :service, :version
-    DEFAULT_VERSION = 1
 
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'PosTerminalManagement')
+      super(client, version, 'Payment')
     end
 
-    def assign_terminals(request, headers: {} )
-      endpoint = "/assignTerminals".gsub(/{.+?}/, '%s') 
+    def authorise(request, headers: {} )
+      endpoint = "/authorise".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = endpoint % []
       
@@ -17,8 +16,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def find_terminal(request, headers: {} )
-      endpoint = "/findTerminal".gsub(/{.+?}/, '%s') 
+    def authorise3d(request, headers: {} )
+      endpoint = "/authorise3d".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = endpoint % []
       
@@ -26,8 +25,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_stores_under_account(request, headers: {} )
-      endpoint = "/getStoresUnderAccount".gsub(/{.+?}/, '%s') 
+    def authorise3ds2(request, headers: {} )
+      endpoint = "/authorise3ds2".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = endpoint % []
       
@@ -35,8 +34,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_terminal_details(request, headers: {} )
-      endpoint = "/getTerminalDetails".gsub(/{.+?}/, '%s') 
+    def get_authentication_result(request, headers: {} )
+      endpoint = "/getAuthenticationResult".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = endpoint % []
       
@@ -44,8 +43,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_terminals_under_account(request, headers: {} )
-      endpoint = "/getTerminalsUnderAccount".gsub(/{.+?}/, '%s') 
+    def retrieve3ds2_result(request, headers: {} )
+      endpoint = "/retrieve3ds2Result".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = endpoint % []
       

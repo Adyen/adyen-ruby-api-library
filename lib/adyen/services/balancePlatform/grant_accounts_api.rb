@@ -4,18 +4,17 @@ module Adyen
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'BalancePlatform'
-      @client = client
-      @version = version
+      super(client, version, 'BalancePlatform')
     end
 
-    def get_grant_account(id, headers: {})
-      endpoint = '/grantAccounts/{id}'.gsub(/{.+?}/, '%s')
+    def get_grant_account(id, headers: {} )
+      endpoint = "/grantAccounts/{id}".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
-
-      action = { method: 'get', url: endpoint }
+      endpoint = endpoint % [id]
+      
+      action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
+
   end
 end

@@ -4,45 +4,44 @@ module Adyen
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'Management'
-      @client = client
-      @version = version
+      super(client, version, 'Management')
     end
 
-    def get_terminal_logo(companyId, headers: {}, queryParams: {})
-      endpoint = '/companies/{companyId}/terminalLogos'.gsub(/{.+?}/, '%s')
+    def get_terminal_logo(companyId, headers: {} , queryParams: {})
+      endpoint = "/companies/{companyId}/terminalLogos".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, companyId)
-      endpoint += create_query_string(queryParams)
-      action = { method: 'get', url: endpoint }
+      endpoint = endpoint % [companyId]
+      endpoint = endpoint + create_query_string(queryParams)
+      action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_terminal_settings(companyId, headers: {})
-      endpoint = '/companies/{companyId}/terminalSettings'.gsub(/{.+?}/, '%s')
+    def get_terminal_settings(companyId, headers: {} )
+      endpoint = "/companies/{companyId}/terminalSettings".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, companyId)
-
-      action = { method: 'get', url: endpoint }
+      endpoint = endpoint % [companyId]
+      
+      action = { method: "get", url: endpoint}
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_terminal_logo(request, companyId, headers: {}, queryParams: {})
-      endpoint = '/companies/{companyId}/terminalLogos'.gsub(/{.+?}/, '%s')
+    def update_terminal_logo(request, companyId, headers: {} , queryParams: {})
+      endpoint = "/companies/{companyId}/terminalLogos".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, companyId)
-      endpoint += create_query_string(queryParams)
-      action = { method: 'patch', url: endpoint }
+      endpoint = endpoint % [companyId]
+      endpoint = endpoint + create_query_string(queryParams)
+      action = { method: "patch", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def update_terminal_settings(request, companyId, headers: {})
-      endpoint = '/companies/{companyId}/terminalSettings'.gsub(/{.+?}/, '%s')
+    def update_terminal_settings(request, companyId, headers: {} )
+      endpoint = "/companies/{companyId}/terminalSettings".gsub(/{.+?}/, '%s') 
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, companyId)
-
-      action = { method: 'patch', url: endpoint }
+      endpoint = endpoint % [companyId]
+      
+      action = { method: "patch", url: endpoint}
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
+
   end
 end
