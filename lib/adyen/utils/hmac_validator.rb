@@ -22,9 +22,8 @@ module Adyen
       end
 
       def data_to_sign(notification_request_item)
-        data = NOTIFICATION_VALIDATION_KEYS.map { |key| fetch(notification_request_item, key).to_s }
+        NOTIFICATION_VALIDATION_KEYS.map { |key| fetch(notification_request_item, key).to_s }
                                     .join(DATA_SEPARATOR)
-        return data
       end
 
       private

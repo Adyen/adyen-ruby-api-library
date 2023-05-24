@@ -10,10 +10,10 @@ module Adyen
       sym_key = string_key.to_sym
 
       key = if has_key?(string_key)
-        string_key
-      elsif has_key?(sym_key)
-        sym_key
-      end
+              string_key
+            elsif has_key?(sym_key)
+              sym_key
+            end
 
       return super unless key
 
