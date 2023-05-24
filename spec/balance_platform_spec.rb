@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'json'
 
-# rubocop:disable Metrics/BlockLength
-
 RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
   before(:all) do
     @shared_values = {
@@ -61,8 +59,10 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
              body: response_body
            )
 
-    result = @shared_values[:client].balance_platform.account_holders_api.update_account_holder(request_body,
-                                                                                                'AH3227C223222C5GKR23686TF')
+    result = @shared_values[:client].balance_platform.account_holders_api.update_account_holder(
+      request_body,
+      'AH3227C223222C5GKR23686TF'
+    )
     response_hash = result.response
 
     expect(result.status)
@@ -90,7 +90,8 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
              body: response_body
            )
 
-    result = @shared_values[:client].balance_platform.balance_accounts_api.get_balance_account('BA3227C223222B5BLP6JQC3FD')
+    result = @shared_values[:client].balance_platform.balance_accounts_api
+                                    .get_balance_account('BA3227C223222B5BLP6JQC3FD')
     response_hash = result.response
 
     expect(result.status)
@@ -104,8 +105,11 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
   end
 
   it 'makes a balance_account/sweeps DELETE call' do
-    url = @shared_values[:client].service_url(@shared_values[:service],
-                                              'balanceAccounts/balanceAccountID/sweeps/sweepID', @shared_values[:client].balance_platform.version)
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      'balanceAccounts/balanceAccountID/sweeps/sweepID',
+      @shared_values[:client].balance_platform.version
+    )
     WebMock.stub_request(:delete, url)
            .with(
              headers: {

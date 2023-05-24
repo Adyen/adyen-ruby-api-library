@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'json'
 
-# rubocop:disable Metrics/BlockLength
-
 RSpec.describe Adyen::Payout, service: 'Payout' do
   before(:all) do
     @shared_values = {

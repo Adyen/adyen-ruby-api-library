@@ -1,3 +1,5 @@
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe Adyen::HashWithAccessors do
@@ -132,3 +134,4 @@ RSpec.describe Adyen::HashWithAccessors do
     expect { { a: 1 }.a }.to raise_error(NoMethodError)
   end
 end
+# rubocop:enable Lint/ConstantDefinitionInBlock

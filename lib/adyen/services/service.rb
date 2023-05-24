@@ -1,6 +1,6 @@
 module Adyen
   class Service
-    attr_accessor :service, :version, :create_query_string
+    attr_accessor :service, :version
 
     # add snake case to camel case converter to String
     # to convert rubinic method names to Adyen API methods
@@ -11,7 +11,7 @@ module Adyen
       method_name.to_s.gsub(/_./) { |x| x[1].upcase }
     end
 
-    def initialize(client, version, service, method_names, with_application_info = [])
+    def initialize(client, version, service, method_names = [], with_application_info = [])
       @client = client
       @version = version
       @service = service

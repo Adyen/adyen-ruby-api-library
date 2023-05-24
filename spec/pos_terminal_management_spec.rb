@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'json'
 
-# rubocop:disable Metrics/BlockLength
-
 RSpec.describe Adyen::PosTerminalManagement, service: 'PosTerminalManagement' do
   before(:all) do
     @shared_values = {
@@ -43,3 +41,4 @@ RSpec.describe Adyen::PosTerminalManagement, service: 'PosTerminalManagement' do
       .to be_a_kind_of Hash
   end
 end
+# rubocop:enable Metrics/BlockLength

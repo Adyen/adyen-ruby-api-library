@@ -1,5 +1,3 @@
-# rubocop:disable Metrics/BlockLength
-
 require 'spec_helper'
 
 RSpec.describe Adyen::Utils::HmacValidator do

@@ -1,4 +1,5 @@
 # rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/AbcSize
 
 require 'webmock/rspec'
 require 'base64'
@@ -93,3 +94,4 @@ def create_client(auth_type)
   client
 end
 # rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/AbcSize
