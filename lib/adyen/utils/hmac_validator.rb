@@ -21,10 +21,10 @@ module Adyen
         Base64.strict_encode64(OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data))
       end
 
+
       def data_to_sign(webhook_request_item)
         data = WEBHOOK_VALIDATION_KEYS.map { |key| fetch(webhook_request_item, key).to_s }
                                     .join(DATA_SEPARATOR)
-        return data
       end
 
       private

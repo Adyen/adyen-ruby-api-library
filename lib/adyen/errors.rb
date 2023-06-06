@@ -1,3 +1,9 @@
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/ParameterLists
+
 module Adyen
   class AdyenError < StandardError
     attr_reader :code, :response, :request, :msg
@@ -30,13 +36,13 @@ module Adyen
       return if request.nil?
 
       # sensitive fields
-      fields_to_mask = [
-        :expiryMonth,
-        :expiryYear,
-        :encryptedCardNumber,
-        :encryptedExpiryMonth,
-        :encryptedExpiryYear,
-        :encryptedSecurityCode
+      fields_to_mask = %i[
+        expiryMonth
+        expiryYear
+        encryptedCardNumber
+        encryptedExpiryMonth
+        encryptedExpiryYear
+        encryptedSecurityCode
       ]
 
       # convert to hash if necessary
@@ -47,17 +53,15 @@ module Adyen
         if request[k].is_a?(Hash)
           # recursively traverse multi-level hashes
           mask_fields(request[k])
-        else
-          if k == :number
-            # show first 6 and last 4 for cards
-            request[k] = "#{v[0,6]}******#{v[12,16]}"
-          elsif k == :cvc
-            # show length of cvc for debugging
-            request[k] = "*" * v.length
-          elsif fields_to_mask.include? k
-            # generic mask for other fields
-            request[k] = "***"
-          end
+        elsif k == :number
+          request[k] = "#{v[0, 6]}******#{v[12, 16]}"
+        # show first 6 and last 4 for cards
+        elsif k == :cvc
+          # show length of cvc for debugging
+          request[k] = '*' * v.length
+        elsif fields_to_mask.include? k
+          # generic mask for other fields
+          request[k] = '***'
         end
       end
     end
@@ -106,3 +110,4 @@ module Adyen
     end
   end
 end
+# rubocop:enable all

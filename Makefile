@@ -5,8 +5,8 @@ openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 output:=build/out
 
-services:=balancePlatform checkout legalEntityManagement management payout platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
-singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue posTerminalManagement payment
+services:=balancePlatform checkout legalEntityManagement management payout platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers payment
+singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue posTerminalManagement 
 
 binLookup: spec=BinLookupService-v54
 checkout: spec=CheckoutService-v70
@@ -47,7 +47,6 @@ $(services): build/spec $(openapi-generator-jar)
 
 $(singleFileServices): build/spec
 	wget $(openapi-generator-url) -O build/openapi-generator-cli.jar
-	cat <<< "$$(jq 'del(.paths[][].tags)' build/spec/json/$(spec).json)" > build/spec/json/$(spec).json
 	rm -rf $(output)
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
@@ -57,7 +56,7 @@ $(singleFileServices): build/spec
 		--global-property apis,apiTests=false,apiDocs=false\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
-	mv $(output)/lib/openapi_client/api/default_api-small.rb lib/adyen/services/$@.rb
+	mv $(output)/lib/openapi_client/api/*-small.rb lib/adyen/services/$@.rb
 	rm -rf $(output)
 
 templates: $(openapi-generator-jar)

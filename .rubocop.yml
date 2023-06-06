@@ -1,0 +1,8 @@
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Documentation:
+  Enabled: false
+Naming/FileName:
+  Enabled: false

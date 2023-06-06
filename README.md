@@ -27,7 +27,7 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
 ## Prerequisites
 - [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 - [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
-- Ruby >= 2.1
+- Ruby >= 2.7
 
 ## Installation
 

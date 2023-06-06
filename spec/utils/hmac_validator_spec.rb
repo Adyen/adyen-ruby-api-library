@@ -64,3 +64,4 @@ RSpec.describe Adyen::Utils::HmacValidator do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
