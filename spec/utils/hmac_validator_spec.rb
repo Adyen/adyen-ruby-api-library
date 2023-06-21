@@ -44,22 +44,22 @@ RSpec.describe Adyen::Utils::HmacValidator do
     end
 
     it 'should validate backslashes correctly' do
-      webhook = JSON.parse(json_from_file("mocks/responses/Webhooks/backslash_webhook.json"))
+      webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/backslash_webhook.json'))
       expect(validator.valid_webhook_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
     end
 
     it 'should validate colons correctly' do
-      webhook = JSON.parse(json_from_file("mocks/responses/Webhooks/colon_webhook.json"))
+      webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/colon_webhook.json'))
       expect(validator.valid_webhook_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
     end
 
     it 'should validate forward slashes correctly' do
-      webhook = JSON.parse(json_from_file("mocks/responses/Webhooks/forwardslash_webhook.json"))
+      webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/forwardslash_webhook.json'))
       expect(validator.valid_webhook_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
     end
 
     it 'should validate mix of slashes and colon correctly' do
-      webhook = JSON.parse(json_from_file("mocks/responses/Webhooks/mixed_webhook.json"))
+      webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/mixed_webhook.json'))
       expect(validator.valid_webhook_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
     end
   end
