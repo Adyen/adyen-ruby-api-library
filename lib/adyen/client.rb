@@ -217,7 +217,7 @@ module Adyen
       end
 
       # delete has no response.body (unless it throws an error)
-      if response.body.nil?
+      if response.body.nil? || response.body === ''
         AdyenResult.new('{}', response.headers, response.status)
       else
         AdyenResult.new(response.body, response.headers, response.status)
