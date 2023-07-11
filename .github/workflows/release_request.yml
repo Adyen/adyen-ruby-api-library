@@ -36,7 +36,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const helper = require('./.github/scripts/helper.js')
+            const helper = require('./.github/scripts/helpers.js')
             await helper.updateRubyVersion("${{steps.release.outputs.nextVersion}}");
       - name: Delete the release script
         run: |
