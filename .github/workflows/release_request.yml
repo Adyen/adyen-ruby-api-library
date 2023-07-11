@@ -28,7 +28,7 @@ jobs:
         id: release
         with:
           script: |
-            const helper = require('./.github/scripts/helper.js')
+            const helper = require('./.github/scripts/helpers.js')
             const release = require('./.github/scripts/release.js')
             const options = { github, context, core, getCurrentVersion: helper.getRubyVersion };
             await release.bump(options);
