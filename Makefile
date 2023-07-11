@@ -5,7 +5,7 @@ openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 output:=build/out
 
-services:=balancePlatform checkout legalEntityManagement management payout transfers payment
+services:=balancePlatform checkout legalEntityManagement management payment payout transfers
 singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue posTerminalManagement 
 
 binLookup: spec=BinLookupService-v54
