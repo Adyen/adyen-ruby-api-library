@@ -18,8 +18,8 @@ jobs:
           ref: main
       - name: Reset promotion branch
         run: |
-          git fetch origin develop:develop
-          git reset --hard develop
+          git fetch origin ITT-600:ITT-600
+          git reset --hard ITT-600
       - name: Get the release script
         run: |
           wget https://raw.githubusercontent.com/Adyen/adyen-node-api-library/develop/.github/scripts/release.js -P ./.github/scripts
