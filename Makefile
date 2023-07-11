@@ -21,7 +21,7 @@ legalEntityManagement: spec=LegalEntityService-v3
 balancePlatform: spec=BalancePlatformService-v2
 transfers: spec=TransferService-v3
 
-all: $(services) $(singleFileServices)
+allServices: $(services) $(singleFileServices)
 
 $(services): build/spec $(openapi-generator-jar)
 	wget $(openapi-generator-url) -O build/openapi-generator-cli.jar
@@ -64,3 +64,12 @@ $(openapi-generator-jar):
 build/spec:
 	git clone https://github.com/Adyen/adyen-openapi.git build/spec
 	perl -i -pe's/"openapi" : "3.[0-9].[0-9]"/"openapi" : "3.0.0"/' build/spec/json/*.json
+
+# Releases
+
+version:
+	perl -lne 'print "currentVersion=$$1" if /(\d+\.\d+\.\d+)/' < lib/adyen/version.rb >> "$$GITHUB_OUTPUT"
+
+version_files:=lib/adyen/version.rb
+bump:
+	perl -i -pe 's/$$ENV{"CURRENT_VERSION"}/$$ENV{"NEXT_VERSION"}/' $(version_files) 
