@@ -1,16 +1,22 @@
 module Adyen
   class AdyenError < StandardError
-    attr_reader :code, :response, :request, :msg
+    attr_reader :code, :response, :url, :request, :msg, :header
 
-    def initialize(request = nil, response = nil, msg = nil, code = nil)
+    def initialize(request = nil, response = nil, msg = nil, code = nil, header = nil, url = nil)
       mask_fields(request)
+
+      # `header` in Faraday response is not a JSON string, but rather a
+      # Faraday `Headers` object. Convert first before parsing
+      header = JSON.parse(header.to_json, object_class: HashWithAccessors)
 
       # components of formatted error message
       attributes = {
         code: code,
         msg: msg,
-        request: request,
-        response: response
+        url: url,
+        header: header,
+        response: response,
+        request: request
       }.select { |_k, v| v }.map { |k, v| "#{k}:#{v}" }.join(', ')
       message = "#{self.class.name} #{attributes}"
       super(message)
@@ -20,6 +26,8 @@ module Adyen
       @response = response
       @request = request
       @msg = msg
+      @url = url
+      @header = header
     end
 
     # mask PCI data in request
@@ -61,14 +69,14 @@ module Adyen
   end
 
   class AuthenticationError < AdyenError
-    def initialize(msg, request)
-      super(request, nil, msg, 401)
+    def initialize(msg, request, response = nil, header = nil)
+      super(request, response, msg, 401, header)
     end
   end
 
   class PermissionError < AdyenError
-    def initialize(msg, request)
-      super(request, nil, msg, 403)
+    def initialize(msg, request, response, header, url)
+      super(request, response, msg, 403, header, url)
     end
   end
 

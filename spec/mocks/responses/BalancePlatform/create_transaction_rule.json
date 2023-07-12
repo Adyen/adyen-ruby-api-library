@@ -1,0 +1,28 @@
+{
+  "description": "Card limit 500 EUR per day",
+  "entityKey": {
+    "entityReference": "PI32272223222C5GHW2D79NTJ",
+    "entityType": "paymentInstrument"
+  },
+  "interval": {
+    "timeOfDay": "00:00:00",
+    "timeZone": "UTC",
+    "type": "daily"
+  },
+  "outcomeType": "hardBlock",
+  "reference": "CARD_LIMIT_500",
+  "requestType": "authorization",
+  "ruleRestrictions": {
+    "totalAmount": {
+      "operation": "greaterThan",
+      "value": {
+        "currency": "EUR",
+        "value": 50000
+      }
+    }
+  },
+  "startDate": "2022-09-12T09:22:41.149493+02:00",
+  "status": "active",
+  "type": "velocity",
+  "id": "TR3227C223222C5GMJPTHG7P4"
+}

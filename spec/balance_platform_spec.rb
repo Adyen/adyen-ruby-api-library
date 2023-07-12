@@ -197,6 +197,35 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
       expect(response_hash).
         to be_a_kind_of Hash
     end
+
+    it "gets the transaction rules of a payment instrument" do
+      payment_instrument_id = "PI32272223222C5GHW2D79NTJ"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_payment_instrument_transaction_rules.json")
+
+      url = client.service_url("BalancePlatform", "paymentInstruments/#{payment_instrument_id}/transactionRules", "1")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.get_payment_instrument_transaction_rules(payment_instrument_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
   end
 
   context "publicKey" do
@@ -277,6 +306,133 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
         )
 
       result = client.balance_platform.get_payment_instrument_information(request_body)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+  end
+
+  context "transactionRules" do
+    let(:platform) { client.balance_platform }
+
+    before do
+      platform.version = 2
+    end
+
+    it "creates a transaction rule" do
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/create_transaction_rule.json"))
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/create_transaction_rule.json")
+
+      url = client.service_url("BalancePlatform", "transactionRules", "2")
+      WebMock.stub_request(:post, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = platform.create_transaction_rule(request_body)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "updates a transaction rule" do
+      transaction_rule_id = "TR3227C223222C5GMJPTHG7P4"
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_transaction_rule.json"))
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_transaction_rule.json")
+
+      url = client.service_url("BalancePlatform", "transactionRules/#{transaction_rule_id}", "2")
+      WebMock.stub_request(:patch, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = platform.update_transaction_rule(request_body, transaction_rule_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "deletes a transaction rule" do
+      transaction_rule_id = "TR3227C223222C5GMJPTHG7P4"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/delete_transaction_rule.json")
+
+      url = client.service_url("BalancePlatform", "transactionRules/#{transaction_rule_id}", "2")
+      WebMock.stub_request(:delete, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body,
+          status: 200
+        )
+
+      result = platform.delete_transaction_rule(transaction_rule_id)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "gets a transaction rule" do
+      transaction_rule_id = "TR3227C223222C5GMJPTHG7P4"
+
+      response_body = json_from_file("mocks/responses/BalancePlatform/get_transaction_rule.json")
+
+      url = client.service_url("BalancePlatform", "transactionRules/#{transaction_rule_id}", "2")
+      WebMock.stub_request(:get, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+      result = platform.get_transaction_rule(transaction_rule_id)
       response_hash = result.response
 
       expect(result.status).
@@ -440,6 +596,72 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
         to be_a Adyen::HashWithAccessors
       expect(response_hash).
         to be_a_kind_of Array
+    end
+  end
+
+  context "registeredDevices" do
+    let(:platform) { client.balance_platform }
+
+    before do
+      platform.version = 2
+    end
+
+    it "creates a registeredDevice" do
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/create_registered_device.json"))
+      response_body = json_from_file("mocks/responses/BalancePlatform/create_registered_device.json")
+
+      url = client.service_url("BalancePlatform", "registeredDevices", "2")
+      WebMock.stub_request(:post, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+        result = platform.create_registered_device(request_body)
+        response_hash = result.response
+  
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
+    end
+
+    it "updates a registeredDevice" do
+      registered_device_id = "RD32275223224S5GKPPPH2B66"
+
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/update_registered_device.json"))
+      response_body = json_from_file("mocks/responses/BalancePlatform/update_registered_device.json")
+
+      url = client.service_url("BalancePlatform", "registeredDevices/#{registered_device_id}", "2")
+      WebMock.stub_request(:patch, url).
+        with(
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+        result = platform.update_registered_device(request_body, registered_device_id)
+        response_hash = result.response
+  
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
+      expect(response_hash).
+        to be_a Adyen::HashWithAccessors
+      expect(response_hash).
+        to be_a_kind_of Hash
     end
   end
 

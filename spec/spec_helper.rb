@@ -1,5 +1,6 @@
 require "webmock/rspec"
 require "base64"
+require 'active_support/inflector'
 require_relative "../lib/adyen-ruby-api-library"
 
 # disable external connections
@@ -46,24 +47,9 @@ def create_test(client, service, method_name, parent_object)
 
   # stub request
   action = Adyen::Service.action_for_method_name(method_name)
-  if service == "BalancePlatform"
-    if action.include?("AccountHolder")
-      action = "accountHolders"
-    elsif action.include?("BalanceAccount")
-      action = "balanceAccounts"
-    elsif action.include?("PaymentInstrument")
-      action = "paymentInstruments"
-    end
-  elsif service == "LegalEntityManagement"
-    if action.include?("LegalEntity")
-      action = "legalEntities"
-    elsif action.include?("TransferInstrument")
-      action = "transferInstruments"
-    elsif action.include?("Document")
-      action = "documents"
-    elsif action.include?("BusinessLine")
-      action = "businessLines"
-    end
+  if %w[BalancePlatform LegalEntityManagement].include?(service)
+    action = action.gsub!(/create|update|get|delete/, "")
+    action = action.pluralize.camelize(:lower)
   end
 
   url = client.service_url(service, action, parent_object.version)
