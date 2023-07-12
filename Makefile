@@ -5,7 +5,7 @@ openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 output:=build/out
 
-services:=balancePlatform checkout legalEntityManagement management payout platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers payment
+services:=balancePlatform checkout legalEntityManagement management payment payout transfers
 singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue posTerminalManagement 
 
 binLookup: spec=BinLookupService-v54
@@ -19,12 +19,8 @@ payout: spec=PayoutService-v68
 management: spec=ManagementService-v1
 legalEntityManagement: spec=LegalEntityService-v3
 balancePlatform: spec=BalancePlatformService-v2
-platformsAccount: spec=AccountService-v6
-platformsFund: spec=FundService-v6
-platformsNotificationConfiguration: spec=NotificationConfigurationService-v6
-platformsHostedOnboardingPage: spec=HopService-v6
-transfers: spec=TransferService-v3
 balanceControlService: spec=BalanceControlService-v1
+transfers: spec=TransferService-v3
 
 allServices: $(services) $(singleFileServices)
 
@@ -69,3 +65,12 @@ $(openapi-generator-jar):
 build/spec:
 	git clone https://github.com/Adyen/adyen-openapi.git build/spec
 	perl -i -pe's/"openapi" : "3.[0-9].[0-9]"/"openapi" : "3.0.0"/' build/spec/json/*.json
+
+# Releases
+
+version:
+	perl -lne 'print "currentVersion=$$1" if /(\d+\.\d+\.\d+)/' < lib/adyen/version.rb >> "$$GITHUB_OUTPUT"
+
+version_files:=lib/adyen/version.rb
+bump:
+	perl -i -pe 's/$$ENV{"CURRENT_VERSION"}/$$ENV{"NEXT_VERSION"}/' $(version_files) 
