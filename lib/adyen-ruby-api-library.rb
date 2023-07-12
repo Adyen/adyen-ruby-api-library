@@ -19,3 +19,4 @@ require_relative 'adyen/services/transfers'
 require_relative 'adyen/services/management'
 require_relative 'adyen/services/storedValue'
 require_relative 'adyen/services/balanceControlService'
+require_relative "adyen/services/accessControlServer"

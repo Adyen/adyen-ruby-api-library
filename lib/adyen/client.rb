@@ -63,6 +63,9 @@ module Adyen
         when 'DataProtectionService', 'DisputeService'
           url = "https://ca-#{@env}.adyen.com/ca/services/#{service}"
           supports_live_url_prefix = false
+        when "AccessControlServer"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/acs"
+          supports_live_url_prefix = false
         when 'LegalEntityManagement'
           url = "https://kyc-#{@env}.adyen.com/lem"
           supports_live_url_prefix = false
@@ -282,6 +285,10 @@ module Adyen
 
     def balance_control_service
       @balance_control_service ||= Adyen::BalanceControlService.new(self)
+    end
+
+    def access_control_server
+      @access_control_server ||= Adyen::AccessControlServer.new(self)
     end
   end
 end
