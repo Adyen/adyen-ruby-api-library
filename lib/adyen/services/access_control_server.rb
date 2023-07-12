@@ -11,10 +11,10 @@ module Adyen
       @version = version
     end
 
-    def finalize_authentication(request_params, challenge_id)
+    def finalize_authentication(request_params, challenge_id, headers ={})
       action = { method: 'patch', url: "challenges/" + challenge_id }
 
-      @client.call_adyen_api(@service, action, request_params, {}, @version)
+      @client.call_adyen_api(@service, action, request_params, headers, @version)
     end
   end
 end
