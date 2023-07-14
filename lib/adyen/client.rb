@@ -60,6 +60,9 @@ module Adyen
         when "Transfers"
           url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
           supports_live_url_prefix = false
+        when "AccessControlServer"
+          url = "https://balanceplatform-api-#{@env}.adyen.com/acs"
+          supports_live_url_prefix = false
         when "LegalEntityManagement"
           url = "https://kyc-#{@env}.adyen.com/lem"
           supports_live_url_prefix = false
@@ -86,7 +89,7 @@ module Adyen
     end
 
     def short_url_services
-      %w[Checkout Terminal BalancePlatform Transfers LegalEntityManagement]
+      %w[Checkout Terminal BalancePlatform Transfers LegalEntityManagement AccessControlServer]
     end
 
     # send request to adyen API
@@ -261,6 +264,10 @@ module Adyen
 
     def legal_entity_management
       @legal_entity_management ||= Adyen::LegalEntityManagement.new(self)
+    end
+
+    def access_control_server
+      @access_control_server ||= Adyen::AccessControlServer.new(self)
     end
   end
 end
