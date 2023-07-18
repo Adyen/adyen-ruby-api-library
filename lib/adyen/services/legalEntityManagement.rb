@@ -44,5 +44,6 @@ module Adyen
     def transfer_instruments_api
       @transfer_instruments_api ||= Adyen::TransferInstrumentsApi.new(@client, @version)
     end
+
   end
 end

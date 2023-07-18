@@ -8,11 +8,10 @@ module Adyen
     end
 
     def delete_allowed_origin(merchant_id, api_credential_id, origin_id, headers: {})
-      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}'.gsub(/{.+?}/,
-                                                                                                           '%s')
+      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, merchant_id, api_credential_id, origin_id)
-
+      
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -21,17 +20,16 @@ module Adyen
       endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, merchant_id, api_credential_id)
-
+      
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
     def get_allowed_origin(merchant_id, api_credential_id, origin_id, headers: {})
-      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}'.gsub(/{.+?}/,
-                                                                                                           '%s')
+      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, merchant_id, api_credential_id, origin_id)
-
+      
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -40,9 +38,10 @@ module Adyen
       endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, merchant_id, api_credential_id)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
+
   end
 end

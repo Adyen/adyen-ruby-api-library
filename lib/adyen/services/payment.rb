@@ -19,5 +19,6 @@ module Adyen
     def modifications_api
       @modifications_api ||= Adyen::ModificationsApi.new(@client, @version)
     end
+
   end
 end

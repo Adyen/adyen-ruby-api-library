@@ -20,7 +20,7 @@ module Adyen
       endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, merchant_id, api_credential_id)
-
+      
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -29,7 +29,7 @@ module Adyen
       endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, merchant_id, api_credential_id)
-
+      
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -38,9 +38,10 @@ module Adyen
       endpoint = '/merchants/{merchantId}/apiCredentials'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, merchant_id)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
+
   end
 end

@@ -1,3 +1,4 @@
+require_relative 'transfers/capital_api'
 require_relative 'transfers/transactions_api'
 require_relative 'transfers/transfers_api'
 
@@ -12,6 +13,10 @@ module Adyen
       @version = version
     end
 
+    def capital_api
+      @capital_api ||= Adyen::CapitalApi.new(@client, @version)
+    end
+
     def transactions_api
       @transactions_api ||= Adyen::TransactionsApi.new(@client, @version)
     end
@@ -19,5 +24,6 @@ module Adyen
     def transfers_api
       @transfers_api ||= Adyen::TransfersApi.new(@client, @version)
     end
+
   end
 end

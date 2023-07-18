@@ -11,7 +11,7 @@ module Adyen
       endpoint = '/legalEntities/{id}/pciQuestionnaires'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
-
+      
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -20,7 +20,7 @@ module Adyen
       endpoint = '/legalEntities/{id}/pciQuestionnaires/{pciid}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id, pciid)
-
+      
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -29,7 +29,7 @@ module Adyen
       endpoint = '/legalEntities/{id}/pciQuestionnaires/generatePciTemplates'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -38,9 +38,10 @@ module Adyen
       endpoint = '/legalEntities/{id}/pciQuestionnaires/signPciTemplates'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
+
   end
 end

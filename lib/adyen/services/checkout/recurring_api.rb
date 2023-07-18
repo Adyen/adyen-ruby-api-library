@@ -24,5 +24,6 @@ module Adyen
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
+
   end
 end

@@ -7,11 +7,20 @@ module Adyen
       super(client, version, 'Checkout')
     end
 
+    def get_result_of_payment_session(session_id, headers: {}, query_params: {})
+      endpoint = '/sessions/{sessionId}'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, session_id)
+      endpoint += create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     def card_details(request, headers: {})
       endpoint = '/cardDetails'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -20,7 +29,7 @@ module Adyen
       endpoint = '/donations'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -29,7 +38,7 @@ module Adyen
       endpoint = '/paymentMethods'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -38,7 +47,7 @@ module Adyen
       endpoint = '/payments'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -47,7 +56,7 @@ module Adyen
       endpoint = '/payments/details'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -56,9 +65,10 @@ module Adyen
       endpoint = '/sessions'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
+
   end
 end

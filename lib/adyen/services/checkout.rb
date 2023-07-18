@@ -44,5 +44,6 @@ module Adyen
     def utility_api
       @utility_api ||= Adyen::UtilityApi.new(@client, @version)
     end
+
   end
 end
