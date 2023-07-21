@@ -54,5 +54,6 @@ module Adyen
     def transaction_rules_api
       @transaction_rules_api ||= Adyen::TransactionRulesApi.new(@client, @version)
     end
+
   end
 end
