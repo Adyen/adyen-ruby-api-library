@@ -56,12 +56,9 @@ module Adyen
     end
 
     def get_public_key(purpose)
-      request_params = {
-        "purpose" => purpose
-      }
-      action = { method: 'get', url: "publicKey"}
+      action = { method: 'get', url: "publicKey?purpose=" + purpose}
 
-      @client.call_adyen_api(@service, action, request_params, {}, @version)
+      @client.call_adyen_api(@service, action, {}, {}, @version)
     end
 
     def get_payment_instrument_pin(request)
