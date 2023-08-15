@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-ruby ">= 2.1.0"
+ruby '>= 2.7.0'
 
-gem "faraday"
+gem 'faraday'
 
-gem "bundler", :group => :development
-gem "webmock", :group => :development
-gem "rspec", :group => :development
-gem "activesupport", :group => :development
+gem 'activesupport', group: :development
+gem 'bundler', group: :development
+gem 'rspec', group: :development
+gem 'webmock', group: :development

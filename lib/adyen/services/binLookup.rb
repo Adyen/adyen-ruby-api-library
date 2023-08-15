@@ -1,38 +1,28 @@
 require_relative './service'
 module Adyen
-
-
   class BinLookup < Service
     attr_accessor :service, :version
-    DEFAULT_VERSION = 54
 
+    DEFAULT_VERSION = 54
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "BinLookup"
-      @client = client
-      @version = version
+      super(client, version, 'BinLookup')
     end
 
-    def get3ds_availability(request, headers: {} )
-      """
-      Check if 3D Secure is available
-      """
-      endpoint = "/get3dsAvailability".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % []
+    def get3ds_availability(request, headers: {})
+      endpoint = '/get3dsAvailability'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_cost_estimate(request, headers: {} )
-      """
-      Get a fees cost estimate
-      """
-      endpoint = "/getCostEstimate".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % []
+    def get_cost_estimate(request, headers: {})
+      endpoint = '/getCostEstimate'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

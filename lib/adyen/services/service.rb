@@ -1,6 +1,6 @@
 module Adyen
   class Service
-    attr_accessor :service, :version, :create_query_string
+    attr_accessor :service, :version
 
     # add snake case to camel case converter to String
     # to convert rubinic method names to Adyen API methods
@@ -11,7 +11,7 @@ module Adyen
       method_name.to_s.gsub(/_./) { |x| x[1].upcase }
     end
 
-    def initialize(client, version, service, method_names, with_application_info = [])
+    def initialize(client, version, service, method_names = [], with_application_info = [])
       @client = client
       @version = version
       @service = service
@@ -20,14 +20,15 @@ module Adyen
       method_names.each do |method_name|
         define_singleton_method method_name do |request, headers = {}|
           action = self.class.action_for_method_name(method_name)
-          @client.call_adyen_api(@service, action, request, headers, @version, with_application_info.include?(method_name))
+          @client.call_adyen_api(@service, action, request, headers, @version,
+                                 _with_application_info: with_application_info.include?(method_name))
         end
       end
     end
 
     # create query parameter from a hash
     def create_query_string(arr)
-      "?" + URI.encode_www_form(arr)
+      "?#{URI.encode_www_form(arr)}"
     end
   end
 end

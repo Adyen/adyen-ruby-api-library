@@ -1,3 +1,7 @@
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity
+
 # This utility method inherits from Hash, but allows keys to be read
 # and updated with dot notation. Usage is entirely optional (i.e.,  hash values
 # can still be accessed via symbol and string keys).
@@ -9,11 +13,11 @@ module Adyen
       string_key = method.to_s.sub(/=\z/, '')
       sym_key = string_key.to_sym
 
-      key = if has_key?(string_key)
-        string_key
-      elsif has_key?(sym_key)
-        sym_key
-      end
+      key = if key?(string_key)
+              string_key
+            elsif key?(sym_key)
+              sym_key
+            end
 
       return super unless key
 
@@ -24,7 +28,7 @@ module Adyen
 
         self[key] = args.first
       else
-        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 0)" unless args.size == 0
+        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 0)" unless args.empty?
 
         self[key]
       end
@@ -32,7 +36,8 @@ module Adyen
 
     def respond_to_missing?(method, include_private = false)
       string_key = method.to_s.sub(/=\z/, '')
-      has_key?(string_key) || has_key?(string_key.to_sym) || super
+      key?(string_key) || key?(string_key.to_sym) || super
     end
   end
 end
+# rubocop:enable all

@@ -1,3 +1,5 @@
+# rubocop:disable Lint/ConstantDefinitionInBlock
+
 require 'spec_helper'
 
 RSpec.describe Adyen::HashWithAccessors do
@@ -19,15 +21,24 @@ RSpec.describe Adyen::HashWithAccessors do
     end
 
     it 'complains if there are arguments for the accessor' do
-      expect { subject.arbitrary_accessor(1) }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 0)')
-      expect { subject.arbitrary_accessor(1, 2) }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 0)')
+      expect do
+        subject.arbitrary_accessor(1)
+      end.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 0)')
+      expect do
+        subject.arbitrary_accessor(1, 2)
+      end.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 0)')
     end
 
     it 'complains if there are arguments for the accessor =' do
       # using send because i'm not sure how to do this wrong with normal ruby setter calling.
       # just here for completeness
-      expect { subject.send(:arbitrary_accessor=) }.to raise_error(ArgumentError, 'wrong number of arguments (given 0, expected 1)')
-      expect { subject.send(:arbitrary_accessor=, 1, 2) }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+      expect do
+        subject.send(:arbitrary_accessor=)
+      end.to raise_error(ArgumentError, 'wrong number of arguments (given 0, expected 1)')
+      expect do
+        subject.send(:arbitrary_accessor=, 1,
+                     2)
+      end.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
     end
 
     it 'responds to the accessor' do
@@ -84,8 +95,7 @@ RSpec.describe Adyen::HashWithAccessors do
 
     before(:all) do
       class Hash
-        def called_super(*args)
-        end
+        def called_super(*args); end
 
         def method_missing(*args)
           called_super(:method_missing, *args)
@@ -118,10 +128,10 @@ RSpec.describe Adyen::HashWithAccessors do
       expect(subject).to receive(:called_super).with(:method_missing, :something_else)
       expect { subject.something_else }.to raise_error(NoMethodError)
     end
-
   end
 
   it "doesn't modify all hashes" do
-    expect { {a: 1}.a }.to raise_error(NoMethodError)
+    expect { { a: 1 }.a }.to raise_error(NoMethodError)
   end
 end
+# rubocop:enable Lint/ConstantDefinitionInBlock

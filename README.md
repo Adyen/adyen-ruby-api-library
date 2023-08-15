@@ -9,16 +9,16 @@ This library supports the following:
 
 | API name | API version | Description | API object |
 |----------|:-----------:|-------------|------------|
-| [BIN lookup API](https://docs.adyen.com/api-explorer/#/BinLookup/v52/overview) | v54 | The BIN Lookup API provides endpoints for retrieving information based on a given BIN. | [BinLookup](lib/adyen/services/binLookup.rb) |
-| [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v69/overview) | v70 | Our latest integration for accepting online payments. | [CheckoutAPI](lib/adyen/services/checkout.rb) |
-| [Configuration API](https://docs.adyen.com/api-explorer/#/balanceplatform/v2/overview) | v2 | The Configuration API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts. | [BalancePlatform](lib/adyen/services/balancePlatform.rb) |
+| [BIN lookup API](https://docs.adyen.com/api-explorer/BinLookup/54/overview) | v54 | The BIN Lookup API provides endpoints for retrieving information based on a given BIN. | [BinLookup](lib/adyen/services/binLookup.rb) |
+| [Checkout API](https://docs.adyen.com/api-explorer/Checkout/70/overview) | v70 | Our latest integration for accepting online payments. | [CheckoutAPI](lib/adyen/services/checkout.rb) |
+| [Configuration API](https://docs.adyen.com/api-explorer/balanceplatform/2/overview) | v2 | The Configuration API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts. | [BalancePlatform](lib/adyen/services/balancePlatform.rb) |
 | [DataProtection API](https://docs.adyen.com/development-resources/data-protection-api) | v1 | Adyen Data Protection API provides a way for you to process [Subject Erasure Requests](https://gdpr-info.eu/art-17-gdpr/) as mandated in GDPR. Use our API to submit a request to delete shopper's data, including payment details and other related information (for example, delivery address or shopper email) | [DataProtection](lib/adyen/services/dataProtection.rb) |
-| [Legal Entity Management API](https://docs.adyen.com/api-explorer/#/legalentity/v3/overview) | v3 | Manage legal entities that contain information required for verification. | [LegalEntityManagement](lib/adyen/services/legalEntityManagement.rb) |
-| [Management API](https://docs.adyen.com/api-explorer/#/ManagementService/v1/overview) | v1 | Configure and manage your Adyen company and merchant accounts, stores, and payment terminals. | [Management](lib/adyen/services/management.rb) |
-| [Payments API](https://docs.adyen.com/api-explorer/#/Payment/v68/overview) | v68 | Our classic integration for online payments. | [Classic Integration API](lib/adyen/services/payment.rb) |
-| [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v68/overview) | v68 | Endpoints for sending funds to your customers. | [Payout](lib/adyen/services/payout.rb) |
-| [POS Terminal Management API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview) | v1 | Endpoints for managing your point-of-sale payment terminals. | [TerminalManagement](lib/adyen/services/posTerminalManagement.rb) |
-| [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v68/overview) | v68 | Endpoints for managing saved payment details. | [Recurring](lib/adyen/services/recurring.rb) |
+| [Legal Entity Management API](https://docs.adyen.com/api-explorer/legalentity/3/overview) | v3 | Manage legal entities that contain information required for verification. | [LegalEntityManagement](lib/adyen/services/legalEntityManagement.rb) |
+| [Management API](https://docs.adyen.com/api-explorer/Management/1/overview) | v1 | Configure and manage your Adyen company and merchant accounts, stores, and payment terminals. | [Management](lib/adyen/services/management.rb) |
+| [Payments API](https://docs.adyen.com/api-explorer/Payment/68/overview) | v68 | Our classic integration for online payments. | [Classic Integration API](lib/adyen/services/payment.rb) |
+| [Payouts API](https://docs.adyen.com/api-explorer/Payout/68/overview) | v68 | Endpoints for sending funds to your customers. | [Payout](lib/adyen/services/payout.rb) |
+| [POS Terminal Management API](https://docs.adyen.com/api-explorer/postfmapi/1/overview) | v1 | Endpoints for managing your point-of-sale payment terminals. | [TerminalManagement](lib/adyen/services/posTerminalManagement.rb) |
+| [Recurring API](https://docs.adyen.com/api-explorer/Recurring/68/overview) | v68 | Endpoints for managing saved payment details. | [Recurring](lib/adyen/services/recurring.rb) |
 | [Stored Value API](https://docs.adyen.com/payment-methods/gift-cards/stored-value-api) | v46 | Manage both online and point-of-sale gift cards and other stored-value cards. | [StoredValue](lib/adyen/services/storedValue.rb) |
 | [Transfers API](https://docs.adyen.com/api-explorer/transfers/3/overview) | v3 | The Transfers API provides endpoints that can be used to get information about all your transactions, move funds within your balance platform or send funds from your balance platform to a transfer instrument. | [Transfers](lib/adyen/services/transfers.rb) |
 
@@ -27,7 +27,7 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
 ## Prerequisites
 - [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 - [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
-- Ruby >= 2.1
+- Ruby >= 2.7
 
 ## Installation
 
@@ -98,6 +98,9 @@ To run the tests use :
 ~~~~bash  
 bundle install --with development 
 ~~~~
+
+## Feedback
+We value your input! Help us enhance our API Libraries and improve the integration experience by providing your feedback. Please take a moment to fill out [our feedback form](https://forms.gle/A4EERrR6CWgKWe5r9) to share your thoughts, suggestions or ideas.
 
 ## Contributing
 

@@ -1,49 +1,36 @@
 require_relative '../service'
 module Adyen
-
-
   class OrdersApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "Checkout"
-      @client = client
-      @version = version
+      super(client, version, 'Checkout')
     end
 
-    def orders(request, headers: {} )
-      """
-      Create an order
-      """
-      endpoint = "/orders".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % []
+    def orders(request, headers: {})
+      endpoint = '/orders'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def cancel_order(request, headers: {} )
-      """
-      Cancel an order
-      """
-      endpoint = "/orders/cancel".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % []
+    def cancel_order(request, headers: {})
+      endpoint = '/orders/cancel'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_balance_of_gift_card(request, headers: {} )
-      """
-      Get the balance of a gift card
-      """
-      endpoint = "/paymentMethods/balance".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % []
+    def get_balance_of_gift_card(request, headers: {})
+      endpoint = '/paymentMethods/balance'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 

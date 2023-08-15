@@ -1,3 +1,5 @@
+# rubocop:disable Layout/LineLength
+
 require 'spec_helper'
 
 RSpec.describe Adyen::Service do
@@ -44,3 +46,5 @@ RSpec.describe Adyen::Service do
     end
   end
 end
+# rubocop:enable Layout/LineLength
+# rubocop:enable Metrics/BlockLength

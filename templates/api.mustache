@@ -1,27 +1,20 @@
 require_relative '../service'
 module Adyen
 {{#operations}}
-
-
   class {{classname}} < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}"
-      @client = client
-      @version = version
+      super(client, version, '{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}')
     end
 
 {{#operation}}
-    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/isQueryParam}}{{/requiredParams}}headers: {} {{#queryParams}}{{#-first}}, queryParams: {}{{/-first}}{{/queryParams}})
-      """
-      {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
-      """
-      endpoint = "{{path}}".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [{{#pathParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}{{^-last}},{{/-last}}{{/pathParams}}]
-      {{#queryParams}}{{#-first}}endpoint = endpoint + create_query_string(queryParams){{/-first}}{{/queryParams}}
-      action = { method: "{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}", url: endpoint}
+    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.snakecase}}{{paramName}}{{/lambda.snakecase}}, {{/isQueryParam}}{{/requiredParams}}headers: {}{{#queryParams}}{{#-first}}, query_params: {}{{/-first}}{{/queryParams}})
+      endpoint = '{{path}}'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint{{#pathParams}}, {{#lambda.snakecase}}{{paramName}}{{/lambda.snakecase}}{{/pathParams}})
+      {{#queryParams}}{{#-first}}endpoint += create_query_string(query_params){{/-first}}{{/queryParams}}
+      action = { method: '{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}', url: endpoint }
   {{#bodyParams}}        
       @client.call_adyen_api(@service, action, request, headers, @version)
   {{/bodyParams}}

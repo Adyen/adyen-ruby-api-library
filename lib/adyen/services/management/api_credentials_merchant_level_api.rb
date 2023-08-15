@@ -1,61 +1,45 @@
 require_relative '../service'
 module Adyen
-
-
   class APICredentialsMerchantLevelApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      @service = "Management"
-      @client = client
-      @version = version
+      super(client, version, 'Management')
     end
 
-    def list_api_credentials(merchantId, headers: {} , queryParams: {})
-      """
-      Get a list of API credentials
-      """
-      endpoint = "/merchants/{merchantId}/apiCredentials".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [merchantId]
-      endpoint = endpoint + create_query_string(queryParams)
-      action = { method: "get", url: endpoint}
+    def list_api_credentials(merchant_id, headers: {}, query_params: {})
+      endpoint = '/merchants/{merchantId}/apiCredentials'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, merchant_id)
+      endpoint += create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_api_credential(merchantId, apiCredentialId, headers: {} )
-      """
-      Get an API credential
-      """
-      endpoint = "/merchants/{merchantId}/apiCredentials/{apiCredentialId}".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [merchantId,apiCredentialId]
+    def get_api_credential(merchant_id, api_credential_id, headers: {})
+      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, merchant_id, api_credential_id)
       
-      action = { method: "get", url: endpoint}
+      action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def update_api_credential(request, merchantId, apiCredentialId, headers: {} )
-      """
-      Update an API credential
-      """
-      endpoint = "/merchants/{merchantId}/apiCredentials/{apiCredentialId}".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [merchantId,apiCredentialId]
+    def update_api_credential(request, merchant_id, api_credential_id, headers: {})
+      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, merchant_id, api_credential_id)
       
-      action = { method: "patch", url: endpoint}
+      action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def create_api_credential(request, merchantId, headers: {} )
-      """
-      Create an API credential
-      """
-      endpoint = "/merchants/{merchantId}/apiCredentials".gsub(/{.+?}/, '%s') 
-      endpoint = endpoint.gsub(/^\//, "")
-      endpoint = endpoint % [merchantId]
+    def create_api_credential(request, merchant_id, headers: {})
+      endpoint = '/merchants/{merchantId}/apiCredentials'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, merchant_id)
       
-      action = { method: "post", url: endpoint}
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
