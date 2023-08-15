@@ -675,9 +675,9 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
                 'Accept' => '*/*',
                 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                 'Adyen-Library-Name' => 'adyen-ruby-api-library',
-                'Adyen-Library-Version' => '7.0.1',
+                'Adyen-Library-Version' => Adyen::VERSION,
                 'Content-Type' => 'application/json',
-                'User-Agent' => 'adyen-ruby-api-library/7.0.1',
+                'User-Agent' => 'adyen-ruby-api-library/' + Adyen::VERSION,
                 'X-Api-Key' => 'api_key'
               })
     ).to have_been_made.once
