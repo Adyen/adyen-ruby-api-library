@@ -96,9 +96,11 @@ module Adyen
 
     # construct full URL from service and endpoint
     def service_url(service, action, version)
-      return "#{service_url_base(service)}/checkout/v#{version}/#{action}" if service == 'Checkout' && @env == :live
-
-      "#{service_url_base(service)}/v#{version}/#{action}"
+      if service == "Checkout" && @env == :live
+        return "#{service_url_base(service)}/checkout/v#{version}/#{action}"
+      else
+        return "#{service_url_base(service)}/v#{version}/#{action}"
+      end
     end
 
     # send request to adyen API
