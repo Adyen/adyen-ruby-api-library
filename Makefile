@@ -16,11 +16,11 @@ posTerminalManagement: spec=TfmAPIService-v1
 payment: spec=PaymentService-v68
 recurring: spec=RecurringService-v68
 payout: spec=PayoutService-v68
-management: spec=ManagementService-v1
+management: spec=ManagementService-v3
 legalEntityManagement: spec=LegalEntityService-v3
 balancePlatform: spec=BalancePlatformService-v2
 balanceControlService: spec=BalanceControlService-v1
-transfers: spec=TransferService-v3
+transfers: spec=TransferService-v4
 
 allServices: $(services) $(singleFileServices)
 
