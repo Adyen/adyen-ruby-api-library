@@ -8,6 +8,7 @@ module Adyen
         amount.value amount.currency eventCode success
       ].freeze
 
+      # <b>DEPRECATED:</b> Please use valid_webhook_hmac?() instead.
       def valid_notification_hmac?(webhook_request_item, hmac_key)
         valid_webhook_hmac?(webhook_request_item, hmac_key)
       end
@@ -19,6 +20,12 @@ module Adyen
         expected_sign == merchant_sign
       end
 
+      # <b>DEPRECATED:</b> Please use calculate_webhook_hmac() instead.
+      def calculate_notification_hmac(webhook_request_item, hmac_key)
+        calculate_webhook_hmac(webhook_request_item, hmac_key)
+      end
+
+    
       def calculate_webhook_hmac(webhook_request_item, hmac_key)
         data = data_to_sign(webhook_request_item)
 
