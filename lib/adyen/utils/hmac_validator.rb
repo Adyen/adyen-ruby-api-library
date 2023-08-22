@@ -8,6 +8,10 @@ module Adyen
         amount.value amount.currency eventCode success
       ].freeze
 
+      def valid_notification_hmac?(webhook_request_item, hmac_key)
+        valid_webhook_hmac?(webhook_request_item, hmac_key)
+      end
+
       def valid_webhook_hmac?(webhook_request_item, hmac_key)
         expected_sign = calculate_webhook_hmac(webhook_request_item, hmac_key)
         merchant_sign = fetch(webhook_request_item, 'additionalData.hmacSignature')
