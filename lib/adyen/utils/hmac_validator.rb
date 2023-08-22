@@ -9,8 +9,8 @@ module Adyen
       ].freeze
 
       # <b>DEPRECATED:</b> Please use valid_webhook_hmac?() instead.
-      def valid_notification_hmac?(webhook_request_item, hmac_key)
-        valid_webhook_hmac?(webhook_request_item, hmac_key)
+      def valid_notification_hmac?(notification_request_item, hmac_key)
+        valid_webhook_hmac?(notification_request_item, hmac_key)
       end
 
       def valid_webhook_hmac?(webhook_request_item, hmac_key)
@@ -21,8 +21,8 @@ module Adyen
       end
 
       # <b>DEPRECATED:</b> Please use calculate_webhook_hmac() instead.
-      def calculate_notification_hmac(webhook_request_item, hmac_key)
-        calculate_webhook_hmac(webhook_request_item, hmac_key)
+      def calculate_notification_hmac(notification_request_item, hmac_key)
+        calculate_webhook_hmac(notification_request_item, hmac_key)
       end
 
     
