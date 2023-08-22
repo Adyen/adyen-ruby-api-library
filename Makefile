@@ -5,8 +5,8 @@ openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 output:=build/out
 
-services:=balancePlatform checkout legalEntityManagement management payment payout transfers
-singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue posTerminalManagement 
+services:=balancePlatform checkout legalEntityManagement management payout transfers
+singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue payment posTerminalManagement
 
 binLookup: spec=BinLookupService-v54
 checkout: spec=CheckoutService-v70
@@ -43,6 +43,8 @@ $(services): build/spec $(openapi-generator-jar)
 
 $(singleFileServices): build/spec
 	wget $(openapi-generator-url) -O build/openapi-generator-cli.jar
+	jq -e 'del(.paths[][].tags)' build/spec/json/$(spec).json > build/spec/json/$(spec).tmp
+	mv build/spec/json/$(spec).tmp build/spec/json/$(spec).json
 	rm -rf $(output)
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \

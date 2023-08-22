@@ -28,7 +28,7 @@ RSpec.describe Adyen::Payment, service: 'Payment' do
              body: response_body
            )
 
-    result = @shared_values[:client].payment.modifications_api.adjust_authorisation(request_body)
+    result = @shared_values[:client].payment.adjust_authorisation(request_body)
     response_hash = result.response
 
     expect(result.status)
