@@ -141,5 +141,9 @@ module Adyen
 
       @client.call_adyen_api(@service, action, request_params, headers, @version)
     end
+
+    def calculate_transfer_route(request, headers={})
+      @client.call_adyen_api(@service, "transferRoutes/calculate", request, headers, @version)
+    end
   end
 end

@@ -1,0 +1,29 @@
+{
+  "transferRoutes": [
+    {
+      "country": "AD",
+      "currency": "EUR",
+      "priority": "regular",
+      "requirements": [
+        {
+          "description": "Amount of transfer must be at least 1, and no greater than 99999999999",
+          "max": 99999999999,
+          "min": 1,
+          "type": "Amount Min Max Requirement"
+        },
+        {
+          "description": "Bank account identification type must be iban",
+          "bankAccountIdentificationTypes": [
+            "iban"
+          ],
+          "type": "Bank Account Identification Type Requirement"
+        },
+        {
+          "issuingCountryCode": "NL",
+          "paymentInstrumentType": "BankAccount",
+          "type": "Payment Instrument Requirement"
+        }
+      ]
+    }
+  ]
+}

@@ -623,7 +623,7 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
 
         result = platform.create_registered_device(request_body)
         response_hash = result.response
-  
+
       expect(result.status).
         to eq(200)
       expect(response_hash).
@@ -653,7 +653,7 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
 
         result = platform.update_registered_device(request_body, registered_device_id)
         response_hash = result.response
-  
+
       expect(result.status).
         to eq(200)
       expect(response_hash).
@@ -662,6 +662,39 @@ RSpec.describe Adyen::BalancePlatform, service: "Balance Platform service" do
         to be_a Adyen::HashWithAccessors
       expect(response_hash).
         to be_a_kind_of Hash
+    end
+  end
+
+  context 'transfer routes' do
+    let(:platform) { client.balance_platform }
+
+    before do
+      platform.version = 1
+    end
+
+    it 'calculates a transfer route' do
+      request_body = JSON.parse(json_from_file("mocks/requests/BalancePlatform/calculate_transfer_route.json"))
+      response_body = json_from_file("mocks/responses/BalancePlatform/calculate_transfer_route.json")
+
+      url = client.service_url("BalancePlatform", "transferRoutes/calculate", "1")
+      WebMock.stub_request(:post, url).
+        with(
+          body: request_body,
+          headers: {
+            "x-api-key" => client.api_key
+          }
+        ).
+        to_return(
+          body: response_body
+        )
+
+      result = client.balance_platform.calculate_transfer_route(request_body)
+      response_hash = result.response
+
+      expect(result.status).
+        to eq(200)
+      expect(response_hash).
+        to eq(JSON.parse(response_body))
     end
   end
 
