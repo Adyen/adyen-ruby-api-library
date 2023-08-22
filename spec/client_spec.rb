@@ -236,4 +236,10 @@ RSpec.describe Adyen do
     expect(client.service_url('PosTerminalManagement', 'assignTerminals', '1'))
       .to eq('https://postfmapi-test.adyen.com/postfmapi/terminal/v1/assignTerminals')
   end
+
+  it 'checks the creation of TerminalCloudAPI url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('TerminalCloudAPI', 'sync', nil))
+      .to eq('https://postfmapi-test.adyen.com/postfmapi/terminal/v1/assignTerminals')
+  end
 end

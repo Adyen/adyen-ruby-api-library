@@ -75,6 +75,10 @@ module Adyen
         when 'Management'
           url = "https://management-#{@env}.adyen.com"
           supports_live_url_prefix = false
+        when 'TerminalCloudAPI'
+          url = "https://terminal-api-#{@env}.adyen.com"
+          supports_live_url_prefix = false
+          supports_regions = true
         else
           raise ArgumentError, 'Invalid service specified'
         end
@@ -98,6 +102,8 @@ module Adyen
     def service_url(service, action, version)
       if service == "Checkout" && @env == :live
         return "#{service_url_base(service)}/checkout/v#{version}/#{action}"
+      elsif version == nil
+        return "#{service_url_base(service)}/#{action}"
       else
         return "#{service_url_base(service)}/v#{version}/#{action}"
       end
