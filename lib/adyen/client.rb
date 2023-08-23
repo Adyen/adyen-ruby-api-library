@@ -227,6 +227,9 @@ module Adyen
       # delete has no response.body (unless it throws an error)
       if response.body.nil? || response.body === ''
         AdyenResult.new('{}', response.headers, response.status)
+      # terminal API async call returns always 'ok'
+      elsif response.body === 'ok'
+        AdyenResult.new('{}', response.headers, response.status)
       else
         AdyenResult.new(response.body, response.headers, response.status)
       end
@@ -291,6 +294,10 @@ module Adyen
 
     def balance_control_service
       @balance_control_service ||= Adyen::BalanceControlService.new(self)
+    end
+
+    def terminal_cloud_api
+      @terminal_cloud_api ||= Adyen::TerminalCloudAPI.new(self)
     end
   end
 end

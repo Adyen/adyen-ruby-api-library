@@ -248,4 +248,11 @@ RSpec.describe Adyen do
     expect(client.service_url('TerminalCloudAPI', 'async', nil))
       .to eq('https://terminal-api-test.adyen.com/async')
   end
+
+  it 'checks the creation of TerminalCloudAPI connectedTerminals url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('TerminalCloudAPI', 'connectedTerminals', nil))
+      .to eq('https://terminal-api-test.adyen.com/connectedTerminals')
+      
+  end
 end

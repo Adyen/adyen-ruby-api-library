@@ -1,0 +1,29 @@
+{
+    "SaleToPOIRequest": {
+        "MessageHeader": {
+            "MessageClass": "Service",
+            "MessageCategory": "Payment",
+            "MessageType": "Request",
+            "ServiceID": "1233094855",
+            "SaleID": "POSSystemID12345",
+            "POIID": "V400m-1234123412",
+            "ProtocolVersion": "3.0"
+        },
+        "PaymentRequest": {
+            "SaleData": {
+                "SaleTransactionID": {
+                    "TransactionID": "123456764",
+                    "TimeStamp": "2023-08-23T09:48:55"
+                },
+                "SaleToAcquirerData": "eyJhcHBsaWNhdGlvbkluZm8iOnsiYWR5ZW5MaWJyYXJ5Ijp7Im5hbWUiOiJhZ....",
+                "TokenRequestedType": "Transaction"
+            },
+            "PaymentTransaction": {
+                "AmountsReq": {
+                    "Currency": "EUR",
+                    "RequestedAmount": 10
+                }
+            }
+        }
+    }
+}

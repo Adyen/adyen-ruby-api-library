@@ -1,0 +1,18 @@
+{
+    "SaleToPOIResponse":{
+      "MessageHeader":{},
+      "PaymentResponse":{
+        "POIData":{
+          "POITransactionID":{
+            "TransactionID": "oLkO0012498220087000.KHQC5N7G84BLNK43"
+          }
+        },
+        "Response":{
+          "Result":"Success",
+          "AdditionalResponse":"...shopperEmail=shoppersemail%40address.com..."
+        }
+      },
+      "PaymentReceipt":{}
+    }
+  }
+  
