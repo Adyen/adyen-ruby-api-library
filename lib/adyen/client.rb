@@ -78,7 +78,6 @@ module Adyen
         when 'TerminalCloudAPI'
           url = "https://terminal-api-#{@env}.adyen.com"
           supports_live_url_prefix = false
-          supports_regions = true
         else
           raise ArgumentError, 'Invalid service specified'
         end
