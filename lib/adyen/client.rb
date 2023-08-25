@@ -75,6 +75,9 @@ module Adyen
         when 'Management'
           url = "https://management-#{@env}.adyen.com"
           supports_live_url_prefix = false
+        when 'TerminalCloudAPI'
+          url = "https://terminal-api-#{@env}.adyen.com"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, 'Invalid service specified'
         end
@@ -98,6 +101,8 @@ module Adyen
     def service_url(service, action, version)
       if service == "Checkout" && @env == :live
         return "#{service_url_base(service)}/checkout/v#{version}/#{action}"
+      elsif version == nil
+        return "#{service_url_base(service)}/#{action}"
       else
         return "#{service_url_base(service)}/v#{version}/#{action}"
       end
@@ -221,6 +226,9 @@ module Adyen
       # delete has no response.body (unless it throws an error)
       if response.body.nil? || response.body === ''
         AdyenResult.new('{}', response.headers, response.status)
+      # terminal API async call returns always 'ok'
+      elsif response.body === 'ok'
+        AdyenResult.new('{}', response.headers, response.status)
       else
         AdyenResult.new(response.body, response.headers, response.status)
       end
@@ -285,6 +293,10 @@ module Adyen
 
     def balance_control_service
       @balance_control_service ||= Adyen::BalanceControlService.new(self)
+    end
+
+    def terminal_cloud_api
+      @terminal_cloud_api ||= Adyen::TerminalCloudAPI.new(self)
     end
   end
 end
