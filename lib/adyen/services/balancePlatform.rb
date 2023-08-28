@@ -3,6 +3,7 @@ require_relative 'balancePlatform/balance_accounts_api'
 require_relative 'balancePlatform/bank_account_validation_api'
 require_relative 'balancePlatform/grant_accounts_api'
 require_relative 'balancePlatform/grant_offers_api'
+require_relative 'balancePlatform/network_tokens_api'
 require_relative 'balancePlatform/payment_instrument_groups_api'
 require_relative 'balancePlatform/payment_instruments_api'
 require_relative 'balancePlatform/platform_api'
@@ -37,6 +38,10 @@ module Adyen
 
     def grant_offers_api
       @grant_offers_api ||= Adyen::GrantOffersApi.new(@client, @version)
+    end
+
+    def network_tokens_api
+      @network_tokens_api ||= Adyen::NetworkTokensApi.new(@client, @version)
     end
 
     def payment_instrument_groups_api
