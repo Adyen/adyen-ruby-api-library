@@ -8,6 +8,7 @@ require_relative 'balancePlatform/payment_instrument_groups_api'
 require_relative 'balancePlatform/payment_instruments_api'
 require_relative 'balancePlatform/platform_api'
 require_relative 'balancePlatform/transaction_rules_api'
+require_relative 'balancePlatform/transfer_routes_api'
 
 module Adyen
   class BalancePlatform
@@ -58,6 +59,10 @@ module Adyen
 
     def transaction_rules_api
       @transaction_rules_api ||= Adyen::TransactionRulesApi.new(@client, @version)
+    end
+
+    def transfer_routes_api
+      @transfer_routes_api ||= Adyen::TransferRoutesApi.new(@client, @version)
     end
 
   end
