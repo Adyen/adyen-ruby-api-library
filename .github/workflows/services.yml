@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Generate Services
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: make allServices
       - name: Set PR variables
         id: vars
