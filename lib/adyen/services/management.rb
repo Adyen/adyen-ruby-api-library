@@ -7,6 +7,7 @@ require_relative 'management/account_merchant_level_api'
 require_relative 'management/account_store_level_api'
 require_relative 'management/allowed_origins_company_level_api'
 require_relative 'management/allowed_origins_merchant_level_api'
+require_relative 'management/android_files_company_level_api'
 require_relative 'management/client_key_company_level_api'
 require_relative 'management/client_key_merchant_level_api'
 require_relative 'management/my_api_credential_api'
@@ -72,6 +73,10 @@ module Adyen
 
     def allowed_origins_merchant_level_api
       @allowed_origins_merchant_level_api ||= Adyen::AllowedOriginsMerchantLevelApi.new(@client, @version)
+    end
+
+    def android_files_company_level_api
+      @android_files_company_level_api ||= Adyen::AndroidFilesCompanyLevelApi.new(@client, @version)
     end
 
     def client_key_company_level_api
