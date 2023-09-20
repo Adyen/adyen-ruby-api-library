@@ -100,7 +100,7 @@ To run the tests use :
 bundle install --with development 
 ~~~~
 
-## Using the Cloud Terminal API Integration
+## Using the Cloud Terminal API Integration (Available from version 7.1.0)
 In order to submit In-Person requests with [Terminal API over Cloud](https://docs.adyen.com/point-of-sale/design-your-integration/choose-your-architecture/cloud/) you need to initialize the client in the same way as explained above for Ecommerce transactions:
 ``` ruby
 # Step 1: Require the parts of the module you want to use
