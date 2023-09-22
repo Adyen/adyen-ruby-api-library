@@ -21,6 +21,7 @@ This library supports the following:
 | [Recurring API](https://docs.adyen.com/api-explorer/Recurring/68/overview) | v68 | Endpoints for managing saved payment details. | [Recurring](lib/adyen/services/recurring.rb) |
 | [Stored Value API](https://docs.adyen.com/payment-methods/gift-cards/stored-value-api) | v46 | Manage both online and point-of-sale gift cards and other stored-value cards. | [StoredValue](lib/adyen/services/storedValue.rb) |
 | [Transfers API](https://docs.adyen.com/api-explorer/transfers/3/overview) | v3 | The Transfers API provides endpoints that can be used to get information about all your transactions, move funds within your balance platform or send funds from your balance platform to a transfer instrument. | [Transfers](lib/adyen/services/transfers.rb) |
+| [Cloud-based Terminal API](https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/terminal-api-reference/) | - | Our point-of-sale integration. | [TerminalCloudAPI](lib/adyen/services/terminalCloudAPI.rb) |
 
 For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
 
@@ -98,6 +99,121 @@ To run the tests use :
 ~~~~bash  
 bundle install --with development 
 ~~~~
+
+## Using the Cloud Terminal API Integration
+In order to submit In-Person requests with [Terminal API over Cloud](https://docs.adyen.com/point-of-sale/design-your-integration/choose-your-architecture/cloud/) you need to initialize the client in the same way as explained above for Ecommerce transactions:
+``` ruby
+# Step 1: Require the parts of the module you want to use
+require 'adyen-ruby-api-library'
+
+# Step 2: Initialize the client object
+adyen = Adyen::Client.new(api_key: 'YOUR_API_KEY', env: :test)
+
+# Step 3: Create the request
+serviceID = "123456789"
+saleID = "POS-SystemID12345"
+POIID = "Your Device Name(eg V400m-123456789)"
+
+# Use a unique transaction for every transaction you perform
+transactionID = "TransactionID"
+
+request = 
+{
+  "SaleToPOIRequest": {
+    "MessageHeader": {
+      "MessageClass": "Service",
+      "MessageCategory": "Payment",
+      "MessageType": "Request",
+      "ServiceID": serviceID,
+      "SaleID": saleID,
+      "POIID": POIID,
+      "ProtocolVersion": "3.0"
+    },
+    "PaymentRequest": {
+      "SaleData": {
+        "SaleTransactionID": {
+          "TransactionID": transactionID,
+          "TimeStamp": "2023-08-23T09:48:55"
+        },
+        "SaleToAcquirerData": "eyJhcHBsaWNhdGlvbkluZm8iOnsiYWR5ZW5MaWJyYXJ5Ijp7Im5hbWUiOiJhZ....",
+        "TokenRequestedType": "Transaction"
+      },
+      "PaymentTransaction": {
+        "AmountsReq": {
+          "Currency": "EUR",
+          "RequestedAmount": 10
+        }
+      }
+    }
+  }
+}
+
+# Step 4: Make the request
+response = adyen.terminal_cloud_api.sync(request)
+```
+
+### Optional: perform an abort request
+
+To perform an [abort request](https://docs.adyen.com/point-of-sale/basic-tapi-integration/cancel-a-transaction/) you can use the following example:
+``` ruby
+abortRequest = 
+{
+  "MessageHeader": {
+    "MessageClass": "Service",
+    "MessageCategory": "Abort",
+    "MessageType": "Request",
+    "ServiceID": serviceID,
+    "SaleID": saleID,
+    "POIID": POIID,
+    "ProtocolVersion": "3.0"
+  },
+  "AbortRequest": {
+    "AbortReason": "MerchantAbort",
+    "MessageReference": {
+      "MessageCategory": "Payment",
+      "SaleID": saleID,
+      # Service ID of the payment you're aborting
+      "ServiceID": serviceID,
+      "POIID": POIID
+    }
+  }
+}
+
+response = adyen.terminal_cloud_api.sync(abortRequest)
+```
+
+### Optional: perform a status request
+
+To perform a [status request](https://docs.adyen.com/point-of-sale/basic-tapi-integration/verify-transaction-status/) you can use the following example:
+``` ruby
+statusRequest =
+{
+  "MessageHeader": {
+    "MessageClass": "Service",
+    "MessageCategory": "TransactionStatus",
+    "MessageType": "Request",
+    "ServiceID": serviceID,
+    "SaleID": saleID,
+    "POIID": POIID,
+    "ProtocolVersion": "3.0"
+  },
+  "TransactionStatusRequest": {
+    "ReceiptReprintFlag": true,
+    "DocumentQualifier": [
+      "CashierReceipt",
+      "CustomerReceipt"
+    ],
+    "MessageReference": {
+      "SaleID": saleID,
+      # serviceID of the transaction you want the status update for
+      "ServiceID": serviceID,
+      "MessageCategory": "Payment"
+    }
+  }
+}
+
+response = adyen.terminal_cloud_api.sync(statusRequest)
+```
 
 ## Feedback
 We value your input! Help us enhance our API Libraries and improve the integration experience by providing your feedback. Please take a moment to fill out [our feedback form](https://forms.gle/A4EERrR6CWgKWe5r9) to share your thoughts, suggestions or ideas.

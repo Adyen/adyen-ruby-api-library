@@ -25,10 +25,10 @@ RSpec.describe Adyen do
   end
 
   it 'fails payments call without WS user and password' do
-    expect { @shared_values[:client].payment.general_api.authorise('{}') }
+    expect { @shared_values[:client].payment.authorise('{}') }
       .to raise_error(Adyen::AuthenticationError)
     @shared_values[:client].ws_user = @shared_values[:ws_user]
-    expect { @shared_values[:client].payment.general_api.authorise('{}') }
+    expect { @shared_values[:client].payment.authorise('{}') }
       .to raise_error(Adyen::AuthenticationError)
   end
 
@@ -125,10 +125,57 @@ RSpec.describe Adyen do
     client.checkout.payments_api.payments_details(request_body)
   end
 
-  it 'checks the creation of checkout url' do
-    client = Adyen::Client.new(api_key: 'api_key', env: :test)
-    expect(client.service_url('Checkout', 'paymentMethods', '70'))
-      .to eq('https://checkout-test.adyen.com/v70/paymentMethods')
+  it "checks the creation of checkout url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("Checkout", "paymentMethods", "70")).
+    to eq("https://checkout-test.adyen.com/v70/paymentMethods")
+  end 
+
+  it "checks the creation of checkout url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :live, live_url_prefix: "YourLiveUrlPrefix")
+    expect(client.service_url("Checkout", "paymentMethods", "70")).
+    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v70/paymentMethods")
+  end 
+  it "checks the creation of lem url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :live)
+    expect(client.service_url("LegalEntityManagement", "businessLines", "3")).
+    to eq("https://kyc-live.adyen.com/lem/v3/businessLines")
+  end 
+
+  it "checks the creation of balancePlatform url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :live)
+    expect(client.service_url("BalancePlatform", "legalEntities", "1")).
+    to eq("https://balanceplatform-api-live.adyen.com/bcl/v1/legalEntities")
+  end 
+
+  it "checks the creation of balancePlatform url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("BalancePlatform", "legalEntities", "1")).
+    to eq("https://balanceplatform-api-test.adyen.com/bcl/v1/legalEntities")
+  end 
+
+  it "checks the creation of transfers url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("Transfers", "transactions", "1")).
+    to eq("https://balanceplatform-api-test.adyen.com/btl/v1/transactions")
+  end 
+
+  it "checks the creation of management url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("Management", "companies", "1")).
+    to eq("https://management-test.adyen.com/v1/companies")
+  end 
+
+  it "checks the creation of binLookup url" do 
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("BinLookup", "getCostEstimate", "54")).
+    to eq("https://pal-test.adyen.com/pal/servlet/BinLookup/v54/getCostEstimate")
+  end 
+
+  it "check the creation of storedValue url" do
+    client = Adyen::Client.new(api_key: "api_key", env: :test)
+    expect(client.service_url("StoredValue", "issue", "46")).
+    to eq("https://pal-test.adyen.com/pal/servlet/StoredValue/v46/issue")
   end
 
   it 'checks the creation of checkout url' do
@@ -188,5 +235,24 @@ RSpec.describe Adyen do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     expect(client.service_url('PosTerminalManagement', 'assignTerminals', '1'))
       .to eq('https://postfmapi-test.adyen.com/postfmapi/terminal/v1/assignTerminals')
+  end
+
+  it 'checks the creation of TerminalCloudAPI sync url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('TerminalCloudAPI', 'sync', nil))
+      .to eq('https://terminal-api-test.adyen.com/sync')
+  end
+
+  it 'checks the creation of TerminalCloudAPI async url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('TerminalCloudAPI', 'async', nil))
+      .to eq('https://terminal-api-test.adyen.com/async')
+  end
+
+  it 'checks the creation of TerminalCloudAPI connectedTerminals url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('TerminalCloudAPI', 'connectedTerminals', nil))
+      .to eq('https://terminal-api-test.adyen.com/connectedTerminals')
+      
   end
 end

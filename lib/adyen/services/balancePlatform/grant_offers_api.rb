@@ -20,9 +20,10 @@ module Adyen
       endpoint = '/grantOffers/{grantOfferId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, grant_offer_id)
-
+      
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
+
   end
 end

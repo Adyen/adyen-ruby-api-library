@@ -3,10 +3,12 @@ require_relative 'balancePlatform/balance_accounts_api'
 require_relative 'balancePlatform/bank_account_validation_api'
 require_relative 'balancePlatform/grant_accounts_api'
 require_relative 'balancePlatform/grant_offers_api'
+require_relative 'balancePlatform/network_tokens_api'
 require_relative 'balancePlatform/payment_instrument_groups_api'
 require_relative 'balancePlatform/payment_instruments_api'
 require_relative 'balancePlatform/platform_api'
 require_relative 'balancePlatform/transaction_rules_api'
+require_relative 'balancePlatform/transfer_routes_api'
 
 module Adyen
   class BalancePlatform
@@ -37,6 +39,10 @@ module Adyen
 
     def grant_offers_api
       @grant_offers_api ||= Adyen::GrantOffersApi.new(@client, @version)
+    end
+
+    def network_tokens_api
+      @network_tokens_api ||= Adyen::NetworkTokensApi.new(@client, @version)
     end
 
     def payment_instrument_groups_api
@@ -73,6 +79,10 @@ module Adyen
       action = { method: 'patch', url: "registeredDevices/#{registered_device_id}" }
 
       @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
+    def transfer_routes_api
+      @transfer_routes_api ||= Adyen::TransferRoutesApi.new(@client, @version)
     end
   end
 end

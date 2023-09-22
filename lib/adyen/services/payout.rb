@@ -24,5 +24,6 @@ module Adyen
     def reviewing_api
       @reviewing_api ||= Adyen::ReviewingApi.new(@client, @version)
     end
+
   end
 end

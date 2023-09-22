@@ -7,11 +7,13 @@ require_relative 'management/account_merchant_level_api'
 require_relative 'management/account_store_level_api'
 require_relative 'management/allowed_origins_company_level_api'
 require_relative 'management/allowed_origins_merchant_level_api'
+require_relative 'management/android_files_company_level_api'
 require_relative 'management/client_key_company_level_api'
 require_relative 'management/client_key_merchant_level_api'
 require_relative 'management/my_api_credential_api'
 require_relative 'management/payment_methods_merchant_level_api'
 require_relative 'management/payout_settings_merchant_level_api'
+require_relative 'management/split_configuration_merchant_level_api'
 require_relative 'management/terminal_actions_company_level_api'
 require_relative 'management/terminal_actions_terminal_level_api'
 require_relative 'management/terminal_orders_company_level_api'
@@ -73,6 +75,10 @@ module Adyen
       @allowed_origins_merchant_level_api ||= Adyen::AllowedOriginsMerchantLevelApi.new(@client, @version)
     end
 
+    def android_files_company_level_api
+      @android_files_company_level_api ||= Adyen::AndroidFilesCompanyLevelApi.new(@client, @version)
+    end
+
     def client_key_company_level_api
       @client_key_company_level_api ||= Adyen::ClientKeyCompanyLevelApi.new(@client, @version)
     end
@@ -91,6 +97,10 @@ module Adyen
 
     def payout_settings_merchant_level_api
       @payout_settings_merchant_level_api ||= Adyen::PayoutSettingsMerchantLevelApi.new(@client, @version)
+    end
+
+    def split_configuration_merchant_level_api
+      @split_configuration_merchant_level_api ||= Adyen::SplitConfigurationMerchantLevelApi.new(@client, @version)
     end
 
     def terminal_actions_company_level_api
@@ -144,5 +154,6 @@ module Adyen
     def webhooks_merchant_level_api
       @webhooks_merchant_level_api ||= Adyen::WebhooksMerchantLevelApi.new(@client, @version)
     end
+
   end
 end

@@ -11,7 +11,7 @@ module Adyen
       endpoint = '/companies/{companyId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, company_id, webhook_id)
-
+      
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -29,7 +29,7 @@ module Adyen
       endpoint = '/companies/{companyId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, company_id, webhook_id)
-
+      
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -38,7 +38,7 @@ module Adyen
       endpoint = '/companies/{companyId}/webhooks/{webhookId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, company_id, webhook_id)
-
+      
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -47,7 +47,7 @@ module Adyen
       endpoint = '/companies/{companyId}/webhooks'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, company_id)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
@@ -56,7 +56,7 @@ module Adyen
       endpoint = '/companies/{companyId}/webhooks/{webhookId}/generateHmac'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, company_id, webhook_id)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
@@ -65,9 +65,10 @@ module Adyen
       endpoint = '/companies/{companyId}/webhooks/{webhookId}/test'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, company_id, webhook_id)
-
+      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
+
   end
 end
