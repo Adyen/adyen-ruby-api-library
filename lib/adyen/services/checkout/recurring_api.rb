@@ -7,10 +7,10 @@ module Adyen
       super(client, version, 'Checkout')
     end
 
-    def delete_token_for_stored_payment_details(recurring_id, headers: {}, query_params: {})
-      endpoint = '/storedPaymentMethods/{recurringId}'.gsub(/{.+?}/, '%s')
+    def delete_token_for_stored_payment_details(stored_payment_method_id, headers: {}, query_params: {})
+      endpoint = '/storedPaymentMethods/{storedPaymentMethodId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, recurring_id)
+      endpoint = format(endpoint, stored_payment_method_id)
       endpoint += create_query_string(query_params)
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

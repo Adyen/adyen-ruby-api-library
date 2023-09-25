@@ -16,6 +16,15 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
+    def list_network_tokens(id, headers: {})
+      endpoint = '/paymentInstruments/{id}/networkTokens'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id)
+      
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     def get_pan_of_payment_instrument(id, headers: {})
       endpoint = '/paymentInstruments/{id}/reveal'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
