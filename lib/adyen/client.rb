@@ -16,7 +16,7 @@ module Adyen
     attr_reader :env, :connection_options, :adapter_options
 
     def initialize(ws_user: nil, ws_password: nil, api_key: nil, oauth_token: nil, env: :live, adapter: nil, mock_port: 3001,
-                   live_url_prefix: nil, mock_service_url_base: nil, connection_options: nil, adapter_options: {})
+                   live_url_prefix: nil, mock_service_url_base: nil, connection_options: nil, adapter_options: nil)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key
@@ -28,7 +28,7 @@ module Adyen
         @adapter_options = adapter_options || Faraday.default_adapter_options
       else
         # for faraday 1.x
-        @adapter_options = adapter_options
+        @adapter_options = adapter_options || {}
       end
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
