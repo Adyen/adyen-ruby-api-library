@@ -23,7 +23,13 @@ module Adyen
       @oauth_token = oauth_token
       @env = env
       @adapter = adapter || Faraday.default_adapter
-      @adapter_options = adapter_options || Faraday.default_adapter_options
+      if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
+        # for faraday 2.0 and higher
+        @adapter_options = adapter_options || Faraday.default_adapter_options
+      else
+        # for faraday 1.x
+        @adapter_options = adapter_options
+      end
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
       @connection_options = connection_options || Faraday::ConnectionOptions.new
