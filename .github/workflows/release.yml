@@ -1,0 +1,25 @@
+name: Prepare release
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  candidate:
+    if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged && !startsWith(github.head_ref, 'promote/'))
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare the next main release
+        uses: Adyen/release-automation-action@v1.1.0
+        with:
+          token: ${{ secrets.ADYEN_AUTOMATION_BOT_ACCESS_TOKEN }}
+          develop-branch: main
+          version-files: lib/adyen/version.rb
