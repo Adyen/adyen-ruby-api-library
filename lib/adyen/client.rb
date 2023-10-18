@@ -68,7 +68,7 @@ module Adyen
         when 'PosTerminalManagement'
           url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
           supports_live_url_prefix = false
-        when 'DataProtectionService', 'DisputeService'
+        when 'DataProtectionService', 'DisputesService'
           url = "https://ca-#{@env}.adyen.com/ca/services/#{service}"
           supports_live_url_prefix = false
         when 'LegalEntityManagement'
@@ -243,8 +243,8 @@ module Adyen
       @data_protection ||= Adyen::DataProtection.new(self)
     end
 
-    def dispute
-      @dispute ||= Adyen::Dispute.new(self)
+    def disputes
+      @disputes ||= Adyen::Disputes.new(self)
     end
 
     def bin_lookup
