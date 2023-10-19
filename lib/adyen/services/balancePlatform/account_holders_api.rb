@@ -25,6 +25,15 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
+    def get_tax_form(id, headers: {}, query_params: {})
+      endpoint = '/accountHolders/{id}/taxForms'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id)
+      endpoint += create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     def update_account_holder(request, id, headers: {})
       endpoint = '/accountHolders/{id}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
