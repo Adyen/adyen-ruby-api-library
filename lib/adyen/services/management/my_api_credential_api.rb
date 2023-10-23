@@ -52,5 +52,14 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
+    def generate_new_client_key_for_self(headers: {})
+      endpoint = '/me/generateClientKey'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
   end
 end
