@@ -32,7 +32,7 @@ module Adyen
   class Management
     attr_accessor :service, :version
 
-    DEFAULT_VERSION = 1
+    DEFAULT_VERSION = 3
     def initialize(client, version = DEFAULT_VERSION)
       @service = 'Management'
       @client = client
