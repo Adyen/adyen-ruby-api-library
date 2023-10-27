@@ -71,6 +71,10 @@ module Adyen
       @client.call_adyen_api(@service, "pins/reveal", request, {}, @version)
     end
 
+    def get_payment_instrument_information(request)
+      @client.call_adyen_api(@service, "paymentInstruments/reveal", request, {}, @version)
+    end
+
     def create_registered_device(request, headers = {})
       @client.call_adyen_api(@service, "registeredDevices", request, headers, @version)
     end
