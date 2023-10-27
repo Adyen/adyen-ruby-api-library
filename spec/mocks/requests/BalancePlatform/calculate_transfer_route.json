@@ -1,0 +1,17 @@
+{
+  "balancePlatform": "Moneybird",
+  "currency": "EUR",
+  "category": "bank",
+  "priorities": [
+    "instant",
+    "regular"
+  ],
+  "counterparty": {
+    "bankAccount": {
+      "accountIdentification": {
+        "type": "iban",
+        "iban": "AD1400080001001234567890"
+      }
+    }
+  }
+}
