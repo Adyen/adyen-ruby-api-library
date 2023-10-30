@@ -670,7 +670,7 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
       'shopperReference' => 'test-1234'
     })
     expect(
-      a_request(:get, 'http://localhost:3001/v70/storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234')
+      a_request(:get, 'http://localhost:3001/v71/storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234')
         .with(headers: {
                 'Accept' => '*/*',
                 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
@@ -696,7 +696,7 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
     url = adyen.service_url('Checkout', 'paymentMethods', @shared_values[:client].checkout.version)
 
     expect(url)
-      .to eq('https://prefix-checkout-live.adyenpayments.com/checkout/v70/paymentMethods')
+      .to eq('https://prefix-checkout-live.adyenpayments.com/checkout/v71/paymentMethods')
   end
 end
 
