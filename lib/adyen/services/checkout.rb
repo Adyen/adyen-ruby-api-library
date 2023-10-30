@@ -10,7 +10,7 @@ module Adyen
   class Checkout
     attr_accessor :service, :version
 
-    DEFAULT_VERSION = 70
+    DEFAULT_VERSION = 71
     def initialize(client, version = DEFAULT_VERSION)
       @service = 'Checkout'
       @client = client

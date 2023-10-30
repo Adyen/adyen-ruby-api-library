@@ -9,7 +9,7 @@ services:=balancePlatform checkout legalEntityManagement management payout trans
 singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue payment posTerminalManagement disputes
 
 binLookup: spec=BinLookupService-v54
-checkout: spec=CheckoutService-v70
+checkout: spec=CheckoutService-v71
 dataProtection: spec=DataProtectionService-v1
 storedValue: spec=StoredValueService-v46
 posTerminalManagement: spec=TfmAPIService-v1
