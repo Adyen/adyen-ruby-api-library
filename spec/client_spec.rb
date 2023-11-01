@@ -124,7 +124,7 @@ RSpec.describe Adyen do
     mock_response = Faraday::Response.new(status: 200)
 
     expect(Adyen::AdyenResult).to receive(:new)
-    expect(Faraday).to receive(:new).with('http://localhost:3001/v70/payments/details',
+    expect(Faraday).to receive(:new).with('http://localhost:3001/v71/payments/details',
                                           connection_options).and_return(mock_faraday_connection)
     expect(mock_faraday_connection).to receive(:post).and_return(mock_response)
     client.checkout.payments_api.payments_details(request_body)
@@ -132,14 +132,14 @@ RSpec.describe Adyen do
 
   it "checks the creation of checkout url" do
     client = Adyen::Client.new(api_key: "api_key", env: :test)
-    expect(client.service_url("Checkout", "paymentMethods", "70")).
-    to eq("https://checkout-test.adyen.com/v70/paymentMethods")
+    expect(client.service_url("Checkout", "paymentMethods", "71")).
+    to eq("https://checkout-test.adyen.com/v71/paymentMethods")
   end
 
   it "checks the creation of checkout url" do
     client = Adyen::Client.new(api_key: "api_key", env: :live, live_url_prefix: "YourLiveUrlPrefix")
-    expect(client.service_url("Checkout", "paymentMethods", "70")).
-    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v70/paymentMethods")
+    expect(client.service_url("Checkout", "paymentMethods", "71")).
+    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v71/paymentMethods")
   end
   it "checks the creation of lem url" do
     client = Adyen::Client.new(api_key: "api_key", env: :live)
