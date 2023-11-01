@@ -10,7 +10,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
       - name: Release Gem on RubyGems
         if: contains(github.ref, 'refs/tags/v')
         uses: cadwallion/publish-rubygems-action@master
