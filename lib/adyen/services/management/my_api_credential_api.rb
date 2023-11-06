@@ -52,7 +52,7 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def generate_new_client_key_for_self(headers: {})
+    def generate_client_key(headers: {})
       endpoint = '/me/generateClientKey'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
