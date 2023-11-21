@@ -234,7 +234,7 @@ We value your input! Help us enhance our API Libraries and improve the integrati
 ## Contributing
 
 We encourage you to contribute to this repository, so everyone can benefit from new features, bug fixes, and any other improvements.
-Have a look at our [contributing guidelines](https://github.com/Adyen/adyen-ruby-api-library/blob/develop/CONTRIBUTING.md) to find out how to raise a pull request.
+Have a look at our [contributing guidelines](/CONTRIBUTING.md) to find out how to raise a pull request.
 
 ## Support
 If you have a feature request, or spotted a bug or a technical problem, [create an issue here](https://github.com/Adyen/adyen-ruby-api-library/issues/new/choose).
