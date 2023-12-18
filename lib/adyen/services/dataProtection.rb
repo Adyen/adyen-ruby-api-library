@@ -5,7 +5,7 @@ module Adyen
 
     DEFAULT_VERSION = 1
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'DataProtection')
+      super(client, version, 'DataProtectionService')
     end
 
     def request_subject_erasure(request, headers: {})
