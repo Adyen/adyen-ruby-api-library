@@ -1,0 +1,27 @@
+{{#apiInfo}}
+        {{#apis}}
+require_relative '{{serviceName}}/{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}'
+        {{/apis}}
+    {{/apiInfo}}
+
+module Adyen
+  class {{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}
+    attr_accessor :service, :version
+
+    DEFAULT_VERSION = {{version}}
+    def initialize(client, version = DEFAULT_VERSION)
+      @service = '{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}'
+      @client = client
+      @version = version
+    end
+
+    {{#apiInfo}}
+        {{#apis}}
+    def {{classFilename}}
+      @{{classFilename}} ||= Adyen::{{classname}}.new(@client, @version)
+    end
+
+        {{/apis}}
+    {{/apiInfo}}
+  end
+end

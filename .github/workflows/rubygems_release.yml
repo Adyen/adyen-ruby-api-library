@@ -1,0 +1,19 @@
+name: Publish Gem
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Release Gem on RubyGems
+        if: contains(github.ref, 'refs/tags/v')
+        uses: cadwallion/publish-rubygems-action@master
+        env:
+          GITHUB_TOKEN: ${{secrets.TOKEN_RUBYGEMS_RELEASES_WITH_EXPIRATION}}
+          RUBYGEMS_API_KEY: ${{secrets.RUBYGEMS_API_KEY}}

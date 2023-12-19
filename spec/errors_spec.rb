@@ -7,41 +7,72 @@ RSpec.describe Adyen::AdyenError do
     @shared_values = {
       request: {
         amount: {
-          currency: "USD",
+          currency: 'USD',
           value: 1000
         },
-        reference: "Your order number",
+        reference: 'Your order number',
         paymentMethod: {
-          type: "scheme",
-          number: "4111111111111111",
-          expiryMonth: "10",
-          expiryYear: "2020",
-          holderName: "John Smith",
-          cvc: "737"
+          type: 'scheme',
+          number: '4111111111111111',
+          expiryMonth: '10',
+          expiryYear: '2020',
+          holderName: 'John Smith',
+          cvc: '737'
         },
-        returnUrl: "https://your-company.com/",
-        merchantAccount: "YOUR_MERCHANT_ACCOUNT"
+        returnUrl: 'https://your-company.com/',
+        merchantAccount: 'YOUR_MERCHANT_ACCOUNT'
       }
     }
   end
 
   describe '#to_s' do
     it 'describes using the error properties' do
-      expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message', 'code', '{"header": "1"}').to_s).to eq("Adyen::AdyenError code:code, msg:message, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}")
+      expect(Adyen::AdyenError.new(
+        @shared_values[:request],
+        'response',
+        'message',
+        'code'
+      ).to_s).to eq("Adyen::AdyenError code:code, msg:message, response:response, request:#{@shared_values[:request]}")
     end
     it 'skips the null properties' do
-      expect(Adyen::AdyenError.new(@shared_values[:request], nil, nil, 'code', nil, nil).to_s).to eq("Adyen::AdyenError code:code, request:#{@shared_values[:request]}")
+      expect(Adyen::AdyenError.new(
+        @shared_values[:request],
+        nil,
+        nil,
+        'code'
+      ).to_s).to eq("Adyen::AdyenError code:code, request:#{@shared_values[:request]}")
     end
     it 'uses the proper error class name' do
-      expect(Adyen::PermissionError.new('message', @shared_values[:request], 'response', '{"header": "1"}', "https://kyc-test.adyen.com").to_s).to eq("Adyen::PermissionError code:403, msg:message, url:https://kyc-test.adyen.com, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}")
+      expect(Adyen::PermissionError.new(
+        'message',
+        @shared_values[:request],
+        'response',
+        '{"header": "1"}',
+        "https://kyc-test.adyen.com"
+      ).to_s).to eq(
+        "Adyen::PermissionError code:403, msg:message, url:https://kyc-test.adyen.com, header:{\"header\": \"1\"}, response:response, request:#{@shared_values[:request]}"
+      )
     end
   end
   describe '#masking' do
     it 'masks card number when logging request in errors' do
-      expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message', 'code', '{"header": "1"}').request[:paymentMethod][:number]).to eq('411111******1111')
+      expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message',
+                                   'code', '{"header": "1"}').request[:paymentMethod][:number]).to eq('411111******1111')
     end
     it 'masks CVC when logging request in errors' do
-      expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message', 'code', '{"header": "1"}').request[:paymentMethod][:cvc]).to eq('***')
+      expect(Adyen::AdyenError.new(@shared_values[:request], 'response', 'message',
+                                   'code', '{"header": "1"}').request[:paymentMethod][:cvc]).to eq('***')
+    end
+
+    context 'when request is string' do
+      it 'masks card number when logging request in errors' do
+        expect(Adyen::AdyenError.new(JSON.generate(@shared_values[:request]), 'response', 'message',
+                                     'code', '{"header": "1"}').request[:paymentMethod][:number]).to eq('411111******1111')
+      end
+      it 'masks CVC when logging request in errors' do
+        expect(Adyen::AdyenError.new(JSON.generate(@shared_values[:request]), 'response', 'message',
+                                     'code', '{"header": "1"}').request[:paymentMethod][:cvc]).to eq('***')
+      end
     end
   end
 end

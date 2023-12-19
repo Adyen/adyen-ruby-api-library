@@ -1,54 +1,41 @@
 {
-  "balancePlatform": "Moneybird",
-  "capabilities":{
-    "receiveFromBalanceAccount":{
-      "allowed" :"true",
-      "enabled": "true",
-      "requested":"true",
-      "verificationStatus":"valid"
+    "balancePlatform": "YOUR_BALANCE_PLATFORM",
+    "description": "Liable account holder used for international payments and payouts",
+    "legalEntityId": "LE322JV223222D5GG42KN6869",
+    "reference": "S.Eller-001",
+    "capabilities": {
+      "receiveFromPlatformPayments": {
+        "enabled": true,
+        "requested": true,
+        "allowed": false,
+        "verificationStatus": "pending"
+      },
+      "receiveFromBalanceAccount": {
+        "enabled": true,
+        "requested": true,
+        "allowed": false,
+        "verificationStatus": "pending"
+      },
+      "sendToBalanceAccount": {
+        "enabled": true,
+        "requested": true,
+        "allowed": false,
+        "verificationStatus": "pending"
+      },
+      "sendToTransferInstrument": {
+        "enabled": true,
+        "requested": true,
+        "allowed": false,
+        "requestedSettings": {
+          "interval": "daily",
+          "maxAmount": {
+            "currency": "EUR",
+            "value": 0
+          }
+        },
+        "verificationStatus": "pending"
+      }
     },
-    "receiveFromPlatformPayments":{
-      "allowed": "true",
-      "enabled":"true",
-      "requested":"true",
-      "verificationStatus":"valid"
-    },
-    "receiveFromTransferInstrument":{
-      "allowed":"true",
-      "enabled":"true",
-      "requested":"true",
-      "verificationStatus":"valid"
-    },
-    "sendToBalanceAccount":{
-      "allowed":"true",
-      "enabled":"true",
-      "requested":"true",
-      "verificationStatus":"valid"
-    },
-    "sendToTransferInstrument":{
-      "allowed":"true",
-      "enabled":"true",
-      "requested":"true",
-      "verificationStatus":"valid"
-    }
-  },
-  "contactDetails": {
-    "address":{
-      "city":"PARTYSCREENING_TEST_SERVICE",
-      "country":"NL",
-      "houseNumberOrName":"274",
-      "postalCode":"1020CD",
-      "street":"Brannan Street"
-    },
-    "email":"a.hopper@example.com",
-    "phone":{
-      "number":"+315551231234",
-      "type":"Mobile"
-    }
-  },
-  "description": "Sam Hopper",
-  "id": "AH3227C223222B5DNPXZM93VQ",
-  "legalEntityId": "LE322JV223222D5DNM6BB24BC",
-  "reference": "YOUR_REFERENCE-2412C",
-  "status": "Active"
-}
+    "id": "AH32272223222G5HNCR9S3M5Z",
+    "status": "active"
+  }

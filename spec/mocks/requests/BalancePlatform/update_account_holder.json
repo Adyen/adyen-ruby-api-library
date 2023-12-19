@@ -1,20 +1,10 @@
 {
-  "description": "Money Bird",
-  "reference": "123456789",
-  "balancePlatform": "Moneybird",
-  "legalEntityId": "LE322JV223222D5DNM6BB24BC",
-  "contactDetails": {
-    "email": "moneybird@example.com",
-    "phone": {
-      "number": "+316123456789",
-      "type": "Mobile"
-    },
-    "address": {
-      "city": "FORGED",
-      "country": "NL",
-      "street": "Moutlaan",
-      "houseNumberOrName": "123",
-      "postalCode": "1234AA"
+    "description": "Liable account holder used for international payments and payouts",
+    "reference": "S.Eller-001",
+    "legalEntityId": "LE322JV223222D5GG42KN6869",
+    "capabilities": {
+      "receivePayments": {
+        "requested": true
+      }
     }
   }
-}

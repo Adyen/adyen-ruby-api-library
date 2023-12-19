@@ -1,9 +1,18 @@
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/ParameterLists
+
 module Adyen
   class AdyenError < StandardError
     attr_reader :code, :response, :url, :request, :msg, :header
 
     def initialize(request = nil, response = nil, msg = nil, code = nil, header = nil, url = nil)
-      mask_fields(request)
+      unless request.nil?
+        request = request.is_a?(Hash) ? request : JSON.parse(request, symbolize_names: true)
+        mask_fields(request)
+      end
 
       # `header` in Faraday response is not a JSON string, but rather a
       # Faraday `Headers` object. Convert first before parsing
@@ -35,34 +44,32 @@ module Adyen
       return if request.nil?
 
       # sensitive fields
-      fields_to_mask = [
-        :expiryMonth,
-        :expiryYear,
-        :encryptedCardNumber,
-        :encryptedExpiryMonth,
-        :encryptedExpiryYear,
-        :encryptedSecurityCode
+      fields_to_mask = %i[
+        expiryMonth
+        expiryYear
+        encryptedCardNumber
+        encryptedExpiryMonth
+        encryptedExpiryYear
+        encryptedSecurityCode
       ]
 
       # convert to hash if necessary
-      request = request.is_a?(Hash) ? request : JSON.parse(request)
+      request = request.is_a?(Hash) ? request : JSON.parse(request, symbolize_names: true)
 
       # iterate through request to find fields to mask
       request.each do |k, v|
         if request[k].is_a?(Hash)
           # recursively traverse multi-level hashes
           mask_fields(request[k])
-        else
-          if k == :number
-            # show first 6 and last 4 for cards
-            request[k] = "#{v[0,6]}******#{v[12,16]}"
-          elsif k == :cvc
-            # show length of cvc for debugging
-            request[k] = "*" * v.length
-          elsif fields_to_mask.include? k
-            # generic mask for other fields
-            request[k] = "***"
-          end
+        elsif k == :number
+          request[k] = "#{v[0, 6]}******#{v[12, 16]}"
+        # show first 6 and last 4 for cards
+        elsif k == :cvc
+          # show length of cvc for debugging
+          request[k] = '*' * v.length
+        elsif fields_to_mask.include? k
+          # generic mask for other fields
+          request[k] = '***'
         end
       end
     end
@@ -111,3 +118,4 @@ module Adyen
     end
   end
 end
+# rubocop:enable all

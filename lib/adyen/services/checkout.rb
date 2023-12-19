@@ -1,133 +1,49 @@
-require_relative "service"
+require_relative 'checkout/classic_checkout_sdk_api'
+require_relative 'checkout/modifications_api'
+require_relative 'checkout/orders_api'
+require_relative 'checkout/payment_links_api'
+require_relative 'checkout/payments_api'
+require_relative 'checkout/recurring_api'
+require_relative 'checkout/utility_api'
 
 module Adyen
-  class Checkout < Service
-    DEFAULT_VERSION = 68
+  class Checkout
+    attr_accessor :service, :version
 
+    DEFAULT_VERSION = 70
     def initialize(client, version = DEFAULT_VERSION)
-      service = "Checkout"
-      method_names = [
-        :payment_session,
-        :origin_keys,
-        :sessions
-      ]
-
-      with_application_info = [
-        :payment_session,
-      ]
-
-      super(client, version, service, method_names, with_application_info)
-    end
-
-    # This method can't be dynamically defined because
-    # it needs to be both a method and a class
-    # to enable payments() and payments.detail(),
-    # which is accomplished via an argument length checker
-    # and the CheckoutDetail class below
-    def payments(*args)
-      case args.size
-      when 0
-        Adyen::CheckoutDetail.new(@client, @version)
-      else
-        action = "payments"
-        args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version, true)
-      end
-    end
-
-    def payment_links(*args)
-      case args.size
-      when 0
-        Adyen::CheckoutLink.new(@client, @version)
-      else
-        action = "paymentLinks"
-        args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version, true)
-      end
-    end
-
-    def payment_methods(*args)
-      case args.size
-      when 0
-        Adyen::CheckoutMethod.new(@client, @version)
-      else
-        action = "paymentMethods"
-        args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version)
-      end
-    end
-
-    def orders(*args)
-      case args.size
-      when 0
-        Adyen::CheckoutOrder.new(@client, @version)
-      else
-        action = "orders"
-        args[1] ||= {}  # optional headers arg
-        @client.call_adyen_api(@service, action, args[0], args[1], @version)
-      end
-    end
-  end
-
-  class CheckoutDetail < Service
-    def initialize(client, version = DEFAULT_VERSION)
-      @service = "Checkout"
+      @service = 'Checkout'
       @client = client
       @version = version
     end
 
-    def details(request, headers = {})
-      action = "payments/details"
-      @client.call_adyen_api(@service, action, request, headers, @version)
+    def classic_checkout_sdk_api
+      @classic_checkout_sdk_api ||= Adyen::ClassicCheckoutSDKApi.new(@client, @version)
     end
 
-    def result(request, headers = {})
-      action = "payments/result"
-      @client.call_adyen_api(@service, action, request, headers, @version)
-    end
-  end
-
-  class CheckoutLink < Service
-    def initialize(client, version = DEFAULT_VERSION)
-      @service = "Checkout"
-      @client = client
-      @version = version
+    def modifications_api
+      @modifications_api ||= Adyen::ModificationsApi.new(@client, @version)
     end
 
-    def get(linkId, headers = {})
-      action = { method: 'get', url: "paymentLinks/" + linkId }
-      @client.call_adyen_api(@service, action, {}, headers, @version, true)
+    def orders_api
+      @orders_api ||= Adyen::OrdersApi.new(@client, @version)
     end
 
-    def update(linkId, request, headers = {})
-      action = { method: 'patch', url: "paymentLinks/" + linkId }
-      @client.call_adyen_api(@service, action, request, headers, @version, false)
-    end
-  end
-
-  class CheckoutMethod < Service
-    def initialize(client, version = DEFAULT_VERSION)
-      @service = "Checkout"
-      @client = client
-      @version = version
+    def payment_links_api
+      @payment_links_api ||= Adyen::PaymentLinksApi.new(@client, @version)
     end
 
-    def balance(request, headers = {})
-      action = "paymentMethods/balance"
-      @client.call_adyen_api(@service, action, request, headers, @version, true)
-    end
-  end
-
-  class CheckoutOrder < Service
-    def initialize(client, version = DEFAULT_VERSION)
-      @service = "Checkout"
-      @client = client
-      @version = version
+    def payments_api
+      @payments_api ||= Adyen::PaymentsApi.new(@client, @version)
     end
 
-    def cancel(request, headers = {})
-      action = "orders/cancel"
-      @client.call_adyen_api(@service, action, request, headers, @version)
+    def recurring_api
+      @recurring_api ||= Adyen::RecurringApi.new(@client, @version)
     end
+
+    def utility_api
+      @utility_api ||= Adyen::UtilityApi.new(@client, @version)
+    end
+
   end
 end

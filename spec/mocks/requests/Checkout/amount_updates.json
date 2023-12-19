@@ -1,0 +1,22 @@
+{
+    "amount": {
+      "currency": "str",
+      "value": 0
+    },
+    "merchantAccount": "TestMerchant",
+    "reason": "delayedCharge",
+    "reference": "123456789",
+    "splits": [
+      {
+        "account": "string",
+        "amount": {
+          "currency": "str",
+          "value": 0
+        },
+        "description": "string",
+        "reference": "string",
+        "type": "BalanceAccount"
+      }
+    ]
+}
+  

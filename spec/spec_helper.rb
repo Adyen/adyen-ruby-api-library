@@ -1,7 +1,9 @@
-require "webmock/rspec"
-require "base64"
-require 'active_support/inflector'
-require_relative "../lib/adyen-ruby-api-library"
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/AbcSize
+
+require 'webmock/rspec'
+require 'base64'
+require_relative '../lib/adyen-ruby-api-library'
 
 # disable external connections
 WebMock.disable_net_connect!(allow_localhost: true)
@@ -19,62 +21,47 @@ def create_test(client, service, method_name, parent_object)
   request_body = JSON.parse(json_from_file("mocks/requests/#{service}/#{method_name}.json"))
   response_body = json_from_file("mocks/responses/#{service}/#{method_name}.json")
 
-  with_application_info = [
-    "authorise",
-    "authorise3d",
-    "authorise3ds2",
-    "payments",
-    "payment_session",
-  ]
-  if with_application_info.include?(method_name)
-    client.add_application_info(request_body)
-  end
-
   # client-generated headers
   headers = {
-    "Content-Type".to_sym => "application/json",
+    'Content-Type'.to_sym => 'application/json'
   }
 
   # authentication headers
-  if not client.api_key.nil?
-    headers["x-api-key"] = client.api_key
-  elsif not client.ws_user.nil? and not client.ws_password.nil?
-    auth_header = "Basic " + Base64::encode64("#{client.ws_user}:#{client.ws_password}")
-    headers["Authorization"] = auth_header.strip
+  if !client.api_key.nil?
+    headers['x-api-key'] = client.api_key
+  elsif !client.ws_user.nil? && !client.ws_password.nil?
+    auth_header = "Basic #{Base64.encode64("#{client.ws_user}:#{client.ws_password}")}"
+    headers['Authorization'] = auth_header.strip
   else
-    raise ArgumentError, "Authentication not set correctly in test case"
+    raise ArgumentError, 'Authentication not set correctly in test case'
   end
 
   # stub request
   action = Adyen::Service.action_for_method_name(method_name)
-  if %w[BalancePlatform LegalEntityManagement].include?(service)
-    action = action.gsub!(/create|update|get|delete/, "")
-    action = action.pluralize.camelize(:lower)
-  end
 
   url = client.service_url(service, action, parent_object.version)
-  WebMock.stub_request(:post, url).
-    with(
-    body: request_body,
-    headers: headers,
-  ).
-    to_return(
-    body: response_body,
-  )
+  WebMock.stub_request(:post, url)
+         .with(
+           body: request_body,
+           headers: headers
+         )
+         .to_return(
+           body: response_body
+         )
   result = parent_object.public_send(method_name, request_body)
 
   # result.response is already a Ruby object (Adyen::HashWithAccessors) (rather than an unparsed JSON string)
   response_hash = result.response
 
   # boilerplate error checks
-  expect(result.status).
-    to eq(200)
-  expect(response_hash).
-    to eq(JSON.parse(response_body))
-  expect(response_hash).
-    to be_a Adyen::HashWithAccessors
-  expect(response_hash).
-    to be_a_kind_of Hash
+  expect(result.status)
+    .to eq(200)
+  expect(response_hash)
+    .to eq(JSON.parse(response_body))
+  expect(response_hash)
+    .to be_a Adyen::HashWithAccessors
+  expect(response_hash)
+    .to be_a_kind_of Hash
 
   response_hash
 end
@@ -86,8 +73,8 @@ def generate_tests(client, service, test_sets, parent_object)
   test_sets.each do |test_set|
     it "makes a #{test_set[0]} call" do
       parsed_body = create_test(client, service, test_set[0], parent_object)
-      expect(parsed_body[test_set[1]]).
-        to eq(test_set[2])
+      expect(parsed_body[test_set[1]])
+        .to eq(test_set[2])
     end
   end
 end
@@ -97,15 +84,15 @@ end
 def create_client(auth_type)
   client = Adyen::Client.new
   client.env = :mock
-
   if auth_type == :basic
-    client.ws_user = "user"
-    client.ws_password = "password"
+    client.ws_user = 'user'
+    client.ws_password = 'password'
   elsif auth_type == :api_key
-    client.api_key = "api_key"
+    client.api_key = 'api_key'
   else
-    raise ArgumentError "Invalid auth type for test client"
+    raise ArgumentError 'Invalid auth type for test client'
   end
-
   client
 end
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/AbcSize

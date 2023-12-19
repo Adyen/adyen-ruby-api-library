@@ -1,54 +1,16 @@
 {
-  "balancePlatform": "Moneybird",
-  "capabilities":{
-    "receiveFromBalanceAccount":{
-      "allowed" :"true",
-      "enabled": "true",
-      "requested":"true",
-      "verificationStatus":"valid"
+    "balancePlatform": "YOUR_BALANCE_PLATFORM",
+    "description": "Liable account holder used for international payments and payouts",
+    "legalEntityId": "LE322JV223222F5GKQZZ9DS99",
+    "reference": "S.Eller-001",
+    "capabilities": {
+      "receivePayments": {
+        "enabled": false,
+        "requested": true,
+        "allowed": false,
+        "verificationStatus": "pending"
+      }
     },
-    "receiveFromPlatformPayments":{
-      "allowed": "true",
-      "enabled":"true",
-      "requested":"true",
-      "verificationStatus":"valid"
-    },
-    "receiveFromTransferInstrument":{
-      "allowed":"true",
-      "enabled":"true",
-      "requested":"true",
-      "verificationStatus":"valid"
-    },
-    "sendToBalanceAccount":{
-      "allowed":"true",
-      "enabled":"true",
-      "requested":"true",
-      "verificationStatus":"valid"
-    },
-    "sendToTransferInstrument":{
-      "allowed":"true",
-      "enabled":"true",
-      "requested":"true",
-      "verificationStatus":"valid"
-    }
-  },
-  "contactDetails": {
-    "address":{
-      "city":"FORGED",
-      "country":"NL",
-      "houseNumberOrName":"123",
-      "postalCode":"1234AA",
-      "street":"Moutlaan"
-    },
-    "email":"moneybird@example.com",
-    "phone":{
-      "number":"+316123456789",
-      "type":"Mobile"
-    }
-  },
-  "description": "Money Bird",
-  "id": "AH3227C223222B5DNPXZM93VQ",
-  "legalEntityId": "LE322JV223222D5DNM6BB24BC",
-  "reference": "123456789",
-  "status": "Active"
-}
+    "id": "AH3227C223222C5GKR23686TF",
+    "status": "active"
+  }

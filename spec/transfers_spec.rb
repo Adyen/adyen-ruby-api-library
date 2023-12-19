@@ -1,133 +1,89 @@
-require "spec_helper"
+require 'spec_helper'
+require 'json'
 
-RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
-  client = create_client(:api_key)
-
-  context "transaction" do
-    it "retrieves transactions" do
-      balance_account_id = "BA32272223222B5FD6CD2FNXB"
-      response_body = json_from_file("mocks/responses/Transfers/get_transactions.json")
-  
-      url = client.service_url("Transfers", "transactions", "3")
-  
-      request_params = {
-        "balanceAccountId" => balance_account_id,
-        "createdSince" => "2021-01-01T15:07:40Z",
-        "createdUntil" => "2022-12-31T15:07:40Z",
-        "limit" => "100"
-      }
-  
-      WebMock.stub_request(:get, url).
-        with(
-          headers: {
-            "x-api-key" => client.api_key
-          },
-          query: request_params
-        ).
-        to_return(
-          body: response_body
-        )
-  
-      result = client.transfers.get_transactions(request_params)
-      response_hash = result.response
-  
-      expect(result.status).
-        to eq(200)
-      expect(response_hash).
-        to eq(JSON.parse(response_body))
-      expect(response_hash).
-        to be_a Adyen::HashWithAccessors
-      expect(response_hash).
-        to be_a_kind_of Hash
-    end
-  
-    it "retrieves information about a single transaction" do
-      transaction_id = "3JERI55U58GRGWCK"
-      response_body = json_from_file("mocks/responses/Transfers/get_transaction.json")
-  
-      url = client.service_url("Transfers", "transactions/#{transaction_id}", "3")
-  
-      WebMock.stub_request(:get, url).
-        with(
-          headers: {
-            "x-api-key" => client.api_key
-          }
-        ).
-        to_return(
-          body: response_body
-        )
-  
-      result = client.transfers.get_transaction(transaction_id)
-      response_hash = result.response
-  
-      expect(result.status).
-        to eq(200)
-      expect(response_hash).
-        to eq(JSON.parse(response_body))
-      expect(response_hash).
-        to be_a Adyen::HashWithAccessors
-      expect(response_hash).
-        to be_a_kind_of Hash
-    end
+RSpec.describe Adyen::Transfers, service: 'transfers' do
+  before(:all) do
+    @shared_values = {
+      client: create_client(:api_key),
+      service: 'Transfers'
+    }
   end
-  
-  context "transfers" do
-    it "creates a transfer" do
-      authenticate_header = "abc"
-      request_body = JSON.parse(json_from_file("mocks/requests/Transfers/create_transfer_request.json"))
-      response_body = json_from_file("mocks/responses/Transfers/create_transfer_request.json")
-  
-      url = client.service_url("Transfers", "transfers", "3")
-  
-      WebMock.stub_request(:post, url).
-        with(
-          headers: {
-            "x-api-key" => client.api_key,
-            "WWW-Authenticate" => authenticate_header
-          }
-        ).
-        to_return(
-          body: response_body
-        )
-  
-      result = client.transfers.create_transfer_request(request_body, {
-        "WWW-Authenticate" => authenticate_header
-      })
-      response_hash = result.response
-  
-      expect(result.status).
-        to eq(200)
-      expect(response_hash).
-        to eq(JSON.parse(response_body))
-      expect(response_hash).
-        to be_a Adyen::HashWithAccessors
-      expect(response_hash).
-        to be_a_kind_of Hash
-    end
 
-    it "returns an error response including the headers" do
-      authenticate_header = "abc"
-      request_body = JSON.parse(json_from_file("mocks/requests/Transfers/create_transfer_request.json"))
-      response_body = json_from_file("mocks/responses/Transfers/create_transfer_request_requires_sca.json")
+  it 'makes a transfers POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/Transfers/make_transfer.json'))
+
+    response_body = json_from_file('mocks/responses/Transfers/make_transfer.json')
+
+    url = @shared_values[:client].service_url(@shared_values[:service], 'transfers',
+                                              @shared_values[:client].transfers.version)
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: response_body
+           )
+
+    result = @shared_values[:client].transfers.transfers_api.transfer_funds(request_body)
+
+    expect(result.status)
+      .to eq(200)
+  end
+
+  it 'makes a transactions GET call' do
+    response_body = json_from_file('mocks/responses/Transfers/make_transfer.json')
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      'transactions?createdUntil=2021-05-30T15%3A07%3A40Z&createdSince=2021-05-30T15%3A07%3A40Z',
+      @shared_values[:client].transfers.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: response_body
+           )
+
+    result = @shared_values[:client].transfers.transactions_api.get_all_transactions(
+      query_params: {
+        'createdUntil' => '2021-05-30T15:07:40Z', 'createdSince' => '2021-05-30T15:07:40Z'
+      }
+    )
+
+    expect(result.status)
+      .to eq(200)
+  end
+
+  it "returns an error response including the headers" do
+    authenticate_header = "abc"
+    request_body = JSON.parse(json_from_file("mocks/requests/Transfers/make_transfer.json"))
+    response_body = json_from_file("mocks/responses/Transfers/create_transfer_request_requires_sca.json")
+
+    url = @shared_values[:client].service_url("Transfers", "transfers", "3")
+
+    WebMock.stub_request(:post, url).
+      with(
+        headers: {
+          "x-api-key" => @shared_values[:client].api_key,
+          "WWW-Authenticate" => authenticate_header
+        }
+      ).
+      to_return(
+        status: 401,
+        headers: {
+          "WWW-Authenticate" => 'SCA realm="Transfer" auth-param1="1234"'
+        },
+        body: response_body
+      )
   
-      url = client.service_url("Transfers", "transfers", "3")
-  
-      WebMock.stub_request(:post, url).
-        with(
-          headers: {
-            "x-api-key" => client.api_key,
-            "WWW-Authenticate" => authenticate_header
-          }
-        ).
-        to_return(
-          status: 401,
-          headers: {
-            "WWW-Authenticate" => 'SCA realm="Transfer" auth-param1="1234"'
-          },
-          body: response_body
-        )
-  
-      result = client.transfers.create_transfer_request(request_body, {
+      result = @shared_values[:client].transfers.transfers_api.transfer_funds(request_body, headers: {
         "WWW-Authenticate" => authenticate_header
       })
   
@@ -144,5 +100,5 @@ RSpec.describe Adyen::Transfers, service: "Balance Platform service" do
       expect(result.response).
         to be_a_kind_of Hash
     end
-  end
 end
+# rubocop:enable Metrics/BlockLength

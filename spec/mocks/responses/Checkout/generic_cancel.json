@@ -1,0 +1,7 @@
+{
+    "merchantAccount": "string",
+    "paymentReference": "123456789",
+    "pspReference": "12345",
+    "reference": "123456789",
+    "status": "received"
+}

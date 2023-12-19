@@ -1,9 +1,0 @@
-{
-  "legalEntityId": "LE322JV223222D5DNM6BB24BC",
-  "type": "bankAccount",
-  "bankAccount": {
-    "countryCode": "NL",
-    "currencyCode": "EUR",
-    "iban": "NL69TEST0000000001"
-  }
-}

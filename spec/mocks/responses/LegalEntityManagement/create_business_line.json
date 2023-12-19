@@ -1,16 +1,17 @@
 {
-  "capability": "receivePayments",
-  "industryCode": "55",
-  "legalEntityId": "LE322KH223222D5FJHXVQBW3Q",
-  "sourceOfFunds": {
-    "adyenProcessedFunds": "false",
-    "description": "Funds from my flower shop business",
-    "type": "business"
-  },
-  "webData": [
-    {
-      "webAddress": "https://www.adyen.com"
-    }
-  ],
-  "id": "SE322JV223222D5FKLGQPC2H5"
-}
+    "industryCode": "4531",
+    "legalEntityId": "YOUR_LEGAL_ENTITY",
+    "service": "banking",
+    "sourceOfFunds": {
+      "adyenProcessedFunds": false,
+      "description": "Funds from my flower shop business",
+      "type": "business"
+    },
+    "webData": [
+      {
+        "webAddress": "https://www.adyen.com",
+        "webAddressId": "SE322KH223222N5HN4HP54PZC"
+      }
+    ],
+    "id": "SE322KH223222N5HN4HP54PXD"
+  }

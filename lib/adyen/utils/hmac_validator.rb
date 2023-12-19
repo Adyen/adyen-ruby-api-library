@@ -3,27 +3,38 @@ module Adyen
     class HmacValidator
       HMAC_ALGORITHM = 'sha256'.freeze
       DATA_SEPARATOR = ':'.freeze
-      NOTIFICATION_VALIDATION_KEYS = %w[
+      WEBHOOK_VALIDATION_KEYS = %w[
         pspReference originalReference merchantAccountCode merchantReference
         amount.value amount.currency eventCode success
       ].freeze
 
+      # <b>DEPRECATED:</b> Please use valid_webhook_hmac?() instead.
       def valid_notification_hmac?(notification_request_item, hmac_key)
-        expected_sign = calculate_notification_hmac(notification_request_item, hmac_key)
-        merchant_sign = fetch(notification_request_item, 'additionalData.hmacSignature')
+        valid_webhook_hmac?(notification_request_item, hmac_key)
+      end
+
+      def valid_webhook_hmac?(webhook_request_item, hmac_key)
+        expected_sign = calculate_webhook_hmac(webhook_request_item, hmac_key)
+        merchant_sign = fetch(webhook_request_item, 'additionalData.hmacSignature')
 
         expected_sign == merchant_sign
       end
 
+      # <b>DEPRECATED:</b> Please use calculate_webhook_hmac() instead.
       def calculate_notification_hmac(notification_request_item, hmac_key)
-        data = data_to_sign(notification_request_item)
+        calculate_webhook_hmac(notification_request_item, hmac_key)
+      end
+
+    
+      def calculate_webhook_hmac(webhook_request_item, hmac_key)
+        data = data_to_sign(webhook_request_item)
 
         Base64.strict_encode64(OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data))
       end
 
-      def data_to_sign(notification_request_item)
-        NOTIFICATION_VALIDATION_KEYS.map { |key| fetch(notification_request_item, key).to_s }
-                                    .map { |value| value.gsub('\\', '\\\\').gsub(':', '\\:') }
+
+      def data_to_sign(webhook_request_item)
+        data = WEBHOOK_VALIDATION_KEYS.map { |key| fetch(webhook_request_item, key).to_s }
                                     .join(DATA_SEPARATOR)
       end
 
@@ -31,7 +42,6 @@ module Adyen
 
       def fetch(hash, keys)
         value = hash
-
         keys.to_s.split('.').each do |key|
           value = if key.to_i.to_s == key
                     value[key.to_i]

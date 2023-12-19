@@ -15,3 +15,6 @@ design.txt
 .DS_Store
 
 .idea
+main.rb
+build/
+openapi-generator-cli-6.0.1.jar
