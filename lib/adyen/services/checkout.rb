@@ -1,4 +1,5 @@
 require_relative 'checkout/classic_checkout_sdk_api'
+require_relative 'checkout/donations_api'
 require_relative 'checkout/modifications_api'
 require_relative 'checkout/orders_api'
 require_relative 'checkout/payment_links_api'
@@ -19,6 +20,10 @@ module Adyen
 
     def classic_checkout_sdk_api
       @classic_checkout_sdk_api ||= Adyen::ClassicCheckoutSDKApi.new(@client, @version)
+    end
+
+    def donations_api
+      @donations_api ||= Adyen::DonationsApi.new(@client, @version)
     end
 
     def modifications_api
