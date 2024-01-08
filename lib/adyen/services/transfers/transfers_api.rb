@@ -7,10 +7,10 @@ module Adyen
       super(client, version, 'Transfers')
     end
 
-    def return_transfer(request, id, headers: {})
-      endpoint = '/transfers/{id}/returns'.gsub(/{.+?}/, '%s')
+    def return_transfer(request, transfer_id, headers: {})
+      endpoint = '/transfers/{transferId}/returns'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = format(endpoint, transfer_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
