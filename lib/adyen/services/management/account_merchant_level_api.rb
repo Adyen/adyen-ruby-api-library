@@ -7,13 +7,13 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def create_merchant_account(request, headers: {})
+    def list_merchant_accounts(headers: {}, query_params: {})
       endpoint = '/merchants'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      
-      action = { method: 'post', url: endpoint }
-      @client.call_adyen_api(@service, action, request, headers, @version)
+      endpoint += create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
     def get_merchant_account(merchant_id, headers: {})
@@ -25,13 +25,13 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def list_merchant_accounts(headers: {}, query_params: {})
+    def create_merchant_account(request, headers: {})
       endpoint = '/merchants'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
-      endpoint += create_query_string(query_params)
-      action = { method: 'get', url: endpoint }
-      @client.call_adyen_api(@service, action, {}, headers, @version)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def request_to_activate_merchant_account(merchant_id, headers: {})

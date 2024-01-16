@@ -1,14 +1,23 @@
 require_relative '../service'
 module Adyen
-  class OrdersApi < Service
+  class PINFunctionalityApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'Checkout')
+      super(client, version, 'BalancePlatform')
     end
 
-    def orders(request, headers: {})
-      endpoint = '/orders'.gsub(/{.+?}/, '%s')
+    def get_rsa_publickey(headers: {}, query_params: {})
+      endpoint = '/pins/publicKey'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
+      endpoint += create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
+    def change_pin(request, headers: {})
+      endpoint = '/pins/change'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -16,17 +25,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def cancel_order(request, headers: {})
-      endpoint = '/orders/cancel'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
-      
-      action = { method: 'post', url: endpoint }
-      @client.call_adyen_api(@service, action, request, headers, @version)
-    end
-
-    def get_balance_of_gift_card(request, headers: {})
-      endpoint = '/paymentMethods/balance'.gsub(/{.+?}/, '%s')
+    def reveal_pin(request, headers: {})
+      endpoint = '/pins/reveal'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
