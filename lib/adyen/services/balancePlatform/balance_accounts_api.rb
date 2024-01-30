@@ -34,15 +34,6 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_all_payment_instruments_for_balance_account(id, headers: {}, query_params: {})
-      endpoint = '/balanceAccounts/{id}/paymentInstruments'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
-      endpoint += create_query_string(query_params)
-      action = { method: 'get', url: endpoint }
-      @client.call_adyen_api(@service, action, {}, headers, @version)
-    end
-
     def get_all_sweeps_for_balance_account(balance_account_id, headers: {}, query_params: {})
       endpoint = '/balanceAccounts/{balanceAccountId}/sweeps'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -57,6 +48,15 @@ module Adyen
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
       
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
+    def get_payment_instruments_linked_to_balance_account(id, headers: {}, query_params: {})
+      endpoint = '/balanceAccounts/{id}/paymentInstruments'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id)
+      endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
