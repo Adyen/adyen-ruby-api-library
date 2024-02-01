@@ -7,19 +7,28 @@ module Adyen
       super(client, version, 'Management')
     end
 
-    def remove_allowed_origin(origin_id, headers: {})
-      endpoint = '/me/allowedOrigins/{originId}'.gsub(/{.+?}/, '%s')
+    def add_allowed_origin(request, headers: {})
+      endpoint = '/me/allowedOrigins'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, origin_id)
+      endpoint = format(endpoint)
       
-      action = { method: 'delete', url: endpoint }
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
+    def generate_client_key(headers: {})
+      endpoint = '/me/generateClientKey'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
+      
+      action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_api_credential_details(headers: {})
-      endpoint = '/me'.gsub(/{.+?}/, '%s')
+    def get_allowed_origin_details(origin_id, headers: {})
+      endpoint = '/me/allowedOrigins/{originId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = format(endpoint, origin_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,22 +43,22 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_allowed_origin_details(origin_id, headers: {})
-      endpoint = '/me/allowedOrigins/{originId}'.gsub(/{.+?}/, '%s')
+    def get_api_credential_details(headers: {})
+      endpoint = '/me'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, origin_id)
+      endpoint = format(endpoint)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def add_allowed_origin(request, headers: {})
-      endpoint = '/me/allowedOrigins'.gsub(/{.+?}/, '%s')
+    def remove_allowed_origin(origin_id, headers: {})
+      endpoint = '/me/allowedOrigins/{originId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = format(endpoint, origin_id)
       
-      action = { method: 'post', url: endpoint }
-      @client.call_adyen_api(@service, action, request, headers, @version)
+      action = { method: 'delete', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
   end

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe Adyen do
-  before(:all) do
+  before(:each) do
     @shared_values = {
-      client: nil
+      client: Adyen::Client.new(env: :test)
     }
   end
 
@@ -30,6 +30,11 @@ RSpec.describe Adyen do
     @shared_values[:client].ws_user = @shared_values[:ws_user]
     expect { @shared_values[:client].payment.authorise('{}') }
       .to raise_error(Adyen::AuthenticationError)
+  end
+
+  it "fails a checkout call without oauth token" do
+    expect{ @shared_values[:client].checkout.payments_api.payment_methods("{}") }.
+      to raise_error(Adyen::AuthenticationError)
   end
 
   it 'fails a checkout call without api key' do
@@ -119,58 +124,58 @@ RSpec.describe Adyen do
     mock_response = Faraday::Response.new(status: 200)
 
     expect(Adyen::AdyenResult).to receive(:new)
-    expect(Faraday).to receive(:new).with('http://localhost:3001/v70/payments/details',
+    expect(Faraday).to receive(:new).with('http://localhost:3001/v71/payments/details',
                                           connection_options).and_return(mock_faraday_connection)
     expect(mock_faraday_connection).to receive(:post).and_return(mock_response)
     client.checkout.payments_api.payments_details(request_body)
   end
 
-  it "checks the creation of checkout url" do 
+  it "checks the creation of checkout url" do
     client = Adyen::Client.new(api_key: "api_key", env: :test)
-    expect(client.service_url("Checkout", "paymentMethods", "70")).
-    to eq("https://checkout-test.adyen.com/v70/paymentMethods")
-  end 
+    expect(client.service_url("Checkout", "paymentMethods", "71")).
+    to eq("https://checkout-test.adyen.com/v71/paymentMethods")
+  end
 
-  it "checks the creation of checkout url" do 
+  it "checks the creation of checkout url" do
     client = Adyen::Client.new(api_key: "api_key", env: :live, live_url_prefix: "YourLiveUrlPrefix")
-    expect(client.service_url("Checkout", "paymentMethods", "70")).
-    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v70/paymentMethods")
-  end 
-  it "checks the creation of lem url" do 
+    expect(client.service_url("Checkout", "paymentMethods", "71")).
+    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v71/paymentMethods")
+  end
+  it "checks the creation of lem url" do
     client = Adyen::Client.new(api_key: "api_key", env: :live)
     expect(client.service_url("LegalEntityManagement", "businessLines", "3")).
     to eq("https://kyc-live.adyen.com/lem/v3/businessLines")
-  end 
+  end
 
-  it "checks the creation of balancePlatform url" do 
+  it "checks the creation of balancePlatform url" do
     client = Adyen::Client.new(api_key: "api_key", env: :live)
     expect(client.service_url("BalancePlatform", "legalEntities", "1")).
     to eq("https://balanceplatform-api-live.adyen.com/bcl/v1/legalEntities")
-  end 
+  end
 
-  it "checks the creation of balancePlatform url" do 
+  it "checks the creation of balancePlatform url" do
     client = Adyen::Client.new(api_key: "api_key", env: :test)
     expect(client.service_url("BalancePlatform", "legalEntities", "1")).
     to eq("https://balanceplatform-api-test.adyen.com/bcl/v1/legalEntities")
-  end 
+  end
 
-  it "checks the creation of transfers url" do 
+  it "checks the creation of transfers url" do
     client = Adyen::Client.new(api_key: "api_key", env: :test)
     expect(client.service_url("Transfers", "transactions", "1")).
     to eq("https://balanceplatform-api-test.adyen.com/btl/v1/transactions")
-  end 
+  end
 
-  it "checks the creation of management url" do 
+  it "checks the creation of management url" do
     client = Adyen::Client.new(api_key: "api_key", env: :test)
     expect(client.service_url("Management", "companies", "1")).
     to eq("https://management-test.adyen.com/v1/companies")
-  end 
+  end
 
-  it "checks the creation of binLookup url" do 
+  it "checks the creation of binLookup url" do
     client = Adyen::Client.new(api_key: "api_key", env: :test)
     expect(client.service_url("BinLookup", "getCostEstimate", "54")).
     to eq("https://pal-test.adyen.com/pal/servlet/BinLookup/v54/getCostEstimate")
-  end 
+  end
 
   it "check the creation of storedValue url" do
     client = Adyen::Client.new(api_key: "api_key", env: :test)
@@ -253,6 +258,6 @@ RSpec.describe Adyen do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     expect(client.service_url('TerminalCloudAPI', 'connectedTerminals', nil))
       .to eq('https://terminal-api-test.adyen.com/connectedTerminals')
-      
+
   end
 end

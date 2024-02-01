@@ -7,13 +7,13 @@ module Adyen
       super(client, version, 'LegalEntityManagement')
     end
 
-    def get_pci_questionnaire_details(id, headers: {})
-      endpoint = '/legalEntities/{id}/pciQuestionnaires'.gsub(/{.+?}/, '%s')
+    def generate_pci_questionnaire(request, id, headers: {})
+      endpoint = '/legalEntities/{id}/pciQuestionnaires/generatePciTemplates'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
       
-      action = { method: 'get', url: endpoint }
-      @client.call_adyen_api(@service, action, {}, headers, @version)
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     def get_pci_questionnaire(id, pciid, headers: {})
@@ -25,13 +25,13 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def generate_pci_questionnaire(request, id, headers: {})
-      endpoint = '/legalEntities/{id}/pciQuestionnaires/generatePciTemplates'.gsub(/{.+?}/, '%s')
+    def get_pci_questionnaire_details(id, headers: {})
+      endpoint = '/legalEntities/{id}/pciQuestionnaires'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
       
-      action = { method: 'post', url: endpoint }
-      @client.call_adyen_api(@service, action, request, headers, @version)
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
     def sign_pci_questionnaire(request, id, headers: {})

@@ -1,14 +1,15 @@
-require_relative '../service'
+require_relative './service'
 module Adyen
-  class PaymentsApi < Service
+  class Disputes < Service
     attr_accessor :service, :version
 
+    DEFAULT_VERSION = 30
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'Checkout')
+      super(client, version, 'Disputes')
     end
 
-    def card_details(request, headers: {})
-      endpoint = '/cardDetails'.gsub(/{.+?}/, '%s')
+    def accept_dispute(request, headers: {})
+      endpoint = '/acceptDispute'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -16,17 +17,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_result_of_payment_session(session_id, headers: {}, query_params: {})
-      endpoint = '/sessions/{sessionId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, session_id)
-      endpoint += create_query_string(query_params)
-      action = { method: 'get', url: endpoint }
-      @client.call_adyen_api(@service, action, {}, headers, @version)
-    end
-
-    def payment_methods(request, headers: {})
-      endpoint = '/paymentMethods'.gsub(/{.+?}/, '%s')
+    def defend_dispute(request, headers: {})
+      endpoint = '/defendDispute'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -34,8 +26,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def payments(request, headers: {})
-      endpoint = '/payments'.gsub(/{.+?}/, '%s')
+    def delete_dispute_defense_document(request, headers: {})
+      endpoint = '/deleteDisputeDefenseDocument'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -43,8 +35,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def payments_details(request, headers: {})
-      endpoint = '/payments/details'.gsub(/{.+?}/, '%s')
+    def retrieve_applicable_defense_reasons(request, headers: {})
+      endpoint = '/retrieveApplicableDefenseReasons'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -52,8 +44,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def sessions(request, headers: {})
-      endpoint = '/sessions'.gsub(/{.+?}/, '%s')
+    def supply_defense_document(request, headers: {})
+      endpoint = '/supplyDefenseDocument'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
