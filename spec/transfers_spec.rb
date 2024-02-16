@@ -66,7 +66,7 @@ RSpec.describe Adyen::Transfers, service: 'transfers' do
     request_body = JSON.parse(json_from_file("mocks/requests/Transfers/make_transfer.json"))
     response_body = json_from_file("mocks/responses/Transfers/create_transfer_request_requires_sca.json")
 
-    url = @shared_values[:client].service_url("Transfers", "transfers", "3")
+    url = @shared_values[:client].service_url("Transfers", "transfers", "4")
 
     WebMock.stub_request(:post, url).
       with(
