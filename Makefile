@@ -6,21 +6,22 @@ openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 output:=build/out
 
 services:=balancePlatform checkout legalEntityManagement management payout transfers
-singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue payment posTerminalManagement
+singleFileServices:=balanceControlService binLookup dataProtection recurring storedValue payment posTerminalManagement disputes
 
 binLookup: spec=BinLookupService-v54
-checkout: spec=CheckoutService-v70
+checkout: spec=CheckoutService-v71
 dataProtection: spec=DataProtectionService-v1
 storedValue: spec=StoredValueService-v46
 posTerminalManagement: spec=TfmAPIService-v1
 payment: spec=PaymentService-v68
 recurring: spec=RecurringService-v68
 payout: spec=PayoutService-v68
-management: spec=ManagementService-v1
+management: spec=ManagementService-v3
 legalEntityManagement: spec=LegalEntityService-v3
 balancePlatform: spec=BalancePlatformService-v2
 balanceControlService: spec=BalanceControlService-v1
-transfers: spec=TransferService-v3
+transfers: spec=TransferService-v4
+disputes: spec=DisputeService-v30
 
 allServices: $(services) $(singleFileServices)
 

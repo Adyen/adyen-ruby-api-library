@@ -1,15 +1,14 @@
-require_relative './service'
+require_relative '../service'
 module Adyen
-  class DataProtection < Service
+  class DonationsApi < Service
     attr_accessor :service, :version
 
-    DEFAULT_VERSION = 1
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'DataProtectionService')
+      super(client, version, 'Checkout')
     end
 
-    def request_subject_erasure(request, headers: {})
-      endpoint = '/requestSubjectErasure'.gsub(/{.+?}/, '%s')
+    def donations(request, headers: {})
+      endpoint = '/donations'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
