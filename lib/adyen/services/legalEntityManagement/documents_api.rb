@@ -16,11 +16,11 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def get_document(id, headers: {})
+    def get_document(id, headers: {}, query_params: {})
       endpoint = '/documents/{id}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
-      
+      endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
