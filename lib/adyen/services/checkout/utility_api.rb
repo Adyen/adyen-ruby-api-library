@@ -25,5 +25,14 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
+    def updates_order_for_paypal_express_checkout(request, headers: {})
+      endpoint = '/paypal/updateOrder'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
   end
 end
