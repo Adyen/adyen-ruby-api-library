@@ -29,5 +29,6 @@ jobs:
           token: ${{ secrets.ADYEN_AUTOMATION_BOT_ACCESS_TOKEN }}
           develop-branch: main
           version-files: lib/adyen/version.rb
+          release-title: Adyen Ruby API Library
           pre-release: ${{ inputs.pre-release || false }}
           separator: .pre.beta
