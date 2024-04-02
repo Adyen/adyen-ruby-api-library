@@ -1,7 +1,7 @@
 ![Ruby](https://user-images.githubusercontent.com/93914435/236416787-3da4dd32-0a7d-43f7-9aa4-8d77697c85f9.png)
 # Adyen API Library for Ruby
 
-This is the officially supported Ruby library for using Adyen's APIs.
+This is the officially supported Ruby library for using Adyen's APIs. lblablablal
 
 ## Supported APIs
 
