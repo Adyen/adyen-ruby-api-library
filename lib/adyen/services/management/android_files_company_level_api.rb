@@ -43,5 +43,14 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
+    def upload_android_certificate(company_id, headers: {})
+      endpoint = '/companies/{companyId}/androidCertificates'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, company_id)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
   end
 end
