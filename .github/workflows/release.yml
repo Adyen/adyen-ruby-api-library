@@ -36,4 +36,5 @@ jobs:
           version-files: lib/adyen/version.rb
           release-title: Adyen Ruby API Library
           pre-release: ${{ inputs.pre-release || false }}
+          github-release: ${{ inputs.github-release || false }}
           separator: .pre.beta
