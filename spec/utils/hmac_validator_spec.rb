@@ -62,6 +62,21 @@ RSpec.describe Adyen::Utils::HmacValidator do
       webhook = JSON.parse(json_from_file('mocks/responses/Webhooks/mixed_webhook.json'))
       expect(validator.valid_webhook_hmac?(webhook, '74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174')).to be true
     end
+
+    it 'should have an invalid payload hmac' do
+      hmac_signature = "wrong signature"
+      payload = json_from_file('mocks/responses/Webhooks/mixed_webhook.json')
+
+      expect(validator.valid_webhook_payload_hmac?(hmac_signature, key, payload)).to be false
+    end
+
+    it 'should have an valid payload hmac' do
+      hmac_signature = "93Av9t6OVkYCrVHU/xgiTkWGbulJz+Vcm2qO4TYQH2Q="
+      payload = json_from_file('mocks/responses/Webhooks/mixed_webhook.json')
+
+      expect(validator.valid_webhook_payload_hmac?(hmac_signature, key, payload)).to be true
+    end
+
   end
 end
 # rubocop:enable Metrics/BlockLength
