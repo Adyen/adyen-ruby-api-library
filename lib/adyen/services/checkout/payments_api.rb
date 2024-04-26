@@ -57,8 +57,6 @@ module Adyen
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
 
-      puts "/sessions"
-      
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
     end

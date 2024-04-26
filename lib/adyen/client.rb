@@ -33,8 +33,6 @@ module Adyen
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
       @connection_options = connection_options || Faraday::ConnectionOptions.new
-
-      puts "Initialize Adyen Ruby client!!"
     end
 
     # make sure that env can only be :live, :test, or :mock
