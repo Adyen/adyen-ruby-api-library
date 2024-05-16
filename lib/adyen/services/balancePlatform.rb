@@ -5,6 +5,7 @@ require_relative 'balancePlatform/card_orders_api'
 require_relative 'balancePlatform/grant_accounts_api'
 require_relative 'balancePlatform/grant_offers_api'
 require_relative 'balancePlatform/manage_card_pin_api'
+require_relative 'balancePlatform/manage_sca_devices_api'
 require_relative 'balancePlatform/network_tokens_api'
 require_relative 'balancePlatform/payment_instrument_groups_api'
 require_relative 'balancePlatform/payment_instruments_api'
@@ -49,6 +50,10 @@ module Adyen
 
     def manage_card_pin_api
       @manage_card_pin_api ||= Adyen::ManageCardPINApi.new(@client, @version)
+    end
+
+    def manage_sca_devices_api
+      @manage_sca_devices_api ||= Adyen::ManageSCADevicesApi.new(@client, @version)
     end
 
     def network_tokens_api
