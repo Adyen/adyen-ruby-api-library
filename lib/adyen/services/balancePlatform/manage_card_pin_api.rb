@@ -1,13 +1,13 @@
 require_relative '../service'
 module Adyen
-  class PINFunctionalityApi < Service
+  class ManageCardPINApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
       super(client, version, 'BalancePlatform')
     end
 
-    def change_pin(request, headers: {})
+    def change_card_pin(request, headers: {})
       endpoint = '/pins/change'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
@@ -16,8 +16,8 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    def get_rsa_publickey(headers: {}, query_params: {})
-      endpoint = '/pins/publicKey'.gsub(/{.+?}/, '%s')
+    def public_key(headers: {}, query_params: {})
+      endpoint = '/publicKey'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       endpoint += create_query_string(query_params)
@@ -25,7 +25,7 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    def reveal_pin(request, headers: {})
+    def reveal_card_pin(request, headers: {})
       endpoint = '/pins/reveal'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)

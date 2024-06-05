@@ -7,6 +7,24 @@ module Adyen
       super(client, version, 'Transfers')
     end
 
+    def get_all_transfers(headers: {}, query_params: {})
+      endpoint = '/transfers'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
+      endpoint += create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
+    def get_transfer(id, headers: {})
+      endpoint = '/transfers/{id}'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id)
+      
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     def return_transfer(request, transfer_id, headers: {})
       endpoint = '/transfers/{transferId}/returns'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')

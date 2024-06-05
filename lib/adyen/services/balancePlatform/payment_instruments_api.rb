@@ -52,6 +52,15 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
+    def reveal_data_of_payment_instrument(request, headers: {})
+      endpoint = '/paymentInstruments/reveal'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
     def update_payment_instrument(request, id, headers: {})
       endpoint = '/paymentInstruments/{id}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
