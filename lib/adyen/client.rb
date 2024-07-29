@@ -85,7 +85,7 @@ module Adyen
           url = "https://management-#{@env}.adyen.com"
           supports_live_url_prefix = false
         when 'TerminalCloudAPI'
-          url = if terminal_region.present?
+          url = if !terminal_region.nil?
             "https://terminal-api-#{@env}-#{terminal_region}.adyen.com"
           else
             "https://terminal-api-#{@env}.adyen.com"
