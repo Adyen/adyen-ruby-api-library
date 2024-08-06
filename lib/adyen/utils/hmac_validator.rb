@@ -62,6 +62,9 @@ module Adyen
         )
       end
 
+      # TODO: Deprecate instead of aliasing
+      alias valid_notification_hmac? valid_webhook_hmac?
+      alias calculate_notification_hmac calculate_webhook_hmac
 
       # TODO: Deprecate instead of aliasing
       alias valid_notification_hmac? valid_webhook_hmac?
