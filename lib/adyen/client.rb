@@ -91,6 +91,9 @@ module Adyen
             "https://terminal-api-#{@env}.adyen.com"
           end
           supports_live_url_prefix = false
+        when 'PosMobile'
+          url = "https://checkout-#{@env}.adyen.com/checkout/possdk"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, 'Invalid service specified'
         end
