@@ -287,6 +287,10 @@ module Adyen
       @terminal_cloud_api ||= Adyen::TerminalCloudAPI.new(self)
     end
 
+    def pos_mobile
+      @pos_mobile ||= Adyen::PosMobile.new(self)
+    end
+
     private
 
     def auth_header(auth_type, faraday)
