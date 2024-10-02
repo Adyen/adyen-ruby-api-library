@@ -3,6 +3,7 @@ require_relative 'legalEntityManagement/documents_api'
 require_relative 'legalEntityManagement/hosted_onboarding_api'
 require_relative 'legalEntityManagement/legal_entities_api'
 require_relative 'legalEntityManagement/pci_questionnaires_api'
+require_relative 'legalEntityManagement/tax_e_delivery_consent_api'
 require_relative 'legalEntityManagement/terms_of_service_api'
 require_relative 'legalEntityManagement/transfer_instruments_api'
 
@@ -35,6 +36,10 @@ module Adyen
 
     def pci_questionnaires_api
       @pci_questionnaires_api ||= Adyen::PCIQuestionnairesApi.new(@client, @version)
+    end
+
+    def tax_e_delivery_consent_api
+      @tax_e_delivery_consent_api ||= Adyen::TaxEDeliveryConsentApi.new(@client, @version)
     end
 
     def terms_of_service_api
