@@ -16,6 +16,15 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
+    def get_accepted_terms_of_service_document(id, termsofserviceacceptancereference, headers: {}, query_params: {})
+      endpoint = '/legalEntities/{id}/acceptedTermsOfServiceDocument/{termsofserviceacceptancereference}'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id, termsofserviceacceptancereference)
+      endpoint += create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     def get_terms_of_service_document(request, id, headers: {})
       endpoint = '/legalEntities/{id}/termsOfService'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
