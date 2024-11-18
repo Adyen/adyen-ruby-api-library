@@ -93,7 +93,7 @@ module Adyen
           supports_live_url_prefix = false
         when 'PosMobile'
           url = "https://checkout-#{@env}.adyen.com/checkout/possdk"
-          supports_live_url_prefix = false
+          supports_live_url_prefix = true
         else
           raise ArgumentError, 'Invalid service specified'
         end
