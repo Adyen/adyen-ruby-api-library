@@ -12,7 +12,7 @@ module Adyen
       super(client, version, 'Checkout')
     end
 
-    # Get the list of brands on the card
+    # Get the brands and other details of a card
     def card_details(request, headers: {})
       endpoint = '/cardDetails'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')

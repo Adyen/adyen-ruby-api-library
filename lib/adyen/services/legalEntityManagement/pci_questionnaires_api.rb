@@ -12,6 +12,16 @@ module Adyen
       super(client, version, 'LegalEntityManagement')
     end
 
+    # Calculate PCI status of a legal entity
+    def calculate_pci_status_of_legal_entity(request, id, headers: {})
+      endpoint = '/legalEntities/{id}/pciQuestionnaires/signingRequired'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
     # Generate PCI questionnaire
     def generate_pci_questionnaire(request, id, headers: {})
       endpoint = '/legalEntities/{id}/pciQuestionnaires/generatePciTemplates'.gsub(/{.+?}/, '%s')
