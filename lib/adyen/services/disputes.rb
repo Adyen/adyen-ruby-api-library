@@ -5,7 +5,7 @@ module Adyen
 
     DEFAULT_VERSION = 30
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'Disputes')
+      super(client, version, 'DisputesService')
     end
 
     def accept_dispute(request, headers: {})
