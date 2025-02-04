@@ -13,6 +13,9 @@ module Adyen
     end
 
     # Get a capital account
+    #
+    # Deprecated since Transfers API v4
+    # Use the `/grants` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants) instead.
     def get_capital_account(headers: {}, query_params: {})
       endpoint = '/grants'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -23,6 +26,9 @@ module Adyen
     end
 
     # Get grant reference details
+    #
+    # Deprecated since Transfers API v4
+    # Use the `/grants/{grantId}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants/(grantId)) instead.
     def get_grant_reference_details(id, headers: {})
       endpoint = '/grants/{id}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -33,6 +39,9 @@ module Adyen
     end
 
     # Request a grant payout
+    #
+    # Deprecated since Transfers API v4
+    # Use the `/grants` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/post/grants) instead.
     def request_grant_payout(request, headers: {})
       endpoint = '/grants'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
