@@ -12,6 +12,16 @@ module Adyen
       super(client, version, 'BalancePlatform')
     end
 
+    # Complete an association between an SCA device and a resource
+    def complete_association_between_sca_device_and_resource(request, device_id, headers: {})
+      endpoint = '/registeredDevices/{deviceId}/associations'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, device_id)
+      
+      action = { method: 'patch', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
     # Complete the registration of an SCA device
     def complete_registration_of_sca_device(request, id, headers: {})
       endpoint = '/registeredDevices/{id}'.gsub(/{.+?}/, '%s')
@@ -30,6 +40,16 @@ module Adyen
       endpoint += create_query_string(query_params)
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
+    # Initiate an association between an SCA device and a resource
+    def initiate_association_between_sca_device_and_resource(request, device_id, headers: {})
+      endpoint = '/registeredDevices/{deviceId}/associations'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, device_id)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
     # Initiate the registration of an SCA device
