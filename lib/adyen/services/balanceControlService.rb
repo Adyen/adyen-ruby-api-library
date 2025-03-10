@@ -14,6 +14,8 @@ module Adyen
     end
 
     # Start a balance transfer
+    #
+    # Deprecated since Adyen Balance Control API v1
     def balance_transfer(request, headers: {})
       endpoint = '/balanceTransfer'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
