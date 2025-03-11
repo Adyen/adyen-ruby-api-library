@@ -14,6 +14,8 @@ module Adyen
     end
 
     # Create new permits linked to a recurring contract.
+    #
+    # Deprecated since Adyen Recurring API (deprecated) v68
     def create_permit(request, headers: {})
       endpoint = '/createPermit'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -24,6 +26,8 @@ module Adyen
     end
 
     # Disable stored payment details
+    #
+    # Deprecated since Adyen Recurring API (deprecated) v68
     def disable(request, headers: {})
       endpoint = '/disable'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -34,6 +38,8 @@ module Adyen
     end
 
     # Disable an existing permit.
+    #
+    # Deprecated since Adyen Recurring API (deprecated) v68
     def disable_permit(request, headers: {})
       endpoint = '/disablePermit'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -44,6 +50,8 @@ module Adyen
     end
 
     # Get stored payment details
+    #
+    # Deprecated since Adyen Recurring API (deprecated) v68
     def list_recurring_details(request, headers: {})
       endpoint = '/listRecurringDetails'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -54,6 +62,8 @@ module Adyen
     end
 
     # Ask issuer to notify the shopper
+    #
+    # Deprecated since Adyen Recurring API (deprecated) v68
     def notify_shopper(request, headers: {})
       endpoint = '/notifyShopper'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -64,6 +74,8 @@ module Adyen
     end
 
     # Schedule running the Account Updater
+    #
+    # Deprecated since Adyen Recurring API (deprecated) v68
     def schedule_account_updater(request, headers: {})
       endpoint = '/scheduleAccountUpdater'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
