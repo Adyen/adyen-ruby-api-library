@@ -278,4 +278,10 @@ RSpec.describe Adyen do
     expect(client.service_url('PosMobile', 'sessions', nil))
       .to eq('https://checkout-test.adyen.com/checkout/possdk/sessions')
   end
+
+  it 'correctly maps Disputes to DisputesService and generates valid URL' do
+    client = Adyen::Client.new(env: :test)
+    expect(client.service_url_base('Disputes'))
+      .to eq('https://ca-test.adyen.com/ca/services/DisputesService')
+  end  
 end

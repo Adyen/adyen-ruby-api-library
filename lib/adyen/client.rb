@@ -53,6 +53,8 @@ module Adyen
 
     # base URL for API given service and @env
     def service_url_base(service)
+      # maps 'Disputes' to expected service name 'DisputesService' for URL matching
+      service = 'DisputesService' if service == 'Disputes'
       if @env == :mock
         @mock_service_url_base
       else
