@@ -47,7 +47,12 @@ module Adyen
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
       # Use connection_options if provided, otherwise global Adyen.configuration options
-      @connection_options = Faraday::ConnectionOptions.new(connection_options || Adyen.configuration.connection_options)
+      @connection_options = 
+        if connection_options.is_a?(Faraday::ConnectionOptions)
+          connection_options
+        else
+          Faraday::ConnectionOptions.new(connection_options || Adyen.configuration.connection_options)
+        end
       @terminal_region = terminal_region
     end
 
