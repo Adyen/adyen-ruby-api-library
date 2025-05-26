@@ -9,8 +9,22 @@ require 'faraday'
 require 'json'
 require_relative './errors'
 require_relative './result'
+require_relative './configuration'
 
 module Adyen
+  # global configuration support
+  class << self
+    attr_accessor :configuration
+
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    def configure
+      yield(configuration)
+    end
+  end
+
   class Client
     attr_accessor :ws_user, :ws_password, :api_key, :oauth_token, :client, :adapter
     attr_reader :env, :connection_options, :adapter_options, :terminal_region
@@ -32,12 +46,8 @@ module Adyen
       end
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
-      @connection_options = connection_options || Faraday::ConnectionOptions.new (
-          request: {
-          open_timeout: 5,  # seconds to establish connection
-          timeout: 10       # seconds to wait for response
-        }
-      )
+      # Use connection_options if provided, otherwise global Adyen.configuration options
+      @connection_options = Faraday::ConnectionOptions.new(connection_options || Adyen.configuration.connection_options)
       @terminal_region = terminal_region
     end
 
