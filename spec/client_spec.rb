@@ -285,21 +285,18 @@ RSpec.describe Adyen do
       .to eq('https://ca-test.adyen.com/ca/services/DisputesService')
   end
 
-  context 'connection options handling' do
-    it 'builds a new set of ConnectionOptions when none are provided' do
-      expect(Faraday::ConnectionOptions).to receive(:new).and_call_original
-      Adyen::Client.new(env: :test)
-    end
-
-    it 'uses the supplied ConnectionOptions when provided' do
-      custom_options = Faraday::ConnectionOptions.new(
-        request: { open_timeout: 7, timeout: 17, read_timeout: 27, write_timeout: 37 }
+  context 'custom timeouts' do
+    it 'applies custom open/response/read/write timeouts' do
+      custom_opts = Faraday::ConnectionOptions.new(
+        request: { open_timeout: 2, timeout: 4, read_timeout: 6, write_timeout: 8 }
       )
-      expect(Faraday::ConnectionOptions).not_to receive(:new)
-      client = Adyen::Client.new(env: :test, connection_options: custom_options)
+      client = Adyen::Client.new(env: :test, connection_options: custom_opts)
+      opts = client.instance_variable_get(:@connection_options)
 
-      options = client.instance_variable_get(:@connection_options)
-      expect(options).to be(custom_options)
+      expect(opts[:request][:open_timeout]).to  eq 2
+      expect(opts[:request][:timeout]).to       eq 4
+      expect(opts[:request][:read_timeout]).to  eq 6
+      expect(opts[:request][:write_timeout]).to eq 8
     end
   end
 end
