@@ -34,13 +34,16 @@ module Adyen
       @live_url_prefix = live_url_prefix
       @connection_options = connection_options || Faraday::ConnectionOptions.new(
         request: {
-          open_timeout: 5,    # seconds to establish connection
-          timeout: 10,        # seconds to wait for response
-          read_timeout: 30,   # seconds to wait for data once the request is sent
-          write_timeout: 30   # seconds to wait for the request body to be written
+          open_timeout: 30,
+          timeout:      60,
+          read_timeout: 60,
+          write_timeout: 60
         }
       )
-      @terminal_region = terminal_region
+
+      # store them for later override
+      @open_timeout = @connection_options.dig(:request, :open_timeout)
+      @timeout      = @connection_options.dig(:request, :timeout)
     end
 
     # make sure that env can only be :live, :test, or :mock
