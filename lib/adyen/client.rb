@@ -32,7 +32,14 @@ module Adyen
       end
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
-      @connection_options = connection_options || Faraday::ConnectionOptions.new
+      @connection_options = connection_options || Faraday::ConnectionOptions.new(
+        request: {
+          open_timeout: 5,    # seconds to establish connection
+          timeout: 10,        # seconds to wait for response
+          read_timeout: 30,   # seconds to wait for data once the request is sent
+          write_timeout: 30   # seconds to wait for the request body to be written
+        }
+      )
       @terminal_region = terminal_region
     end
 
