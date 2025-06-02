@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '>= 2.7.0'
 
-gem 'faraday', '1.10.4'
+gem 'faraday', '1.8.0'
 
 # if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.2')
 #   # allow anything in 2.x
