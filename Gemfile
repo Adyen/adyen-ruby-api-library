@@ -8,7 +8,7 @@ ruby '>= 2.7.0'
 if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.2')
   gem 'faraday', '~> 2.0.0'
 else
-  gem 'faraday', '~> 1.8.0'
+  gem 'faraday'
 end
 
 gem 'activesupport', group: :development
