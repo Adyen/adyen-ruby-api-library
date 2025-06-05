@@ -113,7 +113,9 @@ RSpec.describe Adyen do
     Adyen::Client.new(env: :test, connection_options: connection_options)
   end
 
+  # test with Ruby 3.2+ only (where Faraday requestOptions timeout is supported)
   it 'initiates a Faraday connection with the provided options' do
+    skip "Only runs on Ruby >= 3.2" unless RUBY_VERSION >= '3.2'
     connection_options = Faraday::ConnectionOptions.new(
       request: {
         open_timeout: 5,  
@@ -138,7 +140,9 @@ RSpec.describe Adyen do
     client.checkout.payments_api.payments_details(request_body)
   end
 
+  # test with Ruby 3.2+ only (where Faraday requestOptions timeout is supported)
   it 'initiates a Faraday connection with the expected default timeouts' do
+    skip "Only runs on Ruby >= 3.2" unless RUBY_VERSION >= '3.2'
     client = Adyen::Client.new(env: :test)
     expect(client.connection_options[:request][:open_timeout]).to eq(30)
     expect(client.connection_options[:request][:timeout]).to eq(60)
