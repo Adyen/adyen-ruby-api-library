@@ -34,10 +34,10 @@ module Adyen
       @live_url_prefix = live_url_prefix
       @connection_options = connection_options || Faraday::ConnectionOptions.new(
         request: Faraday::RequestOptions.new(
-          open_timeout: 30, # default timeout (in seconds) to open a connection
-          timeout: 60 # default timeout (in seconds) to wait for a response
+            open_timeout: 30,
+            timeout: 60
+          )
         )
-      )
 
       @terminal_region = terminal_region
     end
