@@ -1,4 +1,5 @@
 require_relative 'balancePlatform/account_holders_api'
+require_relative 'balancePlatform/authorized_card_users_api'
 require_relative 'balancePlatform/balance_accounts_api'
 require_relative 'balancePlatform/balances_api'
 require_relative 'balancePlatform/bank_account_validation_api'
@@ -32,6 +33,10 @@ module Adyen
 
     def account_holders_api
       @account_holders_api ||= Adyen::AccountHoldersApi.new(@client, @version)
+    end
+
+    def authorized_card_users_api
+      @authorized_card_users_api ||= Adyen::AuthorizedCardUsersApi.new(@client, @version)
     end
 
     def balance_accounts_api
