@@ -12,11 +12,12 @@ require_relative './result'
 
 module Adyen
   class Client
-    attr_accessor :ws_user, :ws_password, :api_key, :oauth_token, :client, :adapter
+    attr_accessor :ws_user, :ws_password, :api_key, :oauth_token, :client, :adapter, :logger
     attr_reader :env, :connection_options, :adapter_options, :terminal_region
 
     def initialize(ws_user: nil, ws_password: nil, api_key: nil, oauth_token: nil, env: :live, adapter: nil, mock_port: 3001,
-                   live_url_prefix: nil, mock_service_url_base: nil, connection_options: nil, adapter_options: nil, terminal_region: nil)
+                   logger: nil, live_url_prefix: nil, mock_service_url_base: nil, connection_options: nil, adapter_options: nil,
+                   terminal_region: nil)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key
@@ -32,6 +33,7 @@ module Adyen
       end
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
       @live_url_prefix = live_url_prefix
+      @logger = logger
       if RUBY_VERSION >= '3.2'
         # set default timeouts
         @connection_options = connection_options || Faraday::ConnectionOptions.new(
@@ -162,6 +164,10 @@ module Adyen
         # add library headers
         faraday.headers['adyen-library-name'] = Adyen::NAME
         faraday.headers['adyen-library-version'] = Adyen::VERSION
+
+        if @logger
+          faraday.response :logger, @logger, bodies: true
+        end
       end
       # if json string convert to hash
       # needed to add applicationInfo
