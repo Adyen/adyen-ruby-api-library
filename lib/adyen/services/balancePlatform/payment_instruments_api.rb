@@ -12,6 +12,16 @@ module Adyen
       super(client, version, 'BalancePlatform')
     end
 
+    # Create network token activation data
+    def create_network_token_activation_data(request, id, headers: {})
+      endpoint = '/paymentInstruments/{id}/networkTokenActivationData'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
     # Create a payment instrument
     def create_payment_instrument(request, headers: {})
       endpoint = '/paymentInstruments'.gsub(/{.+?}/, '%s')
@@ -25,6 +35,16 @@ module Adyen
     # Get all transaction rules for a payment instrument
     def get_all_transaction_rules_for_payment_instrument(id, headers: {})
       endpoint = '/paymentInstruments/{id}/transactionRules'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id)
+      
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
+    # Get network token activation data
+    def get_network_token_activation_data(id, headers: {})
+      endpoint = '/paymentInstruments/{id}/networkTokenActivationData'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
       
