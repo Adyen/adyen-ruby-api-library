@@ -166,7 +166,7 @@ module Adyen
         faraday.headers['adyen-library-version'] = Adyen::VERSION
 
         if @logger
-          faraday.response :logger, @logger, bodies: true
+          faraday.response :logger, @logger
         end
       end
       # if json string convert to hash
