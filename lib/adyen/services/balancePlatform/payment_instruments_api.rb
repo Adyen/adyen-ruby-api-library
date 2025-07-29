@@ -12,8 +12,8 @@ module Adyen
       super(client, version, 'BalancePlatform')
     end
 
-    # Create network token activation data
-    def create_network_token_activation_data(request, id, headers: {})
+    # Create network token provisioning data
+    def create_network_token_provisioning_data(request, id, headers: {})
       endpoint = '/paymentInstruments/{id}/networkTokenActivationData'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, id)
