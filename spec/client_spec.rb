@@ -352,5 +352,27 @@ RSpec.describe Adyen do
       expect(error.response[:errorCode]).to eq('30_011')
     end
   end
-  
+
+  it 'raises FormatError on 500 response and checks content' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    mock_faraday_connection = double(Faraday::Connection)
+    error_body = {
+      status: 500,
+      errorCode: "999",
+      message: "Unexpected error",
+      errorType: "server error"
+    }
+    mock_response = Faraday::Response.new(status: 500, body: error_body)
+
+    allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
+    allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
+    allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
+
+    expect {
+      client.checkout.payments_api.payments({})
+    }.to raise_error(Adyen::ServerError) do |error|
+      expect(error.code).to eq(500)
+      expect(error.msg).to eq('Internal server error - status 500')
+    end
+  end
 end

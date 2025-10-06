@@ -227,7 +227,7 @@ module Adyen
       when 422
         raise Adyen::ValidationError.new('Validation error', request_data, response.body)
       when 500..599
-        raise Adyen::ServerError.new('Internal server error', request_data, response.body)
+        raise Adyen::ServerError.new("Internal server error - status #{response.status}", request_data, response.body)
       end
 
       # delete has no response.body (unless it throws an error)
