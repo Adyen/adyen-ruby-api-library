@@ -302,4 +302,55 @@ RSpec.describe Adyen do
     expect(client.service_url_base('Disputes'))
       .to eq('https://ca-test.adyen.com/ca/services/DisputesService')
   end  
+
+  it 'raises FormatError on 400 response and checks content' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    mock_faraday_connection = double(Faraday::Connection)
+    error_body = {
+      status: 400,
+      errorCode: "702",
+      message: "Structure of CreateCheckoutSessionRequest contains the following unknown fields: [paymentMethod]",
+      errorType: "validation"
+    }
+    mock_response = Faraday::Response.new(status: 400, body: error_body)
+
+    allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
+    allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
+    allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
+
+    expect {
+      client.checkout.payments_api.payments({})
+    }.to raise_error(Adyen::FormatError) do |error|
+      expect(error.code).to eq(400)
+      expect(error.msg).to eq('Invalid format or fields')
+      expect(error.response[:errorCode]).to eq('702')
+    end
+  end
+
+  it 'raises FormatError on 422 response and checks content' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    mock_faraday_connection = double(Faraday::Connection)
+    error_body = {
+      type: "https://docs.adyen.com/errors/validation",
+      title: "The request is missing required fields or contains invalid data.",
+      status: 422,
+      detail: "It is mandatory to specify a legalEntityId when creating a new account holder.",
+      invalidFields: [{ "name" => "legalEntityId", "message" => "legalEntityId is not provided" }],
+      errorCode: "30_011"
+    }
+    mock_response = Faraday::Response.new(status: 422, body: error_body)
+
+    allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
+    allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
+    allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
+
+    expect {
+      client.checkout.payments_api.payments({})
+    }.to raise_error(Adyen::ValidationError) do |error|
+      expect(error.code).to eq(422)
+      expect(error.msg).to eq('Validation error')
+      expect(error.response[:errorCode]).to eq('30_011')
+    end
+  end
+  
 end

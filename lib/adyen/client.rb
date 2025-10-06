@@ -215,6 +215,8 @@ module Adyen
       end
       # check for API errors
       case response.status
+      when 400
+        raise Adyen::FormatError.new('Invalid format or fields', request_data, response.body)
       when 401
         raise Adyen::AuthenticationError.new(
           'Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key', request_data
@@ -222,6 +224,10 @@ module Adyen
       when 403
         raise Adyen::PermissionError.new('Missing user permissions; https://docs.adyen.com/user-management/user-roles',
                                          request_data, response.body)
+      when 422
+        raise Adyen::ValidationError.new('Validation error', request_data, response.body)
+      when 500..599
+        raise Adyen::ServerError.new('Internal server error', request_data, response.body)
       end
 
       # delete has no response.body (unless it throws an error)
