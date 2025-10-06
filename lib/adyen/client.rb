@@ -166,6 +166,7 @@ module Adyen
         faraday.headers['adyen-library-version'] = Adyen::VERSION
 
         if @logger
+          # Configures Faraday's response logger middleware to log HTTP requests and responses when a logger is provided.
           faraday.response :logger, @logger
         end
       end
