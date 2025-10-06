@@ -327,7 +327,7 @@ RSpec.describe Adyen do
     end
   end
 
-  it 'raises FormatError on 422 response and checks content' do
+  it 'raises ValidationError on 422 response and checks content' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     mock_faraday_connection = double(Faraday::Connection)
     error_body = {
@@ -353,7 +353,7 @@ RSpec.describe Adyen do
     end
   end
 
-  it 'raises FormatError on 500 response and checks content' do
+  it 'raises ServerError on 500 response and checks content' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     mock_faraday_connection = double(Faraday::Connection)
     error_body = {
