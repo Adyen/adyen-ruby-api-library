@@ -308,6 +308,10 @@ module Adyen
       @open_banking ||= Adyen::OpenBanking.new(self)
     end
 
+    def session_authentication
+      @open_banking ||= Adyen::SessionAuthentication.new(self)
+    end
+
     private
 
     def auth_header(auth_type, faraday)

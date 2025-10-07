@@ -13,7 +13,7 @@ module Adyen
     end
 
     # Create a session token
-    def create_authentication_session(request, authentication_session_request, headers: {})
+    def create_authentication_session(request, headers: {})
       endpoint = '/sessions'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
