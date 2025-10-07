@@ -228,9 +228,6 @@ adyen.oauth_token = "oauth_token"
 
 The APIs available to use through OAuth in this library depend on the [OAuth Scopes](https://docs.adyen.com/development-resources/oauth/scopes/) defined when [Registering your OAuth client](https://docs.adyen.com/development-resources/oauth/integration/#step-1-register-your-client).
 
-## Feedback
-We value your input! Help us enhance our API Libraries and improve the integration experience by providing your feedback. Please take a moment to fill out [our feedback form](https://forms.gle/A4EERrR6CWgKWe5r9) to share your thoughts, suggestions or ideas.
-
 ## Contributing
 
 We encourage you to contribute to this repository, so everyone can benefit from new features, bug fixes, and any other improvements.
