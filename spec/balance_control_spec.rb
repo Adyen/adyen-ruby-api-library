@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'json'
 
-RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
+RSpec.describe Adyen::BalanceControl, service: 'balanceControl' do
   before(:all) do
     @shared_values = {
       client: create_client(:api_key),
-      service: 'BalancePlatform'
+      service: 'BalanceControl'
     }
   end
 
@@ -15,8 +15,10 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
 
     response_body = json_from_file('mocks/responses/BalanceControl/balance_transfer.json')
 
-    url = @shared_values[:client].service_url(@shared_values[:service], 'balanceTransfer',
-                                              @shared_values[:client].balance_control_service.version)
+    url = @shared_values[:client].service_url(
+      @shared_values[:service], 
+      'balanceTransfer',
+      @shared_values[:client].balance_control.version)
     WebMock.stub_request(:post, url)
            .with(
              body: request_body,
@@ -28,7 +30,7 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
              body: response_body
            )
 
-    result = @shared_values[:client].balance_control_service.balance_control_api.balance_transfer(request_body)
+    result = @shared_values[:client].balance_control.balance_control_api.balance_transfer(request_body)
     response_hash = result.response
 
     expect(result.status)

@@ -1,4 +1,4 @@
-require_relative 'balanceControlService/balance_control_api'
+require_relative 'balanceControl/balance_control_api'
 
 module Adyen
 
@@ -6,12 +6,12 @@ module Adyen
   # Ref: https://openapi-generator.tech
   #
   # Do not edit the class manually.
-  class BalanceControlService
+  class BalanceControl
     attr_accessor :service, :version
 
     DEFAULT_VERSION = 1
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'BalanceControlService'
+      @service = 'BalanceControl'
       @client = client
       @version = version
     end
