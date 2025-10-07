@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'json'
 
-RSpec.describe Adyen::BinLookup, service: 'BinLookup' do
+RSpec.describe Adyen::BinLookup, service: 'binLookup' do
   before(:all) do
     @shared_values = {
       client: create_client(:api_key),
@@ -28,7 +28,7 @@ RSpec.describe Adyen::BinLookup, service: 'BinLookup' do
              body: response_body
            )
 
-    result = @shared_values[:client].bin_lookup.get_cost_estimate(request_body)
+    result = @shared_values[:client].bin_lookup.bin_lookup_api.get_cost_estimate(request_body)
     response_hash = result.response
 
     expect(result.status)
@@ -58,7 +58,8 @@ RSpec.describe Adyen::BinLookup, service: 'BinLookup' do
              body: response_body
            )
 
-    result = @shared_values[:client].bin_lookup.get3ds_availability(request_body)
+    result = @shared_values[:client].bin_lookup.bin_lookup_api.get3ds_availability(request_body)
+
     response_hash = result.response
 
     expect(result.status)

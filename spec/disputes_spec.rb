@@ -28,7 +28,8 @@ RSpec.describe Adyen::Disputes, service: 'disputes service' do
              body: response_body
            )
 
-    result = @shared_values[:client].disputes.retrieve_applicable_defense_reasons(request_body)
+    result = @shared_values[:client].disputes.disputes_api.retrieve_applicable_defense_reasons(request_body)
+    
     response_hash = result.response
 
     expect(result.status)

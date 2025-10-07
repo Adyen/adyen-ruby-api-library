@@ -28,7 +28,7 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
              body: response_body
            )
 
-    result = @shared_values[:client].balance_control_service.balance_transfer(request_body)
+    result = @shared_values[:client].balance_control_service.balance_control_api.balance_transfer(request_body)
     response_hash = result.response
 
     expect(result.status)

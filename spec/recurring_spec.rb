@@ -14,5 +14,5 @@ RSpec.describe Adyen::Payment, service: 'recurring service' do
     ['schedule_account_updater', 'result', 'Success']
   ]
 
-  generate_tests(client, 'Recurring', test_sets, client.recurring)
+  generate_tests(client, 'Recurring', test_sets, client.recurring.recurring_api)
 end
