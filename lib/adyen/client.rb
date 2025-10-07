@@ -304,6 +304,10 @@ module Adyen
       @pos_mobile ||= Adyen::PosMobile.new(self)
     end
 
+    def open_banking
+      @open_banking ||= Adyen::OpenBanking.new(self)
+    end
+
     private
 
     def auth_header(auth_type, faraday)
