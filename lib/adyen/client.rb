@@ -113,8 +113,7 @@ module Adyen
 
         if @live_url_prefix.nil? && (@env == :live) && supports_live_url_prefix
           raise ArgumentError,
-                "Please set Client.live_url_prefix to the portion \
-          of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'"
+                "Please set Client.live_url_prefix to the portion \n          of your merchant-specific URL prior to '-[service]-live.adyenpayments.com'"
         end
 
         if @env == :live && supports_live_url_prefix
@@ -215,19 +214,21 @@ module Adyen
       end
       # check for API errors
       case response.status
-      when 400
-        raise Adyen::FormatError.new('Invalid format or fields', request_data, response.body)
-      when 401
-        raise Adyen::AuthenticationError.new(
-          'Invalid API authentication; https://docs.adyen.com/user-management/how-to-get-the-api-key', request_data
-        )
-      when 403
-        raise Adyen::PermissionError.new('Missing user permissions; https://docs.adyen.com/user-management/user-roles',
-                                         request_data, response.body)
-      when 422
-        raise Adyen::ValidationError.new('Validation error', request_data, response.body)
-      when 500..599
-        raise Adyen::ServerError.new("Internal server error - status #{response.status}", request_data, response.body)
+        when 400
+          full_message = build_error_message(response.body, 'Invalid format or fields')
+          raise Adyen::FormatError.new(full_message, request_data, response.body)
+        when 401
+          full_message = build_error_message(response.body, 'Authentication error')
+          raise Adyen::AuthenticationError.new(full_message, request_data)
+        when 403
+          full_message = build_error_message(response.body, 'Authorisation error')
+          raise Adyen::PermissionError.new(full_message, request_data, response.body)
+        when 422
+          full_message = build_error_message(response.body, 'Validation error')
+          raise Adyen::ValidationError.new(full_message, request_data, response.body)
+        when 500..599
+          full_message = build_error_message(response.body, 'Internal server error')
+          raise Adyen::ServerError.new(full_message, request_data, response.body)
       end
 
       # delete has no response.body (unless it throws an error)
@@ -351,6 +352,25 @@ module Adyen
         raise Adyen::AuthenticationError.new('Checkout service requires API-key or oauth_token', request_data),
               'Checkout service requires API-key or oauth_token'
       end
+    end
+
+    # build the error message from the response payload
+    def build_error_message(response_body, default_message)
+      full_message = default_message
+      begin
+        error_details = response_body
+        # check different attributes to support both RFC 7807 and legacy models
+        message = error_details[:detail] || error_details[:message]
+        error_code = error_details[:errorCode]
+        if message && error_code
+          full_message = "#{message} ErrorCode: #{error_code}"
+        elsif message
+          full_message = message
+        end
+      rescue JSON::ParserError
+        # If the body isn't valid JSON, we fall back to the default message
+      end
+      full_message
     end
   end
 end

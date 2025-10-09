@@ -322,12 +322,12 @@ RSpec.describe Adyen do
       client.checkout.payments_api.payments({})
     }.to raise_error(Adyen::FormatError) do |error|
       expect(error.code).to eq(400)
-      expect(error.msg).to eq('Invalid format or fields')
+      expect(error.msg).to eq('Structure of CreateCheckoutSessionRequest contains the following unknown fields: [paymentMethod] ErrorCode: 702')
       expect(error.response[:errorCode]).to eq('702')
     end
   end
 
-  it 'raises ValidationError on 422 response and checks content' do
+  it 'raises ValidationError on 422 response with RestServiceError (based on RFC 7807)' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     mock_faraday_connection = double(Faraday::Connection)
     error_body = {
@@ -348,8 +348,34 @@ RSpec.describe Adyen do
       client.checkout.payments_api.payments({})
     }.to raise_error(Adyen::ValidationError) do |error|
       expect(error.code).to eq(422)
-      expect(error.msg).to eq('Validation error')
+      expect(error.msg).to eq('It is mandatory to specify a legalEntityId when creating a new account holder. ErrorCode: 30_011')
       expect(error.response[:errorCode]).to eq('30_011')
+      expect(error.response[:invalidFields]).to have_attributes(size: 1)
+    end
+  end
+
+  it 'raises ValidationError on 422 response with ServiceError (legacy)' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    mock_faraday_connection = double(Faraday::Connection)
+    error_body = {
+      status: 422,
+      errorCode: "14_030",
+      message: "Return URL is missing.",
+      errorType: "validation",
+      pspReference: "8816118280275544"
+    }  
+    mock_response = Faraday::Response.new(status: 422, body: error_body)
+
+    allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
+    allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
+    allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
+
+    expect {
+      client.checkout.payments_api.payments({})
+    }.to raise_error(Adyen::ValidationError) do |error|
+      expect(error.code).to eq(422)
+      expect(error.msg).to eq('Return URL is missing. ErrorCode: 14_030')
+      expect(error.response[:errorCode]).to eq('14_030')
     end
   end
 
@@ -359,7 +385,7 @@ RSpec.describe Adyen do
     error_body = {
       status: 500,
       errorCode: "999",
-      message: "Unexpected error",
+      message: "Unexpected error.",
       errorType: "server error"
     }
     mock_response = Faraday::Response.new(status: 500, body: error_body)
@@ -372,7 +398,7 @@ RSpec.describe Adyen do
       client.checkout.payments_api.payments({})
     }.to raise_error(Adyen::ServerError) do |error|
       expect(error.code).to eq(500)
-      expect(error.msg).to eq('Internal server error - status 500')
+      expect(error.msg).to eq('Unexpected error. ErrorCode: 999')
     end
   end
 end
