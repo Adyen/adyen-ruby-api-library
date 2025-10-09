@@ -79,7 +79,15 @@ module Adyen
     end
   end
 
+  # when JSON payload is invalid
   class FormatError < AdyenError
+    def initialize(msg, request, response)
+      super(request, response, msg, 400)
+    end
+  end
+
+  # when JSON payload cannot be processed (violates business rules)
+  class ValidationError < AdyenError
     def initialize(msg, request, response)
       super(request, response, msg, 422)
     end
@@ -94,12 +102,6 @@ module Adyen
   class ConfigurationError < AdyenError
     def initialize(msg, request)
       super(request, nil, msg, 905)
-    end
-  end
-
-  class ValidationError < AdyenError
-    def initialize(msg, request)
-      super(request, nil, msg, nil)
     end
   end
 
