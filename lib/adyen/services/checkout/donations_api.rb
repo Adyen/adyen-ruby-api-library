@@ -22,7 +22,7 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    # Start a transaction for donations
+    # Make a donation
     def donations(request, headers: {})
       endpoint = '/donations'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')

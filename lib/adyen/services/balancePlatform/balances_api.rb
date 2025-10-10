@@ -13,7 +13,7 @@ module Adyen
     end
 
     # Create a balance webhook setting
-    def create_webhook_setting(request, balance_platform_id, webhook_id, balance_webhook_setting_info, headers: {})
+    def create_webhook_setting(request, balance_platform_id, webhook_id, headers: {})
       endpoint = '/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, balance_platform_id, webhook_id)
@@ -53,7 +53,7 @@ module Adyen
     end
 
     # Update a balance webhook setting by id
-    def update_webhook_setting(request, balance_platform_id, webhook_id, setting_id, balance_webhook_setting_info_update, headers: {})
+    def update_webhook_setting(request, balance_platform_id, webhook_id, setting_id, headers: {})
       endpoint = '/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, balance_platform_id, webhook_id, setting_id)
