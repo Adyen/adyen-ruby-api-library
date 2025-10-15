@@ -5,16 +5,16 @@ module Adyen
   # Ref: https://openapi-generator.tech
   #
   # Do not edit the class manually.
-  class UtilityApi < Service
+  class PaymentsApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'Checkout')
+      super(client, version, 'Payment')
     end
 
-    # Get an Apple Pay session
-    def get_apple_pay_session(request, headers: {})
-      endpoint = '/applePay/sessions'.gsub(/{.+?}/, '%s')
+    # Create an authorisation
+    def authorise(request, headers: {})
+      endpoint = '/authorise'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -22,11 +22,9 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    # Create originKey values for domains
-    #
-    # Deprecated since Adyen Checkout API v67
-    def origin_keys(request, headers: {})
-      endpoint = '/originKeys'.gsub(/{.+?}/, '%s')
+    # Complete a 3DS authorisation
+    def authorise3d(request, headers: {})
+      endpoint = '/authorise3d'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -34,9 +32,9 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    # Updates the order for PayPal Express Checkout
-    def updates_order_for_paypal_express_checkout(request, headers: {})
-      endpoint = '/paypal/updateOrder'.gsub(/{.+?}/, '%s')
+    # Complete a 3DS2 authorisation
+    def authorise3ds2(request, headers: {})
+      endpoint = '/authorise3ds2'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -44,9 +42,19 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    # Validates shopper Id
-    def validate_shopper_id(request, validate_shopper_id_request, headers: {})
-      endpoint = '/validateShopperId'.gsub(/{.+?}/, '%s')
+    # Get the 3DS authentication result
+    def get_authentication_result(request, headers: {})
+      endpoint = '/getAuthenticationResult'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
+    # Get the 3DS2 authentication result
+    def retrieve3ds2_result(request, headers: {})
+      endpoint = '/retrieve3ds2Result'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       

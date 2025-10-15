@@ -5,16 +5,16 @@ module Adyen
   # Ref: https://openapi-generator.tech
   #
   # Do not edit the class manually.
-  class UtilityApi < Service
+  class DisputesApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'Checkout')
+      super(client, version, 'Disputes')
     end
 
-    # Get an Apple Pay session
-    def get_apple_pay_session(request, headers: {})
-      endpoint = '/applePay/sessions'.gsub(/{.+?}/, '%s')
+    # Accept a dispute
+    def accept_dispute(request, headers: {})
+      endpoint = '/acceptDispute'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -22,11 +22,9 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    # Create originKey values for domains
-    #
-    # Deprecated since Adyen Checkout API v67
-    def origin_keys(request, headers: {})
-      endpoint = '/originKeys'.gsub(/{.+?}/, '%s')
+    # Defend a dispute
+    def defend_dispute(request, headers: {})
+      endpoint = '/defendDispute'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -34,9 +32,9 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    # Updates the order for PayPal Express Checkout
-    def updates_order_for_paypal_express_checkout(request, headers: {})
-      endpoint = '/paypal/updateOrder'.gsub(/{.+?}/, '%s')
+    # Delete a defense document
+    def delete_dispute_defense_document(request, headers: {})
+      endpoint = '/deleteDisputeDefenseDocument'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -44,9 +42,19 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    # Validates shopper Id
-    def validate_shopper_id(request, validate_shopper_id_request, headers: {})
-      endpoint = '/validateShopperId'.gsub(/{.+?}/, '%s')
+    # Get applicable defense reasons
+    def retrieve_applicable_defense_reasons(request, headers: {})
+      endpoint = '/retrieveApplicableDefenseReasons'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
+    # Supply a defense document
+    def supply_defense_document(request, headers: {})
+      endpoint = '/supplyDefenseDocument'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       

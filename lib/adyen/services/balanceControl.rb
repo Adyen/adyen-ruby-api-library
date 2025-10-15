@@ -1,4 +1,4 @@
-require_relative 'dataProtection/data_protection_api'
+require_relative 'balanceControl/balance_control_api'
 
 module Adyen
 
@@ -6,18 +6,18 @@ module Adyen
   # Ref: https://openapi-generator.tech
   #
   # Do not edit the class manually.
-  class DataProtection
+  class BalanceControl
     attr_accessor :service, :version
 
     DEFAULT_VERSION = 1
     def initialize(client, version = DEFAULT_VERSION)
-      @service = 'DataProtection'
+      @service = 'BalanceControl'
       @client = client
       @version = version
     end
 
-    def data_protection_api
-      @data_protection_api ||= Adyen::DataProtectionApi.new(@client, @version)
+    def balance_control_api
+      @balance_control_api ||= Adyen::BalanceControlApi.new(@client, @version)
     end
 
   end

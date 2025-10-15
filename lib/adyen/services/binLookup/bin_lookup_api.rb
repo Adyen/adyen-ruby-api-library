@@ -5,16 +5,16 @@ module Adyen
   # Ref: https://openapi-generator.tech
   #
   # Do not edit the class manually.
-  class DonationsApi < Service
+  class BinLookupApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
-      super(client, version, 'Checkout')
+      super(client, version, 'BinLookup')
     end
 
-    # Get a list of donation campaigns.
-    def donation_campaigns(request, headers: {})
-      endpoint = '/donationCampaigns'.gsub(/{.+?}/, '%s')
+    # Check if 3D Secure is available
+    def get3ds_availability(request, headers: {})
+      endpoint = '/get3dsAvailability'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
@@ -22,9 +22,9 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
-    # Make a donation
-    def donations(request, headers: {})
-      endpoint = '/donations'.gsub(/{.+?}/, '%s')
+    # Get a fees cost estimate
+    def get_cost_estimate(request, headers: {})
+      endpoint = '/getCostEstimate'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
       
