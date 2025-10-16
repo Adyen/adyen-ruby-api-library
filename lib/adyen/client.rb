@@ -107,6 +107,10 @@ module Adyen
         when 'PosMobile'
           url = "https://checkout-#{@env}.adyen.com/checkout/possdk"
           supports_live_url_prefix = true
+        when 'SessionAuthentication'
+          subdomain = @env == :live ? "authe-#{@env}" : @env
+          url = "https://#{subdomain}.adyen.com/authe/api"
+          supports_live_url_prefix = false
         else
           raise ArgumentError, 'Invalid service specified'
         end
@@ -367,7 +371,8 @@ module Adyen
     def build_error_message(response_body, default_message)
       full_message = default_message
       begin
-        error_details = response_body
+        error_details = JSON.parse(response_body, symbolize_names: true)
+
         # check different attributes to support both RFC 7807 and legacy models
         message = error_details[:detail] || error_details[:message]
         error_code = error_details[:errorCode]
