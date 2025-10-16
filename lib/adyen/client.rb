@@ -107,6 +107,9 @@ module Adyen
         when 'PosMobile'
           url = "https://checkout-#{@env}.adyen.com/checkout/possdk"
           supports_live_url_prefix = true
+        when 'SessionAuthentication'
+          url = "https://#{@env}.adyen.com/authe/api"
+          supports_live_url_prefix = true
         else
           raise ArgumentError, 'Invalid service specified'
         end
