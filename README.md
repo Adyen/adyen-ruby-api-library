@@ -1,6 +1,8 @@
 ![Ruby](https://user-images.githubusercontent.com/93914435/236416787-3da4dd32-0a7d-43f7-9aa4-8d77697c85f9.png)
 # Adyen API Library for Ruby
 
+[![Gem Version](https://img.shields.io/gem/v/adyen-ruby-api-library.svg)](https://rubygems.org/gems/adyen-ruby-api-library)
+
 This is the officially supported Ruby library for using Adyen's APIs.
 
 ## Supported APIs
