@@ -371,7 +371,7 @@ module Adyen
     def build_error_message(response_body, default_message)
       full_message = default_message
       begin
-        error_details = JSON.parse(response_body)
+        error_details = JSON.parse(response_body, symbolize_names: true)
 
         # check different attributes to support both RFC 7807 and legacy models
         message = error_details[:detail] || error_details[:message]
