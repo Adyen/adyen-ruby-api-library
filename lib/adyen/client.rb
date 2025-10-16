@@ -108,8 +108,8 @@ module Adyen
           url = "https://checkout-#{@env}.adyen.com/checkout/possdk"
           supports_live_url_prefix = true
         when 'SessionAuthentication'
-          prefix = "authe-" if @env == :live
-          url = "https://#{prefix}#{@env}.adyen.com/authe/api"
+          subdomain = @env == :live ? "authe-#{@env}" : @env
+          url = "https://#{subdomain}.adyen.com/authe/api"
           supports_live_url_prefix = false
         else
           raise ArgumentError, 'Invalid service specified'
