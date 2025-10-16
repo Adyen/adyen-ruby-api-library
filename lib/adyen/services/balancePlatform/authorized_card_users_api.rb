@@ -13,7 +13,7 @@ module Adyen
     end
 
     # Create authorized users for a card.
-    def create_authorised_card_users(request, payment_instrument_id, authorised_card_users, headers: {})
+    def create_authorised_card_users(request, payment_instrument_id, headers: {})
       endpoint = '/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, payment_instrument_id)
@@ -43,7 +43,7 @@ module Adyen
     end
 
     # Update the authorized users for a card.
-    def update_authorised_card_users(request, payment_instrument_id, authorised_card_users, headers: {})
+    def update_authorised_card_users(request, payment_instrument_id, headers: {})
       endpoint = '/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint, payment_instrument_id)

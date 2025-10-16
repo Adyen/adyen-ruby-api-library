@@ -10,5 +10,5 @@ RSpec.describe Adyen::DataProtection, service: 'Data Protection Service' do
     %w[request_subject_erasure result SUCCESS]
   ]
 
-  generate_tests(client, 'DataProtectionService', test_sets, client.data_protection)
+  generate_tests(client, 'DataProtectionService', test_sets, client.data_protection.data_protection_api)
 end

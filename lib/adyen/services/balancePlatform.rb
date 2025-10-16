@@ -13,6 +13,8 @@ require_relative 'balancePlatform/payment_instrument_groups_api'
 require_relative 'balancePlatform/payment_instruments_api'
 require_relative 'balancePlatform/platform_api'
 require_relative 'balancePlatform/transaction_rules_api'
+require_relative 'balancePlatform/transfer_limits_balance_account_level_api'
+require_relative 'balancePlatform/transfer_limits_balance_platform_level_api'
 require_relative 'balancePlatform/transfer_routes_api'
 
 module Adyen
@@ -89,6 +91,14 @@ module Adyen
 
     def transaction_rules_api
       @transaction_rules_api ||= Adyen::TransactionRulesApi.new(@client, @version)
+    end
+
+    def transfer_limits_balance_account_level_api
+      @transfer_limits_balance_account_level_api ||= Adyen::TransferLimitsBalanceAccountLevelApi.new(@client, @version)
+    end
+
+    def transfer_limits_balance_platform_level_api
+      @transfer_limits_balance_platform_level_api ||= Adyen::TransferLimitsBalancePlatformLevelApi.new(@client, @version)
     end
 
     def transfer_routes_api
