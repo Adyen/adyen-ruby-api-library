@@ -22,7 +22,7 @@ module Adyen
     end
 
     def payments_api
-      @payments_api ||= Adyen::PaymentsApi.new(@client, @version)
+      @payments_api ||= Adyen::ClassicPaymentsApi.new(@client, @version)
     end
 
   end
