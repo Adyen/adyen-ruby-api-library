@@ -39,7 +39,7 @@ module Adyen
     end
 
     def payments_api
-      @payments_api ||= Adyen::PaymentsApi.new(@client, @version)
+      @payments_api ||= Adyen::CheckoutPaymentsApi.new(@client, @version)
     end
 
     def recurring_api
