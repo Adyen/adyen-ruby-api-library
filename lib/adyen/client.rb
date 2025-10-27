@@ -144,7 +144,7 @@ module Adyen
     def call_adyen_api(service, action, request_data, headers, version, _with_application_info: false)
       # get URL for requested endpoint
       url = service_url(service, action.is_a?(String) ? action : action.fetch(:url), version)
-
+      
       auth_type = auth_type(service, request_data)
 
       # initialize Faraday connection object
@@ -227,6 +227,9 @@ module Adyen
         when 403
           full_message = build_error_message(response.body, 'Authorisation error')
           raise Adyen::PermissionError.new(full_message, request_data, response.body)
+        when 404
+          full_message = build_error_message(response.body, 'Not found error')
+          raise Adyen::NotFoundError.new(full_message, request_data, response.body)
         when 422
           full_message = build_error_message(response.body, 'Validation error')
           raise Adyen::ValidationError.new(full_message, request_data, response.body)
@@ -375,7 +378,7 @@ module Adyen
         error_details = JSON.parse(response_body, symbolize_names: true) if response_body.is_a?(String)
 
         # check different attributes to support both RFC 7807 and legacy models
-        message = error_details[:detail] || error_details[:message]
+        message = error_details[:detail] || error_details[:message]  || error_details
         error_code = error_details[:errorCode]
         if message && error_code
           full_message = "#{message} ErrorCode: #{error_code}"

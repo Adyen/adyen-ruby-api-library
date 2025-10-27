@@ -9,6 +9,7 @@ module Adyen
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
+      puts "yallloooowwww"
       super(client, version, 'Checkout')
     end
 

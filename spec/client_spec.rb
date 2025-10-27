@@ -413,4 +413,22 @@ RSpec.describe Adyen do
       expect(error.msg).to eq('Unexpected error. ErrorCode: 999')
     end
   end
+
+  it 'raises NotFoundError on 404 response and checks content' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    mock_faraday_connection = double(Faraday::Connection)
+    error_body = "701 Version 71 is not supported, latest version: 68"
+    mock_response = Faraday::Response.new(status: 404, body: error_body)
+
+    allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
+    allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
+    allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
+
+    expect {
+      client.checkout.payments_api.payments({})
+    }.to raise_error(Adyen::NotFoundError) do |error|
+      expect(error.code).to eq(404)
+      expect(error.msg).to eq('Not found error')
+    end
+  end
 end
