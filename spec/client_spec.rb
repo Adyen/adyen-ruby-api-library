@@ -303,6 +303,18 @@ RSpec.describe Adyen do
       .to eq('https://ca-test.adyen.com/ca/services/DisputesService')
   end  
 
+  it 'checks the creation of SessionAuthentication url for the test env' do
+    client = Adyen::Client.new(env: :test)
+    expect(client.service_url_base('SessionAuthentication'))
+      .to eq('https://test.adyen.com/authe/api')
+  end
+
+  it 'checks the creation of SessionAuthentication url for the live env' do
+    client = Adyen::Client.new(env: :live)
+    expect(client.service_url_base('SessionAuthentication'))
+      .to eq('https://authe-live.adyen.com/authe/api')
+  end
+
   it 'raises FormatError on 400 response and checks content' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     mock_faraday_connection = double(Faraday::Connection)
