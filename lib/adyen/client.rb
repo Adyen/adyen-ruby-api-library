@@ -153,8 +153,6 @@ module Adyen
         faraday.headers['Content-Type'] = 'application/json'
         faraday.headers['User-Agent'] = "#{Adyen::NAME}/#{Adyen::VERSION}"
 
-        faraday.response :json
-
         # set header based on auth_type and service
         auth_header(auth_type, faraday)
 
@@ -374,6 +372,7 @@ module Adyen
       full_message = default_message
       begin
         error_details = response_body
+        error_details = JSON.parse(response_body, symbolize_names: true) if response_body.is_a?(String)
 
         # check different attributes to support both RFC 7807 and legacy models
         message = error_details[:detail] || error_details[:message]
