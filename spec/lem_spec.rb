@@ -111,7 +111,6 @@ RSpec.describe Adyen::LegalEntityManagement, service: 'LegalEntityManagement' do
       @shared_values[:client].legal_entity_management.legal_entities_api.get_legal_entity(invalid_legal_entity_id)
     end.to raise_error(Adyen::NotFoundError) do |error|
       expect(error.code).to eq(404)
-      expect(error.msg).to include("Legal entity not found")
       expect(error.msg).to eq('Legal entity not found ErrorCode: 100')
     end
   end
