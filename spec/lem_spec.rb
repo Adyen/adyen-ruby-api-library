@@ -92,7 +92,7 @@ RSpec.describe Adyen::LegalEntityManagement, service: 'LegalEntityManagement' do
 
   it 'raises an error when calling legal_entities GET call' do
     invalid_legal_entity_id = 'NON_EXISTENT_ID'
-    error_response_body = '{ "status": 404, "errorCode": "100", "message": "Legal entity not found", "errorType": "validation" }'
+    error_response_body = { status: 404, errorCode: '100', message: 'Legal entity not found', errorType: 'validation' }.to_json 
 
     url = @shared_values[:client].service_url(@shared_values[:service], "legalEntities/#{invalid_legal_entity_id}",
                                               @shared_values[:client].legal_entity_management.version)
@@ -112,6 +112,7 @@ RSpec.describe Adyen::LegalEntityManagement, service: 'LegalEntityManagement' do
     end.to raise_error(Adyen::NotFoundError) do |error|
       expect(error.code).to eq(404)
       expect(error.msg).to include("Legal entity not found")
+      expect(error.msg).to eq('Legal entity not found ErrorCode: 100')
     end
   end
 end

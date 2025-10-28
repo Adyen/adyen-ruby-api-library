@@ -446,6 +446,7 @@ RSpec.describe Adyen do
       client.payment.payments_api.authorise({})
     }.to raise_error(Adyen::NotFoundError) do |error|
       expect(error.code).to eq(404)
+      expect(error.msg).to eq('Not found error')
     end
   end
  
