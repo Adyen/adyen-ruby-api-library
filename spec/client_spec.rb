@@ -431,4 +431,23 @@ RSpec.describe Adyen do
       expect(error.msg).to eq('Not found error')
     end
   end
+
+   it 'raises NotFoundError on 404 response with an invalid JSON body' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    mock_faraday_connection = double(Faraday::Connection)
+    error_body = "this is an error message"  
+    mock_response = Faraday::Response.new(status: 404, body: error_body)
+
+    allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
+    allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
+    allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
+
+    expect {
+      client.payment.payments_api.authorise({})
+    }.to raise_error(Adyen::NotFoundError) do |error|
+      expect(error.code).to eq(404)
+      expect(error.msg).to eq('Not found error')
+    end
+  end
+ 
 end
