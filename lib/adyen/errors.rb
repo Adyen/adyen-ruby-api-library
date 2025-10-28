@@ -105,6 +105,12 @@ module Adyen
     end
   end
 
+  class NotFoundError < AdyenError
+    def initialize(msg, request, response)
+      super(request, response, msg, 404)
+    end
+  end
+
   # catchall for errors which don't have more specific classes
   class APIError < AdyenError
     def initialize(msg, request, response, code)
