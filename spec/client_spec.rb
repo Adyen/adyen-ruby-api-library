@@ -452,9 +452,15 @@ RSpec.describe Adyen do
 
 
   describe '#call_adyen_api' do
+    let(:client) { Adyen::Client.new(api_key: 'test_key', env: :test) }
+    let(:mock_faraday_connection) { double(Faraday::Connection) }
+
+    before do
+      allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
+      allow(mock_faraday_connection).to receive(:adapter)
+    end
+
     it 'successfully makes a POST request and returns AdyenResult' do
-      client = Adyen::Client.new(api_key: 'test_key', env: :test)
-      mock_faraday_connection = double(Faraday::Connection)
       response_body = { pspReference: '123456789', resultCode: 'Authorised' }.to_json
       mock_response = Faraday::Response.new(
         status: 200,
@@ -465,7 +471,6 @@ RSpec.describe Adyen do
       expect(Faraday).to receive(:new)
         .with('https://checkout-test.adyen.com/v71/payments', anything)
         .and_return(mock_faraday_connection)
-      allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
       allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
 
       result = client.call_adyen_api('Checkout', 'payments', { amount: { value: 1000 } }, {}, '71')
@@ -476,43 +481,42 @@ RSpec.describe Adyen do
     end
 
     it 'successfully makes a GET request' do
-      client = Adyen::Client.new(api_key: 'test_key', env: :test)
-      mock_faraday_connection = double(Faraday::Connection)
       response_body = { data: [{ id: '1' }] }.to_json
       mock_response = Faraday::Response.new(status: 200, body: response_body, response_headers: {})
 
       expect(Faraday).to receive(:new)
-        .with('https://management-test.adyen.com/v1/companies', anything)
+        .with('https://management-test.adyen.com/v1/merchants/MyMerchantID/paymentsApps', anything)
         .and_return(mock_faraday_connection)
         .and_yield(mock_faraday_connection)
-      allow(mock_faraday_connection).to receive(:adapter)
-      allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
       allow(mock_faraday_connection).to receive(:get).and_return(mock_response)
 
-      result = client.call_adyen_api('Management', { url: 'companies', method: 'get' }, {}, {}, '1')
+      result = client.call_adyen_api(
+        'Management',
+        { url: 'merchants/MyMerchantID/paymentsApps', method: 'get' },
+        {},
+        {},
+        '1'
+      )
 
       expect(result).to be_a(Adyen::AdyenResult)
       expect(result.status).to eq(200)
     end
 
     it 'sets correct headers including custom headers' do
-      client = Adyen::Client.new(api_key: 'test_key', env: :test)
-      mock_faraday_connection = double(Faraday::Connection)
       mock_response = Faraday::Response.new(status: 200, body: '{}', response_headers: {})
-
       headers_spy = {}
+
       expect(Faraday).to receive(:new)
-        .with('https://checkout-test.adyen.com/v71/payments', anything)
+        .with('https://checkout-test.adyen.com/v71/storedPaymentMethods', anything)
         .and_return(mock_faraday_connection)
         .and_yield(mock_faraday_connection)
-      allow(mock_faraday_connection).to receive(:adapter)
       allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=) do |key, value|
         headers_spy[key] = value
       end
       allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
 
       custom_headers = { 'Idempotency-Key' => 'test-123' }
-      client.call_adyen_api('Checkout', 'payments', {}, custom_headers, '71')
+      client.call_adyen_api('Checkout', 'storedPaymentMethods', {}, custom_headers, '71')
 
       expect(headers_spy['Content-Type']).to eq('application/json')
       expect(headers_spy['x-api-key']).to eq('test_key')
@@ -520,33 +524,24 @@ RSpec.describe Adyen do
     end
 
     it 'handles connection failures' do
-      client = Adyen::Client.new(api_key: 'test_key', env: :test)
-      mock_faraday_connection = double(Faraday::Connection)
-
       expect(Faraday).to receive(:new)
-        .with('https://checkout-test.adyen.com/v71/payments', anything)
+        .with('https://checkout-test.adyen.com/v71/paymentLinks/PL61C53A8B97E6924D', anything)
         .and_return(mock_faraday_connection)
         .and_yield(mock_faraday_connection)
-      allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
-      allow(mock_faraday_connection).to receive(:adapter)
       allow(mock_faraday_connection).to receive(:post).and_raise(Faraday::ConnectionFailed.new('Connection failed'))
 
       expect {
-        client.call_adyen_api('Checkout', 'payments', {}, {}, '71')
+        client.call_adyen_api('Checkout', 'paymentLinks/PL61C53A8B97E6924D', {}, {}, '71')
       }.to raise_error(Faraday::ConnectionFailed, /Connection to .* failed/)
     end
 
     it 'converts request data to JSON' do
-      client = Adyen::Client.new(api_key: 'test_key', env: :test)
-      mock_faraday_connection = double(Faraday::Connection)
       mock_response = Faraday::Response.new(status: 200, body: '{}', response_headers: {})
 
       expect(Faraday).to receive(:new)
         .with('https://checkout-test.adyen.com/v71/payments', anything)
         .and_return(mock_faraday_connection)
         .and_yield(mock_faraday_connection)
-      allow(mock_faraday_connection).to receive(:adapter)
-      allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
 
       request_body_sent = nil
       allow(mock_faraday_connection).to receive(:post) do |&block|
@@ -560,6 +555,135 @@ RSpec.describe Adyen do
       client.call_adyen_api('Checkout', 'payments', hash_data, {}, '71')
 
       expect(request_body_sent).to eq(hash_data.to_json)
+    end
+  end
+
+  describe '#call_adyen_api_url' do
+    let(:client) { Adyen::Client.new(api_key: 'test_key', env: :test) }
+    let(:mock_faraday_connection) { double(Faraday::Connection) }
+
+    before do
+      allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=)
+      allow(mock_faraday_connection).to receive(:adapter)
+    end
+
+    it 'successfully makes a POST request with full URL' do
+      response_body = { pspReference: '987654321', resultCode: 'Authorised' }.to_json
+      mock_response = Faraday::Response.new(
+        status: 200,
+        body: response_body,
+        response_headers: { 'content-type' => 'application/json' }
+      )
+
+      expect(Faraday).to receive(:new)
+        .with('https://balanceplatform-api-test.adyen.com/capital/v1/grants', anything)
+        .and_return(mock_faraday_connection)
+        .and_yield(mock_faraday_connection)
+      allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
+
+      result = client.call_adyen_api_url(
+        'https://balanceplatform-api-test.adyen.com/capital/v1/grants',
+        'post',
+        { amount: { value: 2000 } },
+        {}
+      )
+
+      expect(result).to be_a(Adyen::AdyenResult)
+      expect(result.status).to eq(200)
+      expect(result.response["pspReference"]).to eq('987654321')
+    end
+
+    it 'successfully makes a GET request' do
+      response_body = { data: [{ id: 'comp-1' }] }.to_json
+      mock_response = Faraday::Response.new(status: 200, body: response_body, response_headers: {})
+
+      expect(Faraday).to receive(:new)
+        .with('https://management-test.adyen.com/v3/merchants/MyMerchantID/stores', anything)
+        .and_return(mock_faraday_connection)
+        .and_yield(mock_faraday_connection)
+      allow(mock_faraday_connection).to receive(:get).and_return(mock_response)
+
+      result = client.call_adyen_api_url(
+        'https://management-test.adyen.com/v3/merchants/MyMerchantID/stores',
+        'get',
+        {},
+        {}
+      )
+
+      expect(result).to be_a(Adyen::AdyenResult)
+      expect(result.status).to eq(200)
+    end
+
+    it 'sets correct headers' do
+      mock_response = Faraday::Response.new(status: 200, body: '{}', response_headers: {})
+      headers_spy = {}
+
+      expect(Faraday).to receive(:new)
+        .with('https://custom.adyen.com/api/endpoint', anything)
+        .and_return(mock_faraday_connection)
+        .and_yield(mock_faraday_connection)
+      allow(mock_faraday_connection).to receive_message_chain(:headers, :[]=) do |key, value|
+        headers_spy[key] = value
+      end
+      allow(mock_faraday_connection).to receive(:post).and_return(mock_response)
+
+      custom_headers = { 'X-Custom-Header' => 'custom-value' }
+      client.call_adyen_api_url('https://custom.adyen.com/api/endpoint', 'post', {}, custom_headers)
+
+      expect(headers_spy['Content-Type']).to eq('application/json')
+      expect(headers_spy['x-api-key']).to eq('test_key')
+      expect(headers_spy['X-Custom-Header']).to eq('custom-value')
+    end
+
+    it 'handles connection failures' do
+      expect(Faraday).to receive(:new)
+        .with('https://management-test.adyen.com/v3/stores', anything)
+        .and_return(mock_faraday_connection)
+        .and_yield(mock_faraday_connection)
+      allow(mock_faraday_connection).to receive(:post).and_raise(Faraday::ConnectionFailed.new('Connection failed'))
+
+      expect {
+        client.call_adyen_api_url('https://management-test.adyen.com/v3/stores', 'post', {}, {})
+      }.to raise_error(Faraday::ConnectionFailed, /Connection to .* failed/)
+    end
+
+    it 'supports different HTTP methods' do
+      mock_response = Faraday::Response.new(status: 200, body: '{"status":"updated"}', response_headers: {})
+
+      expect(Faraday).to receive(:new)
+        .with('https://checkout-test.adyen.com/v71/paymentLinks/PL61C53A8B97E6915A', anything)
+        .and_return(mock_faraday_connection)
+        .and_yield(mock_faraday_connection)
+      allow(mock_faraday_connection).to receive(:patch).and_return(mock_response)
+
+      result = client.call_adyen_api_url(
+        'https://checkout-test.adyen.com/v71/paymentLinks/PL61C53A8B97E6915A',
+        'patch',
+        { status: 'active' },
+        {}
+      )
+
+      expect(result).to be_a(Adyen::AdyenResult)
+      expect(result.status).to eq(200)
+    end
+
+    it 'raises for invalid HTTP method' do
+      expect {
+        client.call_adyen_api_url('https://management-test.adyen.com/v1/something', 'invalid', {}, {})
+      }.to raise_error(ArgumentError, "Invalid HTTP method: invalid")
+    end
+
+    it 'validates authentication is provided' do
+      client_without_auth = Adyen::Client.new(env: :test)
+
+      expect {
+        client_without_auth.call_adyen_api_url(
+          'https://checkout-test.adyen.com/v71/paymentMethods/balance',
+          'post',
+          {},
+          {}
+        )
+      }.to raise_error(Adyen::AuthenticationError, /No authentication found/)
     end
   end
 end

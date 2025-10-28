@@ -144,8 +144,19 @@ module Adyen
     def call_adyen_api(service, action, request_data, headers, version, _with_application_info: false)
       # get URL for requested endpoint
       url = service_url(service, action.is_a?(String) ? action : action.fetch(:url), version)
-      
-      auth_type = auth_type(service, request_data)
+
+      # make sure valid authentication has been provided
+      validate_auth_type(service, request_data)
+
+      method = action.is_a?(String) ? 'post' : action.fetch(:method)
+
+      call_adyen_api_url(url, method, request_data, headers)
+    end
+
+    # send request to adyen API with a given full URL
+    def call_adyen_api_url(url, method, request_data, headers)
+      # make sure valid authentication has been provided, without a specific service
+      validate_auth_type(nil, request_data)
 
       # initialize Faraday connection object
       conn = Faraday.new(url, @connection_options) do |faraday|
@@ -154,7 +165,7 @@ module Adyen
         faraday.headers['User-Agent'] = "#{Adyen::NAME}/#{Adyen::VERSION}"
 
         # set header based on auth_type and service
-        auth_header(auth_type, faraday)
+        add_auth_header(faraday)
 
         # add optional headers if specified in request
         # will overwrite default headers if overlapping
@@ -173,49 +184,27 @@ module Adyen
       # convert to json
       request_data = request_data.to_json
 
-      if action.is_a?(::Hash)
-        if action.fetch(:method) == 'get'
-          begin
-            response = conn.get
-          rescue Faraday::ConnectionFailed => e
-            raise e, "Connection to #{url} failed"
-          end
-        end
-        if action.fetch(:method) == 'delete'
-          begin
-            response = conn.delete
-          rescue Faraday::ConnectionFailed => e
-            raise e, "Connection to #{url} failed"
-          end
-        end
-        if action.fetch(:method) == 'patch'
-          begin
-            response = conn.patch do |req|
+      begin
+        response = case method
+          when 'get'
+            conn.get
+          when 'delete'
+            conn.delete
+          when 'patch'
+            conn.patch do |req|
               req.body = request_data
             end
-          rescue Faraday::ConnectionFailed => e
-            raise e, "Connection to #{url} failed"
-          end
-        end
-        if action.fetch(:method) == 'post'
-          # post request to Adyen
-          begin
-            response = conn.post do |req|
+          when 'post'
+            conn.post do |req|
               req.body = request_data
             end
-          rescue Faraday::ConnectionFailed => e
-            raise e, "Connection to #{url} failed"
+          else
+            raise ArgumentError, "Invalid HTTP method: #{method}"
           end
-        end
-      else
-        begin
-          response = conn.post do |req|
-            req.body = request_data
-          end
-        rescue Faraday::ConnectionFailed => e
-          raise e, "Connection to #{url} failed"
-        end
+      rescue Faraday::ConnectionFailed => e
+        raise e, "Connection to #{url} failed"
       end
+
       # check for API errors
       case response.status
         when 400
@@ -326,10 +315,10 @@ module Adyen
       @balance_control ||= Adyen::BalanceControl.new(self)
     end
 
-  
+
     private
 
-    def auth_header(auth_type, faraday)
+    def add_auth_header(faraday)
       case auth_type
       when "basic"
         if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
@@ -346,9 +335,7 @@ module Adyen
       end
     end
 
-    def auth_type(service, request_data)
-      # make sure valid authentication has been provided
-      validate_auth_type(service, request_data)
+    def auth_type
       # Will prioritize authentication methods in this order:
       # api-key, oauth, basic
       return "api-key" unless @api_key.nil?
