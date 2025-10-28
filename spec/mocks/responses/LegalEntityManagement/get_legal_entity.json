@@ -1,0 +1,14 @@
+{
+  "id": "LE322JV223222D5F4K62J7465",
+  "type": "Organization",
+  "status": "Active",
+  "legalEntityCode": "LE322JV223222D5F4K62J7465",
+  "reference": "MyCompany",
+  "capabilities": [
+    {
+      "id": "capability_1",
+      "requested": true,
+      "allowed": true
+    }
+  ]
+}
