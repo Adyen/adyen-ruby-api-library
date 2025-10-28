@@ -145,9 +145,7 @@ module Adyen
       # get URL for requested endpoint
       url = service_url(service, action.is_a?(String) ? action : action.fetch(:url), version)
 
-      # make sure valid authentication has been provided
-      validate_auth_type(service, request_data)
-
+      # get method from action or default to post
       method = action.is_a?(String) ? 'post' : action.fetch(:method)
 
       call_adyen_api_url(url, method, request_data, headers)
@@ -156,7 +154,7 @@ module Adyen
     # send request to adyen API with a given full URL
     def call_adyen_api_url(url, method, request_data, headers)
       # make sure valid authentication has been provided, without a specific service
-      validate_auth_type(nil, request_data)
+      validate_auth(request_data)
 
       # initialize Faraday connection object
       conn = Faraday.new(url, @connection_options) do |faraday|
@@ -343,17 +341,13 @@ module Adyen
       "basic"
     end
 
-    def validate_auth_type(service, request_data)
+    def validate_auth(request_data)
       # ensure authentication has been provided
       if @api_key.nil? && @oauth_token.nil? && (@ws_password.nil? || @ws_user.nil?)
         raise Adyen::AuthenticationError.new(
           'No authentication found - please set api_key, oauth_token, or ws_user and ws_password',
           request_data
         )
-      end
-      if service == "PaymentSetupAndVerification" && @api_key.nil? && @oauth_token.nil? && @ws_password.nil? && @ws_user.nil?
-        raise Adyen::AuthenticationError.new('Checkout service requires API-key or oauth_token', request_data),
-              'Checkout service requires API-key or oauth_token'
       end
     end
 

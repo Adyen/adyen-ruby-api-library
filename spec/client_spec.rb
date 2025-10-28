@@ -556,6 +556,14 @@ RSpec.describe Adyen do
 
       expect(request_body_sent).to eq(hash_data.to_json)
     end
+
+    it 'validates authentication is provided' do
+      client_without_auth = Adyen::Client.new(env: :test)
+
+      expect {
+        client_without_auth.call_adyen_api('Checkout', 'payments', {}, {}, '71')
+      }.to raise_error(Adyen::AuthenticationError, /No authentication found/)
+    end
   end
 
   describe '#call_adyen_api_url' do
