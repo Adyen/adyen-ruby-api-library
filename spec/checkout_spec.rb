@@ -8,6 +8,38 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
       service: 'Checkout'
     }
   end
+  
+  it 'detects a namespace collision between Checkout and Payment PaymentsApi classes' do
+    # Load both auto-generated PaymentsApi classes manually
+    payment_api_path = File.expand_path('../lib/adyen/services/payment/payments_api.rb', __dir__)
+    checkout_api_path = File.expand_path('../lib/adyen/services/checkout/payments_api.rb', __dir__)
+
+    load payment_api_path
+    load checkout_api_path
+
+    # Instantiate what the Checkout facade will call
+    checkout = Adyen::Checkout.new(@shared_values[:client])
+
+    # Retrieve the PaymentsApi class reference that the facade resolves to
+    resolved_class = checkout.payments_api.class
+
+    # Verify which service it actually represents
+    service_name =
+      if resolved_class.instance_methods.include?(:service_name)
+        resolved_class.new(@shared_values[:client], @shared_values[:client].checkout.version).service_name
+      else
+        resolved_class.to_s
+      end
+
+      puts "service_name"
+      puts service_name
+    # This expectation documents the current buggy behavior.
+    # It should fail once the namespace is properly fixed.
+    expect(service_name)
+      .to eq('Adyen::PaymentsApi'),
+      "Expected Checkout.payments_api to instantiate the Checkout::PaymentsApi class, " \
+      "but it appears to be using the Payment service implementation instead (#{resolved_class})"
+  end
 
   # must be created manually because every field in the response is an array
   it 'makes a payment_methods call' do
