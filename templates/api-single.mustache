@@ -23,7 +23,7 @@ module Adyen
     {{#apiInfo}}
         {{#apis}}
     def {{classFilename}}
-      @{{classFilename}} ||= Adyen::{{classname}}.new(@client, @version)
+      @{{classFilename}} ||= Adyen::{{classicPrefix}}{{classname}}.new(@client, @version)
     end
 
         {{/apis}}

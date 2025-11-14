@@ -8,6 +8,19 @@ RSpec.describe Adyen::Checkout, service: 'checkout' do
       service: 'Checkout'
     }
   end
+  
+  it 'uses the correct PaymentsApi for the Checkout service' do
+    # Load both API files to ensure there's no conflict after the fix.
+    load File.expand_path('../lib/adyen/services/payment/payments_api.rb', __dir__)
+    load File.expand_path('../lib/adyen/services/checkout/payments_api.rb', __dir__)
+
+    checkout = Adyen::Checkout.new(@shared_values[:client])
+    payments_api = checkout.payments_api
+
+    # Verify that the Checkout facade uses the correct PaymentsApi class.
+    expect(payments_api.class.name).to eq('Adyen::PaymentsApi')
+    expect(payments_api.service).to eq('Checkout')
+  end
 
   # must be created manually because every field in the response is an array
   it 'makes a payment_methods call' do

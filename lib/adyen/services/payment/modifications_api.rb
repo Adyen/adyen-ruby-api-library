@@ -5,7 +5,7 @@ module Adyen
   # Ref: https://openapi-generator.tech
   #
   # Do not edit the class manually.
-  class ModificationsApi < Service
+  class ClassicModificationsApi < Service
     attr_accessor :service, :version
 
     def initialize(client, version = DEFAULT_VERSION)
