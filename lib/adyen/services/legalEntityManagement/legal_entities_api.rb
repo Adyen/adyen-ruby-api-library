@@ -62,6 +62,16 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
+    # Request periodic data review.
+    def request_periodic_review(id, headers: {})
+      endpoint = '/legalEntities/{id}/requestPeriodicReview'.gsub(/{.+?}/, '%s')
+      endpoint = endpoint.gsub(%r{^/}, '')
+      endpoint = format(endpoint, id)
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     # Update a legal entity
     def update_legal_entity(request, id, headers: {})
       endpoint = '/legalEntities/{id}'.gsub(/{.+?}/, '%s')
