@@ -64,8 +64,6 @@ module Adyen
 
     # base URL for API given service and @env
     def service_url_base(service)
-      # maps 'Disputes' to expected service name 'DisputesService' for URL matching
-      service = 'DisputesService' if service == 'Disputes'
       if @env == :mock
         @mock_service_url_base
       else
@@ -82,8 +80,11 @@ module Adyen
         when 'PosTerminalManagement'
           url = "https://postfmapi-#{@env}.adyen.com/postfmapi/terminal"
           supports_live_url_prefix = false
-        when 'DataProtectionService', 'DisputesService'
-          url = "https://ca-#{@env}.adyen.com/ca/services/#{service}"
+        when 'Disputes'
+          url = "https://ca-#{@env}.adyen.com/ca/services/DisputeService"
+          supports_live_url_prefix = false
+        when 'DataProtection'
+          url = "https://ca-#{@env}.adyen.com/ca/services/DataProtectionService"
           supports_live_url_prefix = false
         when 'LegalEntityManagement'
           url = "https://kyc-#{@env}.adyen.com/lem"

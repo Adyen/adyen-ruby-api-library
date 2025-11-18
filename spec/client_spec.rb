@@ -300,7 +300,7 @@ RSpec.describe Adyen do
   it 'correctly maps Disputes to DisputesService and generates valid URL' do
     client = Adyen::Client.new(env: :test)
     expect(client.service_url_base('Disputes'))
-      .to eq('https://ca-test.adyen.com/ca/services/DisputesService')
+      .to eq('https://ca-test.adyen.com/ca/services/DisputeService')
   end  
 
   it 'checks the creation of SessionAuthentication url for the test env' do
