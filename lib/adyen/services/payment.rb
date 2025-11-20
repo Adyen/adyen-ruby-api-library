@@ -18,11 +18,11 @@ module Adyen
     end
 
     def modifications_api
-      @modifications_api ||= Adyen::ModificationsApi.new(@client, @version)
+      @modifications_api ||= Adyen::ClassicModificationsApi.new(@client, @version)
     end
 
     def payments_api
-      @payments_api ||= Adyen::PaymentsApi.new(@client, @version)
+      @payments_api ||= Adyen::ClassicPaymentsApi.new(@client, @version)
     end
 
   end
