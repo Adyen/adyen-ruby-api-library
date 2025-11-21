@@ -114,4 +114,25 @@ RSpec.describe Adyen::LegalEntityManagement, service: 'LegalEntityManagement' do
       expect(error.msg).to eq('Legal entity not found ErrorCode: 100')
     end
   end
+
+  it 'makes a LegaleEntity /requestPeriodicReview call' do
+    url = @shared_values[:client].service_url(@shared_values[:service], "legalEntities/LE123/requestPeriodicReview",
+                                              @shared_values[:client].legal_entity_management.version)
+    WebMock.stub_request(:post, url)
+           .with(
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: '{}'
+           )
+
+    result = @shared_values[:client].legal_entity_management.legal_entities_api.request_periodic_review('LE123')
+    result.response
+
+    expect(result.status)
+      .to eq(200)
+  end
+  
 end
