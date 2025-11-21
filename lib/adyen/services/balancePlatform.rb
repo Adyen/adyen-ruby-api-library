@@ -12,8 +12,6 @@ require_relative 'balancePlatform/network_tokens_api'
 require_relative 'balancePlatform/payment_instrument_groups_api'
 require_relative 'balancePlatform/payment_instruments_api'
 require_relative 'balancePlatform/platform_api'
-require_relative 'balancePlatform/sca_association_management_api'
-require_relative 'balancePlatform/sca_device_management_api'
 require_relative 'balancePlatform/transaction_rules_api'
 require_relative 'balancePlatform/transfer_limits_balance_account_level_api'
 require_relative 'balancePlatform/transfer_limits_balance_platform_level_api'
@@ -89,14 +87,6 @@ module Adyen
 
     def platform_api
       @platform_api ||= Adyen::PlatformApi.new(@client, @version)
-    end
-
-    def sca_association_management_api
-      @sca_association_management_api ||= Adyen::SCAAssociationManagementApi.new(@client, @version)
-    end
-
-    def sca_device_management_api
-      @sca_device_management_api ||= Adyen::SCADeviceManagementApi.new(@client, @version)
     end
 
     def transaction_rules_api
