@@ -303,6 +303,12 @@ RSpec.describe Adyen do
       .to eq('https://ca-test.adyen.com/ca/services/DisputeService')
   end  
 
+  it 'checks the creation of DataProtection url' do
+    client = Adyen::Client.new(env: :test)
+    expect(client.service_url_base('DataProtection'))
+      .to eq('https://ca-test.adyen.com/ca/services/DataProtectionService')
+  end  
+
   it 'checks the creation of SessionAuthentication url for the test env' do
     client = Adyen::Client.new(env: :test)
     expect(client.service_url_base('SessionAuthentication'))
