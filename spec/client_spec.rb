@@ -43,40 +43,38 @@ RSpec.describe Adyen do
     @shared_values[:client].api_key = 'api_key'
   end
 
-  it 'is Checkout service when using checkout.payments_api' do
-    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
-    expect(client.checkout.payments_api.service)
-      .to eq('Checkout')
-  end
+  describe 'service name resolution' do
+    let(:client) { Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test') }
 
-  it 'is Checkout service when using checkout.recurring_api' do
-    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
-    expect(client.checkout.recurring_api.service)
-      .to eq('Checkout')
-  end
+    it 'is Checkout service when using checkout.payments_api' do
+      expect(client.checkout.payments_api.service)
+        .to eq('Checkout')
+    end
 
-  it 'is Recurring service when using recurring.recurring_api' do
-    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
-    expect(client.recurring.recurring_api.service)
-      .to eq('Recurring')
-  end
+    it 'is Checkout service when using checkout.recurring_api' do
+      expect(client.checkout.recurring_api.service)
+        .to eq('Checkout')
+    end
 
-  it 'is Payment service when using payment.payments_api' do
-    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
-    expect(client.payment.payments_api.service)
-      .to eq('Payment')
-  end
+    it 'is Recurring service when using recurring.recurring_api' do
+      expect(client.recurring.recurring_api.service)
+        .to eq('Recurring')
+    end
 
-  it 'is Payment service when using payment.modifications_api' do
-    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
-    expect(client.payment.modifications_api.service)
-      .to eq('Payment')
-  end
+    it 'is Payment service when using payment.payments_api' do
+      expect(client.payment.payments_api.service)
+        .to eq('Payment')
+    end
 
-  it 'is Payout service when using payout.instant_payouts_api' do
-    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
-    expect(client.payout.instant_payouts_api.service)
-      .to eq('Payout')
+    it 'is Payment service when using payment.modifications_api' do
+      expect(client.payment.modifications_api.service)
+        .to eq('Payment')
+    end
+
+    it 'is Payout service when using payout.instant_payouts_api' do
+      expect(client.payout.instant_payouts_api.service)
+        .to eq('Payout')
+    end
   end
 
   it 'uses the specified mock service URL' do
