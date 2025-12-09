@@ -43,6 +43,42 @@ RSpec.describe Adyen do
     @shared_values[:client].api_key = 'api_key'
   end
 
+  it 'is Checkout service when using checkout.payments_api' do
+    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
+    expect(client.checkout.payments_api.service)
+      .to eq('Checkout')
+  end
+
+  it 'is Checkout service when using checkout.recurring_api' do
+    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
+    expect(client.checkout.recurring_api.service)
+      .to eq('Checkout')
+  end
+
+  it 'is Recurring service when using recurring.recurring_api' do
+    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
+    expect(client.recurring.recurring_api.service)
+      .to eq('Recurring')
+  end
+
+  it 'is Payment service when using payment.payments_api' do
+    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
+    expect(client.payment.payments_api.service)
+      .to eq('Payment')
+  end
+
+  it 'is Payment service when using payment.modifications_api' do
+    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
+    expect(client.payment.modifications_api.service)
+      .to eq('Payment')
+  end
+
+  it 'is Payout service when using payout.instant_payouts_api' do
+    client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
+    expect(client.payout.instant_payouts_api.service)
+      .to eq('Payout')
+  end
+
   it 'uses the specified mock service URL' do
     client = Adyen::Client.new(env: :mock, mock_service_url_base: 'https://mock.test')
     expect(client.service_url_base('Account'))
@@ -206,6 +242,7 @@ RSpec.describe Adyen do
     expect(client.service_url('Checkout', 'paymentMethods', '70'))
       .to eq('https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v70/paymentMethods')
   end
+
   it 'checks the creation of lem url' do
     client = Adyen::Client.new(api_key: 'api_key', env: :live)
     expect(client.service_url('LegalEntityManagement', 'businessLines', '3'))
@@ -320,6 +357,13 @@ RSpec.describe Adyen do
     expect(client.service_url_base('SessionAuthentication'))
       .to eq('https://authe-live.adyen.com/authe/api')
   end
+
+   it 'checks the creation of Recurring API url for the test env' do
+    client = Adyen::Client.new(env: :test)
+    expect(client.service_url_base('Recurring'))
+      .to eq('https://pal-test.adyen.com/pal/servlet/Recurring')
+  end
+
 
   it 'raises FormatError on 400 response and checks content' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
