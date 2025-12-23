@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Release Gem on RubyGems
         if: contains(github.ref, 'refs/tags/v')
         uses: cadwallion/publish-rubygems-action@v1.1.0
