@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Release Gem on RubyGems
         if: contains(github.ref, 'refs/tags/v')
-        uses: cadwallion/publish-rubygems-action@v1.1.0
+        uses: cadwallion/publish-rubygems-action@94a6f4cd5350581749c569b5001eecc864e3ad0b # v1.1.0
         env:
           GITHUB_TOKEN: ${{secrets.TOKEN_RUBYGEMS_RELEASES_WITH_EXPIRATION}}
           RUBYGEMS_API_KEY: ${{secrets.RUBYGEMS_API_KEY}}
