@@ -16,12 +16,14 @@ module Adyen
     attr_reader :env, :connection_options, :adapter_options, :terminal_region
 
     def initialize(ws_user: nil, ws_password: nil, api_key: nil, oauth_token: nil, env: :live, adapter: nil, mock_port: 3001,
-                   live_url_prefix: nil, mock_service_url_base: nil, connection_options: nil, adapter_options: nil, terminal_region: nil)
+                   live_url_prefix: nil, mock_service_url_base: nil, connection_options: nil, adapter_options: nil, terminal_region: nil,
+                   application_name: nil)
       @ws_user = ws_user
       @ws_password = ws_password
       @api_key = api_key
       @oauth_token = oauth_token
       @env = env
+      @application_name = application_name
       @adapter = adapter || Faraday.default_adapter
       if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.1')
         # for faraday 2.1 and higher
@@ -152,7 +154,9 @@ module Adyen
       conn = Faraday.new(url, @connection_options) do |faraday|
         faraday.adapter @adapter, **@adapter_options
         faraday.headers['Content-Type'] = 'application/json'
-        faraday.headers['User-Agent'] = "#{Adyen::NAME}/#{Adyen::VERSION}"
+        user_agent = "#{Adyen::NAME}/#{Adyen::VERSION}"
+        user_agent = "#{@application_name} #{user_agent}" unless @application_name.nil? || @application_name.empty?
+        faraday.headers['User-Agent'] = user_agent
 
         # set header based on auth_type and service
         auth_header(auth_type, faraday)
