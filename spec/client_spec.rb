@@ -32,8 +32,8 @@ RSpec.describe Adyen do
       .to raise_error(Adyen::AuthenticationError)
   end
 
-  it "fails a checkout call without oauth token" do
-    expect{ @shared_values[:client].checkout.payments_api.payment_methods("{}") }.
+  it 'fails a checkout call without oauth token' do
+    expect { @shared_values[:client].checkout.payments_api.payment_methods('{}') }.
       to raise_error(Adyen::AuthenticationError)
   end
 
@@ -115,11 +115,11 @@ RSpec.describe Adyen do
 
   # test with Ruby 3.2+ only (where Faraday requestOptions timeout is supported)
   it 'initiates a Faraday connection with the provided options' do
-    skip "Only runs on Ruby >= 3.2" unless RUBY_VERSION >= '3.2'
+    skip 'Only runs on Ruby >= 3.2' unless RUBY_VERSION >= '3.2'
     connection_options = Faraday::ConnectionOptions.new(
       request: {
-        open_timeout: 5,  
-        timeout: 10      
+        open_timeout: 5,
+        timeout: 10
       }
     )
     expect(Faraday::ConnectionOptions).not_to receive(:new)
@@ -142,63 +142,63 @@ RSpec.describe Adyen do
 
   # test with Ruby 3.2+ only (where Faraday requestOptions timeout is supported)
   it 'initiates a Faraday connection with the expected default timeouts' do
-    skip "Only runs on Ruby >= 3.2" unless RUBY_VERSION >= '3.2'
+    skip 'Only runs on Ruby >= 3.2' unless RUBY_VERSION >= '3.2'
     client = Adyen::Client.new(env: :test)
     expect(client.connection_options[:request][:open_timeout]).to eq(30)
     expect(client.connection_options[:request][:timeout]).to eq(60)
   end
 
-  it "checks the creation of checkout url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :test)
-    expect(client.service_url("Checkout", "paymentMethods", "71")).
-    to eq("https://checkout-test.adyen.com/v71/paymentMethods")
+  it 'checks the creation of checkout url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('Checkout', 'paymentMethods', '71')).
+      to eq('https://checkout-test.adyen.com/v71/paymentMethods')
   end
 
-  it "checks the creation of checkout url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :live, live_url_prefix: "YourLiveUrlPrefix")
-    expect(client.service_url("Checkout", "paymentMethods", "71")).
-    to eq("https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v71/paymentMethods")
+  it 'checks the creation of checkout url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :live, live_url_prefix: 'YourLiveUrlPrefix')
+    expect(client.service_url('Checkout', 'paymentMethods', '71')).
+      to eq('https://YourLiveUrlPrefix-checkout-live.adyenpayments.com/checkout/v71/paymentMethods')
   end
-  it "checks the creation of lem url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :live)
-    expect(client.service_url("LegalEntityManagement", "businessLines", "3")).
-    to eq("https://kyc-live.adyen.com/lem/v3/businessLines")
-  end
-
-  it "checks the creation of balancePlatform url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :live)
-    expect(client.service_url("BalancePlatform", "legalEntities", "1")).
-    to eq("https://balanceplatform-api-live.adyen.com/bcl/v1/legalEntities")
+  it 'checks the creation of lem url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :live)
+    expect(client.service_url('LegalEntityManagement', 'businessLines', '3')).
+      to eq('https://kyc-live.adyen.com/lem/v3/businessLines')
   end
 
-  it "checks the creation of balancePlatform url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :test)
-    expect(client.service_url("BalancePlatform", "legalEntities", "1")).
-    to eq("https://balanceplatform-api-test.adyen.com/bcl/v1/legalEntities")
+  it 'checks the creation of balancePlatform url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :live)
+    expect(client.service_url('BalancePlatform', 'legalEntities', '1')).
+      to eq('https://balanceplatform-api-live.adyen.com/bcl/v1/legalEntities')
   end
 
-  it "checks the creation of transfers url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :test)
-    expect(client.service_url("Transfers", "transactions", "1")).
-    to eq("https://balanceplatform-api-test.adyen.com/btl/v1/transactions")
+  it 'checks the creation of balancePlatform url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('BalancePlatform', 'legalEntities', '1')).
+      to eq('https://balanceplatform-api-test.adyen.com/bcl/v1/legalEntities')
   end
 
-  it "checks the creation of management url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :test)
-    expect(client.service_url("Management", "companies", "1")).
-    to eq("https://management-test.adyen.com/v1/companies")
+  it 'checks the creation of transfers url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('Transfers', 'transactions', '1')).
+      to eq('https://balanceplatform-api-test.adyen.com/btl/v1/transactions')
   end
 
-  it "checks the creation of binLookup url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :test)
-    expect(client.service_url("BinLookup", "getCostEstimate", "54")).
-    to eq("https://pal-test.adyen.com/pal/servlet/BinLookup/v54/getCostEstimate")
+  it 'checks the creation of management url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('Management', 'companies', '1')).
+      to eq('https://management-test.adyen.com/v1/companies')
   end
 
-  it "check the creation of storedValue url" do
-    client = Adyen::Client.new(api_key: "api_key", env: :test)
-    expect(client.service_url("StoredValue", "issue", "46")).
-    to eq("https://pal-test.adyen.com/pal/servlet/StoredValue/v46/issue")
+  it 'checks the creation of binLookup url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('BinLookup', 'getCostEstimate', '54')).
+      to eq('https://pal-test.adyen.com/pal/servlet/BinLookup/v54/getCostEstimate')
+  end
+
+  it 'check the creation of storedValue url' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    expect(client.service_url('StoredValue', 'issue', '46')).
+      to eq('https://pal-test.adyen.com/pal/servlet/StoredValue/v46/issue')
   end
 
   it 'checks the creation of checkout url' do
@@ -276,19 +276,18 @@ RSpec.describe Adyen do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     expect(client.service_url('TerminalCloudAPI', 'connectedTerminals', nil))
       .to eq('https://terminal-api-test.adyen.com/connectedTerminals')
-
   end
-          
+
   it 'checks the initialization of the terminal region' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test, terminal_region: 'eu')
     expect(client.service_url('TerminalCloudAPI', 'connectedTerminals', nil))
-    .to eq('https://terminal-api-test-eu.adyen.com/connectedTerminals')
+      .to eq('https://terminal-api-test-eu.adyen.com/connectedTerminals')
   end
 
   it 'checks the initialization of the terminal region set to nil per default' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     expect(client.service_url('TerminalCloudAPI', 'connectedTerminals', nil))
-    .to eq('https://terminal-api-test.adyen.com/connectedTerminals')
+      .to eq('https://terminal-api-test.adyen.com/connectedTerminals')
   end
 
   it 'checks the creation of PosMobile sessions url' do
@@ -301,13 +300,13 @@ RSpec.describe Adyen do
     client = Adyen::Client.new(env: :test)
     expect(client.service_url_base('Disputes'))
       .to eq('https://ca-test.adyen.com/ca/services/DisputeService')
-  end  
+  end
 
   it 'checks the creation of DataProtection url' do
     client = Adyen::Client.new(env: :test)
     expect(client.service_url_base('DataProtection'))
       .to eq('https://ca-test.adyen.com/ca/services/DataProtectionService')
-  end  
+  end
 
   it 'checks the creation of SessionAuthentication url for the test env' do
     client = Adyen::Client.new(env: :test)
@@ -326,9 +325,9 @@ RSpec.describe Adyen do
     mock_faraday_connection = double(Faraday::Connection)
     error_body = {
       status: 400,
-      errorCode: "702",
-      message: "Structure of CreateCheckoutSessionRequest contains the following unknown fields: [paymentMethod]",
-      errorType: "validation"
+      errorCode: '702',
+      message: 'Structure of CreateCheckoutSessionRequest contains the following unknown fields: [paymentMethod]',
+      errorType: 'validation'
     }
     mock_response = Faraday::Response.new(status: 400, body: error_body)
 
@@ -349,12 +348,12 @@ RSpec.describe Adyen do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     mock_faraday_connection = double(Faraday::Connection)
     error_body = {
-      type: "https://docs.adyen.com/errors/validation",
-      title: "The request is missing required fields or contains invalid data.",
+      type: 'https://docs.adyen.com/errors/validation',
+      title: 'The request is missing required fields or contains invalid data.',
       status: 422,
-      detail: "It is mandatory to specify a legalEntityId when creating a new account holder.",
-      invalidFields: [{ "name" => "legalEntityId", "message" => "legalEntityId is not provided" }],
-      errorCode: "30_011"
+      detail: 'It is mandatory to specify a legalEntityId when creating a new account holder.',
+      invalidFields: [{ 'name' => 'legalEntityId', 'message' => 'legalEntityId is not provided' }],
+      errorCode: '30_011'
     }
     mock_response = Faraday::Response.new(status: 422, body: error_body)
 
@@ -377,11 +376,11 @@ RSpec.describe Adyen do
     mock_faraday_connection = double(Faraday::Connection)
     error_body = {
       status: 422,
-      errorCode: "14_030",
-      message: "Return URL is missing.",
-      errorType: "validation",
-      pspReference: "8816118280275544"
-    }  
+      errorCode: '14_030',
+      message: 'Return URL is missing.',
+      errorType: 'validation',
+      pspReference: '8816118280275544'
+    }
     mock_response = Faraday::Response.new(status: 422, body: error_body)
 
     allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
@@ -402,9 +401,9 @@ RSpec.describe Adyen do
     mock_faraday_connection = double(Faraday::Connection)
     error_body = {
       status: 500,
-      errorCode: "999",
-      message: "Unexpected error.",
-      errorType: "server error"
+      errorCode: '999',
+      message: 'Unexpected error.',
+      errorType: 'server error'
     }
     mock_response = Faraday::Response.new(status: 500, body: error_body)
 
@@ -423,7 +422,7 @@ RSpec.describe Adyen do
   it 'raises NotFoundError on 404 response and checks content' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     mock_faraday_connection = double(Faraday::Connection)
-    error_body = "701 Version 71 is not supported, latest version: 68"
+    error_body = '701 Version 71 is not supported, latest version: 68'
     mock_response = Faraday::Response.new(status: 404, body: error_body)
 
     allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
@@ -438,10 +437,10 @@ RSpec.describe Adyen do
     end
   end
 
-   it 'raises NotFoundError on 404 response with an invalid JSON body' do
+  it 'raises NotFoundError on 404 response with an invalid JSON body' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     mock_faraday_connection = double(Faraday::Connection)
-    error_body = "this is an error message"  
+    error_body = 'this is an error message'
     mock_response = Faraday::Response.new(status: 404, body: error_body)
 
     allow(Faraday).to receive(:new).and_return(mock_faraday_connection)
@@ -503,5 +502,4 @@ RSpec.describe Adyen do
     expect(connection_headers['User-Agent']).to_not be_empty
     expect(connection_headers['User-Agent']).to eq("MyTestApp #{Adyen::NAME}/#{Adyen::VERSION}")
   end
-
 end
