@@ -53,7 +53,8 @@ To test new features or changes to the templates, you must run the generation pr
 
 To install the library and its development dependencies, run:
 ```bash
-bundle install --with development
+bundle config set with development
+bundle install
 ```
 
 ### Running Tests
