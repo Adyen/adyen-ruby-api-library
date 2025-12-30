@@ -12,7 +12,7 @@ require_relative './result'
 
 module Adyen
   class Client
-    attr_accessor :ws_user, :ws_password, :api_key, :oauth_token, :client, :adapter
+    attr_accessor :ws_user, :ws_password, :api_key, :oauth_token, :client, :adapter, :application_name
     attr_reader :env, :connection_options, :adapter_options, :terminal_region
 
     def initialize(ws_user: nil, ws_password: nil, api_key: nil, oauth_token: nil, env: :live, adapter: nil, mock_port: 3001,
@@ -155,7 +155,7 @@ module Adyen
         faraday.adapter @adapter, **@adapter_options
         faraday.headers['Content-Type'] = 'application/json'
         user_agent = "#{Adyen::NAME}/#{Adyen::VERSION}"
-        user_agent = "#{@application_name} #{user_agent}" unless @application_name.nil? || @application_name.empty?
+        user_agent = "#{@application_name} #{user_agent}" if @application_name && !@application_name.strip.empty?
         faraday.headers['User-Agent'] = user_agent
 
         # set header based on auth_type and service
