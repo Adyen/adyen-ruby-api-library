@@ -71,7 +71,7 @@ adyen = Adyen::Client.new
 
 adyen.api_key = 'AF5XXXXXXXXXXXXXXXXXXXX'
 # If applicable, set application name (for tracking purposes)
-# adyen.application_name: 'MyTestApp'
+# adyen.application_name = 'MyTestApp'
 
 ~~~~
 
