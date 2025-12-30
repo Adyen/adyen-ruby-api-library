@@ -455,5 +455,53 @@ RSpec.describe Adyen do
       expect(error.msg).to eq('Not found error')
     end
   end
- 
+
+  it 'ensures User-Agent is present in request headers' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test)
+    mock_response = Faraday::Response.new(status: 200, body: '{}')
+
+    mock_conn = instance_double(Faraday::Connection)
+    expect(Faraday).to receive(:new).and_yield(mock_conn).and_return(mock_conn)
+    allow(mock_conn).to receive(:adapter)
+    connection_headers = {}
+    allow(mock_conn).to receive(:headers).and_return(connection_headers)
+
+    expect(mock_conn).to receive(:post) do |&block|
+      mock_req = double('Faraday::Request')
+      allow(mock_req).to receive(:body=)
+      block.call(mock_req) if block_given?
+      mock_response
+    end.and_return(mock_response)
+
+    client.checkout.payments_api.payments({})
+
+    expect(connection_headers['User-Agent']).to_not be_nil
+    expect(connection_headers['User-Agent']).to_not be_empty
+    expect(connection_headers['User-Agent']).to eq("#{Adyen::NAME}/#{Adyen::VERSION}")
+  end
+
+  it 'ensures User-Agent includes application_name when provided' do
+    client = Adyen::Client.new(api_key: 'api_key', env: :test, application_name: 'MyTestApp')
+    mock_response = Faraday::Response.new(status: 200, body: '{}')
+
+    mock_conn = instance_double(Faraday::Connection)
+    expect(Faraday).to receive(:new).and_yield(mock_conn).and_return(mock_conn)
+    allow(mock_conn).to receive(:adapter)
+    connection_headers = {}
+    allow(mock_conn).to receive(:headers).and_return(connection_headers)
+
+    expect(mock_conn).to receive(:post) do |&block|
+      mock_req = double('Faraday::Request')
+      allow(mock_req).to receive(:body=)
+      block.call(mock_req) if block_given?
+      mock_response
+    end.and_return(mock_response)
+
+    client.checkout.payments_api.payments({})
+
+    expect(connection_headers['User-Agent']).to_not be_nil
+    expect(connection_headers['User-Agent']).to_not be_empty
+    expect(connection_headers['User-Agent']).to eq("MyTestApp #{Adyen::NAME}/#{Adyen::VERSION}")
+  end
+
 end
