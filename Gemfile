@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '>= 2.7.0'
 
-gem 'faraday', '2.8.1'
+gem 'faraday', '2.14.0'
 
 gem 'activesupport', group: :development
 gem 'bundler', group: :development
