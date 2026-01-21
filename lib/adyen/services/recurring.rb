@@ -17,7 +17,7 @@ module Adyen
     end
 
     def recurring_api
-      @recurring_api ||= Adyen::RecurringApi.new(@client, @version)
+      @recurring_api ||= Adyen::LegacyRecurringApi.new(@client, @version)
     end
 
   end
