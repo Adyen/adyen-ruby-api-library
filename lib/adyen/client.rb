@@ -97,6 +97,9 @@ module Adyen
         when 'Transfers'
           url = "https://balanceplatform-api-#{@env}.adyen.com/btl"
           supports_live_url_prefix = false
+        when 'Capital'
+          url = "https://balanceplatform-api-#{@env}.adyen.com/capital"
+          supports_live_url_prefix = false
         when 'Management'
           url = "https://management-#{@env}.adyen.com"
           supports_live_url_prefix = false
@@ -329,6 +332,10 @@ module Adyen
 
     def balance_control
       @balance_control ||= Adyen::BalanceControl.new(self)
+    end
+
+    def capital
+      @capital ||= Adyen::Capital.new(self)
     end
 
   
