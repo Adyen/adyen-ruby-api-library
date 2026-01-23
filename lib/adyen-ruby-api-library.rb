@@ -23,4 +23,5 @@ require_relative 'adyen/services/posMobile'
 require_relative 'adyen/services/openBanking'
 require_relative 'adyen/services/sessionAuthentication'
 require_relative 'adyen/services/balanceControl'
+require_relative 'adyen/services/capital'
 
