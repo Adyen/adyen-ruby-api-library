@@ -1,6 +1,14 @@
 name: ruby
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  merge_group:    
+  workflow_dispatch: {}
 
 jobs:
   test:
