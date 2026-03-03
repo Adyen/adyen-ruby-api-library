@@ -38,7 +38,6 @@ module Adyen
       # @return [Boolean] Returns true if the HMAC signature is valid, otherwise false.      
       def valid_webhook_payload_hmac?(hmac_signature, hmac_key, payload)
         expected_sign = calculate_webhook_payload_hmac(payload, hmac_key)
-        puts(expected_sign)
         expected_sign == hmac_signature
       end
 
