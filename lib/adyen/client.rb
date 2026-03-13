@@ -22,7 +22,7 @@ module Adyen
       @ws_password = ws_password
       @api_key = api_key
       @oauth_token = oauth_token
-      @env = env
+      self.env = env
       @application_name = application_name
       @adapter = adapter || Faraday.default_adapter
       if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.1')
@@ -33,7 +33,7 @@ module Adyen
         @adapter_options = adapter_options || {}
       end
       @mock_service_url_base = mock_service_url_base || "http://localhost:#{mock_port}"
-      @live_url_prefix = live_url_prefix
+      self.live_url_prefix = live_url_prefix
       if RUBY_VERSION >= '3.2'
         # set default timeouts
         @connection_options = connection_options || Faraday::ConnectionOptions.new(
@@ -60,7 +60,9 @@ module Adyen
 
     # remove 'https' from live_url_prefix if necessary
     def live_url_prefix=(value)
-      value['https://'] = '' unless value['https://'].nil?
+      unless value.nil?
+        value['https://'] = '' unless value['https://'].nil?
+      end
       @live_url_prefix = value
     end
 

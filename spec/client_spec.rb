@@ -18,6 +18,22 @@ RSpec.describe Adyen do
       .to eq(:test)
   end
 
+  it 'raises ArgumentError when initialized with an invalid env string' do
+    expect { Adyen::Client.new(env: 'live') }
+      .to raise_error(ArgumentError)
+  end
+
+  it 'raises ArgumentError when initialized with an invalid env value' do
+    expect { Adyen::Client.new(env: :invalid) }
+      .to raise_error(ArgumentError)
+  end
+
+  it 'strips https:// from live_url_prefix when passed via constructor' do
+    client = Adyen::Client.new(env: :live, live_url_prefix: 'https://myprefix')
+    expect(client.service_url_base('Payment'))
+      .to eq('https://myprefix-pal-live.adyenpayments.com/pal/servlet/Payment')
+  end
+
   it 'sets the version number' do
     @shared_values[:client].checkout.version = @shared_values[:version]
     expect(@shared_values[:client].checkout.version)
