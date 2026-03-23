@@ -78,6 +78,18 @@ RSpec.describe Adyen::Utils::HmacValidator do
       expect(validator.valid_webhook_payload_hmac?(hmac_signature, key, payload)).to be true
     end
 
+    it 'returns false when additionalData hmacSignature is nil' do
+      webhook_request_item['additionalData'] = { 'hmacSignature' => nil }
+
+      expect(validator.valid_webhook_hmac?(webhook_request_item, key)).to be false
+    end
+
+    it 'returns false when payload webhook hmac_signature is nil' do
+      payload = json_from_file('mocks/responses/Webhooks/mixed_webhook.json')
+
+      expect(validator.valid_webhook_payload_hmac?(nil, key, payload)).to be false
+    end
+
   end
 
   describe 'consumer-side regression' do

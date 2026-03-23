@@ -29,7 +29,7 @@ module Adyen
         merchant_sign =
           webhook_request_item.dig('additionalData', 'hmacSignature')
 
-        OpenSSL.secure_compare(expected_sign, merchant_sign)
+        merchant_sign.is_a?(String) && OpenSSL.secure_compare(expected_sign, merchant_sign)
       end
 
       # validates the HMAC signature of a payload against an expected signature. Use for webhooks that provide the
@@ -42,7 +42,7 @@ module Adyen
       # @return [Boolean] Returns true if the HMAC signature is valid, otherwise false.
       def valid_webhook_payload_hmac?(hmac_signature, hmac_key, payload)
         expected_sign = calculate_webhook_payload_hmac(payload, hmac_key)
-        OpenSSL.secure_compare(expected_sign, hmac_signature)
+        hmac_signature.is_a?(String) && OpenSSL.secure_compare(expected_sign, hmac_signature)
       end
 
       # <b>DEPRECATED:</b> Please use calculate_webhook_hmac() instead.
