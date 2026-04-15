@@ -4,6 +4,7 @@ require_relative 'balancePlatform/balance_accounts_api'
 require_relative 'balancePlatform/balances_api'
 require_relative 'balancePlatform/bank_account_validation_api'
 require_relative 'balancePlatform/card_orders_api'
+require_relative 'balancePlatform/direct_debit_mandates_api'
 require_relative 'balancePlatform/grant_accounts_api'
 require_relative 'balancePlatform/grant_offers_api'
 require_relative 'balancePlatform/manage_card_pin_api'
@@ -57,6 +58,10 @@ module Adyen
 
     def card_orders_api
       @card_orders_api ||= Adyen::CardOrdersApi.new(@client, @version)
+    end
+
+    def direct_debit_mandates_api
+      @direct_debit_mandates_api ||= Adyen::DirectDebitMandatesApi.new(@client, @version)
     end
 
     def grant_accounts_api
