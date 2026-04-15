@@ -1,0 +1,8 @@
+{
+  "service": "capital",
+  "project": "ruby",
+  "generatedAt": "2026-04-15T07:56:01Z",
+  "openapiCommitSha": "3550ecd3f320efaad6bee55ffed5122cb9ba09d5",
+  "automationCommitSha": "1ceda93a33430aa189b6141d5f6ea2e61051c7fd",
+  "libraryCommitSha": "ec1c835aada9f1a2fd35cd40bd3ef58f72156799"
+}
