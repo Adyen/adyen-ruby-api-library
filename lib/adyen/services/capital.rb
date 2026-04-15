@@ -1,3 +1,4 @@
+require_relative 'capital/dynamic_offers_api'
 require_relative 'capital/grant_accounts_api'
 require_relative 'capital/grant_offers_api'
 require_relative 'capital/grants_api'
@@ -16,6 +17,10 @@ module Adyen
       @service = 'Capital'
       @client = client
       @version = version
+    end
+
+    def dynamic_offers_api
+      @dynamic_offers_api ||= Adyen::DynamicOffersApi.new(@client, @version)
     end
 
     def grant_accounts_api

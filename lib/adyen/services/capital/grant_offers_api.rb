@@ -12,7 +12,7 @@ module Adyen
       super(client, version, 'Capital')
     end
 
-    # Get all available grant offers
+    # Get all available static offers
     def get_all_grant_offers(headers: {}, query_params: {})
       endpoint = '/grantOffers'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
@@ -22,7 +22,7 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    # Get the details of a grant offer
+    # Get the details of a static offer
     def get_grant_offer(id, headers: {})
       endpoint = '/grantOffers/{id}'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
