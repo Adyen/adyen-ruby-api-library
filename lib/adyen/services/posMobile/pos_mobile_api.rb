@@ -14,9 +14,7 @@ module Adyen
 
     # Create a communication session
     def create_communication_session(request, headers: {})
-      endpoint = '/sessions'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/sessions')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
