@@ -14,9 +14,7 @@ module Adyen
 
     # Create an account holder
     def create_account_holder(request, headers: {})
-      endpoint = '/accountHolders'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/accountHolders')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get an account holder
     def get_account_holder(id, headers: {})
-      endpoint = '/accountHolders/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/accountHolders/{id}', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get all balance accounts of an account holder
     def get_all_balance_accounts_of_account_holder(id, headers: {}, query_params: {})
-      endpoint = '/accountHolders/{id}/balanceAccounts'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/accountHolders/{id}/balanceAccounts', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get all transaction rules for an account holder
     def get_all_transaction_rules_for_account_holder(id, headers: {})
-      endpoint = '/accountHolders/{id}/transactionRules'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/accountHolders/{id}/transactionRules', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get a tax form
     def get_tax_form(id, headers: {}, query_params: {})
-      endpoint = '/accountHolders/{id}/taxForms'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/accountHolders/{id}/taxForms', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Get summary of tax forms for an account holder
     def get_tax_form_summary(id, headers: {}, query_params: {})
-      endpoint = '/accountHolders/{id}/taxFormSummary'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/accountHolders/{id}/taxFormSummary', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -74,9 +62,7 @@ module Adyen
 
     # Update an account holder
     def update_account_holder(request, id, headers: {})
-      endpoint = '/accountHolders/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/accountHolders/{id}', id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

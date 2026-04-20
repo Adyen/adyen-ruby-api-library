@@ -14,9 +14,7 @@ module Adyen
 
     # Approve a pending approval association
     def approve_association(request, headers: {})
-      endpoint = '/scaAssociations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/scaAssociations')
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get a list of devices associated with an entity
     def list_associations(headers: {}, query_params: {})
-      endpoint = '/scaAssociations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/scaAssociations')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Delete association to devices
     def remove_association(request, headers: {})
-      endpoint = '/scaAssociations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/scaAssociations')
       
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

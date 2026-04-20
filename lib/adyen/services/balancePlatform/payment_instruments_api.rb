@@ -14,9 +14,7 @@ module Adyen
 
     # Create network token provisioning data
     def create_network_token_provisioning_data(request, id, headers: {})
-      endpoint = '/paymentInstruments/{id}/networkTokenActivationData'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/paymentInstruments/{id}/networkTokenActivationData', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Create a payment instrument
     def create_payment_instrument(request, headers: {})
-      endpoint = '/paymentInstruments'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/paymentInstruments')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get all transaction rules for a payment instrument
     def get_all_transaction_rules_for_payment_instrument(id, headers: {})
-      endpoint = '/paymentInstruments/{id}/transactionRules'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/paymentInstruments/{id}/transactionRules', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get network token activation data
     def get_network_token_activation_data(id, headers: {})
-      endpoint = '/paymentInstruments/{id}/networkTokenActivationData'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/paymentInstruments/{id}/networkTokenActivationData', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get the PAN of a payment instrument
     def get_pan_of_payment_instrument(id, headers: {})
-      endpoint = '/paymentInstruments/{id}/reveal'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/paymentInstruments/{id}/reveal', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Get a payment instrument
     def get_payment_instrument(id, headers: {})
-      endpoint = '/paymentInstruments/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/paymentInstruments/{id}', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -74,9 +62,7 @@ module Adyen
 
     # List network tokens
     def list_network_tokens(id, headers: {})
-      endpoint = '/paymentInstruments/{id}/networkTokens'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/paymentInstruments/{id}/networkTokens', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -84,9 +70,7 @@ module Adyen
 
     # Reveal the data of a payment instrument
     def reveal_data_of_payment_instrument(request, headers: {})
-      endpoint = '/paymentInstruments/reveal'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/paymentInstruments/reveal')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -94,9 +78,7 @@ module Adyen
 
     # Update a payment instrument
     def update_payment_instrument(request, id, headers: {})
-      endpoint = '/paymentInstruments/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/paymentInstruments/{id}', id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

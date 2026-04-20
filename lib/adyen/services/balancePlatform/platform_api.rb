@@ -14,9 +14,7 @@ module Adyen
 
     # Get all account holders under a balance platform
     def get_all_account_holders_under_balance_platform(id, headers: {}, query_params: {})
-      endpoint = '/balancePlatforms/{id}/accountHolders'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balancePlatforms/{id}/accountHolders', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get all transaction rules for a balance platform
     def get_all_transaction_rules_for_balance_platform(id, headers: {})
-      endpoint = '/balancePlatforms/{id}/transactionRules'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balancePlatforms/{id}/transactionRules', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get a balance platform
     def get_balance_platform(id, headers: {})
-      endpoint = '/balancePlatforms/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balancePlatforms/{id}', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

@@ -14,9 +14,7 @@ module Adyen
 
     # Begin SCA device registration
     def begin_sca_device_registration(request, headers: {})
-      endpoint = '/scaDevices'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/scaDevices')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Finish registration process for a SCA device
     def finish_sca_device_registration(request, device_id, headers: {})
-      endpoint = '/scaDevices/{deviceId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, device_id)
+      endpoint = build_endpoint('/scaDevices/{deviceId}', device_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Create a new SCA association for a device
     def submit_sca_association(request, device_id, headers: {})
-      endpoint = '/scaDevices/{deviceId}/scaAssociations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, device_id)
+      endpoint = build_endpoint('/scaDevices/{deviceId}/scaAssociations', device_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

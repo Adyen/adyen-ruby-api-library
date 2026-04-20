@@ -1,8 +1,8 @@
 {
   "service": "balanceplatform",
   "project": "ruby",
-  "generatedAt": "2026-04-15T07:56:05Z",
+  "generatedAt": "2026-04-20T13:40:00Z",
   "openapiCommitSha": "3550ecd3f320efaad6bee55ffed5122cb9ba09d5",
-  "automationCommitSha": "1ceda93a33430aa189b6141d5f6ea2e61051c7fd",
-  "libraryCommitSha": "ec1c835aada9f1a2fd35cd40bd3ef58f72156799"
+  "automationCommitSha": "4ad0c0c7e87bc0e5994a9a3350a991d0691350bb",
+  "libraryCommitSha": "60ccdbdbbb7069d54600a8a8cd19eea245661134"
 }

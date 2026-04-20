@@ -17,9 +17,7 @@ module Adyen
     # Deprecated since Configuration API v2
     # Use the `/grantOffers` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers) instead.
     def get_all_available_grant_offers(headers: {}, query_params: {})
-      endpoint = '/grantOffers'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/grantOffers')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -30,9 +28,7 @@ module Adyen
     # Deprecated since Configuration API v2
     # Use the `/grantOffers/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers/(id)) instead.
     def get_grant_offer(grant_offer_id, headers: {})
-      endpoint = '/grantOffers/{grantOfferId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, grant_offer_id)
+      endpoint = build_endpoint('/grantOffers/{grantOfferId}', grant_offer_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
