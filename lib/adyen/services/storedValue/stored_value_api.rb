@@ -14,9 +14,7 @@ module Adyen
 
     # Changes the status of the payment method.
     def change_status(request, headers: {})
-      endpoint = '/changeStatus'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/changeStatus')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Checks the balance.
     def check_balance(request, headers: {})
-      endpoint = '/checkBalance'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/checkBalance')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Issues a new card.
     def issue(request, headers: {})
-      endpoint = '/issue'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/issue')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Loads the payment method.
     def load(request, headers: {})
-      endpoint = '/load'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/load')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Merge the balance of two cards.
     def merge_balance(request, headers: {})
-      endpoint = '/mergeBalance'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/mergeBalance')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Voids a transaction.
     def void_transaction(request, headers: {})
-      endpoint = '/voidTransaction'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/voidTransaction')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
