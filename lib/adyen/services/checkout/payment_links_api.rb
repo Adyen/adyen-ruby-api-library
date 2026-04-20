@@ -14,9 +14,7 @@ module Adyen
 
     # Get a payment link
     def get_payment_link(link_id, headers: {})
-      endpoint = '/paymentLinks/{linkId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, link_id)
+      endpoint = build_endpoint('/paymentLinks/{linkId}', link_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Create a payment link
     def payment_links(request, headers: {})
-      endpoint = '/paymentLinks'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/paymentLinks')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Update the status of a payment link
     def update_payment_link(request, link_id, headers: {})
-      endpoint = '/paymentLinks/{linkId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, link_id)
+      endpoint = build_endpoint('/paymentLinks/{linkId}', link_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

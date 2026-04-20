@@ -14,9 +14,7 @@ module Adyen
 
     # Cancel an authorised payment
     def cancel_authorised_payment(request, headers: {})
-      endpoint = '/cancels'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/cancels')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Cancel an authorised payment
     def cancel_authorised_payment_by_psp_reference(request, payment_psp_reference, headers: {})
-      endpoint = '/payments/{paymentPspReference}/cancels'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_psp_reference)
+      endpoint = build_endpoint('/payments/{paymentPspReference}/cancels', payment_psp_reference)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Capture an authorised payment
     def capture_authorised_payment(request, payment_psp_reference, headers: {})
-      endpoint = '/payments/{paymentPspReference}/captures'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_psp_reference)
+      endpoint = build_endpoint('/payments/{paymentPspReference}/captures', payment_psp_reference)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Refund a captured payment
     def refund_captured_payment(request, payment_psp_reference, headers: {})
-      endpoint = '/payments/{paymentPspReference}/refunds'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_psp_reference)
+      endpoint = build_endpoint('/payments/{paymentPspReference}/refunds', payment_psp_reference)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Refund or cancel a payment
     def refund_or_cancel_payment(request, payment_psp_reference, headers: {})
-      endpoint = '/payments/{paymentPspReference}/reversals'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_psp_reference)
+      endpoint = build_endpoint('/payments/{paymentPspReference}/reversals', payment_psp_reference)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Update an authorised amount
     def update_authorised_amount(request, payment_psp_reference, headers: {})
-      endpoint = '/payments/{paymentPspReference}/amountUpdates'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_psp_reference)
+      endpoint = build_endpoint('/payments/{paymentPspReference}/amountUpdates', payment_psp_reference)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
