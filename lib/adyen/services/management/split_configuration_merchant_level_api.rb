@@ -14,9 +14,7 @@ module Adyen
 
     # Create a rule
     def create_rule(request, merchant_id, split_configuration_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, split_configuration_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}', merchant_id, split_configuration_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Create a split configuration profile
     def create_split_configuration(request, merchant_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations', merchant_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Delete a split configuration profile
     def delete_split_configuration(merchant_id, split_configuration_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, split_configuration_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}', merchant_id, split_configuration_id)
       
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Delete a rule
     def delete_split_configuration_rule(merchant_id, split_configuration_id, rule_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, split_configuration_id, rule_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}', merchant_id, split_configuration_id, rule_id)
       
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get a split configuration profile
     def get_split_configuration(merchant_id, split_configuration_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, split_configuration_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}', merchant_id, split_configuration_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Get a list of split configuration profiles
     def list_split_configurations(merchant_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations', merchant_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -74,9 +62,7 @@ module Adyen
 
     # Update the split conditions
     def update_split_conditions(request, merchant_id, split_configuration_id, rule_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, split_configuration_id, rule_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}', merchant_id, split_configuration_id, rule_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -84,9 +70,7 @@ module Adyen
 
     # Update the description of the split configuration profile
     def update_split_configuration_description(request, merchant_id, split_configuration_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, split_configuration_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}', merchant_id, split_configuration_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -94,9 +78,7 @@ module Adyen
 
     # Update the split logic
     def update_split_logic(request, merchant_id, split_configuration_id, rule_id, split_logic_id, headers: {})
-      endpoint = '/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, split_configuration_id, rule_id, split_logic_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}', merchant_id, split_configuration_id, rule_id, split_logic_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

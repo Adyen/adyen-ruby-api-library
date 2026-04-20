@@ -14,9 +14,7 @@ module Adyen
 
     # Get a company account
     def get_company_account(company_id, headers: {})
-      endpoint = '/companies/{companyId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}', company_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get a list of company accounts
     def list_company_accounts(headers: {}, query_params: {})
-      endpoint = '/companies'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/companies')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get a list of merchant accounts
     def list_merchant_accounts(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/merchants'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/merchants', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

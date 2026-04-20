@@ -14,9 +14,7 @@ module Adyen
 
     # Get the terminal logo
     def get_terminal_logo(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/terminalLogos'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalLogos', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get terminal settings
     def get_terminal_settings(company_id, headers: {})
-      endpoint = '/companies/{companyId}/terminalSettings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalSettings', company_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Update the terminal logo
     def update_terminal_logo(request, company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/terminalLogos'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalLogos', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Update terminal settings
     def update_terminal_settings(request, company_id, headers: {})
-      endpoint = '/companies/{companyId}/terminalSettings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalSettings', company_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

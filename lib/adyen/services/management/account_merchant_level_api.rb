@@ -14,9 +14,7 @@ module Adyen
 
     # Create a merchant account
     def create_merchant_account(request, headers: {})
-      endpoint = '/merchants'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/merchants')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get a merchant account
     def get_merchant_account(merchant_id, headers: {})
-      endpoint = '/merchants/{merchantId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}', merchant_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get a list of merchant accounts
     def list_merchant_accounts(headers: {}, query_params: {})
-      endpoint = '/merchants'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/merchants')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Request to activate a merchant account
     def request_to_activate_merchant_account(merchant_id, headers: {})
-      endpoint = '/merchants/{merchantId}/activate'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/activate', merchant_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

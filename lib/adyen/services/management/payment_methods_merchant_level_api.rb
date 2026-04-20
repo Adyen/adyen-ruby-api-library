@@ -14,9 +14,7 @@ module Adyen
 
     # Add an Apple Pay domain
     def add_apple_pay_domain(request, merchant_id, payment_method_id, headers: {})
-      endpoint = '/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, payment_method_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains', merchant_id, payment_method_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get all payment methods
     def get_all_payment_methods(merchant_id, headers: {}, query_params: {})
-      endpoint = '/merchants/{merchantId}/paymentMethodSettings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/paymentMethodSettings', merchant_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get Apple Pay domains
     def get_apple_pay_domains(merchant_id, payment_method_id, headers: {})
-      endpoint = '/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, payment_method_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains', merchant_id, payment_method_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get payment method details
     def get_payment_method_details(merchant_id, payment_method_id, headers: {})
-      endpoint = '/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, payment_method_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}', merchant_id, payment_method_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Request a payment method
     def request_payment_method(request, merchant_id, headers: {})
-      endpoint = '/merchants/{merchantId}/paymentMethodSettings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/paymentMethodSettings', merchant_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Update a payment method
     def update_payment_method(request, merchant_id, payment_method_id, headers: {})
-      endpoint = '/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, payment_method_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}', merchant_id, payment_method_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

@@ -14,9 +14,7 @@ module Adyen
 
     # Get the terminal logo
     def get_terminal_logo(merchant_id, reference, headers: {}, query_params: {})
-      endpoint = '/merchants/{merchantId}/stores/{reference}/terminalLogos'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, reference)
+      endpoint = build_endpoint('/merchants/{merchantId}/stores/{reference}/terminalLogos', merchant_id, reference)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get the terminal logo
     def get_terminal_logo_by_store_id(store_id, headers: {}, query_params: {})
-      endpoint = '/stores/{storeId}/terminalLogos'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, store_id)
+      endpoint = build_endpoint('/stores/{storeId}/terminalLogos', store_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get terminal settings
     def get_terminal_settings(merchant_id, reference, headers: {})
-      endpoint = '/merchants/{merchantId}/stores/{reference}/terminalSettings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, reference)
+      endpoint = build_endpoint('/merchants/{merchantId}/stores/{reference}/terminalSettings', merchant_id, reference)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get terminal settings
     def get_terminal_settings_by_store_id(store_id, headers: {})
-      endpoint = '/stores/{storeId}/terminalSettings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, store_id)
+      endpoint = build_endpoint('/stores/{storeId}/terminalSettings', store_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Update the terminal logo
     def update_terminal_logo(request, merchant_id, reference, headers: {}, query_params: {})
-      endpoint = '/merchants/{merchantId}/stores/{reference}/terminalLogos'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, reference)
+      endpoint = build_endpoint('/merchants/{merchantId}/stores/{reference}/terminalLogos', merchant_id, reference)
       endpoint += create_query_string(query_params)
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Update the terminal logo
     def update_terminal_logo_by_store_id(request, store_id, headers: {}, query_params: {})
-      endpoint = '/stores/{storeId}/terminalLogos'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, store_id)
+      endpoint = build_endpoint('/stores/{storeId}/terminalLogos', store_id)
       endpoint += create_query_string(query_params)
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -74,9 +62,7 @@ module Adyen
 
     # Update terminal settings
     def update_terminal_settings(request, merchant_id, reference, headers: {})
-      endpoint = '/merchants/{merchantId}/stores/{reference}/terminalSettings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, reference)
+      endpoint = build_endpoint('/merchants/{merchantId}/stores/{reference}/terminalSettings', merchant_id, reference)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -84,9 +70,7 @@ module Adyen
 
     # Update terminal settings
     def update_terminal_settings_by_store_id(request, store_id, headers: {})
-      endpoint = '/stores/{storeId}/terminalSettings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, store_id)
+      endpoint = build_endpoint('/stores/{storeId}/terminalSettings', store_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

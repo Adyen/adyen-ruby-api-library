@@ -14,9 +14,7 @@ module Adyen
 
     # Create a new user
     def create_new_user(request, merchant_id, headers: {})
-      endpoint = '/merchants/{merchantId}/users'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/users', merchant_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get user details
     def get_user_details(merchant_id, user_id, headers: {})
-      endpoint = '/merchants/{merchantId}/users/{userId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, user_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/users/{userId}', merchant_id, user_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get a list of users
     def list_users(merchant_id, headers: {}, query_params: {})
-      endpoint = '/merchants/{merchantId}/users'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/users', merchant_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Update a user
     def update_user(request, merchant_id, user_id, headers: {})
-      endpoint = '/merchants/{merchantId}/users/{userId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, user_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/users/{userId}', merchant_id, user_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
