@@ -14,9 +14,7 @@ module Adyen
 
     # Delete a document
     def delete_document(id, headers: {})
-      endpoint = '/documents/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/documents/{id}', id)
       
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get a document
     def get_document(id, headers: {}, query_params: {})
-      endpoint = '/documents/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/documents/{id}', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Update a document
     def update_document(request, id, headers: {})
-      endpoint = '/documents/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/documents/{id}', id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Upload a document for verification checks
     def upload_document_for_verification_checks(request, headers: {})
-      endpoint = '/documents'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/documents')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

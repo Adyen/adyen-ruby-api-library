@@ -14,9 +14,7 @@ module Adyen
 
     # Check a legal entity's verification errors
     def check_legal_entitys_verification_errors(id, headers: {})
-      endpoint = '/legalEntities/{id}/checkVerificationErrors'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/checkVerificationErrors', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Confirm data review
     def confirm_data_review(id, headers: {})
-      endpoint = '/legalEntities/{id}/confirmDataReview'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/confirmDataReview', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Create a legal entity
     def create_legal_entity(request, headers: {})
-      endpoint = '/legalEntities'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/legalEntities')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get all business lines under a legal entity
     def get_all_business_lines_under_legal_entity(id, headers: {})
-      endpoint = '/legalEntities/{id}/businessLines'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/businessLines', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get a legal entity
     def get_legal_entity(id, headers: {})
-      endpoint = '/legalEntities/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Request periodic data review.
     def request_periodic_review(id, headers: {})
-      endpoint = '/legalEntities/{id}/requestPeriodicReview'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/requestPeriodicReview', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -74,9 +62,7 @@ module Adyen
 
     # Update a legal entity
     def update_legal_entity(request, id, headers: {})
-      endpoint = '/legalEntities/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}', id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
