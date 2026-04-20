@@ -14,9 +14,7 @@ module Adyen
 
     # Get an Apple Pay session
     def get_apple_pay_session(request, headers: {})
-      endpoint = '/applePay/sessions'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/applePay/sessions')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -26,9 +24,7 @@ module Adyen
     #
     # Deprecated since Adyen Checkout API v67
     def origin_keys(request, headers: {})
-      endpoint = '/originKeys'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/originKeys')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -36,9 +32,7 @@ module Adyen
 
     # Updates the order for PayPal Express Checkout
     def updates_order_for_paypal_express_checkout(request, headers: {})
-      endpoint = '/paypal/updateOrder'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/paypal/updateOrder')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -46,9 +40,7 @@ module Adyen
 
     # Validates shopper Id
     def validate_shopper_id(request, headers: {})
-      endpoint = '/validateShopperId'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/validateShopperId')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
