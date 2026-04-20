@@ -14,9 +14,7 @@ module Adyen
 
     # Approve pending transfer limits
     def approve_pending_transfer_limits(request, id, headers: {})
-      endpoint = '/balanceAccounts/{id}/transferLimits/approve'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balanceAccounts/{id}/transferLimits/approve', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Create a transfer limit
     def create_transfer_limit(request, id, headers: {})
-      endpoint = '/balanceAccounts/{id}/transferLimits'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balanceAccounts/{id}/transferLimits', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Delete a scheduled or pending transfer limit
     def delete_pending_transfer_limit(id, transfer_limit_id, headers: {})
-      endpoint = '/balanceAccounts/{id}/transferLimits/{transferLimitId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id, transfer_limit_id)
+      endpoint = build_endpoint('/balanceAccounts/{id}/transferLimits/{transferLimitId}', id, transfer_limit_id)
       
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get all current transfer limits
     def get_current_transfer_limits(id, headers: {}, query_params: {})
-      endpoint = '/balanceAccounts/{id}/transferLimits/current'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balanceAccounts/{id}/transferLimits/current', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get the details of a transfer limit
     def get_specific_transfer_limit(id, transfer_limit_id, headers: {})
-      endpoint = '/balanceAccounts/{id}/transferLimits/{transferLimitId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id, transfer_limit_id)
+      endpoint = build_endpoint('/balanceAccounts/{id}/transferLimits/{transferLimitId}', id, transfer_limit_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Filter and view the transfer limits
     def get_transfer_limits(id, headers: {}, query_params: {})
-      endpoint = '/balanceAccounts/{id}/transferLimits'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balanceAccounts/{id}/transferLimits', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

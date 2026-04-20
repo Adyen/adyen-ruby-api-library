@@ -14,9 +14,7 @@ module Adyen
 
     # Get card order items
     def get_card_order_items(id, headers: {}, query_params: {})
-      endpoint = '/cardorders/{id}/items'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/cardorders/{id}/items', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get a list of card orders
     def list_card_orders(headers: {}, query_params: {})
-      endpoint = '/cardorders'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/cardorders')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

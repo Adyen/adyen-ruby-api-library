@@ -14,9 +14,7 @@ module Adyen
 
     # Create authorized users for a card.
     def create_authorised_card_users(request, payment_instrument_id, headers: {})
-      endpoint = '/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_instrument_id)
+      endpoint = build_endpoint('/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers', payment_instrument_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Delete the authorized users for a card.
     def delete_authorised_card_users(payment_instrument_id, headers: {})
-      endpoint = '/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_instrument_id)
+      endpoint = build_endpoint('/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers', payment_instrument_id)
       
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get authorized users for a card.
     def get_all_authorised_card_users(payment_instrument_id, headers: {})
-      endpoint = '/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_instrument_id)
+      endpoint = build_endpoint('/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers', payment_instrument_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Update the authorized users for a card.
     def update_authorised_card_users(request, payment_instrument_id, headers: {})
-      endpoint = '/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, payment_instrument_id)
+      endpoint = build_endpoint('/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers', payment_instrument_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

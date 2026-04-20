@@ -14,9 +14,7 @@ module Adyen
 
     # Create a balance account
     def create_balance_account(request, headers: {})
-      endpoint = '/balanceAccounts'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/balanceAccounts')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Create a sweep
     def create_sweep(request, balance_account_id, headers: {})
-      endpoint = '/balanceAccounts/{balanceAccountId}/sweeps'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_account_id)
+      endpoint = build_endpoint('/balanceAccounts/{balanceAccountId}/sweeps', balance_account_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Delete a sweep
     def delete_sweep(balance_account_id, sweep_id, headers: {})
-      endpoint = '/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_account_id, sweep_id)
+      endpoint = build_endpoint('/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}', balance_account_id, sweep_id)
       
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get all sweeps for a balance account
     def get_all_sweeps_for_balance_account(balance_account_id, headers: {}, query_params: {})
-      endpoint = '/balanceAccounts/{balanceAccountId}/sweeps'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_account_id)
+      endpoint = build_endpoint('/balanceAccounts/{balanceAccountId}/sweeps', balance_account_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get all transaction rules for a balance account
     def get_all_transaction_rules_for_balance_account(id, headers: {})
-      endpoint = '/balanceAccounts/{id}/transactionRules'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balanceAccounts/{id}/transactionRules', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Get a balance account
     def get_balance_account(id, headers: {})
-      endpoint = '/balanceAccounts/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balanceAccounts/{id}', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -74,9 +62,7 @@ module Adyen
 
     # Get payment instruments linked to a balance account
     def get_payment_instruments_linked_to_balance_account(id, headers: {}, query_params: {})
-      endpoint = '/balanceAccounts/{id}/paymentInstruments'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balanceAccounts/{id}/paymentInstruments', id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -84,9 +70,7 @@ module Adyen
 
     # Get a sweep
     def get_sweep(balance_account_id, sweep_id, headers: {})
-      endpoint = '/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_account_id, sweep_id)
+      endpoint = build_endpoint('/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}', balance_account_id, sweep_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -94,9 +78,7 @@ module Adyen
 
     # Update a balance account
     def update_balance_account(request, id, headers: {})
-      endpoint = '/balanceAccounts/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/balanceAccounts/{id}', id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -104,9 +86,7 @@ module Adyen
 
     # Update a sweep
     def update_sweep(request, balance_account_id, sweep_id, headers: {})
-      endpoint = '/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_account_id, sweep_id)
+      endpoint = build_endpoint('/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}', balance_account_id, sweep_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

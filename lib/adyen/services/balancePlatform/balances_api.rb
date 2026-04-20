@@ -14,9 +14,7 @@ module Adyen
 
     # Create a balance webhook setting
     def create_webhook_setting(request, balance_platform_id, webhook_id, headers: {})
-      endpoint = '/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_platform_id, webhook_id)
+      endpoint = build_endpoint('/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings', balance_platform_id, webhook_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Delete a balance webhook setting by id
     def delete_webhook_setting(balance_platform_id, webhook_id, setting_id, headers: {})
-      endpoint = '/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_platform_id, webhook_id, setting_id)
+      endpoint = build_endpoint('/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}', balance_platform_id, webhook_id, setting_id)
       
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get all balance webhook settings
     def get_all_webhook_settings(balance_platform_id, webhook_id, headers: {})
-      endpoint = '/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_platform_id, webhook_id)
+      endpoint = build_endpoint('/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings', balance_platform_id, webhook_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get a balance webhook setting by id
     def get_webhook_setting(balance_platform_id, webhook_id, setting_id, headers: {})
-      endpoint = '/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_platform_id, webhook_id, setting_id)
+      endpoint = build_endpoint('/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}', balance_platform_id, webhook_id, setting_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Update a balance webhook setting by id
     def update_webhook_setting(request, balance_platform_id, webhook_id, setting_id, headers: {})
-      endpoint = '/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, balance_platform_id, webhook_id, setting_id)
+      endpoint = build_endpoint('/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}', balance_platform_id, webhook_id, setting_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

@@ -14,9 +14,7 @@ module Adyen
 
     # Complete an association between an SCA device and a resource
     def complete_association_between_sca_device_and_resource(request, device_id, headers: {})
-      endpoint = '/registeredDevices/{deviceId}/associations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, device_id)
+      endpoint = build_endpoint('/registeredDevices/{deviceId}/associations', device_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Complete the registration of an SCA device
     def complete_registration_of_sca_device(request, id, headers: {})
-      endpoint = '/registeredDevices/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/registeredDevices/{id}', id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Delete a registration of an SCA device
     def delete_registration_of_sca_device(id, headers: {}, query_params: {})
-      endpoint = '/registeredDevices/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/registeredDevices/{id}', id)
       endpoint += create_query_string(query_params)
       action = { method: 'delete', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Initiate an association between an SCA device and a resource
     def initiate_association_between_sca_device_and_resource(request, device_id, headers: {})
-      endpoint = '/registeredDevices/{deviceId}/associations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, device_id)
+      endpoint = build_endpoint('/registeredDevices/{deviceId}/associations', device_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Initiate the registration of an SCA device
     def initiate_registration_of_sca_device(request, headers: {})
-      endpoint = '/registeredDevices'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/registeredDevices')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Get a list of registered SCA devices
     def list_registered_sca_devices(headers: {}, query_params: {})
-      endpoint = '/registeredDevices'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/registeredDevices')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

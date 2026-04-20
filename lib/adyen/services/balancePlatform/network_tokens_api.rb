@@ -14,9 +14,7 @@ module Adyen
 
     # Get a network token
     def get_network_token(network_token_id, headers: {})
-      endpoint = '/networkTokens/{networkTokenId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, network_token_id)
+      endpoint = build_endpoint('/networkTokens/{networkTokenId}', network_token_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Update a network token
     def update_network_token(request, network_token_id, headers: {})
-      endpoint = '/networkTokens/{networkTokenId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, network_token_id)
+      endpoint = build_endpoint('/networkTokens/{networkTokenId}', network_token_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

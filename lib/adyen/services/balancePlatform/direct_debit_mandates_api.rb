@@ -14,9 +14,7 @@ module Adyen
 
     # Cancel a mandate
     def cancel_mandate(mandate_id, headers: {})
-      endpoint = '/mandates/{mandateId}/cancel'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, mandate_id)
+      endpoint = build_endpoint('/mandates/{mandateId}/cancel', mandate_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get a list of mandates
     def get_list_of_mandates(headers: {}, query_params: {})
-      endpoint = '/mandates'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/mandates')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get a specific mandate
     def get_mandate_by_id(mandate_id, headers: {})
-      endpoint = '/mandates/{mandateId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, mandate_id)
+      endpoint = build_endpoint('/mandates/{mandateId}', mandate_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Amend a mandate
     def update_mandate(request, mandate_id, headers: {})
-      endpoint = '/mandates/{mandateId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, mandate_id)
+      endpoint = build_endpoint('/mandates/{mandateId}', mandate_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
