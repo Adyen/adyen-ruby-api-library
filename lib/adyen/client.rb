@@ -51,7 +51,7 @@ module Adyen
 
     # make sure that env can only be :live, :test, or :mock
     def env=(value)
-      raise ArgumentError, "Invalid value for Client.env: '#{value}'' - must be one of [:live, :test, :mock]" unless %i[
+      raise ArgumentError, "Invalid value for Client.env: '#{value}' - must be one of [:live, :test, :mock]" unless %i[
         live test mock
       ].include? value
 
@@ -60,10 +60,7 @@ module Adyen
 
     # remove 'https' from live_url_prefix if necessary
     def live_url_prefix=(value)
-      unless value.nil?
-        value['https://'] = '' unless value['https://'].nil?
-      end
-      @live_url_prefix = value
+      @live_url_prefix = value.nil? ? value : value.sub('https://', '')
     end
 
     # base URL for API given service and @env

@@ -34,6 +34,12 @@ RSpec.describe Adyen do
       .to eq('https://myprefix-pal-live.adyenpayments.com/pal/servlet/Payment')
   end
 
+  it 'does not mutate the original live_url_prefix string' do
+    prefix = 'https://myprefix'
+    Adyen::Client.new(env: :live, live_url_prefix: prefix)
+    expect(prefix).to eq('https://myprefix')
+  end
+
   it 'sets the version number' do
     @shared_values[:client].checkout.version = @shared_values[:version]
     expect(@shared_values[:client].checkout.version)
