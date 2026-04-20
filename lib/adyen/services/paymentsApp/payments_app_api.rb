@@ -14,9 +14,7 @@ module Adyen
 
     # Create a boarding token - merchant level
     def generate_payments_app_boarding_token_for_merchant(request, merchant_id, headers: {})
-      endpoint = '/merchants/{merchantId}/generatePaymentsAppBoardingToken'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/generatePaymentsAppBoardingToken', merchant_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Create a boarding token - store level
     def generate_payments_app_boarding_token_for_store(request, merchant_id, store_id, headers: {})
-      endpoint = '/merchants/{merchantId}/stores/{storeId}/generatePaymentsAppBoardingToken'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, store_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/stores/{storeId}/generatePaymentsAppBoardingToken', merchant_id, store_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get a list of Payments Apps - merchant level
     def list_payments_app_for_merchant(merchant_id, headers: {}, query_params: {})
-      endpoint = '/merchants/{merchantId}/paymentsApps'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/paymentsApps', merchant_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get a list of Payments Apps - store level
     def list_payments_app_for_store(merchant_id, store_id, headers: {}, query_params: {})
-      endpoint = '/merchants/{merchantId}/stores/{storeId}/paymentsApps'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, store_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/stores/{storeId}/paymentsApps', merchant_id, store_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Revoke Payments App instance authentication
     def revoke_payments_app(merchant_id, installation_id, headers: {})
-      endpoint = '/merchants/{merchantId}/paymentsApps/{installationId}/revoke'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, installation_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/paymentsApps/{installationId}/revoke', merchant_id, installation_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
