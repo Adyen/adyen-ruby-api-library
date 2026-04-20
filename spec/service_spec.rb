@@ -45,6 +45,22 @@ RSpec.describe Adyen::Service do
       expect(described_class.action_for_method_name(:get_onboarding_url)).to eq 'getOnboardingUrl'
     end
   end
+
+  describe '#create_query_string' do
+    let(:service) { described_class.new(double('client'), 'v1', 'TestService') }
+
+    it 'returns empty string when params are empty' do
+      expect(service.create_query_string({})).to eq ''
+    end
+
+    it 'returns query string with ? prefix when params are present' do
+      expect(service.create_query_string({ key: 'value' })).to eq '?key=value'
+    end
+
+    it 'encodes multiple params' do
+      expect(service.create_query_string({ a: '1', b: '2' })).to eq '?a=1&b=2'
+    end
+  end
 end
 # rubocop:enable Layout/LineLength
 # rubocop:enable Metrics/BlockLength
