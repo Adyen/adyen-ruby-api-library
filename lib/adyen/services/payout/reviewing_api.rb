@@ -14,9 +14,7 @@ module Adyen
 
     # Confirm a payout
     def confirm_third_party(request, headers: {})
-      endpoint = '/confirmThirdParty'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/confirmThirdParty')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Cancel a payout
     def decline_third_party(request, headers: {})
-      endpoint = '/declineThirdParty'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/declineThirdParty')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

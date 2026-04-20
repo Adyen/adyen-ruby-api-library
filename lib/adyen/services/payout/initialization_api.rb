@@ -14,9 +14,7 @@ module Adyen
 
     # Store payout details
     def store_detail(request, headers: {})
-      endpoint = '/storeDetail'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/storeDetail')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Store details and submit a payout
     def store_detail_and_submit_third_party(request, headers: {})
-      endpoint = '/storeDetailAndSubmitThirdParty'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/storeDetailAndSubmitThirdParty')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Submit a payout
     def submit_third_party(request, headers: {})
-      endpoint = '/submitThirdParty'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/submitThirdParty')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
