@@ -14,9 +14,7 @@ module Adyen
 
     # Create an authorisation
     def authorise(request, headers: {})
-      endpoint = '/authorise'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/authorise')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Complete a 3DS authorisation
     def authorise3d(request, headers: {})
-      endpoint = '/authorise3d'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/authorise3d')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Complete a 3DS2 authorisation
     def authorise3ds2(request, headers: {})
-      endpoint = '/authorise3ds2'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/authorise3ds2')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get the 3DS authentication result
     def get_authentication_result(request, headers: {})
-      endpoint = '/getAuthenticationResult'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/getAuthenticationResult')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get the 3DS2 authentication result
     def retrieve3ds2_result(request, headers: {})
-      endpoint = '/retrieve3ds2Result'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/retrieve3ds2Result')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

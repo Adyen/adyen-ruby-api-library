@@ -14,9 +14,7 @@ module Adyen
 
     # Change the authorised amount
     def adjust_authorisation(request, headers: {})
-      endpoint = '/adjustAuthorisation'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/adjustAuthorisation')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Cancel an authorisation
     def cancel(request, headers: {})
-      endpoint = '/cancel'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/cancel')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Cancel or refund a payment
     def cancel_or_refund(request, headers: {})
-      endpoint = '/cancelOrRefund'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/cancelOrRefund')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Capture an authorisation
     def capture(request, headers: {})
-      endpoint = '/capture'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/capture')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -56,9 +48,7 @@ module Adyen
     #
     # Deprecated 
     def donate(request, headers: {})
-      endpoint = '/donate'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/donate')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -66,9 +56,7 @@ module Adyen
 
     # Refund a captured payment
     def refund(request, headers: {})
-      endpoint = '/refund'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/refund')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -76,9 +64,7 @@ module Adyen
 
     # Cancel an authorisation using your reference
     def technical_cancel(request, headers: {})
-      endpoint = '/technicalCancel'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/technicalCancel')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -86,9 +72,7 @@ module Adyen
 
     # Cancel an in-person refund
     def void_pending_refund(request, headers: {})
-      endpoint = '/voidPendingRefund'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/voidPendingRefund')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
