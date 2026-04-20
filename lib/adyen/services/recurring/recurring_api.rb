@@ -16,9 +16,7 @@ module Adyen
     #
     # Deprecated since Adyen Recurring API v68
     def create_permit(request, headers: {})
-      endpoint = '/createPermit'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/createPermit')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -26,9 +24,7 @@ module Adyen
 
     # Disable stored payment details
     def disable(request, headers: {})
-      endpoint = '/disable'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/disable')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -38,9 +34,7 @@ module Adyen
     #
     # Deprecated since Adyen Recurring API v68
     def disable_permit(request, headers: {})
-      endpoint = '/disablePermit'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/disablePermit')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -48,9 +42,7 @@ module Adyen
 
     # Get stored payment details
     def list_recurring_details(request, headers: {})
-      endpoint = '/listRecurringDetails'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/listRecurringDetails')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -58,9 +50,7 @@ module Adyen
 
     # Ask issuer to notify the shopper
     def notify_shopper(request, headers: {})
-      endpoint = '/notifyShopper'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/notifyShopper')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -68,9 +58,7 @@ module Adyen
 
     # Schedule running the Account Updater
     def schedule_account_updater(request, headers: {})
-      endpoint = '/scheduleAccountUpdater'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/scheduleAccountUpdater')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
