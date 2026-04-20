@@ -14,9 +14,7 @@ module Adyen
 
     # Get all the disbursements of a grant
     def get_all_grant_disbursements(grant_id, headers: {})
-      endpoint = '/grants/{grantId}/disbursements'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, grant_id)
+      endpoint = build_endpoint('/grants/{grantId}/disbursements', grant_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get all the grants of an account holder
     def get_all_grants(headers: {}, query_params: {})
-      endpoint = '/grants'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/grants')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get the details of a grant
     def get_grant(grant_id, headers: {})
-      endpoint = '/grants/{grantId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, grant_id)
+      endpoint = build_endpoint('/grants/{grantId}', grant_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get disbursement details
     def get_grant_disbursement(grant_id, disbursement_id, headers: {})
-      endpoint = '/grants/{grantId}/disbursements/{disbursementId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, grant_id, disbursement_id)
+      endpoint = build_endpoint('/grants/{grantId}/disbursements/{disbursementId}', grant_id, disbursement_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Make a request for a grant
     def request_grant(request, headers: {})
-      endpoint = '/grants'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/grants')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Update the repayment configuration of a disbursement
     def update_grant_disbursement(request, grant_id, disbursement_id, headers: {})
-      endpoint = '/grants/{grantId}/disbursements/{disbursementId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, grant_id, disbursement_id)
+      endpoint = build_endpoint('/grants/{grantId}/disbursements/{disbursementId}', grant_id, disbursement_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
