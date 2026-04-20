@@ -20,9 +20,7 @@ module Adyen
     # Deprecated {{#vendorExtensions.x-deprecatedInVersion}}since {{#appName}}{{{.}}}{{/appName}} v{{.}}{{/vendorExtensions.x-deprecatedInVersion}}{{#vendorExtensions.x-deprecatedMessage}}
     # {{{.}}}{{/vendorExtensions.x-deprecatedMessage}}{{/isDeprecated}}
     def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.snakecase}}{{paramName}}{{/lambda.snakecase}}, {{/isQueryParam}}{{/requiredParams}}headers: {}{{#queryParams}}{{#-first}}, query_params: {}{{/-first}}{{/queryParams}})
-      endpoint = '{{path}}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint{{#pathParams}}{{#lambda.snakecase}}, {{paramName}}{{/lambda.snakecase}}{{/pathParams}})
+      endpoint = build_endpoint('{{path}}'{{#pathParams}}, {{#lambda.snakecase}}{{paramName}}{{/lambda.snakecase}}{{/pathParams}})
       {{#queryParams}}{{#-first}}endpoint += create_query_string(query_params){{/-first}}{{/queryParams}}
       action = { method: '{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}', url: endpoint }
   {{#bodyParams}}        

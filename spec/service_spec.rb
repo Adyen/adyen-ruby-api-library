@@ -3,6 +3,30 @@
 require 'spec_helper'
 
 RSpec.describe Adyen::Service do
+  describe '#build_endpoint' do
+    subject(:service) { described_class.new(nil, nil, 'Test') }
+
+    it 'strips the leading slash' do
+      expect(service.send(:build_endpoint, '/accountHolders')).to eq 'accountHolders'
+    end
+
+    it 'substitutes a single path parameter' do
+      expect(service.send(:build_endpoint, '/accountHolders/{id}', 'AH123')).to eq 'accountHolders/AH123'
+    end
+
+    it 'substitutes multiple path parameters' do
+      expect(service.send(:build_endpoint, '/merchants/{merchantId}/stores/{storeId}', 'M1', 'S2')).to eq 'merchants/M1/stores/S2'
+    end
+
+    it 'handles a path with no parameters' do
+      expect(service.send(:build_endpoint, '/companies')).to eq 'companies'
+    end
+
+    it 'preserves literal percent characters in the path' do
+      expect(service.send(:build_endpoint, '/path%20with/{id}/spaces', 'X')).to eq 'path%20with/X/spaces'
+    end
+  end
+
   describe '.action_for_method_name' do
     it 'handles all methods that exist currently' do
       expect(described_class.action_for_method_name(:adjust_authorisation)).to eq 'adjustAuthorisation'

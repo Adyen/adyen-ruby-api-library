@@ -30,5 +30,12 @@ module Adyen
     def create_query_string(arr)
       "?#{URI.encode_www_form(arr)}"
     end
+
+    private
+
+    def build_endpoint(path, *params)
+      endpoint = path.gsub('%', '%%').gsub(/{.+?}/, '%s').delete_prefix('/')
+      format(endpoint, *params)
+    end
   end
 end
