@@ -14,9 +14,7 @@ module Adyen
 
     # Submit a Subject Erasure Request.
     def request_subject_erasure(request, headers: {})
-      endpoint = '/requestSubjectErasure'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/requestSubjectErasure')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

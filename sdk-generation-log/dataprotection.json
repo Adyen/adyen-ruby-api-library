@@ -1,0 +1,8 @@
+{
+  "service": "dataprotection",
+  "project": "ruby",
+  "generatedAt": "2026-04-20T13:39:47Z",
+  "openapiCommitSha": "3550ecd3f320efaad6bee55ffed5122cb9ba09d5",
+  "automationCommitSha": "4ad0c0c7e87bc0e5994a9a3350a991d0691350bb",
+  "libraryCommitSha": "60ccdbdbbb7069d54600a8a8cd19eea245661134"
+}
