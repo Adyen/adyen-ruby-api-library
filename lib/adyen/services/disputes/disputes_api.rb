@@ -14,9 +14,7 @@ module Adyen
 
     # Accept a dispute
     def accept_dispute(request, headers: {})
-      endpoint = '/acceptDispute'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/acceptDispute')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Defend a dispute
     def defend_dispute(request, headers: {})
-      endpoint = '/defendDispute'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/defendDispute')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Delete a defense document
     def delete_dispute_defense_document(request, headers: {})
-      endpoint = '/deleteDisputeDefenseDocument'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/deleteDisputeDefenseDocument')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get applicable defense reasons
     def retrieve_applicable_defense_reasons(request, headers: {})
-      endpoint = '/retrieveApplicableDefenseReasons'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/retrieveApplicableDefenseReasons')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Supply a defense document
     def supply_defense_document(request, headers: {})
-      endpoint = '/supplyDefenseDocument'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/supplyDefenseDocument')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
