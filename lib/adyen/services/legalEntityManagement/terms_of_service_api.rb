@@ -14,9 +14,7 @@ module Adyen
 
     # Accept Terms of Service
     def accept_terms_of_service(request, id, termsofservicedocumentid, headers: {})
-      endpoint = '/legalEntities/{id}/termsOfService/{termsofservicedocumentid}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id, termsofservicedocumentid)
+      endpoint = build_endpoint('/legalEntities/{id}/termsOfService/{termsofservicedocumentid}', id, termsofservicedocumentid)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get accepted Terms of Service document
     def get_accepted_terms_of_service_document(id, termsofserviceacceptancereference, headers: {}, query_params: {})
-      endpoint = '/legalEntities/{id}/acceptedTermsOfServiceDocument/{termsofserviceacceptancereference}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id, termsofserviceacceptancereference)
+      endpoint = build_endpoint('/legalEntities/{id}/acceptedTermsOfServiceDocument/{termsofserviceacceptancereference}', id, termsofserviceacceptancereference)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get Terms of Service document
     def get_terms_of_service_document(request, id, headers: {})
-      endpoint = '/legalEntities/{id}/termsOfService'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/termsOfService', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get Terms of Service information for a legal entity
     def get_terms_of_service_information_for_legal_entity(id, headers: {})
-      endpoint = '/legalEntities/{id}/termsOfServiceAcceptanceInfos'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/termsOfServiceAcceptanceInfos', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get Terms of Service status
     def get_terms_of_service_status(id, headers: {})
-      endpoint = '/legalEntities/{id}/termsOfServiceStatus'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/termsOfServiceStatus', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

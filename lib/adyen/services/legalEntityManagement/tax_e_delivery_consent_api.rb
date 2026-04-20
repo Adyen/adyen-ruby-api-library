@@ -14,9 +14,7 @@ module Adyen
 
     # Check the status of consent for electronic delivery of tax forms
     def check_status_of_consent_for_electronic_delivery_of_tax_forms(id, headers: {})
-      endpoint = '/legalEntities/{id}/checkTaxElectronicDeliveryConsent'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/checkTaxElectronicDeliveryConsent', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Set the consent status for electronic delivery of tax forms
     def set_consent_status_for_electronic_delivery_of_tax_forms(request, id, headers: {})
-      endpoint = '/legalEntities/{id}/setTaxElectronicDeliveryConsent'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/legalEntities/{id}/setTaxElectronicDeliveryConsent', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
