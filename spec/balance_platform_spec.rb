@@ -384,6 +384,117 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
     expect(response_hash).to be_a_kind_of Hash
   end
 
+  it 'makes a get_tax_form_summary GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_tax_form_summary.json')
+    account_holder_id = 'AH3227C223222C5GKR23686TF'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "accountHolders/#{account_holder_id}/taxFormSummary",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.account_holders_api
+                                    .get_tax_form_summary(account_holder_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  ## directDebitMandates
+  it 'makes a get_list_of_mandates GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_list_of_mandates.json')
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      'mandates',
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.direct_debit_mandates_api.get_list_of_mandates
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a get_mandate_by_id GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_mandate_by_id.json')
+    mandate_id = 'MNDT7QXPLKT9R333640TX334709E'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "mandates/#{mandate_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.direct_debit_mandates_api.get_mandate_by_id(mandate_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a cancel_mandate POST call' do
+    mandate_id = 'MNDT7QXPLKT9R333640TX334709E'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "mandates/#{mandate_id}/cancel",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:post, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(status: 202, body: '')
+
+    result = @shared_values[:client].balance_platform.direct_debit_mandates_api.cancel_mandate(mandate_id)
+
+    expect(result.status).to eq(202)
+  end
+
+  it 'makes an update_mandate PATCH call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/update_mandate.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_mandate_by_id.json')
+    mandate_id = 'MNDT7QXPLKT9R333640TX334709E'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "mandates/#{mandate_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:patch, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.direct_debit_mandates_api
+                                    .update_mandate(request_body, mandate_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
   ## authorisedCardUsers
   it 'makes a get_all_authorised_card_users GET call' do
     response_body = json_from_file('mocks/responses/BalancePlatform/get_all_authorised_card_users.json')
