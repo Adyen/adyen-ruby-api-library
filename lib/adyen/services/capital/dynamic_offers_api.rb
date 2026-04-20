@@ -14,9 +14,7 @@ module Adyen
 
     # Calculate a preliminary offer for a selected financing amount
     def calculate_preliminary_offer_from_dynamic_offer(request, id, headers: {})
-      endpoint = '/dynamicOffers/{id}/calculate'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/dynamicOffers/{id}/calculate', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Create a static offer for a selected financing amount
     def create_static_offer_from_dynamic_offer(request, id, headers: {})
-      endpoint = '/dynamicOffers/{id}/grantOffer'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/dynamicOffers/{id}/grantOffer', id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get all available dynamic offers
     def get_all_dynamic_offers(headers: {}, query_params: {})
-      endpoint = '/dynamicOffers'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint)
+      endpoint = build_endpoint('/dynamicOffers')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

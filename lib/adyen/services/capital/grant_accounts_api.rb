@@ -14,9 +14,7 @@ module Adyen
 
     # Get the information of your grant account
     def get_grant_account_information(id, headers: {})
-      endpoint = '/grantAccounts/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, id)
+      endpoint = build_endpoint('/grantAccounts/{id}', id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
