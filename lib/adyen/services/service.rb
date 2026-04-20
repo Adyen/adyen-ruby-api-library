@@ -27,8 +27,9 @@ module Adyen
     end
 
     # create query parameter from a hash
-    def create_query_string(arr)
-      "?#{URI.encode_www_form(arr)}"
+    def create_query_string(params)
+      return '' if params.empty?
+      "?#{URI.encode_www_form(params)}"
     end
   end
 end
