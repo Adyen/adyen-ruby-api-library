@@ -14,9 +14,7 @@ module Adyen
 
     # Create a new user
     def create_new_user(request, company_id, headers: {})
-      endpoint = '/companies/{companyId}/users'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/users', company_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get user details
     def get_user_details(company_id, user_id, headers: {})
-      endpoint = '/companies/{companyId}/users/{userId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, user_id)
+      endpoint = build_endpoint('/companies/{companyId}/users/{userId}', company_id, user_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get a list of users
     def list_users(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/users'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/users', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Update user details
     def update_user_details(request, company_id, user_id, headers: {})
-      endpoint = '/companies/{companyId}/users/{userId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, user_id)
+      endpoint = build_endpoint('/companies/{companyId}/users/{userId}', company_id, user_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

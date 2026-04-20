@@ -14,9 +14,7 @@ module Adyen
 
     # Cancel an order
     def cancel_order(company_id, order_id, headers: {})
-      endpoint = '/companies/{companyId}/terminalOrders/{orderId}/cancel'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, order_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalOrders/{orderId}/cancel', company_id, order_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Create an order
     def create_order(request, company_id, headers: {})
-      endpoint = '/companies/{companyId}/terminalOrders'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalOrders', company_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Create a shipping location
     def create_shipping_location(request, company_id, headers: {})
-      endpoint = '/companies/{companyId}/shippingLocations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/shippingLocations', company_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Get an order
     def get_order(company_id, order_id, headers: {})
-      endpoint = '/companies/{companyId}/terminalOrders/{orderId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, order_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalOrders/{orderId}', company_id, order_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Get a list of billing entities
     def list_billing_entities(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/billingEntities'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/billingEntities', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Get a list of orders
     def list_orders(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/terminalOrders'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalOrders', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -74,9 +62,7 @@ module Adyen
 
     # Get a list of shipping locations
     def list_shipping_locations(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/shippingLocations'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/shippingLocations', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -84,9 +70,7 @@ module Adyen
 
     # Get a list of terminal models
     def list_terminal_models(company_id, headers: {})
-      endpoint = '/companies/{companyId}/terminalModels'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalModels', company_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -94,9 +78,7 @@ module Adyen
 
     # Get a list of terminal products
     def list_terminal_products(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/terminalProducts'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalProducts', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -104,9 +86,7 @@ module Adyen
 
     # Update an order
     def update_order(request, company_id, order_id, headers: {})
-      endpoint = '/companies/{companyId}/terminalOrders/{orderId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, order_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalOrders/{orderId}', company_id, order_id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)

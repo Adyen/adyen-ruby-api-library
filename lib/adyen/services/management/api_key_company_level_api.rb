@@ -14,9 +14,7 @@ module Adyen
 
     # Generate new API key
     def generate_new_api_key(company_id, api_credential_id, headers: {})
-      endpoint = '/companies/{companyId}/apiCredentials/{apiCredentialId}/generateApiKey'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, api_credential_id)
+      endpoint = build_endpoint('/companies/{companyId}/apiCredentials/{apiCredentialId}/generateApiKey', company_id, api_credential_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

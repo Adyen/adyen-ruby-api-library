@@ -14,9 +14,7 @@ module Adyen
 
     # Generate new client key
     def generate_new_client_key(merchant_id, api_credential_id, headers: {})
-      endpoint = '/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateClientKey'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, merchant_id, api_credential_id)
+      endpoint = build_endpoint('/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateClientKey', merchant_id, api_credential_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

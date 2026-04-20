@@ -14,9 +14,7 @@ module Adyen
 
     # Get Android app
     def get_android_app(company_id, id, headers: {})
-      endpoint = '/companies/{companyId}/androidApps/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, id)
+      endpoint = build_endpoint('/companies/{companyId}/androidApps/{id}', company_id, id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get a list of Android apps
     def list_android_apps(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/androidApps'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/androidApps', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -34,9 +30,7 @@ module Adyen
 
     # Get a list of Android certificates
     def list_android_certificates(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/androidCertificates'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/androidCertificates', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -44,9 +38,7 @@ module Adyen
 
     # Reprocess Android App
     def reprocess_android_app(company_id, id, headers: {})
-      endpoint = '/companies/{companyId}/androidApps/{id}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, id)
+      endpoint = build_endpoint('/companies/{companyId}/androidApps/{id}', company_id, id)
       
       action = { method: 'patch', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -54,9 +46,7 @@ module Adyen
 
     # Upload Android App
     def upload_android_app(company_id, headers: {})
-      endpoint = '/companies/{companyId}/androidApps'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/androidApps', company_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -64,9 +54,7 @@ module Adyen
 
     # Upload Android Certificate
     def upload_android_certificate(company_id, headers: {})
-      endpoint = '/companies/{companyId}/androidCertificates'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/androidCertificates', company_id)
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)

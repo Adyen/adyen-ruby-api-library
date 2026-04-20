@@ -14,9 +14,7 @@ module Adyen
 
     # Get terminal action
     def get_terminal_action(company_id, action_id, headers: {})
-      endpoint = '/companies/{companyId}/terminalActions/{actionId}'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id, action_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalActions/{actionId}', company_id, action_id)
       
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
@@ -24,9 +22,7 @@ module Adyen
 
     # Get a list of terminal actions
     def list_terminal_actions(company_id, headers: {}, query_params: {})
-      endpoint = '/companies/{companyId}/terminalActions'.gsub(/{.+?}/, '%s')
-      endpoint = endpoint.gsub(%r{^/}, '')
-      endpoint = format(endpoint, company_id)
+      endpoint = build_endpoint('/companies/{companyId}/terminalActions', company_id)
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
       @client.call_adyen_api(@service, action, {}, headers, @version)
