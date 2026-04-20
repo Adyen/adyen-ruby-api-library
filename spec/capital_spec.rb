@@ -6,6 +6,88 @@ RSpec.describe Adyen::Capital do
   let(:service) { 'Capital' }
   let(:version) { client.capital.version }
 
+  describe 'DynamicOffersApi' do
+    let(:dynamic_offer_id) { 'DO00000000000000000000001' }
+
+    it 'calculates a preliminary offer from a dynamic offer' do
+      response_body = json_from_file('mocks/responses/Capital/calculate-preliminary-offer-from-dynamic-offer.json')
+      request_payload = { "amount" => { "currency" => "EUR", "value" => 10000 } }
+
+      url = client.service_url(service, "dynamicOffers/#{dynamic_offer_id}/calculate", version)
+
+      WebMock.stub_request(:post, url)
+             .with(
+               body: request_payload,
+               headers: { 'x-api-key' => client.api_key }
+             )
+             .to_return(body: response_body)
+
+      result = client.capital.dynamic_offers_api.calculate_preliminary_offer_from_dynamic_offer(request_payload, dynamic_offer_id)
+
+      expect(result.status).to eq(200)
+      expect(result.response).to eq(JSON.parse(response_body))
+      expect(result.response).to be_a(Adyen::HashWithAccessors)
+      expect(result.response['id']).to eq(dynamic_offer_id)
+    end
+
+    it 'creates a static offer from a dynamic offer' do
+      response_body = json_from_file('mocks/responses/Capital/create-static-offer-from-dynamic-offer.json')
+      request_payload = { "amount" => { "currency" => "EUR", "value" => 10000 } }
+
+      url = client.service_url(service, "dynamicOffers/#{dynamic_offer_id}/grantOffer", version)
+
+      WebMock.stub_request(:post, url)
+             .with(
+               body: request_payload,
+               headers: { 'x-api-key' => client.api_key }
+             )
+             .to_return(body: response_body)
+
+      result = client.capital.dynamic_offers_api.create_static_offer_from_dynamic_offer(request_payload, dynamic_offer_id)
+
+      expect(result.status).to eq(200)
+      expect(result.response).to eq(JSON.parse(response_body))
+      expect(result.response).to be_a(Adyen::HashWithAccessors)
+      expect(result.response['id']).to eq('GO00000000000000000000002')
+    end
+
+    it 'gets all dynamic offers' do
+      response_body = json_from_file('mocks/responses/Capital/get-all-dynamic-offers.json')
+
+      url = client.service_url(service, 'dynamicOffers', version)
+
+      WebMock.stub_request(:get, url)
+             .with(headers: { 'x-api-key' => client.api_key })
+             .to_return(body: response_body)
+
+      result = client.capital.dynamic_offers_api.get_all_dynamic_offers
+
+      expect(result.status).to eq(200)
+      expect(result.response).to eq(JSON.parse(response_body))
+      expect(result.response).to be_a(Adyen::HashWithAccessors)
+      expect(result.response['dynamicOffers'].first['id']).to eq(dynamic_offer_id)
+    end
+
+    it 'gets all dynamic offers with query params' do
+      response_body = json_from_file('mocks/responses/Capital/get-all-dynamic-offers.json')
+      account_holder_id = 'AH00000000000000000000001'
+
+      url = client.service_url(service, 'dynamicOffers', version)
+
+      WebMock.stub_request(:get, url)
+             .with(
+               query: { 'accountHolderId' => account_holder_id },
+               headers: { 'x-api-key' => client.api_key }
+             )
+             .to_return(body: response_body)
+
+      result = client.capital.dynamic_offers_api.get_all_dynamic_offers(query_params: { 'accountHolderId' => account_holder_id })
+
+      expect(result.status).to eq(200)
+      expect(result.response).to eq(JSON.parse(response_body))
+    end
+  end
+
   describe 'GrantAccountsApi' do
     it 'gets grant account information' do
       response_body = json_from_file('mocks/responses/Capital/get-grant-account-success.json')
