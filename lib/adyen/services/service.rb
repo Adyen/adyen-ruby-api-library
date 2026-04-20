@@ -31,5 +31,12 @@ module Adyen
       return '' if params.empty?
       "?#{URI.encode_www_form(params)}"
     end
+
+    private
+
+    def build_endpoint(path, *params)
+      endpoint = path.gsub('%', '%%').gsub(/{.+?}/, '%s').delete_prefix('/')
+      format(endpoint, *params)
+    end
   end
 end
