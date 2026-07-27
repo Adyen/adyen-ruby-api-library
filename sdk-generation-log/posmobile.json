@@ -1,8 +1,8 @@
 {
   "service": "posmobile",
   "project": "ruby",
-  "generatedAt": "2026-04-20T13:39:47Z",
-  "openapiCommitSha": "3550ecd3f320efaad6bee55ffed5122cb9ba09d5",
-  "automationCommitSha": "4ad0c0c7e87bc0e5994a9a3350a991d0691350bb",
-  "libraryCommitSha": "60ccdbdbbb7069d54600a8a8cd19eea245661134"
+  "generatedAt": "2026-07-27T10:28:53Z",
+  "openapiCommitSha": "2f7d0e1961772ee974be4ed268282cf2ba8f6e03",
+  "automationCommitSha": "0c108bd8050cf480d2710b78b770afdfbdd89397",
+  "libraryCommitSha": "c80f38ce8b02c80778053741d0e9175e8e530742"
 }
