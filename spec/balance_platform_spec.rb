@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'json'
 
 RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
+  SWEEPS_ENDPOINT = 'balanceAccounts/balanceAccountID/sweeps/sweepID'
+
   before(:all) do
     @shared_values = {
       client: create_client(:api_key),
@@ -88,17 +90,112 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
   it 'makes a balance_account/sweeps DELETE call' do
     url = @shared_values[:client].service_url(
       @shared_values[:service],
-      'balanceAccounts/balanceAccountID/sweeps/sweepID',
+      SWEEPS_ENDPOINT,
       @shared_values[:client].balance_platform.version
     )
     WebMock.stub_request(:delete, url)
            .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
-           .to_return(body: '{}')
+           .to_return(status: 204, body: '')
 
-    result = @shared_values[:client].balance_platform.balance_accounts_api.delete_sweep('balanceAccountID', 'sweepID')
-    result.response
+    result = @shared_values[:client].balance_platform.custom_payout_schedules_sweeps_api.delete_sweep('balanceAccountID', 'sweepID')
+
+    expect(result.status).to eq(204)
+  end
+
+  it 'makes a create_sweep POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/create_sweep.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/create_sweep.json')
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      'balanceAccounts/balanceAccountID/sweeps',
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.custom_payout_schedules_sweeps_api.create_sweep(request_body, 'balanceAccountID')
+    response_hash = result.response
 
     expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a get_all_sweeps_for_balance_account GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_all_sweeps_for_balance_account.json')
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      'balanceAccounts/balanceAccountID/sweeps',
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(
+             query: { 'limit' => 5, 'offset' => 10 },
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.custom_payout_schedules_sweeps_api
+                   .get_all_sweeps_for_balance_account('balanceAccountID', query_params: { 'limit' => 5, 'offset' => 10 })
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a get_sweep GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_sweep.json')
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      SWEEPS_ENDPOINT,
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.custom_payout_schedules_sweeps_api.get_sweep('balanceAccountID', 'sweepID')
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes an update_sweep PATCH call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/update_sweep.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/update_sweep.json')
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      SWEEPS_ENDPOINT,
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:patch, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.custom_payout_schedules_sweeps_api.update_sweep(request_body, 'balanceAccountID', 'sweepID')
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
   end
 
   ## balancePlatform level transferLimits
@@ -514,6 +611,403 @@ RSpec.describe Adyen::BalancePlatform, service: 'balancePlatform' do
     response_hash = result.response
 
     expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  ## managed payout schedules
+  it 'makes an apply_managed_schedule POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/apply_managed_schedule.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/apply_managed_schedule.json')
+    balance_account_id = 'YOUR_BALANCE_ACCOUNT_ID'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/payoutSchedules",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.managed_payout_schedules_api
+                   .apply_managed_schedule(request_body, balance_account_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a get_balance_account_managed_schedules GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_balance_account_managed_schedules.json')
+    balance_account_id = 'YOUR_BALANCE_ACCOUNT_ID'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/payoutSchedules",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.managed_payout_schedules_api
+                   .get_balance_account_managed_schedules(balance_account_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a get_balance_account_managed_schedule_by_id GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_balance_account_managed_schedule_by_id.json')
+    balance_account_id = 'YOUR_BALANCE_ACCOUNT_ID'
+    payout_schedule_id = 'PSAC00000000000000000000000001'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/payoutSchedules/#{payout_schedule_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.managed_payout_schedules_api
+                   .get_balance_account_managed_schedule_by_id(balance_account_id, payout_schedule_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes an update_balance_account_managed_schedule PATCH call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/update_balance_account_managed_schedule.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/update_balance_account_managed_schedule.json')
+    balance_account_id = 'YOUR_BALANCE_ACCOUNT_ID'
+    payout_schedule_id = 'PSAC00000000000000000000000001'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/payoutSchedules/#{payout_schedule_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:patch, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.managed_payout_schedules_api
+                   .update_balance_account_managed_schedule(request_body, balance_account_id, payout_schedule_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a delete_balance_account_managed_schedule DELETE call' do
+    balance_account_id = 'YOUR_BALANCE_ACCOUNT_ID'
+    payout_schedule_id = 'PSAC00000000000000000000000001'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/payoutSchedules/#{payout_schedule_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:delete, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(status: 204, body: '')
+
+    result = @shared_values[:client].balance_platform.managed_payout_schedules_api
+                   .delete_balance_account_managed_schedule(balance_account_id, payout_schedule_id)
+
+    expect(result.status).to eq(204)
+  end
+
+  it 'makes a get_payout_schedule_executions GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_payout_schedule_executions.json')
+    balance_account_id = 'YOUR_BALANCE_ACCOUNT_ID'
+    payout_schedule_id = 'PSAC00000000000000000000000001'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/payoutSchedules/#{payout_schedule_id}/executions",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(
+             query: { 'results' => 'succeeded,failed', 'offset' => 0 },
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.managed_payout_schedules_api
+                   .get_payout_schedule_executions(
+                     balance_account_id,
+                     payout_schedule_id,
+                     query_params: { 'results' => 'succeeded,failed', 'offset' => 0 }
+                   )
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a get_balance_platform_managed_schedules GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_balance_platform_managed_schedules.json')
+    balance_platform_id = 'YOUR_BALANCE_PLATFORM_ID'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balancePlatforms/#{balance_platform_id}/payoutSchedules",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.managed_payout_schedules_api
+                   .get_balance_platform_managed_schedules(balance_platform_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a get_balance_platform_managed_schedule_by_id GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_balance_platform_managed_schedule_by_id.json')
+    balance_platform_id = 'YOUR_BALANCE_PLATFORM_ID'
+    payout_schedule_id = 'PSPC00000000000000000000000001'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balancePlatforms/#{balance_platform_id}/payoutSchedules/#{payout_schedule_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.managed_payout_schedules_api
+                   .get_balance_platform_managed_schedule_by_id(balance_platform_id, payout_schedule_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  ## recurringTopUps
+  it 'makes a create_recurring_top_up POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/create_recurring_top_up.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/create_recurring_top_up.json')
+    balance_account_id = 'BA3227C223222B5BLP6JQC3FD'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/recurringTopUps",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.recurring_top_ups_api
+                                    .create_recurring_top_up(request_body, balance_account_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a get_recurring_top_ups GET call' do
+    response_body = json_from_file('mocks/responses/BalancePlatform/get_recurring_top_ups.json')
+    balance_account_id = 'BA3227C223222B5BLP6JQC3FD'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/recurringTopUps",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:get, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.recurring_top_ups_api
+                                    .get_recurring_top_ups(balance_account_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes an update_recurring_top_ups PATCH call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/update_recurring_top_ups.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/update_recurring_top_ups.json')
+    balance_account_id = 'BA3227C223222B5BLP6JQC3FD'
+    top_up_id = 'TUPC0000000000000000000001'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/recurringTopUps/#{top_up_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:patch, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.recurring_top_ups_api
+                                    .update_recurring_top_ups(request_body, balance_account_id, top_up_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a delete_recurring_top_up DELETE call' do
+    balance_account_id = 'BA3227C223222B5BLP6JQC3FD'
+    top_up_id = 'TUPC0000000000000000000001'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "balanceAccounts/#{balance_account_id}/recurringTopUps/#{top_up_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:delete, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(status: 204, body: '')
+
+    result = @shared_values[:client].balance_platform.recurring_top_ups_api
+                                    .delete_recurring_top_up(balance_account_id, top_up_id)
+
+    expect(result.status).to eq(204)
+  end
+
+  ## scaDeviceManagement
+  it 'makes a begin_sca_device_registration POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/begin_sca_device_registration.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/begin_sca_device_registration.json')
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      'scaDevices',
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(status: 201, body: response_body)
+
+    result = @shared_values[:client].balance_platform.sca_device_management_api
+                                    .begin_sca_device_registration(request_body)
+    response_hash = result.response
+
+    expect(result.status).to eq(201)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a delete_sca_device DELETE call' do
+    device_id = 'BSDR42XV3223223S5N6CDQDGH53M8H'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "scaDevices/#{device_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:delete, url)
+           .with(headers: { 'x-api-key' => @shared_values[:client].api_key })
+           .to_return(status: 204, body: '')
+
+    result = @shared_values[:client].balance_platform.sca_device_management_api
+                                    .delete_sca_device(device_id)
+
+    expect(result.status).to eq(204)
+  end
+
+  it 'makes a finish_sca_device_registration PATCH call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/finish_sca_device_registration.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/finish_sca_device_registration.json')
+    device_id = 'BSDR42XV3223223S5N6CDQDGH53M8H'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "scaDevices/#{device_id}",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:patch, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(body: response_body)
+
+    result = @shared_values[:client].balance_platform.sca_device_management_api
+                                    .finish_sca_device_registration(request_body, device_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
+  it 'makes a submit_sca_association POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/BalancePlatform/submit_sca_association.json'))
+    response_body = json_from_file('mocks/responses/BalancePlatform/submit_sca_association.json')
+    device_id = 'BSDR42XV3223223S5N6CDQDGH53M8H'
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      "scaDevices/#{device_id}/scaAssociations",
+      @shared_values[:client].balance_platform.version
+    )
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             headers: { 'x-api-key' => @shared_values[:client].api_key }
+           )
+           .to_return(status: 201, body: response_body)
+
+    result = @shared_values[:client].balance_platform.sca_device_management_api
+                                    .submit_sca_association(request_body, device_id)
+    response_hash = result.response
+
+    expect(result.status).to eq(201)
     expect(response_hash).to eq(JSON.parse(response_body))
     expect(response_hash).to be_a Adyen::HashWithAccessors
     expect(response_hash).to be_a_kind_of Hash

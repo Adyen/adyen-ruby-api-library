@@ -1,0 +1,5 @@
+{
+  "description": "Updated payout description",
+  "enabled": false,
+  "retainedAmount": 20000
+}
