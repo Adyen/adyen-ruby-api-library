@@ -1,0 +1,35 @@
+{
+  "recurringTopUps": [
+    {
+      "id": "TUPC0000000000000000000001",
+      "counterparty": {
+        "transferInstrumentId": "SE000000000000000000000001"
+      },
+      "description": "My description",
+      "topUpAmount": {
+        "fixed": {
+          "value": 1000,
+          "currency": "EUR"
+        }
+      },
+      "trigger": {
+        "schedule": {
+          "type": "weekdays"
+        },
+        "threshold": {
+          "value": 100,
+          "currency": "EUR"
+        }
+      },
+      "status": "active"
+    }
+  ],
+  "link": {
+    "next": {
+      "href": "/balanceAccounts/balanceAccount1/recurringTopUps?limit=10&cursor=nextCursorToken"
+    },
+    "previous": {
+      "href": "/balanceAccounts/balanceAccount1/recurringTopUps?limit=10&cursor=previousCursorToken"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "balancePlatformPayoutSchedules": [
+    {
+      "id": "PSPC00000000000000000000000001",
+      "balancePlatformId": "YOUR_BALANCE_PLATFORM_ID",
+      "countryCode": "NL",
+      "currency": "EUR",
+      "defaultDescription": "Scheduled payout to merchant bank account",
+      "defaultFrequency": "monthly",
+      "defaultFrequencyValue": 1,
+      "defaultReference": "Monthly payout",
+      "defaultReferenceForBeneficiary": "PAYOUT-REF-001",
+      "automaticApplication": false,
+      "enabled": true,
+      "maxPayoutAmount": 100000000,
+      "minPayoutAmount": 1000,
+      "retainedAmount": 10000,
+      "payoutScheduleDescription": "Standard",
+      "userSettlementDelay": 2,
+      "userSettlementTime": {
+        "hour": 8,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "userSettlementTimeZone": "Europe/Amsterdam",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-16T14:00:00Z"
+    }
+  ]
+}

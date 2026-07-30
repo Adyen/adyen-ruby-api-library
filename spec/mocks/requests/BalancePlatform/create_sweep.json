@@ -1,0 +1,10 @@
+{
+  "counterparty": {
+    "balanceAccountId": "BA3227C223222B5BLP6JQC3FD"
+  },
+  "currency": "EUR",
+  "schedule": {
+    "type": "daily"
+  },
+  "type": "push"
+}

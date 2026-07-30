@@ -1,0 +1,31 @@
+{
+  "hasNext": false,
+  "hasPrevious": false,
+  "sweeps": [
+    {
+      "counterparty": {
+        "balanceAccountId": "BA3227C223222B5BLP6JQC3FD"
+      },
+      "currency": "EUR",
+      "id": "SWEP00000000000000000000000001",
+      "schedule": {
+        "type": "daily"
+      },
+      "status": "active",
+      "type": "push"
+    },
+    {
+      "counterparty": {
+        "transferInstrumentId": "SE322JV222224D5FJ7QTZ9HVM"
+      },
+      "currency": "EUR",
+      "id": "SWEP00000000000000000000000002",
+      "schedule": {
+        "type": "cron",
+        "cronExpression": "30 17 * * MON"
+      },
+      "status": "inactive",
+      "type": "pull"
+    }
+  ]
+}
