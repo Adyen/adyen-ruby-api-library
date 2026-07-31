@@ -10,6 +10,7 @@ require_relative 'management/allowed_origins_merchant_level_api'
 require_relative 'management/android_files_company_level_api'
 require_relative 'management/client_key_company_level_api'
 require_relative 'management/client_key_merchant_level_api'
+require_relative 'management/donation_campaigns_api'
 require_relative 'management/my_api_credential_api'
 require_relative 'management/payment_methods_merchant_level_api'
 require_relative 'management/payout_settings_merchant_level_api'
@@ -90,6 +91,10 @@ module Adyen
 
     def client_key_merchant_level_api
       @client_key_merchant_level_api ||= Adyen::ClientKeyMerchantLevelApi.new(@client, @version)
+    end
+
+    def donation_campaigns_api
+      @donation_campaigns_api ||= Adyen::DonationCampaignsApi.new(@client, @version)
     end
 
     def my_api_credential_api
