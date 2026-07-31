@@ -1,8 +1,8 @@
 {
   "service": "transfers",
   "project": "ruby",
-  "generatedAt": "2026-04-20T13:39:51Z",
-  "openapiCommitSha": "3550ecd3f320efaad6bee55ffed5122cb9ba09d5",
-  "automationCommitSha": "4ad0c0c7e87bc0e5994a9a3350a991d0691350bb",
-  "libraryCommitSha": "60ccdbdbbb7069d54600a8a8cd19eea245661134"
+  "generatedAt": "2026-07-31T12:01:01Z",
+  "openapiCommitSha": "425d65d12163ebd4fe6fa6d2f859075817c81cba",
+  "automationCommitSha": "0c108bd8050cf480d2710b78b770afdfbdd89397",
+  "libraryCommitSha": "7f77a7b7aca2c2b22147ba4b996ada979f9decd9"
 }
