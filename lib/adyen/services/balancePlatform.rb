@@ -4,15 +4,18 @@ require_relative 'balancePlatform/balance_accounts_api'
 require_relative 'balancePlatform/balances_api'
 require_relative 'balancePlatform/bank_account_validation_api'
 require_relative 'balancePlatform/card_orders_api'
+require_relative 'balancePlatform/custom_payout_schedules_sweeps_api'
 require_relative 'balancePlatform/direct_debit_mandates_api'
 require_relative 'balancePlatform/grant_accounts_api'
 require_relative 'balancePlatform/grant_offers_api'
 require_relative 'balancePlatform/manage_card_pin_api'
 require_relative 'balancePlatform/manage_sca_devices_api'
+require_relative 'balancePlatform/managed_payout_schedules_api'
 require_relative 'balancePlatform/network_tokens_api'
 require_relative 'balancePlatform/payment_instrument_groups_api'
 require_relative 'balancePlatform/payment_instruments_api'
 require_relative 'balancePlatform/platform_api'
+require_relative 'balancePlatform/recurring_top_ups_api'
 require_relative 'balancePlatform/sca_association_management_api'
 require_relative 'balancePlatform/sca_device_management_api'
 require_relative 'balancePlatform/transaction_rules_api'
@@ -60,6 +63,10 @@ module Adyen
       @card_orders_api ||= Adyen::CardOrdersApi.new(@client, @version)
     end
 
+    def custom_payout_schedules_sweeps_api
+      @custom_payout_schedules_sweeps_api ||= Adyen::CustomPayoutSchedulesSweepsApi.new(@client, @version)
+    end
+
     def direct_debit_mandates_api
       @direct_debit_mandates_api ||= Adyen::DirectDebitMandatesApi.new(@client, @version)
     end
@@ -80,6 +87,10 @@ module Adyen
       @manage_sca_devices_api ||= Adyen::ManageSCADevicesApi.new(@client, @version)
     end
 
+    def managed_payout_schedules_api
+      @managed_payout_schedules_api ||= Adyen::ManagedPayoutSchedulesApi.new(@client, @version)
+    end
+
     def network_tokens_api
       @network_tokens_api ||= Adyen::NetworkTokensApi.new(@client, @version)
     end
@@ -94,6 +105,10 @@ module Adyen
 
     def platform_api
       @platform_api ||= Adyen::PlatformApi.new(@client, @version)
+    end
+
+    def recurring_top_ups_api
+      @recurring_top_ups_api ||= Adyen::RecurringTopUpsApi.new(@client, @version)
     end
 
     def sca_association_management_api
