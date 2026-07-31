@@ -20,6 +20,14 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
+    # Delete an SCA device
+    def delete_sca_device(device_id, headers: {})
+      endpoint = build_endpoint('/scaDevices/{deviceId}', device_id)
+      
+      action = { method: 'delete', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     # Finish registration process for a SCA device
     def finish_sca_device_registration(request, device_id, headers: {})
       endpoint = build_endpoint('/scaDevices/{deviceId}', device_id)
