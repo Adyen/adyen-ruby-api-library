@@ -63,4 +63,188 @@ RSpec.describe Adyen::Management, service: 'Management' do
     expect(result.status)
       .to eq(200)
   end
+
+  ## Donation campaigns
+
+  it 'makes a create_donation_campaign POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/Management/create_donation_campaign.json'))
+    response_body = json_from_file('mocks/responses/Management/donation_campaign.json')
+
+    url = @shared_values[:client].service_url(@shared_values[:service], 'companies/companyID/campaignManagement',
+                                              @shared_values[:client].management.version)
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: response_body
+           )
+
+    result = @shared_values[:client].management.donation_campaigns_api.create_donation_campaign(request_body,
+                                                                                                'companyID')
+    response_hash = result.response
+
+    expect(result.status)
+      .to eq(200)
+    expect(response_hash)
+      .to eq(JSON.parse(response_body))
+    expect(response_hash)
+      .to be_a Adyen::HashWithAccessors
+    expect(response_hash)
+      .to be_a_kind_of Hash
+  end
+
+  it 'makes a delete_donation_campaign DELETE call' do
+    url = @shared_values[:client].service_url(@shared_values[:service],
+                                              'companies/companyID/campaignManagement/donationCampaignID',
+                                              @shared_values[:client].management.version)
+    WebMock.stub_request(:delete, url)
+           .with(
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(status: 204, body: '')
+
+    result = @shared_values[:client].management.donation_campaigns_api.delete_donation_campaign('companyID',
+                                                                                                'donationCampaignID')
+
+    expect(result.status)
+      .to eq(204)
+  end
+
+  it 'makes a list_donation_campaigns_for_account_holder GET call' do
+    response_body = json_from_file('mocks/responses/Management/list_donation_campaigns.json')
+
+    url = @shared_values[:client].service_url(@shared_values[:service],
+                                              'companies/companyID/campaignManagement/accountHolders/accountHolderID',
+                                              @shared_values[:client].management.version)
+    WebMock.stub_request(:get, url)
+           .with(
+             query: { 'status' => 'active', 'pageNumber' => 1, 'pageSize' => 10 },
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: response_body
+           )
+
+    result = @shared_values[:client].management.donation_campaigns_api
+                   .list_donation_campaigns_for_account_holder('companyID', 'accountHolderID',
+                                                               query_params: { 'status' => 'active',
+                                                                               'pageNumber' => 1,
+                                                                               'pageSize' => 10 })
+    response_hash = result.response
+
+    expect(result.status)
+      .to eq(200)
+    expect(response_hash)
+      .to eq(JSON.parse(response_body))
+    expect(response_hash)
+      .to be_a Adyen::HashWithAccessors
+    expect(response_hash)
+      .to be_a_kind_of Hash
+  end
+
+  it 'makes a list_nonprofits POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/Management/list_nonprofits.json'))
+    response_body = json_from_file('mocks/responses/Management/list_nonprofits.json')
+
+    url = @shared_values[:client].service_url(@shared_values[:service], 'companies/companyID/nonprofits',
+                                              @shared_values[:client].management.version)
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             query: { 'searchTerm' => 'example', 'pageNumber' => 1, 'pageSize' => 10 },
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: response_body
+           )
+
+    result = @shared_values[:client].management.donation_campaigns_api
+                   .list_nonprofits(request_body, 'companyID',
+                                    query_params: { 'searchTerm' => 'example',
+                                                    'pageNumber' => 1,
+                                                    'pageSize' => 10 })
+    response_hash = result.response
+
+    expect(result.status)
+      .to eq(200)
+    expect(response_hash)
+      .to eq(JSON.parse(response_body))
+    expect(response_hash)
+      .to be_a Adyen::HashWithAccessors
+    expect(response_hash)
+      .to be_a_kind_of Hash
+  end
+
+  it 'makes an update_donation_campaign PATCH call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/Management/update_donation_campaign.json'))
+    response_body = json_from_file('mocks/responses/Management/donation_campaign.json')
+
+    url = @shared_values[:client].service_url(@shared_values[:service],
+                                              'companies/companyID/campaignManagement/donationCampaignID',
+                                              @shared_values[:client].management.version)
+    WebMock.stub_request(:patch, url)
+           .with(
+             body: request_body,
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: response_body
+           )
+
+    result = @shared_values[:client].management.donation_campaigns_api.update_donation_campaign(request_body,
+                                                                                                'companyID',
+                                                                                                'donationCampaignID')
+    response_hash = result.response
+
+    expect(result.status)
+      .to eq(200)
+    expect(response_hash)
+      .to eq(JSON.parse(response_body))
+    expect(response_hash)
+      .to be_a Adyen::HashWithAccessors
+    expect(response_hash)
+      .to be_a_kind_of Hash
+  end
+
+  it 'makes an update_donation_campaign_status POST call' do
+    response_body = json_from_file('mocks/responses/Management/donation_campaign.json')
+
+    url = @shared_values[:client].service_url(@shared_values[:service],
+                                              'companies/companyID/campaignManagement/donationCampaignID/status/activate',
+                                              @shared_values[:client].management.version)
+    WebMock.stub_request(:post, url)
+           .with(
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: response_body
+           )
+
+    result = @shared_values[:client].management.donation_campaigns_api
+                   .update_donation_campaign_status('companyID', 'donationCampaignID', 'activate')
+    response_hash = result.response
+
+    expect(result.status)
+      .to eq(200)
+    expect(response_hash)
+      .to eq(JSON.parse(response_body))
+    expect(response_hash)
+      .to be_a Adyen::HashWithAccessors
+    expect(response_hash)
+      .to be_a_kind_of Hash
+  end
 end
