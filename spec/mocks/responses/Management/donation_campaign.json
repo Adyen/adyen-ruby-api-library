@@ -1,0 +1,13 @@
+{
+  "id": "DC3227C223222B5BLP6JQC3FD",
+  "name": "Spring fundraiser",
+  "status": "inactive",
+  "nonprofitCause": {
+    "causeId": "CA3227C223222B5BLP6JQC3FD",
+    "nonprofitName": "Example Nonprofit",
+    "description": "An example nonprofit cause."
+  },
+  "accountHolderIds": [
+    "AH3227C223222B5BLP6JQC3FD"
+  ]
+}

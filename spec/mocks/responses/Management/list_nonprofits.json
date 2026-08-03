@@ -1,0 +1,34 @@
+{
+  "itemsTotal": 1,
+  "pagesTotal": 1,
+  "nonprofits": [
+    {
+      "id": "NP3227C223222B5BLP6JQC3FD",
+      "name": "Example Nonprofit",
+      "description": "An example nonprofit organization.",
+      "logoUrl": "https://example.org/logo.png",
+      "website": "https://example.org",
+      "termsAndConditionsUrl": "https://example.org/terms",
+      "goals": [
+        "unsdg_1"
+      ],
+      "locales": [
+        "en-US"
+      ],
+      "regions": [
+        "US"
+      ],
+      "causes": [
+        {
+          "id": "CA3227C223222B5BLP6JQC3FD",
+          "name": "Example Cause",
+          "description": "An example cause.",
+          "bannerUrl": "https://example.org/banner.png",
+          "locales": [
+            "en-US"
+          ]
+        }
+      ]
+    }
+  ]
+}
