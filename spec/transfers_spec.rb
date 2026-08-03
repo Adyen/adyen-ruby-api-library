@@ -33,6 +33,34 @@ RSpec.describe Adyen::Transfers, service: 'transfers' do
       .to eq(200)
   end
 
+  it 'makes a cashouts POST call' do
+    request_body = JSON.parse(json_from_file('mocks/requests/Transfers/initiate_cashout.json'))
+
+    response_body = json_from_file('mocks/responses/Transfers/initiate_cashout.json')
+
+    url = @shared_values[:client].service_url(@shared_values[:service], 'cashouts',
+                                              @shared_values[:client].transfers.version)
+    WebMock.stub_request(:post, url)
+           .with(
+             body: request_body,
+             headers: {
+               'x-api-key' => @shared_values[:client].api_key
+             }
+           )
+           .to_return(
+             body: response_body
+           )
+
+    result = @shared_values[:client].transfers.cash_out_api.initiate_cashout(request_body)
+    response_hash = result.response
+
+    expect(result.status)
+      .to eq(200)
+    expect(response_hash).to eq(JSON.parse(response_body))
+    expect(response_hash).to be_a Adyen::HashWithAccessors
+    expect(response_hash).to be_a_kind_of Hash
+  end
+
   it 'makes a transactions GET call' do
     response_body = json_from_file('mocks/responses/Transfers/make_transfer.json')
 
