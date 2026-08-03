@@ -1,0 +1,12 @@
+{
+  "amount": {
+    "value": 110000,
+    "currency": "EUR"
+  },
+  "instructingBalanceAccountId": "BAB8B2C3D4E5F6G7H8D9J6GD4",
+  "counterparty": {
+    "transferInstrumentId": "SE000JVZ7Q8D2ZJ4VZ0J"
+  },
+  "referenceForBeneficiary": "Your-reference-sent-to-the-beneficiary",
+  "description": "Your description for the cashout"
+}
