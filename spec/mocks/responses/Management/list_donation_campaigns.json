@@ -1,0 +1,19 @@
+{
+  "itemsTotal": 1,
+  "pagesTotal": 1,
+  "campaigns": [
+    {
+      "id": "DC3227C223222B5BLP6JQC3FD",
+      "name": "Spring fundraiser",
+      "status": "active",
+      "nonprofitCause": {
+        "causeId": "CA3227C223222B5BLP6JQC3FD",
+        "nonprofitName": "Example Nonprofit",
+        "description": "An example nonprofit cause."
+      },
+      "accountHolderIds": [
+        "AH3227C223222B5BLP6JQC3FD"
+      ]
+    }
+  ]
+}
