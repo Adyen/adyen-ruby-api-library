@@ -17,7 +17,9 @@ module Adyen
     #
     # Deprecated since POS Terminal Management API v1
     # Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
+    # @deprecated
     def assign_terminals(request, headers: {})
+      Adyen::Deprecation.warn(:assign_terminals, since: 'POS Terminal Management API v1', message: "Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).")
       endpoint = '/assignTerminals'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
@@ -30,7 +32,9 @@ module Adyen
     #
     # Deprecated since POS Terminal Management API v1
     # Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
+    # @deprecated
     def find_terminal(request, headers: {})
+      Adyen::Deprecation.warn(:find_terminal, since: 'POS Terminal Management API v1', message: "Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).")
       endpoint = '/findTerminal'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
@@ -43,7 +47,9 @@ module Adyen
     #
     # Deprecated since POS Terminal Management API v1
     # Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
+    # @deprecated
     def get_stores_under_account(request, headers: {})
+      Adyen::Deprecation.warn(:get_stores_under_account, since: 'POS Terminal Management API v1', message: "Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).")
       endpoint = '/getStoresUnderAccount'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
@@ -56,7 +62,9 @@ module Adyen
     #
     # Deprecated since POS Terminal Management API v1
     # Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
+    # @deprecated
     def get_terminal_details(request, headers: {})
+      Adyen::Deprecation.warn(:get_terminal_details, since: 'POS Terminal Management API v1', message: "Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).")
       endpoint = '/getTerminalDetails'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)
@@ -69,7 +77,9 @@ module Adyen
     #
     # Deprecated since POS Terminal Management API v1
     # Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
+    # @deprecated
     def get_terminals_under_account(request, headers: {})
+      Adyen::Deprecation.warn(:get_terminals_under_account, since: 'POS Terminal Management API v1', message: "Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).")
       endpoint = '/getTerminalsUnderAccount'.gsub(/{.+?}/, '%s')
       endpoint = endpoint.gsub(%r{^/}, '')
       endpoint = format(endpoint)

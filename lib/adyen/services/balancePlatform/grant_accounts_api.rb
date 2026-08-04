@@ -16,7 +16,9 @@ module Adyen
     #
     # Deprecated since Configuration API v2
     # Use the `/grantAccounts/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantAccounts/(id)) instead.
+    # @deprecated
     def get_grant_account(id, headers: {})
+      Adyen::Deprecation.warn(:get_grant_account, since: 'Configuration API v2', message: 'Use the `/grantAccounts/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantAccounts/(id)) instead.')
       endpoint = build_endpoint('/grantAccounts/{id}', id)
       
       action = { method: 'get', url: endpoint }

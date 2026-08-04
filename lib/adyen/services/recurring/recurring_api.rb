@@ -15,7 +15,9 @@ module Adyen
     # Create new permits linked to a recurring contract.
     #
     # Deprecated since Adyen Recurring API v68
+    # @deprecated
     def create_permit(request, headers: {})
+      Adyen::Deprecation.warn(:create_permit, since: 'Adyen Recurring API v68')
       endpoint = build_endpoint('/createPermit')
       
       action = { method: 'post', url: endpoint }
@@ -33,7 +35,9 @@ module Adyen
     # Disable an existing permit.
     #
     # Deprecated since Adyen Recurring API v68
+    # @deprecated
     def disable_permit(request, headers: {})
+      Adyen::Deprecation.warn(:disable_permit, since: 'Adyen Recurring API v68')
       endpoint = build_endpoint('/disablePermit')
       
       action = { method: 'post', url: endpoint }

@@ -78,5 +78,33 @@ RSpec.describe Adyen::Utils::HmacValidator do
     end
 
   end
+
+  describe 'deprecated methods' do
+    around do |example|
+      previous = Warning[:deprecated]
+      Warning[:deprecated] = true
+      example.run
+    ensure
+      Warning[:deprecated] = previous
+    end
+
+    it 'valid_notification_hmac? emits a deprecation warning and still validates' do
+      result = nil
+      expect do
+        result = validator.valid_notification_hmac?(webhook_request_item, key)
+      end.to output(/\[DEPRECATED\] `valid_notification_hmac\?` is deprecated\. Use valid_webhook_hmac\?\(\) instead\.\n/).to_stderr
+
+      expect(result).to be true
+    end
+
+    it 'calculate_notification_hmac emits a deprecation warning and still calculates' do
+      result = nil
+      expect do
+        result = validator.calculate_notification_hmac(webhook_request_item, key)
+      end.to output(/\[DEPRECATED\] `calculate_notification_hmac` is deprecated\. Use calculate_webhook_hmac\(\) instead\.\n/).to_stderr
+
+      expect(result).to eq expected_sign
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength

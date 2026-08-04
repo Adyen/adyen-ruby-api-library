@@ -1,3 +1,5 @@
+require_relative '../deprecation'
+
 module Adyen
   class Service
     attr_accessor :service, :version
