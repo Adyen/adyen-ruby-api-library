@@ -1,0 +1,7 @@
+{
+  "amount": {
+    "currency": "EUR",
+    "value": 1000
+  },
+  "sessionData": "SESSION_DATA_BLOB"
+}

@@ -1,8 +1,13 @@
 {
+    "amount": {
+        "currency": "USD",
+        "value": 1000
+    },
     "expiresAt": "1970-01-01",
     "orderData": "mockedOrderData",
     "remainingAmount": {
         "currency": "USD",
         "value": 100
-    }
+    },
+    "resultCode": "Success"
 }

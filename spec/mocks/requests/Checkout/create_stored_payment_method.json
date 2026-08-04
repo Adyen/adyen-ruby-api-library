@@ -1,0 +1,10 @@
+{
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "paymentMethod": {
+    "brand": "mc",
+    "cvc": "mock-cvc",
+    "encryptedCard": "mock-encryptedCard"
+  },
+  "recurringProcessingModel": "CardOnFile",
+  "shopperReference": "shopper-001"
+}

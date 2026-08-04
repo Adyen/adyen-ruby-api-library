@@ -4,6 +4,9 @@
     "value": 1000
   },
   "expiresAt": "2019-12-14T10:05:29Z",
+  "id": "MockId",
+  "merchantAccount": "TestMerchant",
   "reference": "Merchant Reference",
+  "status": "active",
   "url": "https://checkoutshopper-test.adyen.com"
 }

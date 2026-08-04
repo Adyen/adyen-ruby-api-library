@@ -6,7 +6,7 @@
     "merchantAccount": "TestMerchant",
     "paymentPspReference": "123456789",
     "pspReference": "12345",
-    "reason": "delayedCharge",
+    "industryUsage": "delayedCharge",
     "reference": "123456789",
     "splits": [
       {
