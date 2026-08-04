@@ -1,0 +1,5 @@
+{
+  "paymentData": "mock-paymentData",
+  "pspReference": "8512345678901234",
+  "sessionId": "mock-sessionId"
+}

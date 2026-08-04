@@ -12,7 +12,7 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
   end
 
   # must be created manually because every field in the response is an array
-  it "makes a payment_methods call", focus: true do
+  it "makes a payment_methods call" do
     request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payment_methods.json"))
 
     response_body = json_from_file("mocks/responses/Checkout/payment_methods.json")
@@ -67,8 +67,8 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
       to be_a Adyen::HashWithAccessors
     expect(response_hash).
       to be_a_kind_of Hash
-    expect(response_hash["balance"]).
-      to eq("100")
+    expect(response_hash["balance"]["value"]).
+      to eq(100)
   end
 
   # must be created manually due to payments/details format
@@ -118,14 +118,15 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
         headers: @auth_header
       ).
       to_return(
-        body: response_body
+        body: response_body,
+        status: 201
       )
 
     result = @shared_values[:client].checkout.payment_links_api.payment_links(request_body)
     response_hash = result.response
 
     expect(result.status).
-      to eq(200)
+      to eq(201)
     expect(response_hash).
       to eq(JSON.parse(response_body))
     expect(response_hash).
@@ -256,7 +257,7 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
     expect(response_hash).
       to be_a_kind_of Hash
     expect(response_hash["resultCode"]).
-      to eq("cancelled")
+      to eq("Received")
   end
 
   it "makes an applePay/sessions call" do
@@ -303,6 +304,214 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
       .to_return(body: response_body, status: 201)
 
     result = @shared_values[:client].checkout.payments_api.sessions(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+
+  it "makes an update_session PATCH call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/update_session.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/update_session.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "sessions/CS0123456789ABCDEF", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:patch, url).
+      with(
+        body: request_body,
+        headers: @auth_header
+      ).
+      to_return(body: response_body)
+
+    result = @shared_values[:client].checkout.payments_api.update_session(request_body, "CS0123456789ABCDEF")
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+
+  it "makes a cardDetails call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/card_details.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/card_details.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "cardDetails", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: @auth_header
+      ).
+      to_return(body: response_body)
+
+    result = @shared_values[:client].checkout.payments_api.card_details(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+
+  it "makes a donationCampaigns call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/donation_campaigns.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/donation_campaigns.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "donationCampaigns", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: @auth_header
+      ).
+      to_return(body: response_body)
+
+    result = @shared_values[:client].checkout.donations_api.donation_campaigns(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+
+  it "makes a donations call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/donations.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/donations.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "donations", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: @auth_header
+      ).
+      to_return(body: response_body)
+
+    result = @shared_values[:client].checkout.donations_api.donations(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+
+  it "makes a payments call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/payments.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/payments.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: @auth_header
+      ).
+      to_return(body: response_body)
+
+    result = @shared_values[:client].checkout.payments_api.payments(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+
+  it "makes a reversals call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/reversals.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/reversals.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "payments/8535678901234567/reversals", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: @auth_header
+      ).
+      to_return(body: response_body, status: 201)
+
+    result = @shared_values[:client].checkout.modifications_api.refund_or_cancel_payment(request_body, "8535678901234567")
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(201)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+
+  it "makes a paypal/updateOrder call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/paypal_update_order.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/paypal_update_order.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "paypal/updateOrder", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: @auth_header
+      ).
+      to_return(body: response_body)
+
+    result = @shared_values[:client].checkout.utility_api.updates_order_for_paypal_express_checkout(request_body)
+    response_hash = result.response
+
+    expect(result.status).
+      to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
+  end
+
+  it "makes a storedPaymentMethods POST call" do
+    request_body = JSON.parse(json_from_file("mocks/requests/Checkout/create_stored_payment_method.json"))
+
+    response_body = json_from_file("mocks/responses/Checkout/create_stored_payment_method.json")
+
+    url = @shared_values[:client].service_url(@shared_values[:service], "storedPaymentMethods", @shared_values[:client].checkout.version)
+    WebMock.stub_request(:post, url).
+      with(
+        body: request_body,
+        headers: @auth_header
+      ).
+      to_return(body: response_body, status: 201)
+
+    result = @shared_values[:client].checkout.recurring_api.stored_payment_methods(request_body)
     response_hash = result.response
 
     expect(result.status).
@@ -530,14 +739,15 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
         headers: @auth_header
       ).
       to_return(
-        body: "{}"
+        status: 204,
+        body: ""
       )
 
     result = @shared_values[:client].checkout.recurring_api.delete_token_for_stored_payment_details("RL8FW7WZM6KXWD82", query_params:{"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
     response_hash = result.response
 
     expect(result.status).
-      to eq(200)
+      to eq(204)
   end
 
   it "tests sending the application headers" do
@@ -554,7 +764,7 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
 
     result = @shared_values[:client].checkout.recurring_api.get_tokens_for_stored_payment_details(query_params:{"merchantAccount" => "TestMerchantAccount", "shopperReference" => "test-1234"})
     expect(
-      a_request(:get, "http://localhost:3001/v71/storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234")
+      a_request(:get, "http://localhost:3001/v72/storedPaymentMethods?merchantAccount=TestMerchantAccount&shopperReference=test-1234")
         .with(headers: {
                 'Accept' => '*/*',
                 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
@@ -580,7 +790,7 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
     url = adyen.service_url("Checkout", "paymentMethods", @shared_values[:client].checkout.version)
 
     expect(url).
-      to eq("https://prefix-checkout-live.adyenpayments.com/checkout/v71/paymentMethods")
+      to eq("https://prefix-checkout-live.adyenpayments.com/checkout/v72/paymentMethods")
 
   end
 end

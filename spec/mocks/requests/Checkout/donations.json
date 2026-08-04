@@ -1,0 +1,9 @@
+{
+  "amount": {
+    "currency": "EUR",
+    "value": 1
+  },
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "reference": "YOUR_REFERENCE_0001",
+  "returnUrl": "https://your-company.example/checkout?orderRef=123"
+}

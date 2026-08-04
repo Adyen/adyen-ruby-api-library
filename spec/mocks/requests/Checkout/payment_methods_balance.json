@@ -1,9 +1,12 @@
-
 {
   "paymentMethod": {
     "type": "givex",
     "number": "4126491073027401",
     "cvc": "737"
   },
-  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "amount": {
+    "currency": "EUR",
+    "value": 1000
+  }
 }

@@ -4,7 +4,7 @@
       "value": 0
     },
     "merchantAccount": "TestMerchant",
-    "reason": "delayedCharge",
+    "industryUsage": "delayedCharge",
     "reference": "123456789",
     "splits": [
       {

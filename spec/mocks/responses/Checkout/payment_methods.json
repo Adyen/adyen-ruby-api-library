@@ -1,7 +1,7 @@
 {
     "paymentMethods": [
         {
-            "details": [
+            "inputDetails": [
                 {
                     "key": "additionalData.card.encrypted.json",
                     "type": "cardToken"
@@ -11,7 +11,7 @@
             "type": "scheme"
         },
         {
-            "details": [
+            "inputDetails": [
                 {
                     "items": [
                         {

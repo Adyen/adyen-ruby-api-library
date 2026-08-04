@@ -1,0 +1,5 @@
+{
+  "fundingSource": "mock-fundingSource",
+  "isCardCommercial": true,
+  "issuingCountryCode": "mock-issuingCountryCode"
+}
