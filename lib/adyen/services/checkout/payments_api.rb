@@ -60,5 +60,13 @@ module Adyen
       @client.call_adyen_api(@service, action, request, headers, @version)
     end
 
+    # Update a payment session
+    def update_session(request, session_id, headers: {})
+      endpoint = build_endpoint('/sessions/{sessionId}', session_id)
+      
+      action = { method: 'patch', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
   end
 end

@@ -1,8 +1,8 @@
 {
   "service": "checkout",
   "project": "ruby",
-  "generatedAt": "2026-04-20T13:39:49Z",
-  "openapiCommitSha": "3550ecd3f320efaad6bee55ffed5122cb9ba09d5",
-  "automationCommitSha": "4ad0c0c7e87bc0e5994a9a3350a991d0691350bb",
-  "libraryCommitSha": "60ccdbdbbb7069d54600a8a8cd19eea245661134"
+  "generatedAt": "2026-08-04T08:22:34Z",
+  "openapiCommitSha": "f0d0bd47b721d1b4e2c86e8b3aad706ecb88423a",
+  "automationCommitSha": "0c108bd8050cf480d2710b78b770afdfbdd89397",
+  "libraryCommitSha": "2c40b0c319ba09d1dd30970a137b53af3193db76"
 }
