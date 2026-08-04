@@ -1,3 +1,7 @@
 {
-    "balance": "100"
+    "balance": {
+        "currency": "EUR",
+        "value": 100
+    },
+    "resultCode": "Success"
 }

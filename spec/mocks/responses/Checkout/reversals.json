@@ -1,0 +1,6 @@
+{
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "paymentPspReference": "8535678901234567",
+  "pspReference": "8512345678901234",
+  "status": "received"
+}

@@ -1,6 +1,8 @@
 {
     "amount": {
-        "currency":"USD",
-        "value": "1000"
-    }
+        "currency": "USD",
+        "value": 1000
+    },
+    "merchantAccount": "TestMerchant",
+    "reference": "Merchant Reference"
 }
