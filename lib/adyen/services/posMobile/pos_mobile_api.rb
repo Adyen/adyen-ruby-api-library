@@ -16,7 +16,9 @@ module Adyen
     #
     # Deprecated since POS Mobile API v68
     # Use POST [/auth/certificate](https://docs.adyen.com/api-explorer/softpos-configuration-api/latest/post/auth/certificate) to establish secure communications.
+    # @deprecated
     def create_communication_session(request, headers: {})
+      Adyen::Deprecation.warn(:create_communication_session, since: 'POS Mobile API v68', message: 'Use POST [/auth/certificate](https://docs.adyen.com/api-explorer/softpos-configuration-api/latest/post/auth/certificate) to establish secure communications.')
       endpoint = build_endpoint('/sessions')
       
       action = { method: 'post', url: endpoint }

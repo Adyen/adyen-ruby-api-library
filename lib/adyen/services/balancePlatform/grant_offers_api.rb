@@ -16,7 +16,9 @@ module Adyen
     #
     # Deprecated since Configuration API v2
     # Use the `/grantOffers` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers) instead.
+    # @deprecated
     def get_all_available_grant_offers(headers: {}, query_params: {})
+      Adyen::Deprecation.warn(:get_all_available_grant_offers, since: 'Configuration API v2', message: 'Use the `/grantOffers` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers) instead.')
       endpoint = build_endpoint('/grantOffers')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
@@ -27,7 +29,9 @@ module Adyen
     #
     # Deprecated since Configuration API v2
     # Use the `/grantOffers/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers/(id)) instead.
+    # @deprecated
     def get_grant_offer(grant_offer_id, headers: {})
+      Adyen::Deprecation.warn(:get_grant_offer, since: 'Configuration API v2', message: 'Use the `/grantOffers/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers/(id)) instead.')
       endpoint = build_endpoint('/grantOffers/{grantOfferId}', grant_offer_id)
       
       action = { method: 'get', url: endpoint }

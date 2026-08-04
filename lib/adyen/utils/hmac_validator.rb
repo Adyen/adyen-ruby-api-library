@@ -9,7 +9,9 @@ module Adyen
       ].freeze
 
       # <b>DEPRECATED:</b> Please use valid_webhook_hmac?() instead.
+      # @deprecated
       def valid_notification_hmac?(notification_request_item, hmac_key)
+        Adyen::Deprecation.warn(:valid_notification_hmac?, message: "Use valid_webhook_hmac?() instead.")
         valid_webhook_hmac?(notification_request_item, hmac_key)
       end
 
@@ -18,8 +20,8 @@ module Adyen
       #
       # @param webhook_request_item [Object] The webhook request item.
       # @param hmac_key [String] The HMAC key used to validate the payload.
-      
-      # @return [Boolean] Returns true if the HMAC signature is valid, otherwise false.      
+
+      # @return [Boolean] Returns true if the HMAC signature is valid, otherwise false.
       def valid_webhook_hmac?(webhook_request_item, hmac_key)
         expected_sign = calculate_webhook_hmac(webhook_request_item, hmac_key)
         merchant_sign =
@@ -35,18 +37,19 @@ module Adyen
       # @param hmac_key [String] The HMAC key used to validate the payload.
       # @param payload [String] The webhook payload.
 
-      # @return [Boolean] Returns true if the HMAC signature is valid, otherwise false.      
+      # @return [Boolean] Returns true if the HMAC signature is valid, otherwise false.
       def valid_webhook_payload_hmac?(hmac_signature, hmac_key, payload)
         expected_sign = calculate_webhook_payload_hmac(payload, hmac_key)
         expected_sign == hmac_signature
       end
 
       # <b>DEPRECATED:</b> Please use calculate_webhook_hmac() instead.
+      # @deprecated
       def calculate_notification_hmac(notification_request_item, hmac_key)
+        Adyen::Deprecation.warn(:calculate_notification_hmac, message: "Use calculate_webhook_hmac() instead.")
         calculate_webhook_hmac(notification_request_item, hmac_key)
       end
 
-    
       def calculate_webhook_payload_hmac(data, hmac_key)
         Base64.strict_encode64(
           OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data)
@@ -60,11 +63,6 @@ module Adyen
           OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data)
         )
       end
-
-
-      # TODO: Deprecate instead of aliasing
-      alias valid_notification_hmac? valid_webhook_hmac?
-      alias calculate_notification_hmac calculate_webhook_hmac
 
       def data_to_sign(webhook_request_item)
         WEBHOOK_VALIDATION_KEYS

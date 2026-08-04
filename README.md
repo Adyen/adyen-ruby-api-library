@@ -60,6 +60,24 @@ rspec
 
 Follow the rest of our guides from the [documentation](https://adyen.github.io/adyen-ruby-api-library/) on how to use this library.
 
+## Deprecations
+
+Deprecated API methods emit Ruby deprecation warnings with the `:deprecated` warning category. These warnings are hidden by default in modern Ruby versions. To see them, enable the category in your application:
+
+~~~~ruby
+Warning[:deprecated] = true
+~~~~
+
+or run Ruby with the `-w` flag. Each warning names the deprecated method, the version it was deprecated since, and the recommended alternative when available.
+
+To silence only this library's deprecation warnings (while keeping the category enabled for the rest of your application), use the attribute or the environment variable:
+
+~~~~ruby
+Adyen::Deprecation.silenced = true
+~~~~
+
+or set `ADYEN_SILENCE_DEPRECATIONS` to `1`, `true`, or `yes`. Explicitly setting the attribute (`true` or `false`) takes precedence over the environment variable. Silenced warnings never appear, even when the category is enabled.
+
 ## Using the library
 
 ### General use with API key

@@ -47,7 +47,9 @@ module Adyen
     # Create a donation
     #
     # Deprecated 
+    # @deprecated
     def donate(request, headers: {})
+      Adyen::Deprecation.warn(:donate)
       endpoint = build_endpoint('/donate')
       
       action = { method: 'post', url: endpoint }

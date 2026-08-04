@@ -23,7 +23,9 @@ module Adyen
     # Create originKey values for domains
     #
     # Deprecated since Adyen Checkout API v67
+    # @deprecated
     def origin_keys(request, headers: {})
+      Adyen::Deprecation.warn(:origin_keys, since: 'Adyen Checkout API v67')
       endpoint = build_endpoint('/originKeys')
       
       action = { method: 'post', url: endpoint }

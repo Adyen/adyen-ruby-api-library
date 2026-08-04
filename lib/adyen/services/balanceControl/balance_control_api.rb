@@ -15,7 +15,9 @@ module Adyen
     # Start a balance transfer
     #
     # Deprecated since Adyen Balance Control API v1
+    # @deprecated
     def balance_transfer(request, headers: {})
+      Adyen::Deprecation.warn(:balance_transfer, since: 'Adyen Balance Control API v1')
       endpoint = build_endpoint('/balanceTransfer')
       
       action = { method: 'post', url: endpoint }

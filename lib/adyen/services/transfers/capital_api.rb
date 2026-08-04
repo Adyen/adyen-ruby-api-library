@@ -16,7 +16,9 @@ module Adyen
     #
     # Deprecated since Transfers API v4
     # Use the `/grants` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants) instead.
+    # @deprecated
     def get_capital_account(headers: {}, query_params: {})
+      Adyen::Deprecation.warn(:get_capital_account, since: 'Transfers API v4', message: 'Use the `/grants` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants) instead.')
       endpoint = build_endpoint('/grants')
       endpoint += create_query_string(query_params)
       action = { method: 'get', url: endpoint }
@@ -27,7 +29,9 @@ module Adyen
     #
     # Deprecated since Transfers API v4
     # Use the `/grants/{grantId}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants/(grantId)) instead.
+    # @deprecated
     def get_grant_reference_details(id, headers: {})
+      Adyen::Deprecation.warn(:get_grant_reference_details, since: 'Transfers API v4', message: 'Use the `/grants/{grantId}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants/(grantId)) instead.')
       endpoint = build_endpoint('/grants/{id}', id)
       
       action = { method: 'get', url: endpoint }
@@ -38,7 +42,9 @@ module Adyen
     #
     # Deprecated since Transfers API v4
     # Use the `/grants` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/post/grants) instead.
+    # @deprecated
     def request_grant_payout(request, headers: {})
+      Adyen::Deprecation.warn(:request_grant_payout, since: 'Transfers API v4', message: 'Use the `/grants` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/post/grants) instead.')
       endpoint = build_endpoint('/grants')
       
       action = { method: 'post', url: endpoint }
