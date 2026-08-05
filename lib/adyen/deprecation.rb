@@ -1,9 +1,6 @@
 module Adyen
   # Helper module for emitting deprecation warnings for deprecated API methods.
   module Deprecation
-    # `warn` only accepts the `category` keyword on Ruby >= 3.0.
-    CATEGORY_SUPPORT = (RUBY_VERSION.split('.').map(&:to_i) <=> [3, 0]) >= 0
-
     # Set to true to silence all Adyen deprecation warnings, regardless of
     # Warning[:deprecated]. Explicitly setting this attribute (true or false)
     # overrides the ADYEN_SILENCE_DEPRECATIONS environment variable.
@@ -31,13 +28,7 @@ module Adyen
       text = "[DEPRECATED] `#{method_name}` is deprecated"
       text += " since #{since}" if since
       text += ". #{message}" if message
-      if CATEGORY_SUPPORT
-        Kernel.warn(text, category: :deprecated, uplevel: 2)
-      elsif Warning[:deprecated]
-        # Ruby 2.7 exposes the :deprecated flag but cannot emit into the category,
-        # so honour the flag by hand to keep the behaviour consistent.
-        Kernel.warn(text, uplevel: 2)
-      end
+      Kernel.warn(text, category: :deprecated, uplevel: 2)
     end
   end
 end
