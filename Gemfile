@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '>= 2.7.0'
+ruby '>= 3.3.0'
 
 gem 'faraday', '2.8.1'
 

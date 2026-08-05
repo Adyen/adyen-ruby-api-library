@@ -51,8 +51,6 @@ RSpec.describe Adyen::Deprecation do
       end
 
       it 'emits through Warning.warn tagged with the :deprecated category' do
-        skip 'Warning categories require Ruby >= 3.0' unless Adyen::Deprecation::CATEGORY_SUPPORT
-
         Warning[:deprecated] = true
         expect(Warning).to receive(:warn).with(
           /:\d+: warning: \[DEPRECATED\] `foo` is deprecated since Adyen Checkout API v67\n/,
@@ -64,32 +62,6 @@ RSpec.describe Adyen::Deprecation do
 
     context 'when Warning[:deprecated] is false' do
       it 'writes nothing to stderr' do
-        Warning[:deprecated] = false
-        expect { described_class.warn(:foo, since: 'Adyen Checkout API v67') }
-          .not_to output.to_stderr
-      end
-    end
-
-    context 'on Ruby without Warning category support' do
-      before { stub_const('Adyen::Deprecation::CATEGORY_SUPPORT', false) }
-
-      it 'falls back to Kernel#warn when Warning[:deprecated] is true' do
-        Warning[:deprecated] = true
-        expect { described_class.warn(:foo, since: 'Adyen Checkout API v67') }
-          .to output(/\[DEPRECATED\] `foo` is deprecated since Adyen Checkout API v67\n/).to_stderr
-      end
-
-      it 'still emits through Warning.warn, without a category' do
-        Warning[:deprecated] = true
-        # Ruby >= 3.0 passes `category: nil` explicitly; 2.7 passes no kwargs at all
-        expect(Warning).to receive(:warn) do |message, **kwargs|
-          expect(message).to match(/:\d+: warning: \[DEPRECATED\] `foo` is deprecated since Adyen Checkout API v67\n/)
-          expect(kwargs[:category]).to be_nil
-        end
-        described_class.warn(:foo, since: 'Adyen Checkout API v67')
-      end
-
-      it 'writes nothing when Warning[:deprecated] is false' do
         Warning[:deprecated] = false
         expect { described_class.warn(:foo, since: 'Adyen Checkout API v67') }
           .not_to output.to_stderr
