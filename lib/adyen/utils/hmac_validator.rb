@@ -1,3 +1,5 @@
+require 'openssl'
+
 module Adyen
   module Utils
     class HmacValidator
@@ -51,17 +53,15 @@ module Adyen
       end
 
       def calculate_webhook_payload_hmac(data, hmac_key)
-        Base64.strict_encode64(
-          OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data)
-        )
+        # Base64 strict encoding
+        [OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data)].pack('m0')
       end
 
       def calculate_webhook_hmac(webhook_request_item, hmac_key)
         data = data_to_sign(webhook_request_item)
 
-        Base64.strict_encode64(
-          OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data)
-        )
+        # Base64 strict encoding
+        [OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data)].pack('m0')
       end
 
       def data_to_sign(webhook_request_item)

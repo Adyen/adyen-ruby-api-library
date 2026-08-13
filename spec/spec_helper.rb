@@ -2,7 +2,6 @@
 # rubocop:disable Metrics/AbcSize
 
 require 'webmock/rspec'
-require 'base64'
 require_relative '../lib/adyen-ruby-api-library'
 
 # disable external connections
@@ -32,7 +31,8 @@ def create_test(client, service, method_name, parent_object)
   elsif !client.oauth_token.nil?
     headers["Authorization"] = "Bearer #{client.oauth_token}"
   elsif !client.ws_user.nil? && !client.ws_password.nil?
-    auth_header = "Basic #{Base64.encode64("#{client.ws_user}:#{client.ws_password}")}"
+    # Base64 encoding
+    auth_header = "Basic #{["#{client.ws_user}:#{client.ws_password}"].pack('m')}"
     headers['Authorization'] = auth_header.strip
   else
     raise ArgumentError, 'Authentication not set correctly in test case'
