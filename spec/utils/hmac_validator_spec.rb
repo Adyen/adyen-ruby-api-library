@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'open3'
 
 RSpec.describe Adyen::Utils::HmacValidator do
   let(:validator) { described_class.new }
@@ -77,6 +78,20 @@ RSpec.describe Adyen::Utils::HmacValidator do
       expect(validator.valid_webhook_payload_hmac?(hmac_signature, key, payload)).to be true
     end
 
+  end
+
+  describe 'consumer-side regression' do
+    # Run the validator in a clean Ruby process that only loads the library, like
+    # a consumer application, so test dependencies cannot mask missing dependencies.
+    it 'computes HMAC signatures in a clean consumer process' do
+      lib_dir = File.expand_path('../../lib', __dir__)
+      smoke_test = File.expand_path('consumer_smoke.rb', __dir__)
+
+      stdout, stderr, status = Open3.capture3(Gem.ruby, '-I', lib_dir, smoke_test)
+
+      expect(status).to be_success,
+                        "library must work in a clean consumer process.\nstdout: #{stdout}\nstderr: #{stderr}"
+    end
   end
 
   describe 'deprecated methods' do
