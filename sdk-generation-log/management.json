@@ -1,8 +1,8 @@
 {
   "service": "management",
   "project": "ruby",
-  "generatedAt": "2026-07-31T12:01:01Z",
-  "openapiCommitSha": "425d65d12163ebd4fe6fa6d2f859075817c81cba",
-  "automationCommitSha": "0c108bd8050cf480d2710b78b770afdfbdd89397",
-  "libraryCommitSha": "7f77a7b7aca2c2b22147ba4b996ada979f9decd9"
+  "generatedAt": "2026-10-01T14:41:24Z",
+  "openapiCommitSha": "45520ee6246d7e3d8074c3c5c5e991e65c2c02d6",
+  "automationCommitSha": "5d96c9a6b53a7052671a48c3ab6eb109bec1550b",
+  "libraryCommitSha": "773b42b07b93eceb706d79d666496a2c864f62fe"
 }
