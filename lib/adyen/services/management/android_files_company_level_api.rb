@@ -52,7 +52,7 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
-    # Upload Android Certificate
+    # Upload Android certificate
     def upload_android_certificate(company_id, headers: {})
       endpoint = build_endpoint('/companies/{companyId}/androidCertificates', company_id)
       
