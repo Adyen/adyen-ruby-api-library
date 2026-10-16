@@ -8,6 +8,7 @@ require_relative 'management/account_store_level_api'
 require_relative 'management/allowed_origins_company_level_api'
 require_relative 'management/allowed_origins_merchant_level_api'
 require_relative 'management/android_files_company_level_api'
+require_relative 'management/client_certificates_company_level_api'
 require_relative 'management/client_key_company_level_api'
 require_relative 'management/client_key_merchant_level_api'
 require_relative 'management/donation_campaigns_api'
@@ -23,6 +24,10 @@ require_relative 'management/terminal_settings_company_level_api'
 require_relative 'management/terminal_settings_merchant_level_api'
 require_relative 'management/terminal_settings_store_level_api'
 require_relative 'management/terminal_settings_terminal_level_api'
+require_relative 'management/terminal_themes_company_level_api'
+require_relative 'management/terminal_themes_merchant_level_api'
+require_relative 'management/terminal_themes_store_level_api'
+require_relative 'management/terminal_themes_terminal_level_api'
 require_relative 'management/terminals_terminal_level_api'
 require_relative 'management/users_company_level_api'
 require_relative 'management/users_merchant_level_api'
@@ -85,6 +90,10 @@ module Adyen
       @android_files_company_level_api ||= Adyen::AndroidFilesCompanyLevelApi.new(@client, @version)
     end
 
+    def client_certificates_company_level_api
+      @client_certificates_company_level_api ||= Adyen::ClientCertificatesCompanyLevelApi.new(@client, @version)
+    end
+
     def client_key_company_level_api
       @client_key_company_level_api ||= Adyen::ClientKeyCompanyLevelApi.new(@client, @version)
     end
@@ -143,6 +152,22 @@ module Adyen
 
     def terminal_settings_terminal_level_api
       @terminal_settings_terminal_level_api ||= Adyen::TerminalSettingsTerminalLevelApi.new(@client, @version)
+    end
+
+    def terminal_themes_company_level_api
+      @terminal_themes_company_level_api ||= Adyen::TerminalThemesCompanyLevelApi.new(@client, @version)
+    end
+
+    def terminal_themes_merchant_level_api
+      @terminal_themes_merchant_level_api ||= Adyen::TerminalThemesMerchantLevelApi.new(@client, @version)
+    end
+
+    def terminal_themes_store_level_api
+      @terminal_themes_store_level_api ||= Adyen::TerminalThemesStoreLevelApi.new(@client, @version)
+    end
+
+    def terminal_themes_terminal_level_api
+      @terminal_themes_terminal_level_api ||= Adyen::TerminalThemesTerminalLevelApi.new(@client, @version)
     end
 
     def terminals_terminal_level_api
