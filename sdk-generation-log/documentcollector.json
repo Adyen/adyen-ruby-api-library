@@ -1,0 +1,8 @@
+{
+  "service": "documentcollector",
+  "project": "ruby",
+  "generatedAt": "2026-10-16T11:18:38Z",
+  "openapiCommitSha": "a18bf8d4cd976ac0b964f96a6eaa5f6ffa87f6c2",
+  "automationCommitSha": "b78db5c1f857f1d7d8d45116ce61f6266043fa60",
+  "libraryCommitSha": "773b42b07b93eceb706d79d666496a2c864f62fe"
+}
