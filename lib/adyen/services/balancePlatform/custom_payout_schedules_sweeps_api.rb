@@ -44,6 +44,14 @@ module Adyen
       @client.call_adyen_api(@service, action, {}, headers, @version)
     end
 
+    # View executions of a custom payout schedule
+    def get_sweep_executions(balance_account_id, sweep_id, headers: {}, query_params: {})
+      endpoint = build_endpoint('/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}/executions', balance_account_id, sweep_id)
+      endpoint += create_query_string(query_params)
+      action = { method: 'get', url: endpoint }
+      @client.call_adyen_api(@service, action, {}, headers, @version)
+    end
+
     # Update a sweep
     def update_sweep(request, balance_account_id, sweep_id, headers: {})
       endpoint = build_endpoint('/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}', balance_account_id, sweep_id)
