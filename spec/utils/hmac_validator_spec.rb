@@ -90,6 +90,18 @@ RSpec.describe Adyen::Utils::HmacValidator do
       expect(validator.valid_webhook_payload_hmac?(nil, key, payload)).to be false
     end
 
+    it 'rejects an empty HMAC key' do
+      payload = json_from_file('mocks/responses/Webhooks/mixed_webhook.json')
+      # signatures anyone can compute without knowing the key
+      forged_payload_sign = [OpenSSL::HMAC.digest('sha256', '', payload)].pack('m0')
+      forged_item_sign = [OpenSSL::HMAC.digest('sha256', '', validator.data_to_sign(webhook_request_item))].pack('m0')
+      webhook_request_item['additionalData'] = { 'hmacSignature' => forged_item_sign }
+
+      expect { validator.valid_webhook_payload_hmac?(forged_payload_sign, '', payload) }.to raise_error(ArgumentError)
+      expect { validator.valid_webhook_hmac?(webhook_request_item, '') }.to raise_error(ArgumentError)
+      expect { validator.calculate_webhook_payload_hmac(payload, '') }.to raise_error(ArgumentError)
+    end
+
   end
 
   describe 'consumer-side regression' do
