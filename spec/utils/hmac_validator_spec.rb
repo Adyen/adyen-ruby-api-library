@@ -102,6 +102,16 @@ RSpec.describe Adyen::Utils::HmacValidator do
       expect { validator.calculate_webhook_payload_hmac(payload, '') }.to raise_error(ArgumentError)
     end
 
+    it 'rejects an HMAC key that is not hex' do
+      payload = json_from_file('mocks/responses/Webhooks/mixed_webhook.json')
+      # [' '].pack('H*') is "\x00", so this signature is just as easy to compute
+      forged_sign = [OpenSSL::HMAC.digest('sha256', "\x00", payload)].pack('m0')
+
+      expect { validator.valid_webhook_payload_hmac?(forged_sign, ' ', payload) }.to raise_error(ArgumentError)
+      expect { validator.calculate_webhook_payload_hmac(payload, "#{key}\n") }.to raise_error(ArgumentError)
+      expect { validator.calculate_webhook_payload_hmac(payload, 'zz') }.to raise_error(ArgumentError)
+    end
+
   end
 
   describe 'consumer-side regression' do

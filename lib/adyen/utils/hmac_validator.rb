@@ -73,9 +73,12 @@ module Adyen
 
       private
 
-      # An empty key would produce a signature anyone can compute.
+      # pack('H*') turns an empty key into an empty string and maps non-hex characters to
+      # arbitrary nibbles (a single space becomes "\x00"), which gives signatures anyone can compute.
       def hmac_key_bytes(hmac_key)
-        raise ArgumentError, 'HMAC key must not be empty' if hmac_key.nil? || hmac_key.empty?
+        unless hmac_key.is_a?(String) && hmac_key.match?(/\A\h+\z/)
+          raise ArgumentError, 'HMAC key must be a non-empty hex string'
+        end
 
         [hmac_key].pack('H*')
       end
