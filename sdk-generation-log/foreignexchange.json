@@ -1,0 +1,8 @@
+{
+  "service": "foreignexchange",
+  "project": "ruby",
+  "generatedAt": "2026-11-06T10:34:07Z",
+  "openapiCommitSha": "e7986c7dad1253fed107c4e7b90716497165b86d",
+  "automationCommitSha": "ae7e57613c3a29391a4adb4ff02e9ddda4611b16",
+  "libraryCommitSha": "773b42b07b93eceb706d79d666496a2c864f62fe"
+}
