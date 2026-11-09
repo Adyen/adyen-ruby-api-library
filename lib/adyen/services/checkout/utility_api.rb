@@ -12,6 +12,14 @@ module Adyen
       super(client, version, 'Checkout')
     end
 
+    # Calculate the tax for a transaction.
+    def calculate_tax(request, headers: {})
+      endpoint = build_endpoint('/calculateTax')
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
     # Get an Apple Pay session
     def get_apple_pay_session(request, headers: {})
       endpoint = build_endpoint('/applePay/sessions')
@@ -43,6 +51,14 @@ module Adyen
     # Validates shopper Id
     def validate_shopper_id(request, headers: {})
       endpoint = build_endpoint('/validateShopperId')
+      
+      action = { method: 'post', url: endpoint }
+      @client.call_adyen_api(@service, action, request, headers, @version)
+    end
+
+    # Verify the shopper's tax identification.
+    def verify_shopper_tax_identification(request, headers: {})
+      endpoint = build_endpoint('/verifyShopperTaxIdentification')
       
       action = { method: 'post', url: endpoint }
       @client.call_adyen_api(@service, action, request, headers, @version)
