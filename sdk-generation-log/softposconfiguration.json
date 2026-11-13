@@ -1,0 +1,8 @@
+{
+  "service": "softposconfiguration",
+  "project": "ruby",
+  "generatedAt": "2026-11-13T11:21:52Z",
+  "openapiCommitSha": "ee0cdd3511442c12c49394636e75be31e46cd915",
+  "automationCommitSha": "ae7e57613c3a29391a4adb4ff02e9ddda4611b16",
+  "libraryCommitSha": "37afe9d64c78603c6d5fcbb49e1796d4a4bf3e86"
+}
