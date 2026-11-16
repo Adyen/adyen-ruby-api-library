@@ -750,6 +750,10 @@ RSpec.describe "Adyen::Checkout OAuth authentication", service: "checkout" do
       to eq(204)
     expect(response_hash).
       to eq({})
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
   end
 
   it "tests sending the application headers" do

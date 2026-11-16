@@ -60,5 +60,9 @@ RSpec.describe "Adyen::Management OAuth Authentication", service: "Management" d
       to eq(200)
     expect(response_hash).
       to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
   end
 end
