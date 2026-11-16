@@ -7,6 +7,102 @@ RSpec.describe Adyen do
     }
   end
 
+  describe '#call_adyen_api' do
+    let(:client) { Adyen::Client.new(api_key: 'api_key', env: :test) }
+    let(:url) { client.service_url('Checkout', 'dispatch', '72') }
+    let(:request_data) { { 'reference' => 'test-reference' } }
+    let(:response_data) { { 'result' => 'success' } }
+
+    ['put', 'head', 'options', 'GET', :get, nil, ''].each do |method|
+      it "rejects unsupported HTTP method #{method.inspect} without sending a request" do
+        request_stub = WebMock.stub_request(:any, url).to_return(body: '{}')
+
+        expect {
+          client.call_adyen_api('Checkout', { method: method, url: 'dispatch' }, request_data, {}, '72')
+        }.to raise_error(ArgumentError, "Unsupported HTTP method: #{method.inspect}")
+
+        expect(request_stub).not_to have_been_requested
+      end
+    end
+
+    it 'raises KeyError without sending a request when the method is missing' do
+      request_stub = WebMock.stub_request(:any, url).to_return(body: '{}')
+
+      expect {
+        client.call_adyen_api('Checkout', { url: 'dispatch' }, request_data, {}, '72')
+      }.to raise_error(KeyError)
+
+      expect(request_stub).not_to have_been_requested
+    end
+
+    %w[get delete patch post].each do |method|
+      it "dispatches a #{method.upcase} request and preserves the response" do
+        expected_body = %w[get delete].include?(method) ? '' : request_data.to_json
+        request_stub = WebMock.stub_request(method.to_sym, url)
+                              .with(headers: { 'X-API-Key' => 'api_key', 'X-Custom-Header' => 'custom-value' }) do |request|
+          request.body.to_s == expected_body
+        end.to_return(status: 200, body: response_data.to_json, headers: { 'X-Request-Id' => 'request-id' })
+
+        result = client.call_adyen_api(
+          'Checkout', { method: method, url: 'dispatch' }, request_data, { 'X-Custom-Header' => 'custom-value' }, '72'
+        )
+
+        expect(request_stub).to have_been_requested.once
+        expect(result.status).to eq(200)
+        expect(result.header['x-request-id']).to eq('request-id')
+        expect(result.response).to eq(response_data)
+        expect(result.response).to be_a Adyen::HashWithAccessors
+        expect(result.response).to be_a_kind_of Hash
+      end
+
+      it "preserves connection failure handling for #{method.upcase}" do
+        request_stub = WebMock.stub_request(method.to_sym, url).to_raise(Faraday::ConnectionFailed.new('original failure'))
+
+        expect {
+          client.call_adyen_api('Checkout', { method: method, url: 'dispatch' }, request_data, {}, '72')
+        }.to raise_error(Faraday::ConnectionFailed, "Connection to #{url} failed")
+
+        expect(request_stub).to have_been_requested.once
+      end
+    end
+
+    %w[patch post].each do |method|
+      it "sends JSON-string input without double encoding for #{method.upcase}" do
+        request_stub = WebMock.stub_request(method.to_sym, url)
+                              .with { |request| request.body == request_data.to_json }
+                              .to_return(body: '{}')
+
+        client.call_adyen_api('Checkout', { method: method, url: 'dispatch' }, request_data.to_json, {}, '72')
+
+        expect(request_stub).to have_been_requested.once
+      end
+    end
+
+    %i[hash json].each do |input_type|
+      it "defaults legacy string actions to POST with #{input_type} input" do
+        request_stub = WebMock.stub_request(:post, url)
+                              .with { |request| request.body == request_data.to_json }
+                              .to_return(body: response_data.to_json)
+        input = input_type == :hash ? request_data : request_data.to_json
+
+        result = client.call_adyen_api('Checkout', 'dispatch', input, {}, '72')
+
+        expect(request_stub).to have_been_requested.once
+        expect(result.response).to eq(response_data)
+      end
+    end
+
+    it 'preserves connection failure handling for legacy string actions' do
+      request_stub = WebMock.stub_request(:post, url).to_raise(Faraday::ConnectionFailed.new('original failure'))
+
+      expect {
+        client.call_adyen_api('Checkout', 'dispatch', request_data, {}, '72')
+      }.to raise_error(Faraday::ConnectionFailed, "Connection to #{url} failed")
+
+      expect(request_stub).to have_been_requested.once
+    end
+  end
+
   it 'creates Adyen client' do
     @shared_values[:client] = Adyen::Client.new
     expect(@shared_values[:client]).is_a? Adyen::Client
