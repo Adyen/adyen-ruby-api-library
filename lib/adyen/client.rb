@@ -175,48 +175,23 @@ module Adyen
       # convert to json
       request_data = request_data.to_json
 
-      if action.is_a?(::Hash)
-        if action.fetch(:method) == 'get'
-          begin
-            response = conn.get
-          rescue Faraday::ConnectionFailed => e
-            raise e, "Connection to #{url} failed"
-          end
-        end
-        if action.fetch(:method) == 'delete'
-          begin
-            response = conn.delete
-          rescue Faraday::ConnectionFailed => e
-            raise e, "Connection to #{url} failed"
-          end
-        end
-        if action.fetch(:method) == 'patch'
-          begin
-            response = conn.patch do |req|
-              req.body = request_data
-            end
-          rescue Faraday::ConnectionFailed => e
-            raise e, "Connection to #{url} failed"
-          end
-        end
-        if action.fetch(:method) == 'post'
-          # post request to Adyen
-          begin
-            response = conn.post do |req|
-              req.body = request_data
-            end
-          rescue Faraday::ConnectionFailed => e
-            raise e, "Connection to #{url} failed"
-          end
-        end
-      else
-        begin
-          response = conn.post do |req|
-            req.body = request_data
-          end
-        rescue Faraday::ConnectionFailed => e
-          raise e, "Connection to #{url} failed"
-        end
+      method = action.is_a?(::Hash) ? action.fetch(:method) : 'post'
+      begin
+        response = case method
+                   when 'get'
+                     conn.get
+                   when 'delete'
+                     conn.delete
+                   when 'patch'
+                     conn.patch { |req| req.body = request_data }
+                   when 'post'
+                     # post request to Adyen
+                     conn.post { |req| req.body = request_data }
+                   else
+                     raise ArgumentError, "Unsupported HTTP method: #{method.inspect}"
+                   end
+      rescue Faraday::ConnectionFailed => e
+        raise e, "Connection to #{url} failed"
       end
       # check for API errors
       case response.status
