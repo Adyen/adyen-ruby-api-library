@@ -472,13 +472,13 @@ RSpec.describe Adyen do
         stub_request(:post, url).to_return(status: 429, body: response_body)
 
         expect { client.checkout.payments_api.payments(request_body) }
-          .to raise_error(Adyen::APIError) { |error|
+          .to raise_error(Adyen::APIError) do |error|
             expect(error).to be_a(Adyen::AdyenError)
             expect(error.code).to eq(429)
             expect(error.msg).to eq(message)
             expect(error.response).to eq(response_body)
             expect(error.request[:reference]).to eq('test')
-          }
+          end
       end
     end
   end
