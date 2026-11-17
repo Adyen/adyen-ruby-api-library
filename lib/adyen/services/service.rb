@@ -38,7 +38,15 @@ module Adyen
 
     def build_endpoint(path, *params)
       endpoint = path.gsub('%', '%%').gsub(/{.+?}/, '%s').delete_prefix('/')
-      format(endpoint, *params)
+      format(endpoint, *params.map { |param| encode_path_segment(param) })
+    end
+
+    # Percent-encode a path parameter so it always stays a single path segment:
+    # '/', '?' and '#' in an id can no longer change the path or the query string.
+    # A value of only '.' or '..' is encoded as well, so it is never a dot segment.
+    def encode_path_segment(param)
+      segment = URI.encode_uri_component(param)
+      segment.match?(/\A\.{1,2}\z/) ? segment.gsub('.', '%2E') : segment
     end
   end
 end

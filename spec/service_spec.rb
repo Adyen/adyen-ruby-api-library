@@ -25,6 +25,31 @@ RSpec.describe Adyen::Service do
     it 'preserves literal percent characters in the path' do
       expect(service.send(:build_endpoint, '/path%20with/{id}/spaces', 'X')).to eq 'path%20with/X/spaces'
     end
+
+    it 'leaves ordinary ids unchanged' do
+      expect(service.send(:build_endpoint, '/merchants/{merchantId}/stores/{storeId}', 'TestMerchant_ECOM', 'ST-322.v2')).to eq 'merchants/TestMerchant_ECOM/stores/ST-322.v2'
+    end
+
+    it 'percent-encodes query and fragment delimiters in a path parameter' do
+      expect(service.send(:build_endpoint, '/storedPaymentMethods/{id}', 'TOKEN?shopperReference=other#')).to eq 'storedPaymentMethods/TOKEN%3FshopperReference%3Dother%23'
+    end
+
+    it 'keeps a path parameter with slashes inside one path segment' do
+      expect(service.send(:build_endpoint, '/merchants/{merchantId}/users/{userId}', 'ShopECOM', '../apiCredentials/S2-123')).to eq 'merchants/ShopECOM/users/..%2FapiCredentials%2FS2-123'
+    end
+
+    it 'encodes a path parameter that is only dots' do
+      expect(service.send(:build_endpoint, '/paymentLinks/{linkId}', '..')).to eq 'paymentLinks/%2E%2E'
+      expect(service.send(:build_endpoint, '/paymentLinks/{linkId}', '.')).to eq 'paymentLinks/%2E'
+    end
+
+    it 'encodes percent signs, spaces, plus signs and non-ASCII characters' do
+      expect(service.send(:build_endpoint, '/stores/{storeId}', 'a%2Fb c+é')).to eq 'stores/a%252Fb%20c%2B%C3%A9'
+    end
+
+    it 'converts non-string path parameters' do
+      expect(service.send(:build_endpoint, '/items/{id}', 42)).to eq 'items/42'
+    end
   end
 
   describe '.action_for_method_name' do
