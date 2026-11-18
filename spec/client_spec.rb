@@ -552,6 +552,33 @@ RSpec.describe Adyen do
     end
   end
 
+  describe 'rate-limited payments' do
+    let(:client) { create_client(:api_key) }
+    let(:request_body) { { amount: { value: 100, currency: 'EUR' }, reference: 'test' } }
+
+    [
+      ['legacy', { status: 429, errorCode: '703', message: 'Too many requests' }.to_json,
+       'Too many requests ErrorCode: 703'],
+      ['RFC 7807', { status: 429, errorCode: '703', detail: 'Too many requests' }.to_json,
+       'Too many requests ErrorCode: 703'],
+      ['non-JSON', 'Too many requests', 'Too many requests']
+    ].each do |format, response_body, message|
+      it "raises APIError for a 429 #{format} response" do
+        url = client.service_url('Checkout', 'payments', client.checkout.version)
+        stub_request(:post, url).to_return(status: 429, body: response_body)
+
+        expect { client.checkout.payments_api.payments(request_body) }
+          .to raise_error(Adyen::APIError) do |error|
+            expect(error).to be_a(Adyen::AdyenError)
+            expect(error.code).to eq(429)
+            expect(error.msg).to eq(message)
+            expect(error.response).to eq(response_body)
+            expect(error.request[:reference]).to eq('test')
+          end
+      end
+    end
+  end
+
   it 'raises ServerError on 500 response and checks content' do
     client = Adyen::Client.new(api_key: 'api_key', env: :test)
     mock_faraday_connection = double(Faraday::Connection)

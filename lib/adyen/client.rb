@@ -210,6 +210,9 @@ module Adyen
         when 422
           full_message = build_error_message(response.body, 'Validation error')
           raise Adyen::ValidationError.new(full_message, request_data, response.body)
+        when 429
+          full_message = build_error_message(response.body, 'Too many requests')
+          raise Adyen::APIError.new(full_message, request_data, response.body, response.status)
         when 500..599
           full_message = build_error_message(response.body, 'Internal server error')
           raise Adyen::ServerError.new(full_message, request_data, response.body)
