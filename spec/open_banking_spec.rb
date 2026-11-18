@@ -65,4 +65,24 @@ RSpec.describe Adyen::OpenBanking, service: 'OpenBanking' do
     expect(response_hash).to be_a Adyen::HashWithAccessors
     expect(response_hash).to be_a_kind_of Hash
   end
+
+  it 'percent-encodes the code in a get_account_verification_report call' do
+    response_body = json_from_file('mocks/responses/OpenBanking/get_account_verification_report.json')
+
+    url = @shared_values[:client].service_url(
+      @shared_values[:service],
+      'accountVerification/reports/abc%2F..%2Froutes%3Fx%3D1',
+      @shared_values[:client].open_banking.version
+    )
+    WebMock.stub_request(:get, url)
+           .to_return(
+             body: response_body
+           )
+
+    account_verification_api = @shared_values[:client].open_banking.account_verification_api
+    result = account_verification_api.get_account_verification_report('abc/../routes?x=1')
+
+    expect(result.status).to eq(200)
+    expect(WebMock).to have_requested(:get, url).once
+  end
 end
