@@ -54,14 +54,14 @@ module Adyen
 
       def calculate_webhook_payload_hmac(data, hmac_key)
         # Base64 strict encoding
-        [OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data)].pack('m0')
+        [OpenSSL::HMAC.digest(HMAC_ALGORITHM, hmac_key_bytes(hmac_key), data)].pack('m0')
       end
 
       def calculate_webhook_hmac(webhook_request_item, hmac_key)
         data = data_to_sign(webhook_request_item)
 
         # Base64 strict encoding
-        [OpenSSL::HMAC.digest(HMAC_ALGORITHM, [hmac_key].pack('H*'), data)].pack('m0')
+        [OpenSSL::HMAC.digest(HMAC_ALGORITHM, hmac_key_bytes(hmac_key), data)].pack('m0')
       end
 
       def data_to_sign(webhook_request_item)
@@ -69,6 +69,18 @@ module Adyen
           .map { webhook_request_item.dig(*_1.split('.')).to_s }
           .compact
           .join(DATA_SEPARATOR)
+      end
+
+      private
+
+      # pack('H*') turns an empty key into an empty string and maps non-hex characters to
+      # arbitrary nibbles (a single space becomes "\x00"), which gives signatures anyone can compute.
+      def hmac_key_bytes(hmac_key)
+        unless hmac_key.is_a?(String) && hmac_key.match?(/\A\h+\z/)
+          raise ArgumentError, 'HMAC key must be a non-empty hex string'
+        end
+
+        [hmac_key].pack('H*')
       end
     end
   end

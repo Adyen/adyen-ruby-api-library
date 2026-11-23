@@ -39,9 +39,9 @@ RSpec.describe "Adyen::Management OAuth Authentication", service: "Management" d
   end
 
   it "makes a create_store POST call" do
-    request_body = JSON.parse(json_from_file("mocks/responses/LegalEntityManagement/create_business_line.json"))
+    request_body = JSON.parse(json_from_file("mocks/requests/Management/create_store.json"))
 
-    response_body = json_from_file("mocks/responses/LegalEntityManagement/create_business_line.json")
+    response_body = json_from_file("mocks/responses/Management/create_store.json")
 
     url = @shared_values[:client].service_url(@shared_values[:service], "merchants/merchantID/stores", @shared_values[:client].management.version)
     WebMock.stub_request(:post, url).
@@ -56,7 +56,13 @@ RSpec.describe "Adyen::Management OAuth Authentication", service: "Management" d
     result = @shared_values[:client].management.account_store_level_api.create_store_by_merchant_id(request_body, 'merchantID')
     response_hash = result.response
 
-      expect(result.status).
+    expect(result.status).
       to eq(200)
+    expect(response_hash).
+      to eq(JSON.parse(response_body))
+    expect(response_hash).
+      to be_a Adyen::HashWithAccessors
+    expect(response_hash).
+      to be_a_kind_of Hash
   end
 end

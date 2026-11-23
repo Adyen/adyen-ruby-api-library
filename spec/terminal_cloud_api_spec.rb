@@ -86,6 +86,12 @@ RSpec.describe Adyen::TerminalCloudAPI, service: 'TerminalCloudAPI' do
 
     expect(result.status)
       .to eq(200)
+    expect(response_hash)
+      .to eq({})
+    expect(response_hash)
+      .to be_a Adyen::HashWithAccessors
+    expect(response_hash)
+      .to be_a_kind_of Hash
   end
 end
 # rubocop:enable Metrics/BlockLength
