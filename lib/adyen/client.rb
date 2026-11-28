@@ -107,6 +107,9 @@ module Adyen
         when 'PosMobile'
           url = "https://checkout-#{@env}.adyen.com/checkout/possdk"
           supports_live_url_prefix = true
+        when 'OpenBanking'
+          url = "https://obgateway-#{@env}.adyen.com/obgateway"
+          supports_live_url_prefix = false
         when 'SessionAuthentication'
           subdomain = @env == :live ? "authe-#{@env}" : @env
           url = "https://#{subdomain}.adyen.com/authe/api"

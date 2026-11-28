@@ -686,6 +686,15 @@ RSpec.describe Adyen do
     expect(connection_headers['User-Agent']).to eq("MyTestApp #{Adyen::NAME}/#{Adyen::VERSION}")
   end
 
+  it 'checks the open banking url for test and live envs' do
+    %i[test live].each do |env|
+      client = Adyen::Client.new(api_key: 'api_key', env: env)
+
+      expect(client.service_url(client.open_banking.service, 'accountVerification/routes', client.open_banking.version))
+        .to eq("https://obgateway-#{env}.adyen.com/obgateway/v1/accountVerification/routes")
+    end
+  end
+
   it 'ensures User-Agent includes application_name when set after initialization' do
     client = Adyen::Client.new
     client.api_key = 'api_key'
