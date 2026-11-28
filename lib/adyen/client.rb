@@ -299,7 +299,7 @@ module Adyen
     end
 
     def session_authentication
-      @open_banking ||= Adyen::SessionAuthentication.new(self)
+      @session_authentication ||= Adyen::SessionAuthentication.new(self)
     end
 
     def balance_control

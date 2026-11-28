@@ -193,6 +193,16 @@ RSpec.describe Adyen do
       expect(client.payout.instant_payouts_api.service)
         .to eq('Payout')
     end
+
+    it 'returns SessionAuthentication after open_banking was used' do
+      client.open_banking
+      expect(client.session_authentication).to be_a(Adyen::SessionAuthentication)
+    end
+
+    it 'returns OpenBanking after session_authentication was used' do
+      client.session_authentication
+      expect(client.open_banking).to be_a(Adyen::OpenBanking)
+    end
   end
 
   it 'uses the specified mock service URL' do
